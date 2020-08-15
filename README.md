@@ -24,7 +24,7 @@
 - [radius demo](https://9elements.github.io/fancy-border-radius/)
 
 # 当前
-- 研究两个组件，分割面板、面包屑导航
+- 研究两个组件，分割面板、面包屑导航、多行溢出隐藏
 - vue 源码
 - 我的酷狗音乐项目
 - zego（实时视频）
