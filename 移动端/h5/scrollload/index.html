@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .container {
+      
+    }
+
+    .content {
+      font-size: 30px; 
+    }
+
+    .item {
+      padding: 10px 0;
+    }
+  </style>
+</head>
+
+<body>
+  <button id="btn">禁止下拉刷新、上拉加载</button>
+
+  <div class="container">
+    <div class="content">
+      
+    </div>
+  </div>
+
+  <script src="./lib/Scrollload.js"></script>
+  <script src="./lib/traditionalSkin.js"></script>
+  <script>
+    const container = document.querySelector('.container')
+    const content = document.querySelector('.content')
+
+    content.innerHTML = new Array(30).fill(null).map((item, i) => {
+      return '<div>内容 ' + i + '</div>'
+    }).join('')
+
+    const scroller = new Scrollload({
+      // container 和 content 两个配置的默认取的scrollload-container和scrollload-content类的dom。只要你按照以上的dom结构写，这两个配置是可以省略的
+      container: container,
+      content: content,
+      enableLoadMore: true, // 开始必须设置为 true 才方便后续改动
+      enablePullRefresh: true, // 开始必须设置为 true 才方便后续改动
+      loadMore: function (sl) {
+        console.log(sl, '加载更多')
+        // 没有数据的时候需要调用noMoreData
+        // sl.noMoreData()
+        // 加载出错，需要执行该方法。这样底部DOM会出现出现异常的样式。
+        // sl.throwException()
+        setTimeout(() => {
+          content.innerHTML += Array(30).fill(null).map((item, i) => {
+            return '<div>内容 ' + i + '</div>'
+          }).join('')
+          // 如果没有数据时调用，则会无限触发 loadMore，因为一直在底部
+          sl.unLock()
+        }, 1000);
+      },
+      pullRefresh: function (sl) {
+        console.log(sl, '下拉刷新')
+        setTimeout(() => {
+          // 处理完业务逻辑后必须要调用 refreshComplete
+          sl.refreshComplete()
+        }, 1000)
+      }
+    })
+
+    btn.onclick = function () {
+      const options = scroller.getOptions()
+      
+      scroller.setOptions({
+        enablePullRefresh: !options.enablePullRefresh,
+        enableLoadMore: !options.enableLoadMore
+      })
+    }
+  </script>
+</body>
+
+</html>

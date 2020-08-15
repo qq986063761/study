@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <fieldset id="app">
+		<legend>demo</legend>
+		<ul>
+			<!-- key 用于标识唯一性，提高变更时的渲染性能，相同 key 不会重新生成 dom -->
+			<li v-for="(item, i) in list" :key="item">
+				item {{ item }}，禁止 v-for 和 v-if 同时在一个元素上使用，和 item 内部条件无关的场景会影响性能
+			</li>
+		</ul>
+
+		<ul>
+			<!-- of 更适合迭代器语义 -->
+			<li v-for="(value, key) of obj" :key="key">
+				{{ key }}: {{value}}
+			</li>
+		</ul>
+  </fieldset>
+  
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+				list: [1, 2, 3, 4, 5],
+				obj: {
+					a: 0,
+					b: 1,
+					c: 2
+				}
+      }
+    })
+  </script>
+</body>
+</html>

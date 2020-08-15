@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <fieldset>
+    <legend>操作</legend>
+    <button id="btn">开始访问</button>
+  </fieldset>
+
+  <script>
+    // 访问者
+    function Visitor() {
+      this.visit = ( element ) => {
+        element.doSomething();
+      };
+    }
+
+    // 元素类
+    function Element() {
+      this.doSomething = () => {
+        alert('我正在被访问')
+      };
+      this.accept = function( visitor ) {
+        visitor.visit(this);
+      };
+    }
+
+    // 通过元素去接受一个访问者，然后通过访问者去对元素本身进行访问
+    var ele = new Element();
+    var v = new Visitor();
+
+    btn.onclick = function () {
+      ele.accept( v )
+    }
+  </script>
+</body>
+</html>

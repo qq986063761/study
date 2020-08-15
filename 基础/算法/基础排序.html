@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    var arr = [9, 8, 7, 6, 5, 4, 3, 2, 1] // 真正排序用
+    var arr1 = [9, 8, 7, 6, 5, 4, 3, 2, 1] // 真正排序用
+    var arr2 = [9, 8, 7, 6, 5, 4, 3, 2, 1]
+
+    bubbleSort(arr)
+    selectSort(arr1)
+    insertSort(arr2)
+
+    // 冒泡排序（升序）
+    function bubbleSort(arr) {
+      // 每相邻数据比较进行交换，每一轮最后一个数字都是最大值，下一轮不用比较
+      for (let i = arr.length - 1; i > 0; i--) {
+        for (let j = 0; j < i; j++) {
+          if (arr[j] > arr[j + 1]) {
+            swap(arr, j, j + 1)
+          }
+        }
+      }
+      console.log('冒泡排序：', arr)
+    }
+
+    // 选择排序（升序）
+    function selectSort(arr) {
+      // 拿当前索引和后面所有索引数据进行比较，选出一个最小的和自己交换
+      for (let i = 0; i < arr.length - 1; i++) {
+        let minIndex = i;
+        
+        for (let j = i + 1; j < arr.length; j++) {
+          if (arr[j] < arr[minIndex]) minIndex = j
+        }
+
+        if (i !== minIndex) {
+          swap(arr, i, minIndex)
+        }
+      }
+
+      console.log('选择排序：', arr)
+    }
+
+    // 插入排序（升序）
+    function insertSort(arr) {
+      // 从索引1开始，每一轮向前遍历和前面所有数据进行比较，比自己小则交换，然后继续向前比较
+      for (var i = 1; i < arr.length; i++) {
+        for (var j = i; j > 0; j--) {
+          if (arr[j - 1] > arr[j]) {
+            swap(arr, j, j - 1)
+          }
+        }
+      }
+
+      console.log('插入排序：', arr)
+    }
+
+    function swap(array, left, right) {
+      let rightValue = array[right]
+      array[right] = array[left]
+      array[left] = rightValue
+    }
+  </script>
+</body>
+</html>

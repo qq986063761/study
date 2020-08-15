@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <fieldset>
+    <legend>操作</legend>
+    <button id="btn">调用外部方法</button>
+  </fieldset>
+
+  <script>
+    /* 底层的方法 */
+    const getName = () => 'lisi'
+
+    /* 使用方不需要知道底层方法的实现，直接调用即可 */
+    const getUserInfo = () => {
+      return {
+        name: getName()
+      }
+    }
+
+    btn.onclick = function () {
+      alert(getUserInfo().name)
+    }
+  </script>
+</body>
+</html>

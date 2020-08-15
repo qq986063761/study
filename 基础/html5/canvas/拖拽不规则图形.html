@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+
+  <script>
+    // canvas 属性
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // 自定义变量
+    var points = [];
+    var r = 10;
+    var isclosed = false;
+    var dragIndex = -1;
+    var inside = false;
+    var startPoint = null;
+
+    // 点击画圈
+    canvas.onclick = function (event) {
+      if (isclosed) return;
+
+      var point = new Point(event.clientX, event.clientY);
+
+      // 画下一个点之前，判断当前点击的位置是否在开始点内构成闭合路径
+      if (points.length >= 3 && isInPoint(point, points[0])) {
+        draw();
+        return;
+      }
+
+      points.push(point);
+      draw();
+    }
+
+    // 按住圈拖拽
+    canvas.onmousedown = function (event) {
+      if (!isclosed) return;
+
+      var point = new Point(event.clientX, event.clientY);
+      
+      // 如果选中了某个点则记录下来
+      var index = -1;
+      for (var i = 0; i < points.length; i++) {
+        const p = points[i];
+        if (isInPoint(point, p)) {
+          index = i;
+          break;
+        }
+      }
+
+      if (index !== -1) {
+        dragIndex = index;
+      } else {
+        // 如果在路径中，则可以拖拽移动图形
+        var checkPoints = [] 
+        points.forEach(function (point) {checkPoints.push(point)});
+        checkPoints.push(points[0]);
+        inside = isInside(point, checkPoints);
+        startPoint = point;
+      }
+    }
+
+    canvas.onmousemove = function (event) {
+      var point = new Point(event.clientX, event.clientY);
+
+      if (dragIndex === -1) {
+        // 如果当前在路径内，则移动整个图案
+        if (inside) {
+          var offsetX = point.x - startPoint.x;
+          var offsetY = point.y - startPoint.y;
+
+          // 遍历所有点数据，为每个点数据追加一个偏移量
+          points.forEach(function (p) {
+            p.offsetX = offsetX;
+            p.offsetY = offsetY;
+          });
+
+          draw();
+        }
+        return;
+      }
+
+      points[dragIndex] = point;
+
+      draw();
+    }
+
+    canvas.onmouseup = function () {
+      dragIndex = -1;
+      inside = false;
+      startPoint = null;
+      points.forEach(function (point) {
+        point.x += point.offsetX;
+        point.y += point.offsetY;
+        point.offsetX = point.offsetY = 0;
+      });
+    }
+
+    // 绘制
+    function draw() {
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      drawLine();
+      drawCircle();
+    }
+
+    // 绘制圆
+    function drawCircle() {
+      context.lineWidth = 4;
+      context.fillStyle = 'white';
+
+      points.forEach(function (point) {
+        context.beginPath();
+        context.arc(point.x + point.offsetX, point.y + point.offsetY, r, 0, 2 * Math.PI);
+        context.closePath();
+        context.stroke();
+        context.fill();
+      });
+    }
+
+    // 绘制线
+    function drawLine() {
+      if (points.length < 2) return;
+
+      context.lineWidth = 1;
+
+      context.beginPath();
+      context.moveTo(points[0].x + points[0].offsetX, points[0].y + points[0].offsetY);
+
+      points.slice(1).forEach(function (point) {
+        context.lineTo(point.x + point.offsetX, point.y + point.offsetY);
+      });
+
+      if (isclosed) {
+        context.fillStyle = 'skyblue';
+        context.closePath();
+        context.fill();
+      }
+
+      context.stroke();
+    }
+
+    // 判断是否在某个点内
+    function isInPoint(point, targetPoint) {
+      var dx = point.x - targetPoint.x;
+      var dy = point.y - targetPoint.y;
+      var dz = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+
+      if (dz <= r) {
+        isclosed = true;
+        return true;
+      }
+
+      return false;
+    }
+
+    /**
+     * 判断点是否在路径点围城的数组内（此处使用奇偶环绕原则，另一种是非零环绕原则）
+     * @param point {object} 点数据 {x, y}
+     * @param points {array} 组成封闭路径的坐标点数据数组，数组的第一个点和最后一个点必须是同一个点
+     */
+    function isInside(point, points) {
+      var x = point.x;
+      var y = point.y;
+      var acrossNum = 0;
+
+      // 这里用点击坐标向右的一条射线做参考来判断相交线段数量
+      for (var index = 0; index < points.length - 1; index++) {
+        // 获取线段的开始结束点坐标
+        var start = points[index];
+        var end = points[index + 1];
+
+        // 当斜率不存在时（垂直线段）
+        if (start.x === end.x) {
+          // 如果点击坐标位置在垂直线的右边，射线方向是向右，则不会有交点
+          if (x > start.x) continue;
+          
+          // 从上到下的线段和射线相交
+          var isTop2Bottom = end.y > start.y && y > start.y && y < end.y;
+          // 从下到上的线段和射线相交
+          var isBottom2Top = start.y > end.y && y > end.y && y < start.y;
+          // 如果满足上述条件，则说明穿过了线段
+          if (isTop2Bottom || isBottom2Top) acrossNum++
+        } else {
+          // 计算当前线段的斜率，方便后续获取
+          var k = (end.y - start.y) / (end.x - start.x);
+          // 获取焦点坐标的 x 坐标
+          var x0 = start.x + (y - start.y) / k;
+          
+          // 如果点在交点的右边，则向右的射线不会和左边方向的线段相交，不考虑
+          if (x > x0) continue;
+
+          // 线段是左上到右下
+          var bool1 = start.x < end.x && start.y < end.y && x0 > start.x && x0 < end.x;
+          // 线段是左下到右上
+          var bool2 = start.x < end.x && start.y > end.y && x0 > start.x && x0 < end.x;
+          // 线段是右上到左下
+          var bool3 = start.x > end.x && start.y < end.y && x0 > end.x && x0 < start.x;
+          // 线段是右下到左上
+          var bool4 = start.x > end.x && start.y > end.y && x0 > end.x && x0 < start.x;
+          
+          if (bool1 || bool2 || bool3 || bool4) acrossNum++
+        }
+      }
+
+      // 如果穿过的线段数量满足奇偶环绕原则（穿过数量为奇数则在内部）
+      return acrossNum % 2 === 1;
+    }
+
+    // 定义一个点的类
+    function Point(x, y) {
+      this.x = x;
+      this.y = y;
+      this.offsetX = 0;
+      this.offsetY = 0;
+    }
+  </script>
+</body>
+
+</html>

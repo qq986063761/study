@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    .grid {
+      float: left;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      width: 451px;
+      height: 451px;
+    }
+
+    [class^="d"] {
+      position: relative;
+      width: 250px;
+      height: 250px;
+    }
+
+    .d1 {
+      /* 渐变方向：to right，角度 */
+      background: repeating-linear-gradient(45deg, #578CE6, #578CE6 15px, #3BB6EA 0, #3BB6EA 30px);
+      /* background-size: 60px 60px; */
+      border: 50px solid transparent;
+      border-image: 50 repeating-linear-gradient(-45deg, red 0, red 1em, transparent 0, transparent 2em, #58a 0, #58a 3em, transparent 0, transparent 4em);
+      /* ouline可以实现一层边框 */
+      outline: 50px dashed deeppink;
+      outline-offset: 20px;
+      /* 多重边框 */
+      box-shadow: 0 0 0 100px #666;
+    }
+
+    .d2 {
+      background-color: #58a;
+      background-image: 
+        /* 利用 transparent 0 实现非过渡中间色 */
+        linear-gradient(white 2px, transparent 0),
+        linear-gradient(90deg, white 2px, transparent 0),
+        linear-gradient(hsla(0, 0%, 100%, .3) 1px, transparent 0),
+        linear-gradient(90deg, hsla(0, 0%, 100%, .3) 1px, transparent 0);
+      background-size: 75px 75px, 75px 75px, 15px 15px, 15px 15px;
+    }
+    
+    .d3 {
+      background-color: #655;
+      background-image: 
+        radial-gradient(tan 30%, transparent 0),
+        radial-gradient(tan 30%, transparent 0);
+      background-size: 30px 30px;
+      background-position: 0 0, 15px 15px;
+    }
+
+    .d4 {
+      background-color: #eee;
+      background-image: 
+        /* transparent 可以控制渐变两端比例 */
+        linear-gradient(45deg, rgba(0, 0, 0, .25) 25%, transparent 0, transparent 75%, rgba(0, 0, 0, .25) 0),
+        linear-gradient(45deg, rgba(0, 255, 255, 0.911) 25%, transparent 0, transparent 75%, rgba(0, 255, 255, 0.911) 0);
+      background-size: 30px 30px;
+      background-position: 0 0, 15px 15px;
+    }
+    
+    .d5 {
+      width: 500px;
+      background-color: hsla(20, 40%, 90%);
+      background-image:
+        linear-gradient(90deg, #fb3 11px, transparent 0),
+        linear-gradient(90deg, #ab4 23px, transparent 0),
+        linear-gradient(90deg, #655 41px, transparent 0);
+      /* 随机性 */
+      background-size: 41px 100%, 61px 100%, 83px 100%;
+    }
+
+    @keyframes ants { to {background-position: 100%;}}
+    .d6 {
+      border: 1px solid transparent;
+      /* background-clip：padding-box；将背景裁剪到padding区域；利用位移模拟蚂蚁行军动态边框 */
+      background: linear-gradient(white, white) padding-box, repeating-linear-gradient(-45deg, black 0, black 25%, white 0, white 50%) 0/.6em .6em;
+      animation: ants 12s linear infinite;
+    }
+  </style>
+</head>
+<body>
+  <div class="grid">
+    <div class="d1"></div>
+  </div>
+  <div class="grid">
+    <div class="d2"></div>
+  </div>
+  <div class="grid">
+    <div class="d3"></div>
+  </div>
+  <div class="grid">
+    <div class="d4"></div>
+  </div>
+  <div class="grid">
+    <div class="d5"></div>
+  </div>
+  <div class="grid">
+    <div class="d6"></div>
+  </div>
+</body>
+</html>

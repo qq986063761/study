@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			.body{
+				position: relative;
+				width: 200px;
+				height: 200px;
+				background: red;
+				border-radius: 200px;
+				text-align: center;
+				line-height: 200px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="svt"><div class="body">匀速运动(s=v*t)</div></div>
+		<div class="svat"><div class="body">匀加速运动(s=v0*t+at^2/2)</div></div>
+		<script>
+			window.onload = function(e){
+				/*-------- 匀速运动  --------*/
+				(function(){
+					var ele = document.querySelector('.svt .body');
+					var speed = 5; //速度
+					var dir = 'right'; //方向
+					var left = 0;
+					setInterval(function(){
+						left = ele.style.left;
+						
+						if(!checkObjIsExit(left)){
+							ele.style.left = 0;
+						}
+						
+						//方向控制
+						var curLeft = parseFloat(left.substr(0,left.length - 2));
+						if(curLeft >= 1000){
+							dir = 'left';						
+						}
+						
+						if(curLeft <= 0){
+							dir = 'right';						
+						}
+						
+						//速度控制
+						if(dir === 'right'){
+							ele.style.left = (curLeft + speed) + 'px';
+						}else{
+							ele.style.left = (curLeft - speed) + 'px';
+						}
+					},30);
+				})();	
+				
+				/*---------- 匀加速运动  -----------*/
+				(function(){
+					var ele = document.querySelector('.svat .body');
+					var speed = 1; //速度
+					var a = 0.3; //加速度
+					var dir = 'right'; //方向
+					var left = 0;
+					setInterval(function(){					
+						left = ele.style.left;
+						
+						if(!checkObjIsExit(left)){
+							ele.style.left = 0;
+						}
+						
+						//方向控制
+						var curLeft = parseFloat(left.substr(0,left.length - 2));
+						if(curLeft >= 1000){
+							dir = 'left';
+							speed = 5;
+						}
+						
+						if(curLeft <= 0){
+							dir = 'right';
+							speed = 5;
+						}
+						
+						//速度控制
+						speed += a;
+						if(dir === 'right'){
+							ele.style.left = (curLeft + speed) + 'px';
+						}else{
+							ele.style.left = (curLeft - speed) + 'px';
+						}
+					},30);
+				})();				
+			};
+			
+			function checkObjIsExit(obj){
+				var isNoExit = (obj === undefined || obj === null || obj === '' || obj.length === 0 || obj === 'undefined' ||
+					obj === 'null');
+			    if(isNoExit){
+			        return false;
+			    }else{
+			        return true;
+			    }
+			}
+		</script>
+	</body>
+</html>

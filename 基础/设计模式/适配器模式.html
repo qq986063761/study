@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <fieldset>
+    <legend>操作</legend>
+    <button id="get1">获取二孔插头</button>
+    <button id="get2">获取三孔插头</button>
+  </fieldset>
+  
+  <script>
+    class Plug {
+      getName() {
+        return '二孔插头'
+      }
+    }
+
+    class PlugAdapter {
+      constructor() {
+        this.plug = new Plug()
+      }
+      getName() {
+        return this.plug.getName() + ' + 三孔插头适配器'
+      }
+    }
+
+    get1.onclick = function () {
+      alert(new Plug().getName())
+    }
+    get2.onclick = function () {
+      alert(new PlugAdapter().getName())
+    }
+  </script>
+</body>
+</html>

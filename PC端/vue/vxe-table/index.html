@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vxe-table/lib/index.css">
+</head>
+<body>
+  <div id="app">
+    <vxe-table
+      border
+      resizable
+      :span-method="colspanMethod"
+      :data="data">
+      <vxe-table-column field="name" title="Name"></vxe-table-column>
+      <vxe-table-column field="name" title="Role"></vxe-table-column>
+      <vxe-table-column field="name" title="Sex"></vxe-table-column>
+      <vxe-table-column field="name" title="Age"></vxe-table-column>
+      <vxe-table-column field="name" title="Age"></vxe-table-column>
+      <vxe-table-column field="name" title="Age"></vxe-table-column>
+      <vxe-table-column field="name" title="Age"></vxe-table-column>
+      <vxe-table-column field="name" title="Age"></vxe-table-column>
+      <vxe-table-column field="name" title="Age"></vxe-table-column>
+      <vxe-table-column field="name" title="Age"></vxe-table-column>
+    </vxe-table>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xe-utils"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vxe-table"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data(){
+        return {
+          data: new Array(100).fill({name: '名字'})
+        }
+      },
+      methods: {
+        colspanMethod ({ rowIndex, columnIndex }) {
+          if (columnIndex > 3) {
+            return { rowspan: 1, colspan: 4 }
+          }
+        }
+      }
+    })
+  </script>
+</body>
+</html>

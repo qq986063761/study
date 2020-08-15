@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <fieldset>
+    <legend>操作</legend>
+    <button id="btn1">获取桥接模式的第一个实现对象</button>
+    <button id="btn2">获取桥接模式的第二个实现对象</button>
+  </fieldset>
+
+  <script>
+    // 抽象单例
+    function singleton( fn ) {
+      let result;
+      return function() {
+        return result || ( result = fn.apply( this, arguments ) );
+      };
+    }
+
+    // 实现：创建遮罩层单例方法
+    const createMask = singleton(() => {
+      return document.body.appendChild( document.createElement('div') );
+    });
+
+    // 实现：创建script标签的单例方法
+    const createScript = singleton(() => {
+      return document.body.appendChild( document.createElement('script') );
+    });
+
+    btn1.onclick = function () {
+      alert(createMask())
+    }
+    btn2.onclick = function () {
+      alert(createScript())
+    }
+  </script>
+</body>
+</html>

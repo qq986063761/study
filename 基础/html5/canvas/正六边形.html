@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+
+  <style>
+    html,
+    body {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+
+    canvas {
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas">
+    <p>抱歉，您的浏览器不支持canvas</p>
+  </canvas>
+  
+  <script>
+    function Hexagon() {
+      this.canvas = document.getElementById("canvas")
+      this.canvas.width = window.innerWidth;
+      this.canvas.height = window.innerHeight;
+      this.ctx = this.canvas.getContext("2d")
+
+      this.cX = this.canvas.width / 2 // 中心x坐标
+      this.cY = this.canvas.height / 2 // 中心y坐标
+      this.length = 200; // 正六边形变长
+      
+      // 边线
+      this.ctx.lineWidth = 6;
+      this.ctx.strokeStyle = 'blue';
+
+      let xDiff = this.length * Math.sin(Math.PI / 6);
+      let yDiff = this.length * Math.cos(Math.PI / 6);
+
+      this.ctx.beginPath();
+
+      this.ctx.moveTo(this.cX - xDiff, this.cY - yDiff);
+      this.ctx.lineTo(this.cX + xDiff, this.cY - yDiff);
+      this.ctx.lineTo(this.cX + this.length, this.cY);
+      this.ctx.lineTo(this.cX + xDiff, this.cY + yDiff);
+      this.ctx.lineTo(this.cX - xDiff, this.cY + yDiff);
+      this.ctx.lineTo(this.cX - this.length, this.cY);
+
+      this.ctx.closePath();
+      
+      // 阴影
+      this.ctx.save();
+      this.ctx.fillStyle = 'white';
+      this.ctx.shadowColor = 'black';
+      this.ctx.shadowBlur = 30;
+      this.ctx.fill();
+      this.ctx.restore();
+      
+      let img = new Image();
+      img.src = './demo.jpg';
+      img.onerror = err => {
+        this.ctx.stroke();
+      }
+      img.onload = () => {
+        let minLength = Math.min(img.width, img.height);
+        let ratio = this.length * 2 / minLength;
+        // 缩放图片到满足六边形的比例
+        let pat = this.ctx.createPattern(img, 'no-repeat');
+        this.ctx.fillStyle = pat;
+
+        this.ctx.save();
+        this.ctx.translate(this.cX - this.length, this.cY - this.length);
+        this.ctx.scale(ratio, ratio);
+        this.ctx.fill();
+
+        this.ctx.restore();
+        
+        // 绘制边线覆盖在图片上
+        this.ctx.stroke();
+      }
+    }
+
+    new Hexagon();
+  </script>
+</body>
+</html>

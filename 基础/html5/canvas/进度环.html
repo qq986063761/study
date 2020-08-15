@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+
+  <style>
+    #canvas{
+      display: block;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas">
+    <p>抱歉，您的浏览器不支持canvas</p>
+  </canvas>
+
+  <script>
+    function Circle(width) {
+      this.canvas = document.getElementById("canvas")
+      this.ctx = this.canvas.getContext("2d")
+      this.ratio = window.devicePixelRatio
+      this.canvas.style.width = this.canvas.style.height = width + 'px'
+      this.canvas.width = this.canvas.height = width * this.ratio
+      this.ctx.translate(this.canvas.width / 2, this.canvas.height / 2)
+      this.ctx.scale(this.ratio, this.ratio)
+      this.circleX = 0 // 中心x坐标
+      this.circleY = 0 // 中心y坐标
+      this.trackWidth = 3 // 圆形线条的宽度
+      this.progressWidth = 9 // 进度路径宽
+      this.radius = (this.canvas.width / this.ratio - this.progressWidth) / 2 // 圆环半径
+      this.fontSize = 50 // 字体大小
+      this.process = 0.0 // 当前进度
+      this.percent = 80 // 目标进度
+      this.timer = null // 更新定时器
+    }
+
+    Object.assign(Circle.prototype, {
+      // 画圆
+      circle(cx, cy, r) {
+        this.ctx.beginPath();
+        this.ctx.moveTo(cx + r, cy);
+        this.ctx.lineWidth = this.trackWidth;
+        this.ctx.strokeStyle = '#eee';
+        this.ctx.arc(cx, cy, r, 0, Math.PI * 2);
+        this.ctx.closePath();
+        this.ctx.stroke();
+      },
+      // 画弧
+      sector(cx, cy, r, startAngle, endAngle, anti) {
+        this.ctx.beginPath();
+        this.ctx.moveTo(cx, cy - r); // 从圆形头部开始画
+        this.ctx.lineWidth = this.progressWidth;
+
+        // 渐变色 - 可自定义
+        var linGrad = this.ctx.createLinearGradient(
+          this.circleX, 
+          this.circleY + this.radius + this.progressWidth, 
+          this.circleX, 
+          this.circleY - this.radius - this.progressWidth
+        )
+        
+        linGrad.addColorStop(0.0, '#588EE9');
+        linGrad.addColorStop(1.0, '#91C1F6');
+
+        this.ctx.strokeStyle = linGrad;
+
+        // 圆弧两端的样式
+        this.ctx.lineCap = 'round';
+
+        // 圆弧
+        this.ctx.arc(
+          cx, cy, r,
+          startAngle * (Math.PI / 180.0) + (Math.PI * 3 / 2),// *3从圆形头部开始画
+          endAngle * (Math.PI / 180.0) + (Math.PI * 3 / 2), // *3从圆形头部开始画
+          anti
+        )
+        this.ctx.stroke()
+      },
+      // 画后半截
+      sector1(cx, cy, r, startAngle, endAngle, anti) {
+        this.ctx.beginPath();
+        this.ctx.moveTo(cx, cy + r); // 从圆形半圆位置开始画
+
+        this.ctx.strokeStyle = '#588EE9'
+
+        let startAngleVal = startAngle * (Math.PI / 180.0) + (Math.PI * 3 / 2) // *3从圆形头部开始画
+        let endAngleVal = endAngle * (Math.PI / 180.0) + (Math.PI * 3 / 2)
+
+        // 圆弧
+        this.ctx.arc(
+          cx, cy, r,
+          startAngleVal,
+          endAngleVal,
+          anti
+        )
+
+        this.ctx.stroke();
+      },
+      // 刷新
+      loading() {
+        if (this.process >= this.percent) {
+          clearInterval(this.timer)
+          this.timer = null
+          return
+        }
+
+        // 清除canvas内容
+        this.ctx.clearRect(-this.canvas.width / 2, -this.canvas.height / 2, this.canvas.width, this.canvas.height);
+
+        // 中间的字
+        this.ctx.font = this.fontSize + 'px April';
+        this.ctx.textAlign = 'center';
+        this.ctx.textBaseline = 'middle';
+        this.ctx.fillStyle = '#999';
+        this.ctx.fillText(parseFloat(this.process).toFixed(0) + '%', this.circleX, this.circleY);
+
+        // 圆形
+        this.circle(this.circleX, this.circleY, this.radius);
+
+        // 圆弧
+        this.sector(this.circleX, this.circleY, this.radius, 0, this.process / 100 * 360)
+        // 画下半截弧
+        if (this.process / 100 * 360 > 180) {
+          this.sector1(this.circleX, this.circleY, this.radius, 180, this.process / 100 * 360)
+        }
+
+        // 控制结束时动画的速度
+        if (this.process / this.percent > 0.90) {
+          this.process += 0.30;
+        } else if (this.process / this.percent > 0.80) {
+          this.process += 0.55;
+        } else if (this.process / this.percent > 0.70) {
+          this.process += 0.75;
+        } else {
+          this.process += 1.0;
+        }
+      },
+      // 开始
+      start() {
+        this.timer = setInterval(this.loading.bind(this), 1000 / 60)
+      }
+    })
+
+    new Circle(300).start()
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>企业微信Demo</title>
+</head>
+<body>
+  Hello 微信
+  <script src="https://cdn.bootcss.com/vConsole/3.3.4/vconsole.min.js"></script>
+  <script>
+    // http://hk.xincaitong.com/?ufid=214
+
+    new VConsole();
+    
+    var userAgent = navigator.userAgent.toLowerCase();
+    var isWxWork = userAgent.includes('wxwork'); // 是否是企业微信端
+    var isMobile = userAgent.includes('mobile'); // 是否是移动端
+    console.log('是否是企业微信端：', isWxWork);
+    console.log('是否是移动端：', isMobile);
+
+    // 如果是企业微信端则加载微信 sdk
+    if (isWxWork) { 
+      // 如果不是移动端，则跳转到 PC Web 应用
+      if (!isMobile) {
+        location.href = 'https://www.pekhr.com/web/index.html';
+      } else {
+        var wxjs = document.createElement('script');
+        wxjs.src = 'https://res.wx.qq.com/open/js/jweixin-1.2.0.js';
+        wxjs.onload = function(event) {
+          // 获取access_token：见获取企业access_token的api，请求参数：auth_corpid、permanent_code（永久授权码）
+          // 获取永久授权码：见获取企业永久授权码，请求参数：suite_access_token、auth_code（会在网页登录授权附加在 redirect_uri 后作为参数）
+          // 获取auth_code：见网页授权登录第三方，微信会将 code 作为参数传给重定向的网页；
+          // 获取suite_access_token：见获取第三方应用凭证，请求参数：suite_id（管理后台可以找到）、suite_secret（管理后台可以找到）、suite_ticket
+          // 获取suite_ticket：见推送suite_ticket，这个是微信服务器定时发送请求给应用所在服务器后台，所以需要后台配置接收回调；
+
+          // 注入配置信息，否则后面无法调用 api
+          wx.config({
+            beta: true,// 必须这么写，否则 wx.invoke 调用形式的 jsapi 会有问题
+            debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            appId: 'ww7d1d857143da6da0', // 必填，企业微信的corpID
+            timestamp: Date.now(), // 必填，生成签名要用的时间戳
+            nonceStr: 'asdfasfasdfasdfasfd', // 必填，生成签名要用的随机串
+            // 必填，签名（sha1加密）
+            // 签名依赖上面的配置参数 timestamp、nonceStr、ticket（需要通过 access_token 获取）、url（当前网页的URL， 不包含#及其后面部分）
+            signature: '0f9de62fce790f9a083d5c99e95740ceb90c27ed',
+            jsApiList: ['selectEnterpriseContact'] // 必填，需要使用的JS接口列表，凡是要调用的接口都需要传进来
+          });
+
+          // wx.config 方法调用之后，wx 准备完毕触发
+          wx.ready(function() {
+            // 此时可以开始调用 wx.config 中授权了的 jsApiList 中的所有方法
+          });
+          
+          // 监听微信错误信息
+          wx.error(function(rs) {
+            console.log('error：', rs);
+          });
+        }
+
+        document.body.appendChild(wxjs);
+      }
+    }
+  </script>
+
+  <script>
+    // 微信分享
+    // wx.config({ // 必须写在 html 中
+    //   debug: false,
+    //   appId: 'wx957231c50e016d20', // 公众号的唯一标识
+    //   timestamp: '1574689640', // 生成签名的时间戳
+    //   nonceStr: 'AZNpDmnhpHGaXD0O', // 生成签名的随机串
+    //   signature: 'af11536ad225a9ca4796ff02ad5df968c89c68dc', // 签名
+    //   jsApiList: [  // 调用的 API，用啥写啥
+    //     'onMenuShareAppMessage', // 分享给朋友
+    //     'onMenuShareTimeline', // 分享到朋友圈
+    //   ]
+    // });
+
+    // wx.ready(function () { // 以下可以抽取为单独文件
+    //   var shareData = {
+    //     title: 'A港美开户',
+    //     desc: '史上最全港股打新券商集锦',
+    //     link: 'http://hk.xincaitong.com/?ufid=214',
+    //     imgUrl: 'http://hk.xincaitong.com/images/ipo.png'
+    //   };
+    //   wx.onMenuShareAppMessage(shareData);
+    //   wx.onMenuShareTimeline(shareData);
+    // })
+  </script>
+</body>
+</html>

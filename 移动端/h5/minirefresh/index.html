@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="./lib/minirefresh.css">
+  <style>
+    .item {
+      padding: .75rem 1.25rem;
+      background: #c3ecf5;
+    }
+
+    .item + .item {
+      border-top: 1px solid rgba(0,0,0,.1);
+    }
+  </style>
+</head>
+
+<body>
+  <div id="minirefresh" class="minirefresh-wrap">
+    <div class="minirefresh-scroll">
+      <div id="content"></div>
+    </div>
+  </div>
+
+  <script src="./lib/minirefresh.js"></script>
+  <script>
+    var content = document.getElementById('content');
+    var itemsHtml = new Array(250)
+      .fill(1)
+      .map((item, i) => `<div class="item">Item ${i + 1}</div>`)
+      .join('');
+
+    // 初始化实例
+    var mR = new MiniRefresh({
+      container: '#minirefresh',
+      // 是否锁定横向触摸滚动交互
+      isLockX: false,
+      // 下拉刷新
+      down: {
+        callback: function () {
+          console.log('down');
+          // 告诉组件下拉刷新加载完毕
+          setTimeout(() => {
+            mR.endDownLoading();
+          }, 2000);
+        }
+      },
+      // 上拉加载
+      up: {
+        callback: function () {
+          console.log('up');
+          // 告诉组件上拉加载完毕，无论请求成功还是失败都必须调用，避免无限请求；
+          // 参数为 true 表示所有数据加载完毕；false 表示当前页数据加载完毕；
+          mR.endUpLoading(true);
+        }
+      }
+    });
+
+    // 模拟加载内容
+    setTimeout(() => {
+      content.innerHTML = itemsHtml;
+    }, 1000);
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    [v-cloak] {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <fieldset id="app" v-cloak>
+    <legend>父 Store</legend>
+    <div><button @click="add">添加</button></div>
+    <h1>state：{{count}}</h1>
+    <h1>getters：{{txt}}</h1>
+    <fieldset>
+      <legend>子 Store</legend>
+      <div><button @click="addChild">添加</button></div>
+      <h1>child-state：{{child.count}}</h1>
+      <h1>child-getters：{{$store.getters['child/txt']}}</h1>
+    </fieldset>
+  </fieldset>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script src="https://unpkg.com/vuex"></script>
+  <script>
+    const child = {
+      namespaced: true, // 增加子模块的命名空间，避免模块之间命名冲突
+      state: {
+        count: 0,
+        date: new Date().toLocaleTimeString()
+      },
+      getters: {
+        txt: (state, getters, rootState, rootGetters) => state.date + ' + ' + rootState.count + ' + ' + state.count
+      },
+      mutations: {
+        add(state) {
+          state.count++
+        },
+        setDate(state) {
+          state.date = new Date().toLocaleTimeString()
+        }
+      },
+      actions: {
+        update({commit}) {
+          setInterval(() => {
+            commit('setDate')
+          }, 1000)
+        }
+      }
+    }
+
+    const store = new Vuex.Store({
+      state: {
+        count: 0,
+        date: new Date().toLocaleString()
+      },
+      // 相当于计算属性
+      getters: {
+        txt: state => state.date + ' + ' + state.count
+      },
+      mutations: {
+        add(state) {
+          state.count++
+        },
+        setDate(state) {
+          state.date = new Date().toLocaleString()
+        }
+      },
+      actions: {
+        update({commit}) {
+          setInterval(() => {
+            commit('setDate')
+          }, 1000)
+        }
+      },
+      modules: {
+        child
+      }
+    })
+
+    new Vue({
+      el: '#app',
+      store,
+      computed: {
+        // 获取 state 的辅助函数，原始方式：this.$store.state.count
+        ...Vuex.mapState([
+          'count',
+          'child' // 子模块
+        ]),
+        // 获取 getters 的辅助函数，原始方式：this.$store.getters.txt
+        ...Vuex.mapGetters([
+          'txt',
+          'child/txt' // 子模块
+        ])
+      },
+      methods: {
+        // mutations 辅助函数，原始方式：this.$store.commit('add')
+        ...Vuex.mapMutations([
+          'add',
+          'child/add' // 子模块
+        ]),
+        // actions 辅助函数，原始方式：this.$store.dispatch('update')
+        ...Vuex.mapActions([
+          'update',
+          'child/update' // 子模块
+        ]),
+        addChild() {
+          this['child/add']()
+        }
+      },
+      mounted() {
+        this.update()
+        this['child/update']()
+      }
+    })
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    .grid {
+      float: left;
+      width: 451px;
+      height: 451px;
+      padding: 10px;
+      border: 5px solid gray;
+    }
+    
+    /* max-height 模拟展开收起效果 */
+    #d1 {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .25s;
+      background-color: skyblue;
+      border: 5px solid blueviolet;
+    }
+    #d1:after {
+      display: block;
+      height: 200px;
+      content: '';
+    }
+    #d1.open {
+      max-height: 266px;
+    }
+  </style>
+</head>
+<body>
+  <div class="grid">
+    <button id="btn1">展开|收起</button>
+    <div id="d1"></div>
+  </div>
+
+  <script>
+    btn1.onclick = function(e) {
+      if (d1.className.includes('open')) {
+        d1.className = '';
+      } else {
+        d1.className = 'open';
+      }
+    }
+  </script>
+</body>
+</html>

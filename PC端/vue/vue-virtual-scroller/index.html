@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="dist/vue-virtual-scroller.css"/>
+  <style>
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    #app {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .scroller {
+      height: 80%;
+      border: 1px solid;
+      margin-top: 20%;
+    }
+    .user {
+      height: 32%;
+      padding: 0 12px;
+      display: flex;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <virtual-scroller
+      class="scroller"
+      :items="list"
+      :item-size="32"
+      key-field="id"
+      v-slot="{ item }"
+    >
+      <div class="user">
+        {{ item.name }}
+      </div>
+    </virtual-scroller>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script src="dist/vue-virtual-scroller.min.js"></script>
+  <script>
+    var vm = new Vue({
+      el: '#app',
+      components: {'virtual-scroller': VueVirtualScroller.RecycleScroller},
+      data: {
+        list: new Array(100).fill(null).map((item, i) => ({
+          id: i,
+          name: 'item ' + i 
+        }))
+      }
+    })
+  </script>
+</body>
+</html>

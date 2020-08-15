@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <fieldset>
+    <legend>indexedDB test数据库</legend>
+    <table>
+      <thead>
+        <th>id</th>
+        <th>name</th>
+        <th>age</th>
+      </thead>
+      <tbody>
+
+      </tbody>
+    </table>
+  </fieldset>
+  <fieldset>
+    <legend>操作</legend>
+    <input id="id" type="text" placeholder="请输入id">
+    <input id="usrname" type="text" placeholder="请输入name">
+    <input id="age" type="text" placeholder="请输入age">
+    <button id="add">添加</button>
+    <button id="del">删除</button>
+    <button id="put">修改</button>
+    <button id="get">获取</button>
+  </fieldset>
+
+  <script>
+    // 了解 indexedDB 基础之后，应用时可以使用 localforage 这种库来进行业务处理，避免更多问题产生
+    window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+    window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
+    window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
+
+    if (!window.indexedDB) {
+      alert("浏览器太老了");
+    }
+
+    var request = window.indexedDB.open("test", 1);
+    var db = null;
+    var store = null;
+
+    request.onsuccess = function(event) {
+      console.info('indexedDB.open onsuccess');
+      initDB(event);
+    };
+
+    // 创建一个新的数据库或者增加已存在的数据库的版本号时会触发，通常版本变化后触发一次
+    request.onupgradeneeded = function(event) {
+      console.info('indexedDB.open onupgradeneeded');
+      initDB(event, 'upgradeneeded');
+    };
+
+    request.onerror = function(event) {
+      console.warn('indexedDB.open onerror', event);
+    };
+
+    add.onclick = function () {
+      // 创建事务，事务用于操作数据仓库（仓库名，权限 readonly readwrite）
+      // 事务失败后会回滚，不会导致操作了一半的情况产生
+      const tx = db.transaction('users','readwrite');
+      store = tx.objectStore('users');
+
+      // 保存数据 add 不允许重复的主键 put 允许，相当于修改值
+      const req = store.add({'id': id.value, 'name': usrname.value, 'age': age.value});
+      req.onsuccess = event => {
+        console.log('store.add onsuccess')
+      }
+      req.onerror = event => {
+        console.log('store.add onerror', event)
+      }
+    }
+
+    del.onclick = function () {
+      const tx = db.transaction('users','readwrite');
+      store = tx.objectStore('users');
+
+      // 删除数据，参数是主键
+      const req = store.delete(id.value);
+      req.onsuccess = event => {
+        console.log('store.delete onsuccess')
+      }
+    }
+
+    put.onclick = function () {
+      const tx = db.transaction('users','readwrite');
+      store = tx.objectStore('users');
+
+      // 获取数据，参数是主键
+      const req = store.put({'id': id.value, 'name': usrname.value, 'age': age.value});
+      req.onsuccess = event => {
+        console.log('store.put onsuccess')
+      }
+    }
+
+    get.onclick = function () {
+      const tx = db.transaction('users','readonly');
+      store = tx.objectStore('users');
+
+      // 获取数据，参数是主键
+      const req = store.get(id.value);
+      req.onsuccess = event => {
+        console.log('store.get onsuccess', event.target.result)
+      }
+    }
+
+    function initDB(event, type) {
+      console.log(event)
+
+      // 获取数据库接口对象
+      db = event.target.result;
+
+      db.onerror = function(event) {
+        console.warn('db error', event);
+      };
+
+      if (type === 'upgradeneeded') {
+        // 为该数据库创建一个对象仓库（仓库名、主键名），方法只能在 onupgradeneeded 中调用
+        store = db.createObjectStore("users", { keyPath: "id" });
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+			* {
+				position: relative;
+				box-sizing: border-box;
+			}
+
+			.grid {
+				float: left;
+				display: inline-flex;
+				justify-content: center;
+				align-items: center;
+				width: 451px;
+				height: 451px;
+				border: 3px solid gray;
+			}
+
+			/* 圆 */
+			.d1 {
+				background-color: #fb3;
+				width: 300px;
+				height: 300px;
+				border-radius: 50%;
+			}
+
+			/* 椭圆 */
+			.d2 {
+				background-color: #fb3;
+				width: 300px;
+				height: 200px;
+				border-radius: 50%;
+			}
+
+			/* 半圆，利用100%弧度值可创造1/4弧 */
+			.d3 {
+				background-color: #fb3;
+				width: 300px;
+				height: 150px;
+				border-radius: 300px 300px 0 0;
+			}
+
+			/* 平行四边形 */
+			.d4 {
+				background-color: #fb3;
+				width: 200px;
+				height: 150px;
+				transform: skewX(-45deg);
+			}
+
+			/* 菱形 */
+			.d5 {
+				width: 200px;
+				height: 200px;
+				transform: scaleX(.8);
+			}
+			.d5:after {
+				display: block;
+				width: 100%;
+				height: 100%;
+				background-color: #fb3;
+				transform: rotate(45deg);
+				content: '';
+			}
+
+			/* 切角，径向渐变的参数1表示渐变内部的位置 */
+			.d6 {
+				width: 300px;
+				height: 150px;
+				background:
+					linear-gradient(-135deg, transparent 33%, #fb3 0) top right,
+					linear-gradient(-45deg, transparent 33%, #fb3 0) bottom right,
+					radial-gradient(circle at top left, transparent 20%, #fb3 0) top left,
+					radial-gradient(circle at bottom left, transparent 20%, #fb3 0) bottom left;
+				background-size: 50% 50%;
+				background-repeat: no-repeat;
+			}
+
+			/* 梯形，perspective：观察者距离z轴的距离，设置后会产生3d视距效果（即远处物体小，近处物体大）； */
+			.d7 {
+				width: 200px;
+				height: 150px;
+				background-color: #fb3;
+				transform: perspective(0.5em) rotateX(2deg);
+			}
+			
+			/* 饼 */
+			.d8 {
+				width: 300px;
+				height: 300px;
+				border-radius: 50%;
+				background: yellowgreen;
+				overflow: hidden;
+			}
+			.d8:before {
+				position: absolute;
+				top: 0;
+				right: 0;
+				margin-left: 50%;
+				height: 100%;
+				width: 50%;
+				background: palevioletred;
+				content: '';
+			}
+			.d8:after {
+				position: absolute;
+				top: 0;
+				right: 0;
+				margin-left: 50%;
+				height: 100%;
+				width: 50%;
+				background: yellowgreen;
+				transform-origin: left;
+				transform: rotate(90deg);
+				content: '';
+			}
+		</style>
+</head>
+<body>
+	<div class="grid">
+		<div class="d1"></div>
+	</div>
+	<div class="grid">
+		<div class="d2"></div>
+	</div>
+	<div class="grid">
+		<div class="d3"></div>
+	</div>
+	<div class="grid">
+		<div class="d4"></div>
+	</div>
+	<div class="grid">
+		<div class="d5"></div>
+	</div>
+	<div class="grid">
+		<div class="d6"></div>
+	</div>
+	<div class="grid">
+		<div class="d7"></div>
+	</div>
+	<div class="grid">
+		<div class="d8"></div>
+	</div>
+</body>
+</html>

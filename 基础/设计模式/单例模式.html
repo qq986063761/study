@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <fieldset>
+    <legend>操作</legend>
+    <button id="get">获取单例，无论你获取几次，每一次的对象和前一次的都是同一个对象</button>
+  </fieldset>
+
+  <script>
+    /*
+      单例模式作用：保证全局资源唯一，省内存空间
+    */
+    class Singleton {
+      constructor() {}
+    }
+    Singleton.getInstance = (function() {
+      let instance = null
+      return function() {
+        return instance || (instance = new Singleton())
+      }
+    })()
+
+    get.onclick = function () {
+      if (!this.instance) {
+        this.instance = Singleton.getInstance()
+        console.log('第一次获取实例', this.instance)
+      } else {
+        console.log('多次获取实例，每一次实例都相等：', Singleton.getInstance() === this.instance)
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <button class="download">下载doc</button>
+  <button class="download">下载ppt</button>
+  <button class="download">下载xls</button>
+  <button class="download">下载png</button>
+  <button class="download">下载pdf</button>
+
+  <script src="./FileSaver.js"></script>
+  <script>
+    var doc = 'https://zxb-online.topscrm.cn/文档_ad4fafbb-48ab-4d14-92bb-2c7385bc84c9.doc'
+    var ppt = 'https://zxb-online.topscrm.cn/演示_614fc625-e555-43be-9cb3-e0a90dca241b.ppt'
+    var xls = 'https://zxb-online.topscrm.cn/结算单模板_8296d744-22f5-4227-8747-a07883b9b497.xls'
+    var img = 'https://zxb-online.topscrm.cn/微信截图_20190311140024_78d867e8-f5ee-4ab4-a02d-01c33b3648e0.png'
+    var pdf = 'https://zxb-online.topscrm.cn/共享经济用户服务协议（2C)_7c105a44-767c-4075-b3f2-bade8ae82537.pdf'
+    var arr = [doc, ppt, xls, img, pdf]
+
+    var downloadEls = document.getElementsByClassName('download')
+    for (var index = 0; index < downloadEls.length; index++) {
+      var element = downloadEls[index]
+      element.onclick = (function (i) {
+        return function() {
+          var url = arr[i]
+          var dotIdx = url.lastIndexOf('.')
+          saveAs(url, '自定义文件名' + url.slice(dotIdx))
+        }
+      })(index)
+    }
+  </script>
+</body>
+</html>

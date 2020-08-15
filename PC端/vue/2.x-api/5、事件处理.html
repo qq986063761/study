@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<body>
+	<fieldset id="app">
+		<legend>demo</legend>
+		<!-- v-on:click 或者 @click 都表示事件指令 -->
+		<p><button @click="onClick">点击我，计数器增加</button>计数器：{{num}}</p>
+		<!-- 内联参数 -->
+		<p><button @click="onClick($event, 'hello world')">点击我，展示消息 hello world</button>内容：{{msg}}</p>
+		<!-- 鼠标事件修饰符
+			.stop：相当于 event.stopPropagation()
+			.prevent：相当于 event.preventDefault()
+			.capture：点击子元素时，先触发需要捕获内部事件的元素，然后再触发子元素
+			.self：只有确实点击到当前这个元素本身时才会调用
+			.once：只执行一次事件
+			.passive：不会触发 event.preventDefault() 阻止默认事件，如果需要能阻止默认实现，则不要设置 passive
+			.left：点击鼠标左键时触发
+			.right：点击鼠标右键时触发
+			.middle：点击鼠标中键时触发
+			.native：原生事件（一般用在组件上希望绑定原生事件）
+		-->
+		<p>
+			<div style="padding: 10px;border: 1px solid;cursor: pointer;" @click="onClickParent">
+				父元素
+				<div style="padding: 10px;border: 1px solid;cursor: pointer;" @click="onClickMiddle">
+					中间元素
+					<button @click="onClickChild">子元素：点击我，父元素也会触发相同事件，除非使用修饰符 stop</button>
+				</div>
+			</div>
+		</p>
+		<p>
+			<!-- 键盘事件修饰符
+				.enter、page-down：任何有效的键名都会被支持
+				.enter、.tab、.delete、.esc、.space、.up、.down、.left、.right：常用兼容旧浏览器的别名
+				.ctrl、.alt、.shift、.meta（windows 的窗口键和 mac 的 command 键）：系统操作符，按下的同时才会触发绑定事件
+				.exact：精确控制事件，如 @click.ctrl.exact 表示除同时按下 ctrl 之外，其他的组合点击都不会触发
+			 -->
+			<input type="text" placeholder="按下enter触发" @keydown.enter="alert('enter')">
+		</p>
+	</fieldset>
+
+	<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+	<script>
+		new Vue({
+			el: '#app',
+			data: {
+				num: 0,
+				msg: ''
+			},
+			methods: {
+				onClickParent() {
+					alert('父元素被点击了')
+				},
+				onClickMiddle() {
+					alert('中间元素被点击了')
+				},
+				onClickChild() {
+					alert('子元素被点击了')
+				},
+				onClick(event, msg) {
+					console.log('默认会带参数 event，或者手动设置参数 $event', event)
+
+					if (msg) {
+						this.msg = msg
+					} else {
+						this.num++
+					}
+				}
+			}
+		})
+	</script>
+</body>
+
+</html>

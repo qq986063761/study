@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <fieldset>
+    <legend>操作</legend>
+    <button id="btn">利用代理对象送礼物给对方</button>
+  </fieldset>
+
+  <script>
+    class Girl {
+      constructor(name) {
+        this.name = name
+      }
+    }
+
+    class Man {
+      constructor(girl) {
+        this.girl = girl
+      }
+      sendGift(gift) {
+        alert("Hi " + this.girl.name + ", Man送你一个礼物：" + gift);
+      }
+    }
+
+    class Proxy {
+      constructor(girl) {
+        this.girl = girl
+      }
+      sendGift(gift) {
+        new Man(this.girl).sendGift(gift)
+      }
+    }
+
+    btn.onclick = function () {
+      new Proxy(new Girl('girl')).sendGift('花')
+    }
+  </script>
+</body>
+</html>

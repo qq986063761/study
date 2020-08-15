@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+	<head>
+	    <meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+	    <title>输入提示</title>
+	    <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
+	</head>
+	<body>
+		<input id="search" type="text" placeholder="请输入地址">
+		<div id="demoContainer">
+
+		</div>
+		<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=2f9d71db220eb1cdf064a20c4221b5ae"></script>
+		<script type="text/javascript">
+			AMap.plugin('AMap.Autocomplete', function () {
+				autocomplete= new AMap.Autocomplete();
+				search.onkeydown = function (ev) {
+					if (ev.which === 13) {
+						autocomplete.search(ev.target.value, function(status, result){
+							if (result.tips) {
+								list = '';
+								result.tips.forEach(item => {
+									list += '<div>' + item.name + '</div>';
+								});
+								demoContainer.innerHTML = list;
+							}
+						});
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <fieldset id="app">
+    <legend>demo</legend>
+
+    <p>
+      <!-- 
+        组件导航
+        to：指定 path
+       -->
+      <router-link to="/home">Home</router-link>
+      <router-link to="/about">About</router-link>
+      <router-link to="/question/1">Question</router-link>
+    </p>
+    <!-- 
+      路由视图
+     -->
+    <router-view></router-view>
+    <router-view name="aside"></router-view>
+  </fieldset>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+  <script>
+    // 定义路由组件
+    const Home = {
+      template: `
+        <div>
+          <div>
+            <router-link to="detail1">Detail1</router-link>
+            <router-link to="detail2">Detail2</router-link>
+          </div>
+          <router-view style="border: 1px solid;"></router-view>
+        </div>
+      `
+    }
+    const HomeDetail1 = { template: '<div>子路由视图1</div>' }
+    const HomeDetail2 = { template: '<div>子路由视图2</div>' }
+    const About = { template: '<div>About</div>' }
+    const AboutAside = { template: '<div>AboutAside</div>' }
+    const Error = { 
+      props: ['code'],
+      template: '<div>{{ code }} error</div>' 
+    }
+    const Question = {
+      template: `
+        <div>
+          <button v-show="$route.params.step > '1'" @click="onPrev('first')">退到第一步</button>
+          <button v-show="$route.params.step !== '1'" @click="onPrev">上一步</button>
+          Question {{$route.params.step}}
+          <button @click="onNext">下一步</button>
+        </div>
+      ` ,
+      watch: {
+        // 监听路由变化
+        '$route'(to, from) {
+          this.step = Number(to.params.step)
+          console.log('route-change', to, from)
+        }
+      },
+      methods: {
+        onPrev(type) {
+          if (type === 'first') {
+            // 前进或后退步数
+            this.$router.go(-(this.step - 1))
+          } else {
+            // 返回上一个路由
+            this.$router.back()
+          }
+        },
+        onNext() {
+          // 当前路由
+          const route = this.$route
+          // push：推一个新的路由到路由栈中
+          // replace：替换当前路由，不会新增路由到路由栈中
+          this.$router.push({
+            name: 'question',
+            // 带 url 上的 ? 后的查询参数
+            query: { id: '查询参数' },
+            // 其他参数
+            params: {
+              step: Number(route.params.step) + 1
+            }
+          })
+        }
+      },
+      // 组件内路由前置钩子
+      beforeRouteEnter(to, from, next) {
+        next(vm => {
+          vm.step = Number(to.params.step)
+          console.log('beforeRouteEnter', to, from)
+        })
+      },
+      // 组件内路由后置钩子
+      beforeRouteLeave (to, from, next) {
+        console.log('beforeRouteLeave', to, from)
+        next()
+      }
+    }
+
+    // 定义路由数组
+    const routes = [
+      { path: '', redirect: '/home' }, // 重定向
+      {
+        path: '/home',
+        component: Home,
+        // 子路由
+        children: [
+          {
+            path: '',
+            redirect: 'detail1'
+          },
+          {
+            path: 'detail1',
+            component: HomeDetail1,
+            // 路由元信息，可通过路由对象访问
+            meta: { requiresAuth: true }
+          },
+          {
+            path: 'detail2',
+            component: HomeDetail2,
+            alias: '/dt2' // 路由别名，访问 /dt2 就相当于访问 detail2
+          }
+        ]
+      },
+      {
+        // 命名视图
+        path: '/about', components: {
+          default: About,
+          aside: AboutAside
+        }
+      }
+    ]
+
+    // 注册路由
+    const router = new VueRouter({
+      routes: routes
+    })
+    
+    // 全局路由前置钩子
+    router.beforeEach((to, from, next) => {
+      console.log('beforeEach', to, from)
+      console.log('router.resolve', router.resolve(to))
+      next() // 调用 next 才能进入当前进入的路由
+    })
+
+    // 全局路由后置钩子
+    router.afterEach((to, from) => {
+      console.log('afterEach', to, from)
+    })
+    
+    // 添加路由
+    router.addRoutes([
+      // path中的 :step 是动态路由；name：命名路由
+      { path: '/question/:step', component: Question, name: 'question' },
+      // props：通过 props 属性解偶参数
+      { path: '/error/:code', component: Error, props: true },
+      { path: '*', redirect: '/error/404' } // 找不到的路由处理
+    ])
+
+    new Vue({
+      el: '#app',
+      // 注入路由
+      router,
+      mounted() {
+        console.log('路由器', this.$router)
+        console.log('当前路由', this.$route)
+      }
+    })
+  </script>
+</body>
+
+</html>

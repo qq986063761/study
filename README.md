@@ -1,0 +1,31 @@
+﻿# 推荐
+- [w3c](http://www.chinaw3c.org/)
+- [svg编辑器](http://editor.method.ac/)
+- [png压缩](https://tinypng.com/)
+- [svg压缩](https://jakearchibald.github.io/svgomg/?utm_source=next.36kr.com)
+- [icon在线生成](http://ico.duduxuexi.com/)
+- [蓝灯](https://github.com/getlantern/forum)
+- [ss免费账号](https://github.com/Alvin9999/new-pac/wiki/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7)
+- [ss免费账号备用地址](http://tr1.freeair999.club/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7/)
+- [其他翻墙方式](https://github.com/Alvin9999/new-pac/wiki)
+- [无界浏览](https://github.com/jianggangli/wujieliulan)
+- [expressVPN](https://www.expressvpn.com/order)
+- [自己搭建vpn服务器](https://www.iwannerfuck.xyz/?tdsourcetag=s_pctim_aiomsg)
+- [markdown文档](http://xianbai.me/learn-md/article/about/readme.html)
+- [jsfiddle](https://jsfiddle.net/)
+- [获取IOS UUID](http://www.pgyer.com/udid/)
+- [查看 svg 工具SVG Explorer Extension](https://archive.codeplex.com/?p=svgextension)
+- [传统中国色](https://colors.ichuantong.cn/)
+- [免费图床](https://imgchr.com/)
+- [防撤回插件](https://github.com/huiyadanli/RevokeMsgPatcher)
+- [itellyou](https://msdn.itellyou.cn)
+- [谷歌性能分析](https://accounts.google.com/signin/v2/identifier?service=analytics&passive=1209600&continue=https%3A%2F%2Fanalytics.google.com%2Fanalytics%2Fweb%2F%23&followup=https%3A%2F%2Fanalytics.google.com%2Fanalytics%2Fweb%2F&flowName=GlifWebSignIn&flowEntry=ServiceLogin)
+- [leetcode]
+- [radius demo](https://9elements.github.io/fancy-border-radius/)
+
+# 当前
+- 研究两个组件，分割面板、面包屑导航
+- vue 源码
+- 我的酷狗音乐项目
+- zego（实时视频）
+- zrender

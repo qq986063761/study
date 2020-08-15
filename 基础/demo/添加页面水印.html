@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      height: 100vh;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    // 创建一个水印的 canvas
+    let canvas = document.createElement("canvas")
+    let ctx = canvas.getContext("2d");
+    let name = '这是水印'
+    let width = name.length * 24 + 100
+    ctx.width = width
+    ctx.height = 300
+    ctx.font = "18px PingFangSC-Medium"
+    ctx.fillStyle = "#C5C5C5"
+    ctx.translate(0, 100)
+    ctx.rotate(-75 / 180)
+    ctx.fillText(name, 50, 50)
+    let img = canvas.toDataURL()
+    
+    // 将canvas生成的图形数据作为元素背景重复显示
+    document.body.style.background = `url("${img}") repeat`
+  </script>
+</body>
+</html>

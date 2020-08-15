@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>打印</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style id="print">
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            height: 50px;
+            background-color: aqua;
+        }
+
+        .container {
+            display: flex;
+            height: calc(100% - 50px);
+        }
+
+        .main {
+            position: relative;
+            width: calc(100% - 300px);
+            height: 100%;
+            background-color: chartreuse;
+            overflow: auto;
+        }
+
+        .content {
+            height: 3000px;
+        }
+
+        button {
+            position: absolute;
+            top: 100px;
+            left: 100px;
+        }
+
+        aside {
+            width: 300px;
+            background-color: yellow;
+        }
+
+        @media print {
+            /* 定义页面布局 */
+            @page  {
+                /*size: A4;*/
+                margin: 12mm 3mm;
+            }
+            
+            html,
+            body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            .main {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: chartreuse;
+                z-index: 100;
+                /* 避免页面打印分割 */
+                page-break-inside: avoid;
+            }
+
+            .content {
+                height: 3000px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+
+    </header>
+    <div class="container">
+        <div class="main" id="pdf">
+            <button id="print_btn" type="button">打印</button>
+            <div class="content"></div>
+        </div>
+        <aside>
+
+        </aside>
+    </div>
+
+    <script>
+        // 打印
+        document.getElementById('print_btn').onclick = function (ev) {
+            // 整体打印
+            // 最好在打印样式中隐藏所有不需要元素，然后让需要打印的占满整个window让html自适应滚动，内部所有滚动元素全放开，让样式自动撑开，不要使用定位
+            // 需要打印的部分占满全屏不要使用padding、margin等
+            // body内部所有宽度控制如：min-width，width等全部自适应（auto）
+            document.title = '自定义标题';
+            window.focus();
+            window.print();
+
+            // 局部打印
+            // var win = window.open('_blank');
+            // win.document.write(`
+            //     <html>
+            //         <head>
+            //             ${document.getElementById('print').outerHTML}
+            //         </head>
+            //         <body>
+            //             ${document.getElementById('pdf').outerHTML}
+            //         </body>
+            //     </html>
+            // `);
+            
+            // // ie > 10
+            // win.document.close();
+            // win.focus();
+
+            // win.print();
+            // win.close();
+        }
+    </script>
+</body>
+</html>

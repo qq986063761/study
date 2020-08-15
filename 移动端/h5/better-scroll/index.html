@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Document</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+    }
+
+    body {
+      padding: 1rem;
+    }
+
+    div {
+      box-sizing: border-box;
+    }
+
+    #scroller {
+      position: absolute;
+      left: 1rem;
+      top: 1rem;
+      right: 1rem;
+      bottom: 1rem;
+      border: 1px solid lightgray;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    #content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .item {
+      padding: .75rem 1.25rem;
+      background: #c3ecf5;
+    }
+
+    .item + .item {
+      border-top: 1px solid rgba(0,0,0,.1);
+    }
+
+    .pulldown-loading {
+      position: absolute;
+      left: 0;
+      top: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 35px;
+      width: 100%;
+    }
+
+    @keyframes rotate {
+      100% {transform: rotate(360deg);}
+    }
+
+    .loading {
+      animation: rotate 1.5s infinite linear;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="scroller">
+    <div id="content"></div>
+    <!-- 自定义：下拉刷新加载元素，必须放在 content 后，因为第一个元素作为内容容器 -->
+    <div class="pulldown-loading">
+      <svg class="loading" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1639"><path d="M512 42.666667c-25.6 0-42.666667 17.066667-42.666667 42.666666v170.666667c0 25.6 17.066667 42.666667 42.666667 42.666667s42.666667-17.066667 42.666667-42.666667V85.333333c0-25.6-17.066667-42.666667-42.666667-42.666666z m0 682.666666c-25.6 0-42.666667 17.066667-42.666667 42.666667v170.666667c0 25.6 17.066667 42.666667 42.666667 42.666666s42.666667-17.066667 42.666667-42.666666v-170.666667c0-25.6-17.066667-42.666667-42.666667-42.666667zM238.933333 179.2c-17.066667-17.066667-42.666667-12.8-59.733333 4.266667-17.066667 17.066667-17.066667 42.666667 0 59.733333L298.666667 362.666667c17.066667 17.066667 42.666667 17.066667 59.733333 4.266666 17.066667-17.066667 17.066667-42.666667 4.266667-59.733333l-4.266667-4.266667-119.466667-123.733333zM725.333333 661.333333c-17.066667-17.066667-42.666667-12.8-59.733333 4.266667-17.066667 17.066667-17.066667 42.666667 0 59.733333l119.466667 119.466667c17.066667 17.066667 42.666667 17.066667 59.733333 4.266667s17.066667-42.666667 4.266667-59.733334l-4.266667-4.266666-119.466667-123.733334zM298.666667 512c0-25.6-17.066667-42.666667-42.666667-42.666667H85.333333c-25.6 0-42.666667 17.066667-42.666666 42.666667s17.066667 42.666667 42.666666 42.666667h170.666667c25.6 0 42.666667-17.066667 42.666667-42.666667z m640-42.666667h-170.666667c-25.6 0-42.666667 17.066667-42.666667 42.666667s17.066667 42.666667 42.666667 42.666667h170.666667c25.6 0 42.666667-17.066667 42.666666-42.666667s-17.066667-42.666667-42.666666-42.666667zM302.933333 661.333333l-119.466666 119.466667c-17.066667 17.066667-17.066667 42.666667-4.266667 59.733333s42.666667 17.066667 59.733333 4.266667l4.266667-4.266667 119.466667-119.466666c17.066667-17.066667 17.066667-42.666667 4.266666-59.733334s-46.933333-17.066667-64 0z m388.266667-285.866666c12.8 0 21.333333-4.266667 29.866667-12.8l119.466666-119.466667c17.066667-17.066667 17.066667-42.666667 4.266667-59.733333-17.066667-17.066667-42.666667-17.066667-59.733333-4.266667l-4.266667 4.266667-119.466667 119.466666c-17.066667 17.066667-17.066667 42.666667 0 59.733334 8.533333 8.533333 21.333333 12.8 29.866667 12.8z" p-id="1640"></path></svg>
+      <span style="margin-left: 10px;">加载中...</span>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/better-scroll/dist/bscroll.js"></script>
+  <script>
+    var scroller = document.getElementById('scroller');
+    var content = document.getElementById('content');
+    var itemsHtml = new Array(250)
+      .fill(1)
+      .map((item, i) => `<div class="item">Item ${i + 1}</div>`)
+      .join('');
+
+    // 初始化实例
+    var bs = new BScroll(scroller, {
+      // 滚动回调触发方式，0：不触发 scroll；2：触摸中滑动时触发；3：滚动过程中任何时间都触发
+      probeType: 3,
+      // 滚动条交互，不设置则不显示滚动条
+      scrollbar: {
+        fade: true, // 滚动完成后是否隐藏滚动条
+        interactive: false // 滚动条是否可交互，如拖动滚动条
+      },
+      // 阻止冒泡，常用于内部还有子 better-scroll 容器的子配置
+      stopPropagation: true,
+      // 是否支持下拉刷新
+      pullDownRefresh: true,
+      // 是否支持上拉加载
+      pullUpLoad: true
+    });
+    
+    // 事件：下拉刷新
+    bs.on('pullingDown', function (event) {
+      console.log('pullingDown', event);
+      // 告诉 better-scroll 下拉刷新加载完毕；
+      setTimeout(() => bs.finishPullDown(), 2000);
+    });
+
+    // 事件：上拉加载
+    bs.on('pullingUp', function (event) {
+      console.log('pullingUp', event);
+      // 告诉 better-scroll 上拉加载完毕；
+      bs.finishPullUp();
+    });
+
+    // 事件：滚动
+    // bs.on('scroll', function (event) {
+    //   console.log('scroll', event);
+    // });
+    
+    // 模拟加载内容
+    setTimeout(() => {
+      content.innerHTML = itemsHtml;
+      bs.refresh();
+    }, 3000);
+  </script>
+</body>
+
+</html>

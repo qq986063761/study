@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+
+	<script type="text/x-template" id="vmodel">
+		<div><input v-bind="$attrs" type="text" @input="onInput"></div>
+	</script>
+</head>
+
+<body>
+	<div id="app">
+		<fieldset>
+			<legend>demo</legend>
+			<p><counter ref="childComp" @on-count="onCompCount"></counter></p>
+			<!-- 
+				从父组件传入子组件定义的 props 属性，属性名用驼峰转短横线
+				.sync：如果属性是变量，则可通过 sync 修饰符配合子组件调用 this.$emit('update:属性名', val) 来达到双向操作数据
+			 -->
+			<p><counter :init-count="1" @on-count="onCompCount"></counter></p>
+			<p>
+				<input-comp placeholder="请输入" v-model="txt"></input-comp>
+				实现组件的 v-model：{{txt}}
+			</p>
+			<div>
+				动态组件：
+				<div>
+					<button @click="compName = 'counter'">点击我显示counter组件</button>
+					<button @click="compName = 'input-comp'">点击我显示 input-comp 组件</button>
+				</div>
+				<!-- keep-alive：缓存组件状态 -->
+				<keep-alive>
+					<component :is="compName"></component>
+				</keep-alive>
+			</div>
+			<p>
+				循环组件：
+				<tree :data="treeData"></tree>
+			</p>
+		</fieldset>
+
+		<fieldset>
+			<legend>slot（插槽）</legend>
+			<page>
+				<template #head="{usr}">
+					<div>头部：具名插槽，可用 v-slot: 或者 # 插入</div>
+					<div>具名插槽混合作用域插槽：{{usr}}</div>
+				</template>
+				<template v-slot="{usr}">
+					<div>主体内容：默认插槽</div>
+					<div>作用域插槽内容：{{usr}}</div>
+				</template>
+				<template #[footerslot]>
+					<div style="cursor: pointer;" 
+						@click="footerslot = footerslot === 'footer1' ? 'footer2' : 'footer1'">
+						动态插槽：{{footerslot}}
+					</div>
+				</template>
+			</page>
+		</fieldset>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+	<script>
+		var Counter = {
+			// 组件模版，模版必须包含一个根元素
+			template: '<button @click="onClick">点击我计数器增加，组件可复用，各自独立: {{count}}</button>',
+			// props：接收父组件传递的属性，属性名驼峰
+			props: {
+				initCount: Number
+			},
+			// 组件的 data 必须是函数，为了保证变量不互相污染，每次返回的都是一个新对象
+			data: function() {
+				return {
+					count: this.initCount || 0
+				}
+			},
+			methods: {
+				onClick() {
+					this.count++
+					// 传递自定义事件给父组件
+					// $root 可以获取根实例，$parent 可以获取直接父组件实例
+					this.$emit('on-count', this.count, {
+						root: this.$root,
+						parent: this.$parent
+					})
+				}
+			}
+		}
+
+		var InputComp = {
+			// x-template 模版，利用script标签包裹模版内容
+			template: '#vmodel',
+			// 禁止父组件传入的原始属性定义在组件根元素上
+			// v-bind="$attrs" v-on="$listeners" 配合 inheritAttrs 可以传递所有非 props 的其他原始属性，又不用让属性显示在根元素上
+			inheritAttrs: false, 
+			props: {
+				value: String
+			},
+			methods: {
+				onInput(e) {
+					this.$emit('input', e.target.value)
+				}
+			},
+			// keep-alive 内部组件的激活失活钩子
+			activated() {
+				console.log('activated')
+			},
+			deactivated() {
+				console.log('deactivated')
+			}
+		}
+
+		var Page = {
+			template: [
+				'<div>',
+					'<h3><slot name="head" :usr="usr"></slot></h3>',
+					'<slot :usr="usr"></slot>',
+					'<div><slot name="footer1"></slot></div>',
+					'<h5><slot name="footer2"></slot></h5>',
+				'</div>'
+			].join(''),
+			data() {
+				return {
+					usr: {
+						name: 'hello'
+					}
+				}
+			}
+		}
+		
+		// 自身循环组件
+		// 如果是互相循环的组件，为了避免死循环，可以像文档中一样在 beforeCreate 中先注册好需要的递归组件，或者使用异步组件
+		var Tree = {
+			name: 'tree',
+			inject: ['treeRoot'],
+			props: {
+				data: Array
+			},
+			template: `
+				<ul>
+					<li v-for="item in data" :key="item.label">
+						<div style="cursor: pointer;" @click="console.log('依赖注入属性', treeRoot)">{{item.label}}</div>
+						<tree :data="item.children"></tree>
+					</li>
+				</ul>
+			`
+		}
+		Vue.component('tree', Tree)
+
+		new Vue({
+			el: '#app',
+			components: {
+				// 组件也可以在外部直接全局注册：Vue.component('counter', Counter)，全局注册组件不用再引入到 vue 实例中
+				'counter': Counter,
+				// 异步组件
+				'input-comp': function (resolve, reject) {
+					setTimeout(function () {
+						resolve(InputComp)
+					}, 1000)
+				},
+				'page': Page
+			},
+			// 依赖注入，可提供属性给任意子层级的子组件使用
+			provide: function () {
+				return {
+					treeRoot: this
+				}
+			},
+			data() {
+				return {
+					txt: '',
+					compName: '',
+					footerslot: 'footer1',
+					treeData: [
+						{
+							label: 'level1',
+							children: [
+								{
+									label: 'level2',
+									children: [
+										{
+											label: 'level3'
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			},
+			methods: {
+				onCompCount(count, param2) {
+					console.log('接收来自子组件的事件 ', count, Object.assign({
+						// ref 用于获取子组件实例
+						child: this.$refs.childComp,
+					}, param2))
+				}
+			}
+		})
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>水波纹特效</title>
+	<style>
+		fieldset {
+			position: relative;
+			height: 100px
+		}
+
+		@keyframes warn {
+			0% {
+				transform: scale(1);
+				opacity: 1;
+			}
+
+			100% {
+				transform: scale(2);
+				opacity: 0.0;
+			}
+		}
+
+		/* 保持大小不变的小圆圈  */
+		.dot {
+			position: absolute;
+			left: 40px;
+			top: 40px;
+			width: 29px;
+			height: 29px;
+			border: 1px solid red;
+			border-radius: 20px;
+			z-index: 1;
+		}
+
+		/* 产生动画（向外扩散变大）的圆圈  */
+		.water {
+			position: absolute;
+			width: 29px;
+			height: 29px;
+			left: 40px;
+			top: 40px;
+			border: 1px solid red;
+			border-radius: 30px;
+			animation: warn 1s ease-out;
+			animation-iteration-count: infinite;
+			z-index: 0;
+		}
+	</style>
+</head>
+
+<body>
+	<fieldset>
+		<legend>定位波纹</legend>
+		<div class="dot"></div>
+		<div class="water"></div>
+	</fieldset>
+</body>
+
+</html>

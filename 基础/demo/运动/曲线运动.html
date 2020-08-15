@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			body{
+				overflow: hidden;
+			}
+			
+			.svt{
+				position: relative;
+				width: 500px;
+				height: 500px;
+				border: 1px solid gray;
+				border-radius: 500px;
+			}
+			
+			.body{
+				position: absolute;
+				width: 100px;
+				height: 100px;
+				background: red;
+				border-radius: 200px;
+				text-align: center;
+				line-height: 100px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="svt"><div class="body">匀速圆周运动</div></div>
+		<script>
+			window.onload = function(e){
+				/*-------- 匀速圆周运动  --------*/
+				(function(){
+					var ele = document.querySelector('.svt .body');
+					var r = 250; //大圆半径
+					var tR = 50; //本身半径
+					var left = r - tR;//初始位置
+					var top = r*2 - tR;//初始位置
+					var angle = 0; //度数
+					ele.style.left = left + 'px';
+					ele.style.top = top + 'px';
+					setInterval(function(){
+						//角度改变
+						angle++;
+						var radius = angleToRadius(angle);
+						
+						//根据角度计算出宽高,并计算出适合的left和top
+						var width = r * Math.sin(radius);
+						var height = r * Math.cos(radius);
+						left = r + width - tR;
+						top = r + height - tR;
+						
+						if(angle >= 360){
+							angle = 0;
+						}
+						
+						ele.style.left = left + 'px';
+						ele.style.top = top + 'px';
+					},30);
+				})();	
+			};
+			
+			function angleToRadius(angle){
+				return (angle * Math.PI / 180);
+			}
+			
+			function checkObjIsExit(obj){
+				var isNoExit = (obj === undefined || obj === null || obj === '' || obj.length === 0 || obj === 'undefined' ||
+					obj === 'null');
+			    if(isNoExit){
+			        return false;
+			    }else{
+			        return true;
+			    }
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			table{
+				table-layout: fixed;
+				border-collapse: collapse;
+			}
+			
+			td,th{
+				border: 1px solid lightgray;
+			}
+		</style>
+	</head>
+	<body>
+		<!-- 导入 -->
+		<input id="f" type="file" style="float: left;"/>
+		<!-- 导出 -->
+		<button id="btn" type="button" style="float:right">导出成表格</button>
+
+		<!-- 数据 -->
+        <div id="demo" style="float: left;"></div>
+		
+		<a id="hf" href="" download="下载文件.xlsx"></a>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.12.8/xlsx.full.min.js"></script>
+		<script>
+			/*
+			FileReader共有4种读取方法：
+			1.readAsArrayBuffer(file)：将文件读取为ArrayBuffer。
+			2.readAsBinaryString(file)：将文件读取为二进制字符串
+			3.readAsDataURL(file)：将文件读取为Data URL
+			4.readAsText(file, [encoding])：将文件读取为文本，encoding缺省值为'UTF-8'
+			*/
+			
+			document.getElementById('f').onchange = function(e){
+				parseXls(this, function( data ) {
+					var html = '<table id="dataTable"><thead><tr>';
+					
+					//表头数据
+					var mObj = data.getMaxLengthKeyObj().obj;
+					var mIndex = 0;
+					var keyArr = [];//用于后面渲染数据的时候判断不存在的key值可以用null代替
+					for(var j in mObj){
+						html += '<th data-id="'+ j +'" data-index="'+ (mIndex++) +'">'+ j +'</th>'
+						keyArr.push(j);
+					}
+					
+					html += '</thead><tbody>';
+					
+					//表体数据
+					for(var i = 0;i < data.length;i++){
+						var obj = data[i];
+						
+						html += '<tr>';
+						
+						for(var k = 0;k < keyArr.length;k++){
+							var key = keyArr[k];
+							//如果存在属性就赋值，否则赋空值
+							var flag = isContainsKey(obj,key);
+							if(flag){
+								html += '<td data-id="'+ key +'">' + obj[key] + '</td>';
+							}else{
+								html += '<td data-id="null">null</td>';
+							}
+						}
+						
+						html += '</tr>';
+					}
+					
+					html += '</tbody></table>';
+					
+					document.getElementById('demo').innerHTML = html;
+				});
+			};
+			
+			//导出
+			document.getElementById('btn').onclick = function(e){
+	            	var importData = [];
+	            	
+	            	var table = document.getElementById('dataTable');
+	            	
+	            	var trs = table.getElementsByTagName('tr');
+	            	
+	            	for(var r = 0;r < trs.length;r++){
+	            		var obj = {};
+	            		var ele = trs[r];
+	            		
+	            		//获取表头信息和表体信息
+	            		if(r === 0){
+	            			var ths = ele.getElementsByTagName('th');
+	            			for(var s = 0;s < ths.length;s++){
+	            				var th = ths[s];
+	            				var key = th.getAttribute('data-id');
+	            				obj[key] = th.innerText;
+	            			}
+	            		}else{
+	            			var tds = ele.getElementsByTagName('td');
+	            			for(var t = 0;t < tds.length;t++){
+	            				var td = tds[t];
+	            				var key = td.getAttribute('data-id');
+	            				
+	            				if(key != "null"){
+	            					obj[key] = td.innerText;
+	            				}
+	            			}
+	            		}
+	            		
+	            		importData.push(obj);
+	            	}
+	            	
+	            	downloadExl(importData,'万鹏');
+	            };
+
+
+			Array.prototype.getMaxLengthKeyObj = Array.prototype.getMaxLengthKeyObj || function() {
+		    	var maxLength = 0;
+		    	var maxObj = null;
+		    	var maxIdx = 0;
+		    	
+		    	function getObjLen(obj){
+		    		var cal = 0;
+		    		for(var k in obj){
+		    			cal++;
+		    		}
+		    		
+		    		return cal;
+		    	}
+		    	
+		    	for(var i = 0;i < this.length;i++){
+		    		var obj = this[i];
+		    		var objLen = getObjLen(obj);
+		    		if(objLen > maxLength){
+		    			maxLength = objLen;
+		    			maxObj = obj;
+		    			maxIdx = i;
+		    		}
+		    	}
+		    	
+		    	return {
+		    		length:maxLength,
+		    		obj:maxObj,
+		    		index:maxIdx
+		    	}
+		    };
+			
+			//判断json对象是否包含某key属性
+			function isContainsKey(obj,key){
+				for(var i in obj){
+					if(i == key){
+						return true;
+					}
+				}
+				
+				return false;
+			}
+			
+			/*------------------- 导入   ----------------------*/
+			var wb;//读取完成的数据
+	        var rABS = false; //是否将文件读取为二进制字符串
+
+            function parseXls(obj,callBack) {
+                if(!obj.files) {
+                    return;
+                }
+                var f = obj.files[0];
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var data = e.target.result;
+                    if(rABS) {
+                        wb = XLSX.read(btoa(fixdata(data)), {//手动转化
+                            type: 'base64'
+                        });
+                    } else {
+                        wb = XLSX.read(data, {
+                            type: 'binary'
+                        });
+                    }
+                    //wb.SheetNames[0]是获取Sheets中第一个Sheet的名字
+                    //wb.Sheets[Sheet名]获取第一个Sheet的数据
+                    var xlsData = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]); 
+                    
+                    //回调给调用者数据
+                    callBack( xlsData );
+                };
+                
+                if(rABS) {
+                    reader.readAsArrayBuffer(f);
+                } else {
+                    reader.readAsBinaryString(f);
+                }
+            }
+            
+            function fixdata(data) { //文件流转BinaryString
+                var o = "",
+                    l = 0,
+                    w = 10240;
+                for(; l < data.byteLength / w; ++l){
+                	o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w, l * w + w)));
+                }
+                
+                o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w)));
+                
+                return o;
+            }
+            
+            /*----------------- 导出   -----------------*/
+            var tmpDown; //导出的二进制对象
+            function downloadExl(json,fileName,type) {
+                var keyMap = [];//获取键
+                for(k in json[0]) {
+                    keyMap.push(k);
+                }
+                var tmpdata = [];//用来保存转换好的json 
+                json.map((v, i) => keyMap.map((k, j) => Object.assign({}, {
+                    v: v[k],
+                    position: (j > 25 ? getCharCol(j) : String.fromCharCode(65 + j)) + (i + 1)
+                }))).reduce((prev, next) => prev.concat(next)).forEach((v, i) => tmpdata[v.position] = {
+                    v: v.v
+                });
+                var outputPos = Object.keys(tmpdata); //设置区域,比如表格从A1到D10
+                var tmpWB = {
+                    SheetNames: ['mySheet'], //保存的表标题
+                    Sheets: {
+                        'mySheet': Object.assign({},
+                            tmpdata, //内容
+                            {
+                                '!ref': outputPos[0] + ':' + outputPos[outputPos.length - 1] //设置填充区域
+                            })
+                    }
+                };
+                tmpDown = new Blob([s2ab(XLSX.write(tmpWB, 
+                    {bookType: (type == undefined ? 'xlsx':type),bookSST: false, type: 'binary'}//这里的数据是用来定义导出的格式类型
+                    ))], {
+                    type: ""
+                }); //创建二进制对象写入转换好的字节流
+                var href = URL.createObjectURL(tmpDown); //创建对象超链接
+                var dA = document.getElementById("hf");
+                dA.href = href; //绑定a标签
+                dA.setAttribute('download', fileName + ".xlsx");
+                dA.click(); //模拟点击实现下载
+                
+                setTimeout(function() { //延时释放
+                    URL.revokeObjectURL(tmpDown); //用URL.revokeObjectURL()来释放这个object URL
+                }, 100);
+            }
+
+            function s2ab(s) { //字符串转字符流
+                var buf = new ArrayBuffer(s.length);
+                var view = new Uint8Array(buf);
+                for(var i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+                return buf;
+            }
+            // 将指定的自然数转换为26进制表示。映射关系：[0-25] -> [A-Z]。
+            function getCharCol(n) {
+                let temCol = '',
+                    s = '',
+                    m = 0
+                while(n > 0) {
+                    m = n % 26 + 1
+                    s = String.fromCharCode(m + 64) + s
+                    n = (n - m) / 26
+                }
+                return s
+            }
+		</script>
+	</body>
+</html>

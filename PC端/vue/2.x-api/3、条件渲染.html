@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <fieldset id="app">
+		<legend>demo</legend>
+		<p>输入 a 则 v-if 显示，输入 b 则 v-else-if 显示，否则 v-else 显示；输入 c 则 v-show 显示: <input v-model="val"></p>
+		<p v-if="'a' === val">v-if</p>
+		<p v-else-if="'b' === val">v-else-if</p>
+		<p v-else>v-else</p>
+		<p v-show="'c' === val">v-show</p>
+  </fieldset>
+  
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        val: ''
+      }
+    })
+  </script>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <style>
+    html,
+    body {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .scroller {
+      position: absolute;
+      left: 1rem;
+      top: 1rem;
+      right: 1rem;
+      bottom: 1rem;
+      border-radius: 4px;
+      border: 1px solid gray;
+      overflow: auto;
+    }
+
+    .content {
+      position: relative;
+      height: 2000px;
+      padding: 20px;
+    }
+
+    #btn {
+      position: absolute;
+      transition: none !important;
+    }
+
+    #btnTip {
+      position: absolute;
+      transition: none !important;
+    }
+
+    .popover {
+      padding: 20px;
+      border: 1px solid #999;
+      border-radius: 4px;
+      z-index: 1;
+    }
+
+    .popover[x-placement^=bottom] {
+      margin-top: 12px;
+    }
+    .popover[x-placement^=right] {
+      margin-left: 12px;
+    }
+    .popover[x-placement^=top] {
+      margin-bottom: 12px;
+    }
+    .popover[x-placement^=left] {
+      margin-right: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div id="scroller" class="scroller">
+    <div class="content">
+      <button class="el-button el-button--primary is-plain" id="btn" type="button">popper 参考元素</button>
+      <button class="el-button el-button--danger is-plain" id="btnTip" type="button">tooltip 参考元素</button>
+    </div>
+  </div>
+  
+  <div id="popper" class="popover">
+    <div class="popover-arrow" x-arrow></div>
+    Hello Popper.js
+  </div>
+
+  <script src="https://unpkg.com/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="https://unpkg.com/tooltip.js@1.3.3/dist/umd/tooltip.min.js"></script>
+  <script>
+    var btn = document.getElementById('btn');
+    var btnTip = document.getElementById('btnTip'); 
+    var popperEl = document.getElementById('popper');
+    var scroller = document.getElementById('scroller');
+    
+    // 初始化 popper 实例
+    // popper.destroy() // 销毁实例
+    // popper.enableEventListeners() // 允许内部事件逻辑
+    // popper.disableEventListeners() // 禁止内部事件逻辑
+    var popper = new Popper(btn, popperEl, {
+      // 定位 left top right bottom，后面可接 -start -end
+      placement: 'right',
+      // 其他修饰配置
+      modifiers: {
+        // 控制到达边界之后的翻转行为
+        flip: {
+          behavior: ['right', 'bottom', 'top']
+        },
+        // 偏移相关配置
+        offset: {
+          offset: '10px'
+        },
+        // 边界配置
+        preventOverflow: {
+          // 边界元素，默认：scrollParent，还有 window, viewport，或者直接配置一个 dom 元素；
+          boundariesElement: scroller,
+        },
+        // popper的arrow箭头配置，展示样式用户自己设置，对应轴线上的定位由插件完成
+        // 默认只要内部元素含x-arrow属性则会被作为当前popper的箭头元素
+        // arrow: {
+        //   element: 'x-arrow'
+        // }
+      }
+    });
+
+    var tooltip = new Tooltip(btnTip, {
+      // 同 popper
+      placement: 'bottom',
+      // 提示文案
+      title: "这个按钮是可以拖动的哟~",
+      // 希望 tooltip 所在容器
+      container: 'body',
+      // 触发方式 默认 hover
+      // trigger: "click",
+    });
+
+    // 以下代码只是方便测试用
+    var dragging = null;
+    btn.style.left = 300 + 'px';
+    btn.style.top = 400 + 'px';
+    btnTip.style.left = 200 + 'px';
+    btnTip.style.top = 200 + 'px';
+    var startLeft = 0;
+    var startTop = 0;
+    var x = 0;
+    var y = 0;
+    btn.onmousedown = function (event) {
+      dragging = 'btn';
+      startLeft = Number(btn.style.left.split('px')[0]);
+      startTop = Number(btn.style.top.split('px')[0]);
+      x = event.clientX;
+      y = event.clientY;
+    }
+    btnTip.onmousedown = function (event) {
+      dragging = 'btnTip';
+      startLeft = Number(btnTip.style.left.split('px')[0]);
+      startTop = Number(btnTip.style.top.split('px')[0]);
+      x = event.clientX;
+      y = event.clientY;
+    }
+
+    document.onmouseup = function () {
+      dragging = false;
+    }
+
+    document.onmousemove = function (event) {
+      if (!dragging) return;
+
+      switch (dragging) {
+        case 'btn':
+          btn.style.left = (startLeft + event.clientX - x) + 'px';
+          btn.style.top = (startTop + event.clientY - y) + 'px';
+          // 更新 popper 状态
+          popper.update();
+          break;
+
+        case 'btnTip':
+          btnTip.style.left = (startLeft + event.clientX - x) + 'px';
+          btnTip.style.top = (startTop + event.clientY - y) + 'px';
+          break;
+      
+        default:
+          break;
+      }
+    }
+  </script>
+</body>
+</html>

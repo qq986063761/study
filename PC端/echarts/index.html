@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .wrapper {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .wrapper > div {
+      width: 50%;
+      height: 500px;
+    }
+
+    .wrapper .w100 {
+      width: 100%;
+    }
+
+    #chinaMap {
+      margin: 0 auto;
+      height: 437px;
+      width: 650px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrapper">
+    <div id="barAndLine"></div>
+    <div id="radar"></div>
+    <div id="pie"></div>
+    <div class="w100"><div id="chinaMap"></div></div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/4.2.1-rc1/echarts.js"></script>
+  <script src="./barAndLine.js"></script>
+  <script src="./radar.js"></script>
+  <script src="./pie.js"></script>
+  <script src="./chinaData.js"></script>
+  <script src="./chinaMap.js"></script>
+  <script>
+    echarts.registerMap('china', chinaJson);
+
+    const chart = echarts.init(document.getElementById('barAndLine'));
+    const chart1 = echarts.init(document.getElementById('radar'));
+    const chart2 = echarts.init(document.getElementById('pie'));
+    const chart3 = echarts.init(document.getElementById('chinaMap'));
+    initBarAndLine(chart);
+    initRadar(chart1);
+    initPie(chart2);
+    initChinaMap(chart3);
+    
+    window.onresize = function () {
+      chart.resize();
+      chart1.resize();
+      chart2.resize();
+      chart3.resize();
+    }
+  </script>
+</body>
+
+</html>

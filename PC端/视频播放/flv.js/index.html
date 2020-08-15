@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <video id="video" width="50%" controls></video>
+  <fieldset>
+    <legend>操作</legend>
+    <button id="btnPlay">播放</button>
+    <button id="btnPause">暂停</button>
+  </fieldset>
+
+  <script src="https://cdn.bootcss.com/flv.js/1.5.0/flv.min.js"></script>
+  <script>
+    if (flvjs.isSupported()) {
+      var video = document.getElementById('video');
+      
+      // 创建播放器实例
+      var player = flvjs.createPlayer({
+        type: 'mp4',
+        url: 'http://www.w3school.com.cn/example/html5/mov_bbb.mp4'
+      });
+
+      player.attachMediaElement(video); // 
+      player.load(); // 加载资源
+
+      btnPlay.onclick = function () {
+        player.play(); // 播放
+      }
+      btnPause.onclick = function () {
+        player.pause(); // 暂停
+      }
+    }
+  </script>
+</body>
+</html>

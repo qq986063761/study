@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 固定样式 */
+        .fixed-top {
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+
+        /* 常规样式 */
+        nav {
+            position: relative;
+            height: 100px;
+            background-color: dodgerblue;
+        }
+        article:first-child {
+            height: 100px;
+        }
+        .content2 {
+            height: 10000px;
+        }
+    </style>
+</head>
+<body id="app">
+    <article></article>
+    <nav id="nav"></nav>
+    <article class="content2"></article>
+    <script>
+        var nav = document.getElementById('nav')
+
+        document.getElementById('app').onscroll = function(ev) {
+            if (ev.target.scrollingElement.scrollTop >= 100) {
+                if (!nav.classList.contains('fixed-top')) {
+                    nav.classList.add('fixed-top')
+                }
+            } else {
+                nav.classList.remove('fixed-top')
+            }
+        }
+    </script>
+</body>
+</html>

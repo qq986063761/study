@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		/* 开始和结束的中间状态，可在此时设置动画，则会以动画时间区间为两端 */
+		.fade-enter-active,
+		.fade-leave-active {
+			transition: opacity .3s ease;
+		}
+
+		/* 开始和结束的终端状态 */
+		.fade-enter,
+		.fade-leave-to {
+			opacity: 0;
+		}
+
+		.collapse-container {
+			overflow: hidden;
+			margin: 0;
+			transition: max-height .2s ease-in-out;
+		}
+
+		.list-enter-active, .list-leave-active {
+			transition: all 1s;
+		}
+		.list-leave-active {
+			position: absolute;
+		}
+		.list-enter, .list-leave-to {
+			opacity: 0;
+			transform: translateY(30px);
+		}
+		.item-container {
+			display: flex;
+			width: 300px;
+    	flex-wrap: wrap;
+		}
+		.item {
+			margin-right: 10px;
+			transition: all 1s;
+		}
+	</style>
+</head>
+
+<body>
+	<fieldset id="app">
+		<legend>demo</legend>
+		<div>
+			<button @click="show = !show">基本过渡</button>
+			<!-- 过渡组件
+				mode：过渡模式 
+			-->
+			<transition name="fade" mode="out-in">
+				<!-- 多个元素过渡时最好用 key 做唯一区分，否则会因为 vue 缓存机制导致没有效果 -->
+				<span v-if="show" key="true">hello</span>
+				<span v-else key="false">暂时未显示</span>
+			</transition>
+		</div>
+
+		<div>
+			<button @click="show1 = !show1">js钩子过渡</button>
+			<transition
+				@before-enter="onBeforeEnter"
+				@enter="onEnter"
+				@after-enter="onAfterEnter"
+				@enter-cancelled="onEnterCancelled"
+				@before-leave="onBeforeLeave"
+				@leave="onLeave"
+				@after-leave="onAfterLeave"
+				@leave-cancelled="onLeaveCancelled">
+				<ul class="collapse-container" v-show="show1">
+					<li v-for="num in 10">item {{num}}</li>
+				</ul>
+			</transition>
+		</div>
+
+		<div>
+			<transition
+				name="fade"
+				appear
+			>
+			<span>初始化过渡：用于只需要渲染时过渡一次的场景</span>
+			</transition>
+		</div>
+
+		<div>
+			列表过渡：
+			<button @click="add">添加</button>
+			<button @click="remove">减少</button>
+			<button @click="shuffle">洗牌</button>
+			<transition-group class="item-container" name="list" tag="div">
+				<!-- key 是必须要保持唯一的，否则过渡动画出现的位置就会有问题 -->
+				<div v-for="item in items" :key="item" class="item">
+					{{ item }}
+				</div>
+			</transition-group>
+		</div>
+	</fieldset>
+
+	<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.min.js"></script>
+	<script>
+		new Vue({
+			el: '#app',
+			data: {
+				show: false,
+				show1: false,
+				items: [1, 2, 3, 4, 5, 6],
+				nextNum: 7
+			},
+			methods: {
+				randomIndex: function () {
+					return Math.floor(Math.random() * this.items.length)
+				},
+				add: function () {
+					this.items.splice(this.randomIndex(), 0, this.nextNum++)
+				},
+				remove: function () {
+					this.items.splice(this.randomIndex(), 1)
+				},
+				shuffle: function () {
+					this.items = _.shuffle(this.items)
+				},
+				onBeforeEnter(el) {
+					el.style.maxHeight = 0
+					console.log('before-enter', el.offsetHeight)
+				},
+				onEnter(el, done) {
+					console.log('enter', el.offsetHeight, el.scrollHeight)
+					el.style.maxHeight = el.scrollHeight + 'px'
+					done()
+				},
+				onAfterEnter(el) {
+					console.log('after-enter', el.offsetHeight)
+				},
+				onEnterCancelled(el) {
+					console.log('enter-cancelled', el.offsetHeight)
+				},
+				onBeforeLeave(el) {
+					console.log('before-leave', el.offsetHeight)
+				},
+				onLeave(el, done) {
+					el.style.maxHeight = 0
+					console.log('leave', el.offsetHeight)
+					setTimeout(() => {
+						done()
+					}, 400);
+				},
+				onAfterLeave(el) {
+					console.log('after-leave', el.offsetHeight)
+				},
+				onLeaveCancelled(el) {
+					console.log('leave-cancelled', el.offsetHeight)
+				}
+			}
+		})
+	</script>
+</body>
+
+</html>

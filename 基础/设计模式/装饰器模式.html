@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <fieldset>
+    <legend>操作</legend>
+    <button id="btn1">低配车</button>
+    <button id="btn2">自动驾驶装饰的低配车</button>
+  </fieldset>
+
+  <script>
+    /*
+      装饰器模式作用：不改变现有接口，追加功能
+    */
+   
+    class Car {
+      drive() {
+        alert('低配车启动')
+      }
+    }
+    
+    // 装饰器
+    function autopilotDecorator(car) {
+      const oldDrive = car.drive
+      car.drive = function () {
+        oldDrive.apply(car, arguments)
+        alert('启动自动驾驶')
+      }
+
+      return car
+    }
+
+    btn1.onclick = function () {
+      new Car().drive()
+    }
+
+    btn2.onclick = function () {
+      let car = autopilotDecorator(new Car())
+      car.drive()
+    }
+  </script>
+</body>
+</html>

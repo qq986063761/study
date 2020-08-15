@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>翻页</title>
+    <style>
+        .book {
+            position: relative;
+            display: inline-block;
+            margin: 20rem;
+            width: 200px;
+            height: 300px;
+            border-radius: 4px;
+            background: green;
+            border: 1px solid #e1e1e1;
+            transition: all .3s;
+        }
+        .book:before {
+            position: absolute;
+            display: inline-block;
+            right: 0;
+            top: 0;
+            content: '';
+            border-width: 0;
+            border-style: solid;
+            border-color: #fff #fff rgba(255, 255, 255, .3) rgba(255, 255, 255, .3);
+            border-radius: 0 0 0 4px;
+            transition: all .3s;
+        }
+        .book:not(.open):hover:before {
+            border-right-width: 80px;
+            border-bottom-width: 80px;
+        }
+        .book.open:before {
+            border-right-width: 400px;
+            border-bottom-width: 600px;
+        }
+        .book.open {
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="book" class="book" ></div>
+    <script>
+        document.getElementById('book').onclick = function(ev) {
+            if (ev.target.classList.contains('open')) {
+                ev.target.classList.remove('open')
+            } else {
+                ev.target.classList.add('open')
+            }
+        }
+    </script>
+</body>
+</html>

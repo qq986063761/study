@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+	<div id="app">
+		<fieldset>
+			<legend>demo</legend>
+			<p>
+				混入一些复用属性：
+				<input-comp></input-comp>
+			</p>
+		</fieldset>
+	</div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script>
+		// 混入对象，用于多组件内属性复用
+		var mixin = {
+			data: function () { 
+				return {
+					placeholder: '请输入'
+				}
+			}
+		}
+
+		// 指令
+		var focusDirect = {
+			// 初始化绑定触发一次
+			bind: function (el, binding, vnode, oldVnode) {
+				// console.log('bind', el, binding, vnode, oldVnode)
+			},
+			// 元素插入到父节点下时触发，父节点不一定插入到文档中
+			inserted: function (el, binding, vnode, oldVnode) {
+				// console.log('inserted', el, binding, vnode, oldVnode)
+				el.focus()
+			},
+			// 组件 vnode 和子 vnode 全更新后触发
+			componentUpdated(el, binding, vnode, oldVnode) {
+				// console.log('componentUpdated', el, binding, vnode, oldVnode)
+			},
+			// 元素和指令解绑时触发
+			unbind(el, binding, vnode, oldVnode) {
+				// console.log('unbind', el, binding, vnode, oldVnode)
+			}
+		}
+
+		// Vue.extend 用于生成组件构造器
+		var InputComp = Vue.extend({
+			// 局部混入，也可通过 Vue.mixin 全局混入
+			mixins: [mixin],
+			// 局部注册指令，也可以通过 Vue.directive 全局混入
+			directives: {'focus': focusDirect},
+			// 局部过滤器 
+			filters: {
+				spaceFilter: function (value, param1) {
+					return value.split('').join(param1)
+				}
+			},
+			template: `<div><input type="text" :placeholder="placeholder" v-focus v-model="txt"> 过滤掉非数字文本：{{txt | numFilter | spaceFilter(',')}}</div>`,
+			data() {
+				return {
+					txt: ''
+				}
+			}
+		})
+
+		// 插件
+		var plugin = {
+			install(Vue, opts) {
+				console.log('插件开始注册：', opts)
+				// 插件内定义一些全局的对象、组件、混入、指令、过滤器等
+				Vue.prototype.$ajax = {}
+
+				// 全局过滤器
+				Vue.filter('numFilter', function (value) {
+					return value.replace(/\D/g, '')
+				})
+			}
+		}
+		// 注册插件
+		Vue.use(plugin, {a: 1})
+
+    new Vue({
+			el: '#app',
+			components: {InputComp},
+      data: {
+				
+      }
+    })
+  </script>
+</body>
+</html>

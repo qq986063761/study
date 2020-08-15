@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <fieldset id="app">
+		<legend>demo</legend>
+		<head-list :level="5"></head-list>
+		<div>
+			<fn-comp data-id="fn" txt="函数式组件">
+				<template v-slot:head="props">
+					<div>作用域插槽:head {{props}}</div>
+				</template>
+				<template v-slot="props">
+					<div>作用域插槽:default {{props}}</div>
+				</template>
+				<div>基本插槽：default</div>
+			</fn-comp>
+		</div>
+	</fieldset>
+  
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script>
+		Vue.directive('blue', function (el) {
+			el.style.background = 'skyblue'
+		})
+
+		var HeadItem = {
+			props: {
+				level: {
+					type: Number
+				}
+			},
+			render(createElement) {
+				return createElement(
+					'h' + this.level, // 标签
+					[
+						this.$slots.default, // 引入默认插槽
+						this.$scopedSlots.header(this.level), // 引入作用域插槽，可以传递参数
+						this.$scopedSlots.default(this.level)
+					]
+				)
+			}
+		}
+
+		var HeadList = {
+			components: {
+				'head-item': HeadItem
+			},
+			props: {
+				level: {
+					type: Number,
+					required: true
+				}
+			},
+			mounted() {
+				console.log('访问子组件实例', this.$refs)
+			},
+			render(createElement) {
+				const arr = []
+				let level = 1
+				while (level <= this.level) {
+					var curLevel = level
+					arr.push(createElement(
+						'head-item',
+						{
+							// 标签名是组件时的组件 prop
+							props: {
+								level: level
+							},
+							// 仅支持组件标签上注册原生事件
+							nativeOn: {
+								click: function (e) {
+									alert('native-click')
+								}
+							},
+							// 定义作用域插槽，组件内部可通过 this.$scopedSlots 访问内部函数调用获取渲染结果
+							scopedSlots: {
+								header: props => {
+									return createElement('div', 'scopedSlots header' + props)
+								},
+								default: props => {
+									return createElement('div', 'scopedSlots default' + props)
+								}
+							},
+							// 其他属性
+							key: 'item' + level,
+							// 组件实例
+							ref: 'item',
+							// 如果 ref 是遍历组件，则设置为 true，让 ref 变成数组用于访问
+							refInFor: true
+						},
+						'slot default'
+					))
+					level++
+				}
+				return createElement(
+					'div',
+					{
+						// 类名
+						class: {
+							container: true
+						},
+						// 样式
+						style: {
+							color: 'red'
+						},
+						// 原始属性
+						attrs: {
+							id: 'wrap'
+						},
+						// DOM 属性
+						domProps: {
+							// innerHTML: 'baz'
+						},
+						// 事件，但不支持修饰符
+						on: {
+							click: function (e) {
+								alert('click')
+							}
+						},
+						// 使用指令
+						directives: [
+							{
+								name: 'blue',
+								value: 'blue'
+							}
+						]
+					},
+					 arr
+					)
+			}
+		}
+
+    new Vue({
+			el: '#app',
+			components: {
+				'head-list': HeadList,
+				'fn-comp': {
+					// 函数式组件，脱离响应式，只接收一些简单的 prop，没有 this
+					// 函数组件更适合类似封装过渡组件在内部，如 element 的折叠过渡组件
+					functional: true,
+					props: {
+						txt: String
+					},
+					render(createElement, context) {
+						console.log('函数式组件上下文', context, context.slots())
+
+						return createElement('div', {
+							on: {
+								click: function () {
+									
+								}
+							}
+						}, [
+							context.props.txt,
+							context.children, // 子节点数组
+							// context.slots().default, // slots() 返回所有 slot 内容
+							context.scopedSlots.head('props 内容'), // 作用域插槽
+							context.scopedSlots.default('props 内容')
+						])
+					}
+				}
+			}
+    })
+  </script>
+</body>
+</html>

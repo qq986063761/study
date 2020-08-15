@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>vue</title>
+	<style>
+		[v-cloak] {
+			display: none;
+		}
+	</style>
+</head>
+
+<body>
+	<!-- v-cloak 指令用于解决 vue 编译完成之前会显示原始html内容然后再显示编译后的内容这种不好的闪动体验 -->
+
+	<div id="app" v-cloak>
+		<fieldset>
+			<legend>demo</legend>
+			<p v-once>v-once 指令只会初始化渲染一次：{{ msg }}</p>
+			<p v-html="html"></p>
+			<p :title="attr">{{ attr }}</p>
+			<template>template 自身不会占用dom元素位置</template>
+			<p v-pre><span v-html=asfasfasf>v-pre：展示原始内容，不会编译子元素</span></p>
+		</fieldset>
+
+		<fieldset>
+			<legend>表单</legend>
+			<form>
+				<!-- 修饰符
+					.number：自动转换成 number 类型
+					.lazy：change 后再更新值
+					.trim：去掉收尾空格
+				-->
+				<p><label>文本: <input id="txt" type="text" v-model.number="form.txt" placeholder="请输入"> {{form.txt}}</label></p>
+				<p><label>单个复选: <input type="checkbox" v-model="form.checked"> {{form.checked}}</label></p>
+				<p>
+					多个复选: 
+					<label><input type="checkbox" value="option1" v-model="form.checkeds">选项1</label>
+					<label><input type="checkbox" value="option2" v-model="form.checkeds">选项2</label>
+					{{form.checkeds}}
+				</p>
+				<p>
+					单选: 
+					<label><input type="radio" value="option1" v-model="form.radio">选项1</label>
+					<label><input type="radio" value="option2" v-model="form.radio">选项2</label>
+					{{form.radio}}
+				</p>
+				<p>
+					单项下拉选择: 
+					<select v-model="form.selected">
+						<option disabled value="">请选择</option>
+						<option value="option1">option1</option>
+						<option value="option2">option2</option>
+					</select>
+					{{form.selected}}
+				</p>
+				<p>
+					多项选择: 
+					<select v-model="form.selecteds" multiple>
+						<option value="option1">option1</option>
+						<option value="option2">option2</option>
+					</select>
+					{{form.selecteds}}
+				</p>
+			</form>
+		</fieldset>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+	<script>
+		setTimeout(() => {
+			var vm = new Vue({
+				el: '#app',
+				data: {
+					msg: '{{ msg }} 双括号表示插入表达式结果到当前位置',
+					html: '<a href="">v-html 指令可以插入html字符串</a>',
+					attr: 'v-bind: 或 :（缩写的v-bind） 可以动态绑定属性',
+					form: {
+						txt: '',
+						checked: false,
+						checkeds: [],
+						radio: '',
+						selected: '',
+						selecteds: []
+					}
+				},
+				beforeCreate: function () {
+					console.log('beforeCreate：数据响应式开始之前');
+				},
+				created: function () {
+					console.log('created：数据响应式完成');
+				},
+				beforeMount: function () {
+					console.log('beforeMount：el 或 template 编译成 render 之后')
+				},
+				mounted: function () {
+					console.log('mounted：vm.$el 替换 el 之后，整个 vue 应用挂载完成');
+				},
+				beforeDestroy: function () {
+					console.log('beforeDestroy');
+				},
+				destroyed: function () {
+					console.log('destroyed');
+				}
+			});
+		}, 1000);
+	</script>
+</body>
+
+</html>

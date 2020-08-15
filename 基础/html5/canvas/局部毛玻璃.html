@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    name="viewport">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>局部毛玻璃</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    .blur-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+
+    .blur-wrapper img {
+      filter: blur(20px);
+    }
+
+    #canvas {
+      position: absolute;
+      left: 0;
+      top: 0;
+      z-index: 8;
+    }
+  </style>
+</head>
+
+<body>
+  <button id="btnReset">重置</button>
+  <button id="btnShow">显示</button>
+  <div id="wrapper" class="blur-wrapper">
+    <img src="./demo.jpg">
+    <canvas id="canvas"></canvas>
+  </div>
+  <script>
+    var width = 0;
+    var height = 0;
+    // 剪辑区域
+    var clipRect = {
+      x: 400,
+      y: 200,
+      r: 50
+    };
+
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
+    var image = new Image();
+
+    image.onload = function (e) {
+      init();
+    };
+
+    image.src = './demo.jpg';
+
+    function init() {
+      width = wrapper.offsetWidth;
+      height = wrapper.offsetHeight;
+
+      canvas.width = width;
+      canvas.height = height;
+      draw(image, clipRect);
+    }
+
+    // 绘制图片
+    function draw(image, clipRect) {
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      context.save();
+      setClipRect(clipRect);
+      context.drawImage(image, 0, 0);
+      context.restore();
+    }
+
+    // 设置剪辑区域
+    function setClipRect(clipRect) {
+      context.beginPath();
+      context.arc(clipRect.x, clipRect.y, clipRect.r, 0, Math.PI * 2, false);
+      context.clip();
+    }
+
+    btnReset.onclick = function (e) {
+      clipRect.r = 50;
+      clipRect.x = clipRect.r + Math.random() * (width - clipRect.r * 2);
+      clipRect.y = clipRect.r + Math.random() * (height - clipRect.r * 2);
+      draw(image, clipRect);
+    }
+
+    btnShow.onclick = function (e) {
+      var max = Math.max(width, height);
+      var timer = setInterval(function (e) {
+        clipRect.r += 20;
+        draw(image, clipRect);
+        if (max <= clipRect.r) {
+          clearInterval(timer);
+        }
+      }, 30);
+    }
+  </script>
+</body>
+
+</html>
