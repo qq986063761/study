@@ -20,7 +20,6 @@
 - [防撤回插件](https://github.com/huiyadanli/RevokeMsgPatcher)
 - [itellyou](https://msdn.itellyou.cn)
 - [谷歌性能分析](https://accounts.google.com/signin/v2/identifier?service=analytics&passive=1209600&continue=https%3A%2F%2Fanalytics.google.com%2Fanalytics%2Fweb%2F%23&followup=https%3A%2F%2Fanalytics.google.com%2Fanalytics%2Fweb%2F&flowName=GlifWebSignIn&flowEntry=ServiceLogin)
-- [leetcode]
 - [radius demo](https://9elements.github.io/fancy-border-radius/)
 
 # 当前
