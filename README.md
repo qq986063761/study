@@ -22,6 +22,7 @@
 - [谷歌性能分析](https://accounts.google.com/signin/v2/identifier?service=analytics&passive=1209600&continue=https%3A%2F%2Fanalytics.google.com%2Fanalytics%2Fweb%2F%23&followup=https%3A%2F%2Fanalytics.google.com%2Fanalytics%2Fweb%2F&flowName=GlifWebSignIn&flowEntry=ServiceLogin)
 - [radius demo](https://9elements.github.io/fancy-border-radius/)
 - [茂神的学习文档](https://notes.fe-mm.com/software/webstorm.html#%E8%8E%B7%E5%8F%96%E8%AE%B8%E5%8F%AF%E8%AF%81)
+- [material](https://material.io/components/dialogs)
 
 # 当前
 - 研究两个组件，分割面板
