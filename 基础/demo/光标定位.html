@@ -25,11 +25,36 @@
 </head>
 
 <body>
-  <button onclick="onSetSelection()">设置光标</button>
-  <input id="input" type="text">
+  <button onclick="onSetSelection()">设置光标位置</button>
+  <input id="input" type="text" oninput="onGetSelection()">
   <div id="editor" contenteditable></div>
   <script>
-    // 设置光标
+    function onSetSelection() {
+      setSelection(editor, editor.innerText.length)
+    }
+    
+    // 获取光标位置
+    function onGetSelection() {
+      console.log(window.getSelection())
+    }
+
+    // 获取 input、textarea 光标位置
+    // function getCursortPosition(obj) {
+    //   var cursorIndex = 0;
+    //   if (document.selection) {
+    //     // IE Support
+    //     obj.focus();
+    //     var range = document.selection.createRange();
+    //     range.moveStart('character', -obj.value.length);
+    //     cursorIndex = range.text.length;
+    //   } else if (obj.selectionStart || obj.selectionStart == 0) {
+    //     // another support
+    //     cursorIndex = obj.selectionStart;
+    //   }
+    //   return cursorIndex;
+    // }
+
+    // 设置光标位置
     function setSelection(el, offset) {
       if (window.getSelection) {
         // 设置焦点
@@ -49,18 +74,13 @@
           // 定位到末尾
           range.selectNodeContents(el);
           range.collapse(false);
-        }                                                                                    
+        }
         sel.removeAllRanges();
         // 重新添加一个新的范围对象
         sel.addRange(range);
       } else {
         console.warn('浏览器不支持window.getSelection');
       }
-    }
-
-    var el = document.getElementById('editor');
-    function onSetSelection(ev) {
-      setSelection(el, el.innerText.length);
     }
   </script>
 </body>
