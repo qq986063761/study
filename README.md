@@ -1,6 +1,7 @@
 ﻿# 推荐
 - [w3c](http://www.chinaw3c.org/)
 - [svg编辑器](http://editor.method.ac/)
+- [图片压缩](https://squoosh.app/)
 - [png压缩](https://tinypng.com/)
 - [svg压缩](https://jakearchibald.github.io/svgomg/?utm_source=next.36kr.com)
 - [icon在线生成](http://ico.duduxuexi.com/)
