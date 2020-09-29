@@ -86,7 +86,7 @@
 # h5
 
 ## 移动端 css active 样式不生效
-- 绑定一个空函数到 touchstart 事件上：`document.body.addEventListener('touchstart', () => {});`
+- 绑定一个空函数到 touchstart 事件上：`document.body.addEventListener('touchstart', () => {});`
 
 ## ios 有的版本 -webkit-overflow-scrolling:touch 和 postion 混用后偶尔卡死
 - 只有让滚动区域扩大到 window，不采用局部滚动，如使用 scrollload.js 这种库
