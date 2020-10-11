@@ -5,20 +5,20 @@
  */
 Date.prototype.format = Date.prototype.format || function (fmt) {
   // 转成中国时区对应的时间，将当前客户端时差和中国时差的差补上后得出新的 date 对象
-  // const date = new Date(this.getTime() + (new Date().getTimezoneOffset() - (-480)) * 60 * 1000)
+  const date = new Date(this.getTime() + (new Date().getTimezoneOffset() - (-480)) * 60 * 1000)
   
   var o = {
-    "M+": this.getMonth() + 1,                 // 月份
-    "d+": this.getDate(),                    // 日
-    "h+": this.getHours(),                   // 小时
-    "m+": this.getMinutes(),                 // 分
-    "s+": this.getSeconds(),                 // 秒
-    "q+": Math.floor((this.getMonth() + 3) / 3), // 季度
-    "S": this.getMilliseconds()             // 毫秒
+    "M+": date.getMonth() + 1,                 // 月份
+    "d+": date.getDate(),                    // 日
+    "h+": date.getHours(),                   // 小时
+    "m+": date.getMinutes(),                 // 分
+    "s+": date.getSeconds(),                 // 秒
+    "q+": Math.floor((date.getMonth() + 3) / 3), // 季度
+    "S": date.getMilliseconds()             // 毫秒
   };
 
   if (/(y+)/.test(fmt)) {
-    fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
   }
 
   for (var k in o) {
