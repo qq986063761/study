@@ -104,6 +104,29 @@ function initBarAndLine(chart) {
           }
         },
         data: [120, 200, 150, 80, 70, 110, 130],
+        // 区域背景样式
+        markArea: {
+          data: [{
+            0: {x: "35%"},
+            1: {x: "65%"}
+          }],
+          silent: false,
+          itemStyle: {
+            color: {
+              type: 'linear',
+              x: 0,
+              y: 0,
+              x2: 0,
+              y2: 1,
+              colorStops: [{
+                offset: 0, color: '#FFFFFF' // 0% 处的颜色
+              }, {
+                offset: 1, color: '#b2d7fc' // 100% 处的颜色
+              }],
+              global: false // 缺省为 false
+            }
+          }
+        },
         ...seriesStyleConfig
       }
     ]
