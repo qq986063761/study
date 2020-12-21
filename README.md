@@ -23,6 +23,7 @@
 - [谷歌性能分析](https://accounts.google.com/signin/v2/identifier?service=analytics&passive=1209600&continue=https%3A%2F%2Fanalytics.google.com%2Fanalytics%2Fweb%2F%23&followup=https%3A%2F%2Fanalytics.google.com%2Fanalytics%2Fweb%2F&flowName=GlifWebSignIn&flowEntry=ServiceLogin)
 - [radius demo](https://9elements.github.io/fancy-border-radius/)
 - [material](https://material.io/components/dialogs)
+- [开源项目评级系统](https://github.com/sl1673495/notes/issues/93)
 
 # 当前
 - 研究两个组件，分割面板
