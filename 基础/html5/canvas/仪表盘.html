@@ -28,10 +28,10 @@
   </canvas>
 
   <script>
-    function Dashboard() {
+    function Dashboard({ width, height }) {
       this.canvas = document.getElementById("canvas")
-      this.canvas.width = window.innerWidth;
-      this.canvas.height = window.innerHeight;
+      this.canvas.width = width;
+      this.canvas.height = height;
       this.ctx = this.canvas.getContext("2d");
       
       // 配置自定义属性
@@ -46,6 +46,39 @@
       this.ctx.lineWidth = 10; // 线宽
       this.ctx.font = `${this.fontSize}px Arial`;
       this.ctx.translate(this.canvas.width / 2, this.canvas.height / 2); // 利用变形移动位置
+    }
+    
+    // 绘制指针的背景指针槽
+    Dashboard.prototype.drawPointerBg = function () {
+      // 绘制弧
+      let startAngle = Math.PI + Math.PI * this.bgProgress / 100
+
+      let startX = this.bgProgress
+        ? (this.cX - this.innerRadius * Math.cos(startAngle - Math.PI))
+        : (this.cX - this.innerRadius)
+      let startY = this.bgProgress
+        ? (this.cY - this.innerRadius * Math.sin(startAngle - Math.PI))
+        : this.cY
+
+      let endAngle = startAngle + Math.PI * this.step / 100
+      this.ctx.beginPath();
+      this.ctx.moveTo(startX, startY);
+      this.ctx.arc(
+        this.cX,
+        this.cY,
+        this.innerRadius,
+        startAngle,
+        endAngle);
+      this.ctx.closePath();
+      
+      this.ctx.strokeStyle = '#DDD'
+      this.ctx.stroke();
+      
+      let nextProgress = this.step * 2
+      this.bgProgress += nextProgress
+
+      if (this.bgProgress > 100) return
+      this.drawPointerBg()
     }
 
     // 绘制指针
@@ -101,8 +134,8 @@
 
     // 更新进度
     Dashboard.prototype.update = function () {
-      this.drawPointer()
       this.drawText()
+      this.drawPointer()
     }
 
     // 开始绘制
@@ -111,7 +144,9 @@
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
       // 重置属性
-      this.currentProgress = 0;
+      this.currentProgress = 0
+      this.bgProgress = 0
+      this.drawPointerBg()
       this.timer = setInterval(() => {
         this.update();
         if (this.currentProgress > 100) {
@@ -122,7 +157,10 @@
     }
 
     // 初始化实例并开始绘制
-    new Dashboard().start()
+    new Dashboard({
+      width: window.innerWidth,
+      height: window.innerHeight
+    }).start()
 
     /*
       @param {string} startColor 开始颜色hex
