@@ -43,13 +43,13 @@
       this.gradients = getGradientColor('#f50606', '#00fb1f', 10);
 
       // 配置 canvas 上下文绘制属性
-      this.ctx.lineWidth = 10; // 线宽
+      this.ctx.lineWidth = 10 * window.devicePixelRatio; // 线宽
       this.ctx.font = `${this.fontSize}px Arial`;
       this.ctx.translate(this.canvas.width / 2, this.canvas.height - this.fontSize); // 利用变形移动位置
 
       this.innerRadius = Math.min(this.canvas.width, this.canvas.height); // 内圆半径
       if (this.innerRadius > (this.canvas.width / 2)) this.innerRadius = this.canvas.width / 2
-      this.innerRadius -= this.ctx.lineWidth 
+      this.innerRadius -= (this.ctx.lineWidth * 3 / 2)
     }
 
     // 绘制指针的背景指针槽
