@@ -30,15 +30,17 @@
   <script>
     function Dashboard({ canvas, width, height, progress }) {
       this.canvas = canvas
-      this.canvas.width = width;
-      this.canvas.height = height;
+      this.canvas.width = width * window.devicePixelRatio
+      this.canvas.height = height * window.devicePixelRatio
+      this.canvas.style.width = width + 'px'
+      this.canvas.style.height = height + 'px'
       this.progress = progress || 0
       this.ctx = this.canvas.getContext("2d");
       
       // 配置自定义属性
       this.cX = 0 //中心x坐标，默认定在原点
       this.cY = 0 //中心y坐标，默认定在原点
-      this.fontSize = 20;
+      this.fontSize = 40;
       this.step = 0.5; // 步长
       this.gradients = getGradientColor('#f50606', '#00fb1f', 10);
 
