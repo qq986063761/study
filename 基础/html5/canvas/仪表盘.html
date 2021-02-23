@@ -90,29 +90,31 @@
 
     // 绘制指针
     Dashboard.prototype.drawPointer = function () {
-      // 绘制弧
-      let startAngle = Math.PI + Math.PI * (this.currentProgress - 0.3) / 100
+      if (this.progress) {
+        // 绘制弧
+        let startAngle = Math.PI + Math.PI * (this.currentProgress - 0.3) / 100
 
-      let startX = this.currentProgress
-        ? (this.cX - this.innerRadius * Math.cos(startAngle - Math.PI))
-        : (this.cX - this.innerRadius)
-      let startY = this.currentProgress
-        ? (this.cY - this.innerRadius * Math.sin(startAngle - Math.PI))
-        : this.cY
+        let startX = this.currentProgress
+          ? (this.cX - this.innerRadius * Math.cos(startAngle - Math.PI))
+          : (this.cX - this.innerRadius)
+        let startY = this.currentProgress
+          ? (this.cY - this.innerRadius * Math.sin(startAngle - Math.PI))
+          : this.cY
 
-      let endAngle = startAngle + Math.PI * this.step / 100
-      this.ctx.beginPath();
-      this.ctx.moveTo(startX, startY);
-      this.ctx.arc(
-        this.cX,
-        this.cY,
-        this.innerRadius,
-        startAngle,
-        endAngle);
-      this.ctx.closePath();
+        let endAngle = startAngle + Math.PI * this.step / 100
+        this.ctx.beginPath();
+        this.ctx.moveTo(startX, startY);
+        this.ctx.arc(
+          this.cX,
+          this.cY,
+          this.innerRadius,
+          startAngle,
+          endAngle);
+        this.ctx.closePath();
 
-      this.ctx.strokeStyle = this.gradients[parseInt(this.currentProgress / 10)];
-      this.ctx.stroke();
+        this.ctx.strokeStyle = this.gradients[parseInt(this.currentProgress / 10)];
+        this.ctx.stroke();
+      }
 
       let nextProgress = this.step * 2
       this.currentProgress += nextProgress
