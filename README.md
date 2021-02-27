@@ -26,7 +26,6 @@
 - [开源项目评级系统](https://github.com/sl1673495/notes/issues/93)
 
 # 当前
-- esbuild
 - 研究两个组件，分割面板
 - vue 源码
 - 我的酷狗音乐项目
