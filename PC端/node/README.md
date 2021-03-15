@@ -33,7 +33,7 @@
 - 查看npm包安装的根目录：npm root [-g]
 - 查看npm版本：npm version
 - 清除npm缓存：npm cache verify
-- 重新编译构建模块：npm rebuild 模块名
+- 重新编译构建模块：npm rebuild 模块名（用于解决包和环境不匹配的报错）
 - 添加一个npm账号：npm adduser
 - 登录npm账号：npm login
 - 退出npm账号：npm logout
