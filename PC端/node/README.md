@@ -38,7 +38,7 @@
 - 登录npm账号：npm login
 - 退出npm账号：npm logout
 - 发布项目到npm：npm publish
-- 获取仓库源地址：npm config get registry（默认是：npm config set registry https://registry.npmjs.org/ ）
+- 获取仓库源地址：npm config get registry（默认是：npm config set registry https://registry.npmjs.org/）
 - 设置仓库源地址：npm config set registry https://registry.npm.taobao.org
 
 ## 包发布流程
