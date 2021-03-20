@@ -15,31 +15,48 @@
 # 原理
 
 ## 变量类型
-- 原始类型：undefined、null、boolean、number、string、symbol、bigint
+- 原始类型：undefined、null、boolean、string、number、symbol、bigint
 	- 特点：自身不可变（比如：str[0] = 1；str.slice(1) 执行后，str本身不会变，但是 str += '1' 这种操作是新开辟了栈内存，并转移了 str 指向新字符串）
-- 对象（引用）类型：原始类型之外的其他类型，String、Number、Boolean 是特殊的包装类型，不是原始类型
+- 对象（饮用）类型（object）：Array、Date、Function、RegExp、Math...
 	- 特点：空间大，运行效率低，通过引用地址读取（地址存在栈中）
+- 判断数据类型的方法
+ - typeof：一般用于判断基础类型（typeof null === 'object' 是因为底层 null 的地址开头就是用于判断 object 的开头）
+ - instanceof：一般用于判断引用类型
+ - Object.prototype.toString.call(value)
 
 ## 变量提升
 - 函数定义时：会将整个函数内容提升到作用域顶部
 - 变量定义时：只会把变量声明提升到作用域顶部，不会提升赋值部分
 - var 定义变量能在声明之前使用，全局作用域下声明会挂载在 window 上；let、const 不能在声明前使用
 
-## 类型转换规则
-- 引用类型 --> number：先调 valueOf，如果不存在再调 toString
-- 引用类型 --> string：先调 toString，如果不存在再调 valueOf
-- 其他 --> boolean：除 null、undefined、''、NaN、0、false 外，全是 true
-- 四则运算：通常非 Number 会先转成 Number 然后计算
-	- 加号操作符：
-		- 一侧为 String：作为字符串拼接；
-		- Number + 原始类型：原始类型转 Number 后计算
-		- Number + 引用类型：两侧都转为字符串后再拼接
-- ==：如果两侧类型相同，则相当于 ===
-	- NaN == 任何类型：返回 false
-	- Boolean == 其他类型：Boolean 先被转换成 Number
-	- String == Number：String 先转成 Number
-	- null == undefined：返回 true，他们和其他比较都是 false
-	- 原始类型 == 引用类型：引用类型按 ToPrimitive 规则（转 number、string 的规则）转换成原始类型后再比较
+## 类型转换
+- Number(param) 规则
+	- true 和 false 分别转成 1 和 0
+	- 数字则返回自己
+	- null 返回 0
+	- undefined 返回 NaN
+	- 字符串
+		- 只包含数字，返回十进制
+		- 有效浮点值，返回浮点数
+		- 空字符串返回 0
+		- 其他返回NaN
+	- symbol：报错
+	- 对象：如果存在[Symbol.toPrimitive]方法，则调用，否则调用对象 valueOf 方法获取值
+- Boolean(param) 规则
+	- undefined、null、false、''、0（+0和-0）、NaN 返回 false，其他都是 true
+- Object 转换规则
+	- 优先按 [Symbol.toPrimitive] 方法转换
+	- 否则按 valueOf 和 toString 方法转换
+- '==' 隐式转换规则
+	- 两边类型相同不会转换
+	- 其中一个值是 null、undefined，则另一个值必须是 null、undefined，否则返回 false
+	- 其中一个是 symbol，返回 false
+	- 两个都是 string、number，则先将 string 转成 number 再比较
+	- 如果一个是 boolean，则转换成 number 再比较
+	- 如果一个是 object 则转换成原始类型，再比较
+- '+' 隐式转换规则
+	- 其中一个是字符串，则作为字符串拼接，另一个是对象则调用对象的转换方法（[Symbol.toPrimitive]、toString、valueOf）后再拼接
+	- 其中一个是数字，则另一个先转换成数字再计算，对象则和上面一样转换
 
 ## 原型和原型链
 - 原型：函数的 prototype 属性，关联实例属性、方法
