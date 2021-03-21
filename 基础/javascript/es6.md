@@ -138,10 +138,12 @@
     callback() {}
   }
 
-  // 获取对象属性的配置描述
+  // 获取对象某一个属性的配置描述信息
   // 遍历对象建议使用 Object.keys 代替 for in，因为 for in 会遍历不可被枚举对象
   Object.getOwnPropertyDescriptor({name: '213'}, 'name')
-  // 获取对象原型
+  // 获取对象所有属性的配置描述信息
+  Object.getOwnPropertyDescriptors({a: 1})
+  // 获取对象的原型对象
   Object.getPrototypeOf({})
   // 设置对象原型（已有对象，原型对象）
   Object.setPrototypeOf({}, {})
@@ -214,6 +216,8 @@
   map.size
   // 清除所有值
   map.clear()
+
+  // WeakMap 其他方法和 Map 一样，但是只接受 object 作为 key
 ```
 
 # Proxy
@@ -234,6 +238,7 @@
 
 # Reflect（用于存放和语言内部相关的方法）
 ```js
+  // 定义对象属性描述配置
   Reflect.defineProperty({}, 'name', {
     // 是否能改变属性描述配置
     configurable: true,
@@ -252,6 +257,9 @@
 
     }
   })
+
+  // 返回包含对象自身的（不含继承的）所有键名，不管键名是 Symbol 或字符串，也不管是否可枚举
+  Reflect.ownKeys({a: 1})
 ```
 
 # Promise

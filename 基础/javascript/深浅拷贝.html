@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // 浅拷贝（只会复制一层对象属性，存在内存共用的问题，一个对象改变属性会影响另一个对象，不是全新的对象）
+    var source = {a: 1}
+    var clone = Object.assign({}, source) // es6
+    clone = {...source} // es6
+    source = [1, 2, 3]
+    clone = source.concat() // es5
+    clone = source.slice() // es5
+
+    // 浅拷贝-实现
+    function shallowClone(source) {
+      var isBaseType = typeof source !== 'object' || source === null
+      var isArrayType = !isBaseType && source instanceof Array
+      var obj = null
+      if (isBaseType) {
+        obj = source
+      } else if (isArrayType) {
+        obj = []
+        for (let index = 0; index < source.length; index++) {
+          obj.push(source[index])
+        }
+      } else {
+        obj = {}
+        for (const key in source) {
+          if (Object.hasOwnProperty.call(source, key)) {
+            obj[key] = source[key]
+          }
+        }
+      }
+      return obj
+    }
+    
+    // 深拷贝
+    // es5 最简单深拷贝，缺点如下：
+    // 对象属性中存在 函数、undefined、symbol 会消失
+    // Date 会变成字符串
+    // 不能拷贝不可枚举属性
+    // 不能拷贝对象原型链
+    // RegExp会变成空对象
+    // 对象属性中存在 NaN、Infinity、-Infinity，会变成 null
+    // 对象中存在循环引用属性，会报错
+    clone = JSON.parse(JSON.stringify(source)) 
+    
+    // 深拷贝-实现
+    var hash = new WeakMap()
+    function deepClone (source) {
+      if (source.constructor === Date) return new Date(source)
+      if (source.constructor === RegExp) return new RegExp(source) 
+      // 解决循环引用问题，用 WeakMap 是因为可以用对象做 key，这里用于判断是否已经存在这个对象，避免循环引用
+      if (hash.has(source)) return hash.get(source)
+
+      var isBaseType = typeof source !== 'object' || typeof source === 'function' || source === null
+      var isArrayType = !isBaseType && source instanceof Array
+      var obj = null
+      if (isBaseType) {
+        obj = source
+      } else if (isArrayType) {
+        obj = []
+        for (let index = 0; index < source.length; index++) {
+          obj.push(deepClone(source[index]))
+        }
+      } else {
+        let allDesc = Object.getOwnPropertyDescriptors(source) // 获取对象的描述信息
+        obj = Object.create(Object.getPrototypeOf(source), allDesc) // 利用对象所有描述信息和原型对象重新创建一个新对象
+        hash.set(source, obj) // 利用 WeakMap 保存一次键值对，用于递归中解决循环引用问题
+        // 利用 Reflect.ownKeys 获取源对象的所有属性的键名（不管是否可枚举），这里 of 遍历的是对象的值
+        for (const key of Reflect.ownKeys(source)) {
+          obj[key] = deepClone(source[key])
+        }
+      }
+      return obj
+    }
+  </script>
+</body>
+</html>
