@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // 父类
+    function Parent() {}
+
+    // 原型链继承
+    // 缺点：因为原型都是用的同一个 Parent 实例，所以如果 Child 的多个实例操作了 Parent 原型上同一个私有属性，会互相影响，因为内存共用的
+    function Child() {}
+    Child.prototype === new Parent()
+    Child.prototype.constructor = Child
+
+    // 构造函数继承
+    // 缺点：不会继承父类原型上的属性，只会继承私有属性
+    function Child() {
+      Parent.call(this)
+    }
+
+    // 组合继承
+    
+    
+    // 减少不必要的实例私有属性
+    function inhert ( proto ) {
+      function F() {}
+      F.prototype = proto
+      return new F()
+    }
+    function Child () {}
+    Child.prototype = inhert( Parent.prototype )
+    Child.prototype.constructor = Child
+  </script>
+</body>
+</html>

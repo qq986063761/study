@@ -87,29 +87,6 @@
 - 以 obj 作为上下文来执行构造函数
 - 返回对象 obj
 
-## 继承
-- 普通的继承方式如下
-```js
-	function Child() {}
-	// 继承父类属性
-	Child.prototype === new Parent()
-	// 手动规范构造函数
-	Child.prototype.constructor = Child
-	// 自定义属性
-	Child.prototype.customProp = VALUE
-```
-- 减少不必要的属性（实例独有属性）
-```js
-	function inhert ( o ) {
-		function F() {}
-		F.prototype = o
-		return new F()
-	}
-	function Child () {}
-	Child.prototype = inhert( Parent.prototype )
-	Child.prototype.constructor = Child
-```
-
 ## 执行上下文
 - 概念：js 当前执行代码环境提供的对象（如：this、arguments）
 - 原理：
