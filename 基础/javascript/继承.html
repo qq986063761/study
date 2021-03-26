@@ -23,7 +23,20 @@
       Parent.call(this)
     }
 
-    // 组合继承
+    // 组合继承（上两种方式组合）
+    // 缺点，new Child 的时候，会触发 Parent 的内容，然后 Child 内部又调用了 Parent.call(this) 又执行了一次多余了一次开销
+    function Child() {
+      Parent.call(this)
+    }
+    Child.prototype === new Parent()
+    Child.prototype.constructor = Child
+
+    // 原型式继承
+    // 缺点：parent 中的引用类型会被多个子实例共享
+    var parent = {}
+    var child = Object.create(parent)
+    
+    // 寄生式继承
     
     
     // 减少不必要的实例私有属性
