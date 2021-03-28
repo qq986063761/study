@@ -7,6 +7,68 @@
   <title>Document</title>
 </head>
 <body>
-  
+  <!-- 
+    坐标系统：
+    用户坐标系：用户查看坐标系
+    自身坐标系：内部图形自己的坐标系统
+    前驱坐标系：父容器坐标系
+    参考坐标系：任意一个坐标系都可以作为参考坐标系
+   -->
+
+   <!-- 
+    颜色：
+    rgb
+    hsl（颜色，饱和度，亮度） 
+    rgba
+    hsla
+    -->
+
+  <!-- 
+    矩形 
+    preserveAspectRatio="xMidYMid meet"控制图形的缩放对齐方式
+    viewBox：显示当前 svg 区域内的 x y width heihgt 矩形区域内容，宽高越大，看到的内容就会变小；宽高越小，看到的内容就会变大
+  -->
+  <svg width="300" height="150" viewBox="0 0 300 150">
+    <!-- 分组，分组可以统一调整属性，g 标签中的属性都会应用于子标签上 -->
+    <g fill="green" opacity="0.5">
+      <rect x="0" y="0" width="100" height="80" rx="4" ry="4"></rect>
+      <rect x="100" y="80" width="100" height="80"></rect>
+    </g>
+  </svg>
+  <!-- 圆形 -->
+  <svg>
+    <defs>
+      <!-- gradientUnits="userSpaceOnUse" 配置这个起点终点将会用实际坐标值作为起点终点 -->
+      <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0", stop-color="skyblue" />
+        <!-- <stop offset="0.6", stop-color="red" /> -->
+        <stop offset="1", stop-color="#fff" />
+      </linearGradient>
+    </defs>
+    <circle cx="50" cy="50" r="50" fill="url(#grad)"></circle>
+  </svg>
+  <!-- 椭圆 -->
+  <svg>
+    <defs>
+      <radialGradient id="grad1" cx="0.5" cy="0.5" r="0.5">
+        <stop offset="0", stop-color="skyblue" />
+        <!-- <stop offset="0.6", stop-color="red" /> -->
+        <stop offset="1", stop-color="#fff" />
+      </radialGradient>
+    </defs>
+    <ellipse cx="100" cy="50" rx="100" ry="50" fill="url(#grad1)" transform="scale(0.8)"></ellipse>
+  </svg>
+  <!-- 线 -->
+  <svg><line x1="0" y1="0" x2="100" y2="100" stroke="#000" stroke-width="2"></line></svg>
+  <!-- 折线 -->
+  <svg><polyline points="0 0 100 100 0 100" stroke="#000" fill="none" stroke-width="2"></polyline></svg>
+  <!-- 多边形 -->
+  <svg><polygon points="0 0 100 100 0 100" stroke="#000" fill="none" stroke-width="2"></polygon></svg>
+
+  <script>
+    // svg 可以单独作为一个网页存在，所以 svg 需要用带 ns 的创建元素 api
+    const el = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+    console.log(el)
+  </script>
 </body>
 </html>
