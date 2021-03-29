@@ -64,6 +64,23 @@
   <svg><polyline points="0 0 100 100 0 100" stroke="#000" fill="none" stroke-width="2"></polyline></svg>
   <!-- 多边形 -->
   <svg><polygon points="0 0 100 100 0 100" stroke="#000" fill="none" stroke-width="2"></polygon></svg>
+  <!-- 笔刷（纹理） -->
+  <svg>
+    <defs>
+      <!-- 
+        如果不使用 patternUnits="userSpaceOnUse" 默认宽高是按百分比来配置的 
+        patternContentUnits="objectBoundingBox"
+      -->
+      <pattern id="p1" x="0" y="0" width="0.2" height="0.2">
+        <circle cx="20" cy="20" r="20" fill="skyblue"></circle>
+      </pattern>
+    </defs>
+    <rect x="0" y="0" width="300" height="150" fill="url(#p1)" stroke="blue"></rect>
+  </svg>
+  <!-- 路径 path -->
+  <svg>
+    
+  </svg>
 
   <script>
     // svg 可以单独作为一个网页存在，所以 svg 需要用带 ns 的创建元素 api
