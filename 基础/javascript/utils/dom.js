@@ -59,7 +59,7 @@ function matches(el, selector) {
 }
 
 // 获取父节点
-function getParentOrHost(el) {
+function getParent(el) {
   return (el.host && el !== document && el.host.nodeType)
     ? el.host
     : el.parentNode;
@@ -80,9 +80,9 @@ function closest(el, selector, ctx, includeCTX) {
       if (
         selector != null &&
         (
-          selector[0] === '>' ?
-            el.parentNode === ctx && matches(el, selector) :
-            matches(el, selector)
+          selector[0] === '>'
+            ? el.parentNode === ctx && matches(el, selector)
+            : matches(el, selector)
         ) ||
         includeCTX && el === ctx
       ) {
@@ -90,8 +90,8 @@ function closest(el, selector, ctx, includeCTX) {
       }
 
       if (el === ctx) break;
-      /* jshint boss:true */
-    } while (el = getParentOrHost(el));
+      el = getParent(el);
+    } while (el);
   }
 
   return null;
