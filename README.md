@@ -29,6 +29,7 @@
 - [mactype](https://www.mactype.net/)
 
 # 当前
+- 写一篇简单的拖拽实现文章
 - vue 源码
 - 我的酷狗音乐项目
 - zego（实时视频）
