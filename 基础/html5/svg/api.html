@@ -79,7 +79,32 @@
   </svg>
   <!-- 路径 path -->
   <svg>
-    
+    <!-- 直线
+      Mx y 移动画笔
+      Lx y 绘制直线到指定位置
+      Hx 绘制水平线到指定位置
+      Vy 绘制垂直线到指定位置
+      m、l、h、v 命令和上面命令一样，只是相对位置绘制
+    -->
+    <path d="M10 10 L100 100" stroke="blue"></path>
+  </svg>
+  <svg>
+    <!-- 弧线
+      Arx(弧线所在椭圆x半轴长) ry(弧线所在椭圆y半轴长) xr(弧线所在椭圆x轴和水平线的顺时针角度) laf(是否选择弧线较长的那边绘制) sf(是否选择逆时针方向) x(弧线终点x标坐) y(弧线终点y标坐)
+    -->
+    <path d="M80 30 A100 50 0 0 0 150 100" stroke="blue" fill="none"></path>
+  </svg>
+  <svg>
+    <!-- 贝塞尔曲线
+      Qx1 y1 x2 y2 二次贝塞尔
+      Cx1 y1 x2 y2 x3 y3 三次贝塞尔
+      T x1 y1 x2 y2 x3 y3... 光滑二次贝塞尔（这些点之间会用二次贝塞尔连接）
+      S x1 y1 x2 y2 x3 y3... 光滑三次贝塞尔（这些点之间会用三次贝塞尔连接）
+    -->
+    <path d="M0 0 Q100 100 200 0" stroke="blue" fill="none"></path>
+    <path d="M0 150 C0 0 150 150 300 0" stroke="blue" fill="none"></path>
+    <path d="M0 0 T50 100 100 100 200 100" stroke="red" fill="none"></path>
+    <path d="M0 150 S50 0 100 75 200 0 300 0" stroke="red" fill="none"></path>
   </svg>
 
   <script>

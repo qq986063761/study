@@ -4,7 +4,6 @@
 - [图片压缩](https://squoosh.app/)
 - [png压缩](https://tinypng.com/)
 - [svg压缩](https://jakearchibald.github.io/svgomg/?utm_source=next.36kr.com)
-- [icon在线生成](http://ico.duduxuexi.com/)
 - [蓝灯github](https://github.com/getlantern/forum)
 - [蓝灯官方论坛](https://github.com/getlantern/download)
 - [蓝灯官网](https://getlantern.org/zh_CN/index.html)
