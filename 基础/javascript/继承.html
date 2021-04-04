@@ -37,7 +37,14 @@
     var child = Object.create(parent)
     
     // 寄生式继承
-    
+    function clone(src) {
+      let obj = Object.create(src)
+      obj.newMethod = function() {}
+      return obj
+    }
+    child = clone(parent)
+
+    // 
     
     // 减少不必要的实例私有属性
     function inhert ( proto ) {
