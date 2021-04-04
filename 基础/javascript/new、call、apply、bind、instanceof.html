@@ -52,12 +52,10 @@
     // 手写 instanceof
     function _instanceof(obj, fn) {
       var prototype = fn.prototype
-      left = obj.__proto__
+      var left = obj.__proto__
       while (true) {
-        if (left === null || left === undefined)
-          return false
-        if (prototype === left)
-          return true
+        if (left === null || left === undefined) return false
+        if (prototype === left) return true
         left = left.__proto__
       }
     }
