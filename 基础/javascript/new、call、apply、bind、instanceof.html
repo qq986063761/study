@@ -44,8 +44,8 @@
       const self = this
       return function F() {
         // 如果是采用 new F() 的形式调用的，则直接给它返回一个实例
-        if (this instanceof F) return new self(...args, ...arguments)
-        return self.apply(cxt, args.concat(...arguments))
+        if (this instanceof F) return new self(...arguments, ...args)
+        return self.apply(cxt, [...arguments].concat(...args))
       }
     }
 
