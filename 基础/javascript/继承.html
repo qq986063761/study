@@ -45,17 +45,12 @@
     child = create(parent)
 
     // 寄生组合式继承
-
-    
-    // 减少不必要的实例私有属性
-    function inhert ( proto ) {
-      function F() {}
-      F.prototype = proto
-      return new F()
+    function extend (Parent, Child) {
+      // 这里改用 Object.create 就可以减少组合继承中多进行一次构造的过程
+      Child.prototype = Object.create(Parent.prototype)
+      Child.prototype.constructor = Child
     }
-    function Child () {}
-    Child.prototype = inhert( Parent.prototype )
-    Child.prototype.constructor = Child
+    extend(Parent, Child)
   </script>
 </body>
 </html>

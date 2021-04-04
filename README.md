@@ -25,10 +25,9 @@
 - [radius demo](https://9elements.github.io/fancy-border-radius/)
 - [material](https://material.io/components/dialogs)
 - [开源项目评级系统](https://github.com/sl1673495/notes/issues/93)
-- [mactype](https://www.mactype.net/)
+- [actype](https://www.mactype.net/)
 
 # 当前
-- 写一篇简单的拖拽实现文章
 - vue 源码
 - 我的酷狗音乐项目
 - zego（实时视频）
