@@ -18,13 +18,13 @@
     Child.prototype.constructor = Child
 
     // 构造函数继承
-    // 缺点：不会继承父类原型上的属性，只会继承私有属性
+    // 缺点：不会继承原型上的属性，只会继承实例自身属性
     function Child() {
       Parent.call(this)
     }
 
     // 组合继承（上两种方式组合）
-    // 缺点，new Child 的时候，会触发 Parent 的内容，然后 Child 内部又调用了 Parent.call(this) 又执行了一次多余了一次开销
+    // 缺点，new Child() 的时候，会触发 Parent 的内部代码，然后 Child 内部又调用了 Parent.call(this) 又重复执行了一次
     function Child() {
       Parent.call(this)
     }
@@ -37,14 +37,15 @@
     var child = Object.create(parent)
     
     // 寄生式继承
-    function clone(src) {
+    function create(src) {
       let obj = Object.create(src)
       obj.newMethod = function() {}
       return obj
     }
-    child = clone(parent)
+    child = create(parent)
 
-    // 
+    // 寄生组合式继承
+
     
     // 减少不必要的实例私有属性
     function inhert ( proto ) {
