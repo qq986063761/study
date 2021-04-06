@@ -36,11 +36,6 @@
   - --display - reasons 展示输出理由
 
 # 常用包
-- style-loader、css-loader：解析 css
-- sass-loader、node-sass：解析 sass
-- less、less-loader：解析 less
-- postcss-loader、autoprefixer：添加 css 兼容属性（如：前缀）
-- file-loader、url-loader：解析资源文件、路径
 - vue-loader、vue-template-compiler、vue-style-loader：vue 开发相关
 - html-webpack-plugin：html生成插件
 - copy-webpack-plugin：资源复制插件
