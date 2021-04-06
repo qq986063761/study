@@ -35,11 +35,12 @@
   - --display - modules 展示输出模块
   - --display - reasons 展示输出理由
 
+# 热更新原理
+
+
 # 常用包
 - vue-loader、vue-template-compiler、vue-style-loader：vue 开发相关
-- html-webpack-plugin：html生成插件
-- copy-webpack-plugin：资源复制插件
-- webpack-dev-server：热更新插件
+- copy-webpack-plugin：资源复制插件、
 - progress-bar-webpack-plugin：进度插件
 - clean-webpack-plugin：打包前清理 dist 旧资源
 - mini-css-extract-plugin：css拆分，4.0 以前用 extract-text-webpack-plugin
@@ -56,3 +57,6 @@
 
 # There are multiple modules with names that only differ in casing
 - 定义的模块大小写和引入模块的大小写不一致，比如定义的模块是：SideModal.vue，但是引入模块确是 `import sideModal from './sideModal.vue'`;
+
+# Node Sass does not yet support your current environment: OS X 64-bit with Unsupported runtime
+- npm rebuild node-sass
