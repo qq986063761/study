@@ -18,6 +18,9 @@
   </fieldset>
 
   <script>
+    // 防抖(debounce)和节流(throttle)
+    // 作用：高频事件触发优化方案，应用于如：resize、scroll 等场景
+    
     i1.oninput = debounce(function (event) {
       console.log('debounce', event)
     }, 500)
@@ -27,7 +30,7 @@
     }, 1000)
 
     /**
-     * 防抖
+     * 防抖 高频事件结束后触发
      * @param {function} callback 频繁执行的函数
      * @param {number} wait 毫秒
      */
@@ -43,7 +46,7 @@
     }
 
     /**
-     * 节流
+     * 节流 高频事件过程中达到一个最大等待时间必定触发一次
      * @param {function} callback 频繁执行的函数
      * @param {number} wait 毫秒
      */
