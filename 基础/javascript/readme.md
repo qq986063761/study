@@ -130,15 +130,13 @@
 - JSON.stringify 将 json 数据转化为字符串，JSON.parse、eval 将 json 字符串转化为 json 对象
 
 ## 事件循环（Event Loop）
-- 概念：主线程中的代码，和异步任务队列中的代码，按规律压入执行栈中被执行的过程
-- 任务分类：主线程任务、异步任务（宏任务 macro-task、微任务 micro-task）
-	- 主线程任务：非宏任务和微任务之外的 js 同步代码；
-	- 宏任务：setTimeout、setInterval、setImmediate、I/O、UI、rendering；
+- 任务队列中的代码，按规律压入执行栈中被执行的过程
+- 任务分类：宏任务 macro-task、微任务 micro-task
+	- 宏任务：script、setTimeout、setInterval、setImmediate、I/O、UI、rendering；
 	- 微任务：process.nextTick、Promise、Object.observe、MutationObserver、queueMicrotask（将方法推入微任务队列中）；
-- 一次事件循环的过程
-	- 先执行完所有主线程任务；
-	- 再执行完所有微任务（执行完后如有必要会渲染页面）；
-	- 再执行完所有宏任务；
+- 一次事件循环流程
+	- 先取一个宏任务执行（第一次是 script 脚本加载和同步代码执行）
+	- 再执行完一次循环队列中的所有微任务（执行完后如有必要会渲染页面）
 
 ## 内存管理（GC：垃圾回收）
 - js 创建变量时分配内存，不使用变量时释放内存
@@ -192,11 +190,6 @@
 		}
 	}
 ```
-
-## 防抖(debounce)和节流(throttle)
-- 作用：高频事件触发优化方案，应用于如：resize、scroll 等场景
-- 防抖：高频事件结束后触发
-- 节流：高频事件过程中达到一个最大等待时间必定触发一次
 
 ## 尾调用(Tail Call)
 - 函数内返回一个函数调用，如果返回的是自身则是尾递归
