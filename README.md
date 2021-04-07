@@ -10,7 +10,6 @@
 - [ss免费账号](https://github.com/Alvin9999/new-pac/wiki/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7)
 - [ss免费账号备用地址](http://tr1.freeair999.club/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7/)
 - [其他翻墙方式](https://github.com/Alvin9999/new-pac/wiki)
-- [无界浏览](https://github.com/jianggangli/wujieliulan)
 - [expressVPN](https://www.expressvpn.com/order)
 - [自己搭建vpn服务器](https://www.iwannerfuck.xyz/?tdsourcetag=s_pctim_aiomsg)
 - [markdown文档](http://xianbai.me/learn-md/article/about/readme.html)
