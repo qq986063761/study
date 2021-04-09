@@ -132,7 +132,7 @@
 ## 事件循环（Event Loop）
 - 任务队列中的代码，按规律压入执行栈中被执行的过程
 - 任务分类：宏任务 macro-task、微任务 micro-task
-	- 宏任务：script、setTimeout、setInterval、setImmediate、I/O（网络请求文件读写）、UI（用户交互）、rendering（页面渲染）；
+	- 宏任务：script、setTimeout、setInterval、setImmediate、postMessage、MessageChannel、I/O（网络请求文件读写）、UI（用户交互）、rendering（页面渲染）；
 	- 微任务：process.nextTick、Promise、Object.observe、MutationObserver、queueMicrotask（将方法推入微任务队列中）；
 - 一次事件循环流程
 	- 先取一个宏任务执行（第一次是 script 脚本加载和同步代码执行）
@@ -154,7 +154,6 @@
 	- 未释放的定时器
 	- 未销毁的事件
 	- 闭包中保留的外部变量引用
-
 
 # Ajax
 
