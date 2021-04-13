@@ -54,13 +54,15 @@
 # webpack
 
 ## 优化打包速度
+- 使用高版本 webpack
+- 使用高版本 node.js
 - 配置好下列属性
   - include、exclude：指定包含、排除的打包覆盖面
   - alias：配置别名，减少程序向上递归查找资源的过程，直接告诉 webpack 应该去哪里查找依赖
   - noParse：对于 jquery 这种没有依赖其他模块的包，配置后不会被 webpack 解析
   - extensions：指定常用后缀，import 没有后缀的文件名，会优先以配置为条件查找
   - externals：指定无需打包的模块，采用外部引入
-- happypack：多线程打包
+- webpack3.x 以下使用 happypack：多线程打包
 - webpack-parallel-uglify-plugin：多线程增强代码压缩效率
 - DllPlugin、AutoDllPlugin：抽离不常变动的静态资源，避免重复打包
 - cache-loader：缓存开销大的 loader，下次打包减少打包时间；babel-loader 本身自带这个功能
@@ -69,7 +71,7 @@
 - 尽量减少 main.js 中引入资源的大小，避免 app.js 太大
 - css-split-webpack-plugin：拆分 css
 - compression-webpack-plugin：gzip 压缩，通常不需要前端做这个工作
-- extract-text-webpack-plugin：内部配置 allChunks 默认是true，会把所有样式放到 app.css 中比较大，可设置为 false 分离各模块 css
+- webpack3.x 以下使用 extract-text-webpack-plugin：内部配置 allChunks 默认是true，会把所有样式放到 app.css 中比较大，可设置为 false 分离各模块 css
 
 ## 懒加载
 - 路由懒加载（比如 vue-router 的懒加载）
