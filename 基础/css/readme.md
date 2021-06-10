@@ -9,13 +9,13 @@
 
 # 简介
 
-## css
+# css
 - 级联（层叠）样式表（Cascading Style Sheets），使显示和内容分离;
 
-## 常用CSS布局有哪些
+# 常用CSS布局有哪些
 - 一列布局、两列布局、三列布局、混合布局;
 
-## css3
+# css3
 - 边框、背景（圆角、边框图、阴影、渐变）
 - 颜色（透明度、rgba、hsl等）
 - 文本（阴影等）
@@ -27,31 +27,31 @@
 
 # 原理
 
-## 流
+# 流
 - 概念：css定位布局机制
 - 标准流：从左到右、从上到下布局元素
 
-## 盒模型（box-sizing）
+# 盒模型（box-sizing）
 - w3c（World Wide Web Consortium）标准盒子由内向外：宽高范围（content）--> padding --> border --> margin
 - IE 盒子由内向外：宽高范围（content --> padding --> border）--> margin
 
-## 块级元素和内联元素
+# 块级元素和内联元素
 - 块级元素：一个水平流上，只能单独显示一个元素，多个块级元素则换行显示；块级元素负责结构；
 - 内联元素：内联元素负责内容；
 
-## 优先级
+# 优先级
 - 通常：后加载 CSS 样式，优先于先加载的 CSS 样式
 - 特指度（ICE：id、class、element）
   - !important > id选择器（100） > 类、属性、伪类选择器（10） > 标签、关系、伪元素选择器（1）> *通配符（0）
 - 作用域：style 属性内联样式 > style 标签外嵌样式 > link 标签外链样式
 
-## float（浮动）
+# float（浮动）
 - 表现：脱离标准流，停留在元素旁，可设置宽高，不会扩张父元素高度
 - 清除浮动
   - 容器内追加一个（伪）元素（display: block;clear: both;）
   - 触发 BFC 环境，避免浮动对周边元素的影响
 
-## position（定位）
+# position（定位）
 - static：标准流定位，从左向右、从上向下流式定位，默认此定位模式
 - relative：相对定位，相对于自己默认定位状态下的相对定位
 - absolute：绝对定位，脱离标准流，相对于除 static 之外的第一个定位祖先元素定位
@@ -70,26 +70,26 @@
 - fixed：相对 window 固定定位
 - sticky：粘性定位，正常情况下按正常流，超出第一个定位祖先元素外时，按指定位置（top、left、right、bottom）定位
 
-## padding
+# padding
 - 百分比：相对自身 width
 
-## margin（外边距）
+# margin（外边距）
 - 重叠：相邻元素的 margin 值，同正或同负取绝对值较大值作公用margin，一正一负取相加值做公用margin（可能为了统一兄弟元素间间距）
 - 百分比：相对父元素 content 宽
 - auto：自动填充剩余空间，默认 0
 - 负值：margin负值是有效果的，通常用于分栏布局
 
-## 元素隐藏
+# 元素隐藏
 - opacity: 0，透明度隐藏，不改变布局，会触发事件
 - visibility: hidden，不可见，不改变布局，不会触发事件
 - display: none，类似删掉元素，改变布局
 - z-index: -1，元素 z 轴层级在背面
 
-## line-height 和 vertical-align
+# line-height 和 vertical-align
 - line-height：百分比相对自身 font
 - vertical-align：相对 line-height
 
-## css 上下文
+# css 上下文
 - BFC（块级格式化上下文 Block Formatting Context）
   - 性质
     - 内部盒子垂直放置，相邻盒子 margin 重叠；不与外部元素 marign 重叠
@@ -117,7 +117,7 @@
   - flex-shrink：收缩规则默认：1，父容器溢出空间按子元素的 shrink 比例来分别压缩对应比率的 size，如果容器没有溢出则无效
   - flex-base：初始 size
 
-## 重绘和重排
+# 重绘和重排
 - 重绘：导致浏览器同步计算样式
 - 重排：导致浏览器同步计算样式和布局
   - 盒子被重新计算
@@ -161,7 +161,7 @@
   - SVG
   - contenteditable
 
-  ## 居中布局
+  # 居中布局
   - 水平居中：
     - 行内元素：text-align: center
     - 块级元素：margin: 0 auto
@@ -173,7 +173,7 @@
     - absolute + transform
     - flex + justify-content + align-items
 
-## @import 和 link 的区别
+# @import 和 link 的区别
 - @import 只能加载css，而且是页面加载完之后再加载
 - link 功能多，支持很多 rel，可以被 js 动态引入，兼容性比 @import 好
 
