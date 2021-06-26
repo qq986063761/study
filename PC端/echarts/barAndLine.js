@@ -35,7 +35,16 @@ function initBarAndLine(chart) {
     itemStyle: {
       // 圆角
       barBorderRadius: [5, 5, 0, 0],
-      color: '#3398DB'
+      color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
+        offset: 0,
+        color: "#1268f3" // 0% 处的颜色
+      }, {
+        offset: 0.6,
+        color: "#08a4fa" // 60% 处的颜色
+      }, {
+        offset: 1,
+        color: "#01ccfe" // 100% 处的颜色
+      }], false)
     },
     lineStyle: {
       color: '#3398DB'
