@@ -7,9 +7,24 @@
   <title>Document</title>
 </head>
 <body>
+  <div id="app">
+    <child></child>
+  </div>
   <script src="https://unpkg.com/vue@next"></script>
   <script>
-    
+    const app = Vue.createApp({
+      data() {
+        return {
+          
+        }
+      }
+    })
+
+    app.component('child', {
+      template: `<div>组件</div>`
+    })
+
+    app.mount('#app')
   </script>
 </body>
 </html>
