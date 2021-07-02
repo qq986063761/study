@@ -8,20 +8,38 @@
 </head>
 <body>
   <div id="app">
-    <child></child>
+    <model-comp v-model="value"></model-comp>
   </div>
   <script src="https://unpkg.com/vue@next"></script>
   <script>
     const app = Vue.createApp({
       data() {
         return {
-          
+          value: ''
+        }
+      },
+      watch: {
+        value(val) {
+          console.log('v-model:change', val)
         }
       }
     })
-
-    app.component('child', {
-      template: `<div>组件</div>`
+    
+    // v-model 在组件上的实现
+    app.component('model-comp', {
+      props: ['modelValue'],
+      emits: ['update:modelValue'],
+      template: `<input v-model="value">`,
+      computed: {
+        value: {
+          get() {
+            return this.modelValue
+          },
+          set(value) { 
+            this.$emit('update:modelValue', value)
+          }
+        }
+      }
     })
 
     const vm = app.mount('#app')
