@@ -8,28 +8,32 @@
 </head>
 <body>
   <div id="app">
-    <model-comp v-model="value"></model-comp>
+    <model-comp v-model="value" v-model:title="title"></model-comp>
   </div>
   <script src="https://unpkg.com/vue@next"></script>
   <script>
     const app = Vue.createApp({
       data() {
         return {
+          title: '',
           value: ''
         }
       },
       watch: {
         value(val) {
-          console.log('v-model:change', val)
+          console.log('v-model change', val)
+        },
+        title(val) {
+          console.log('v-model:title change', val)
         }
       }
     })
     
-    // v-model 在组件上的实现
+    // v-model 在组件上的实现，v-model:title 也支持多属性同步了
     app.component('model-comp', {
-      props: ['modelValue'],
-      emits: ['update:modelValue'],
-      template: `<input v-model="value">`,
+      props: ['modelValue', 'title'],
+      emits: ['update:modelValue', 'update:title'],
+      template: `<div><input v-model="value"><input v-model="titleValue"></div>`,
       computed: {
         value: {
           get() {
@@ -37,6 +41,14 @@
           },
           set(value) { 
             this.$emit('update:modelValue', value)
+          }
+        },
+        titleValue: {
+          get() {
+            return this.title
+          },
+          set(value) {
+            this.$emit('update:title', value)
           }
         }
       }
