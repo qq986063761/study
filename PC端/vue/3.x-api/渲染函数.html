@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <render-comp>
+      <template v-slot="{ text }">
+        {{ text }}
+      </template>
+    </render-comp>
+  </div>
+  <script src="https://unpkg.com/vue@next"></script>
+  <script>
+    const { 
+      createApp, h,
+      resolveComponent, resolveDynamicComponent, resolveDirective, withDirectives,
+      KeepAlive, Teleport, Transition, TransitionGroup // 内置组件
+    } = Vue
+    const app = createApp({})
+
+    app.directive('pin', () => {})
+
+    app.component('render-comp', {
+      data() {
+        return {
+          text: '666'
+        }
+      },
+      render() {
+        const pin = resolveDirective('pin') // 生成指令
+
+        console.log('this', this)
+
+        return h(
+          'div',
+          {
+            
+          },
+          [
+            // 将指令赋给元素 相当于<div v-pin:top.animate="200"></div>
+            withDirectives(h('div'), [
+              [pin, 200, 'top', { animate: true }]
+            ]),
+            h('input', {
+              // 事件直接接 on，修饰符直接驼峰接后面
+              onClickCapture: event => console.log('onClickCapture', event),
+              onKeyupOnce: event => console.log('onKeyupOnce', event),
+              onMouseoverOnceCapture: event => console.log('onMouseoverOnceCapture', event),
+            }),
+            // 获取 slot vnode，传递参数相当于作用域 slot
+            ...this.$slots.default({
+              text: this.text
+            }),
+            // 传递 slot 内容到子组件
+            {
+              header: props => h('div'),
+              default: props => h('div', props.childText)
+            }
+          ]
+        )
+      }
+    })
+    
+    app.mount('#app')
+  </script>
+</body>
+</html>

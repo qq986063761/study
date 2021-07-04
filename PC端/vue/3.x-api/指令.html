@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <div v-custom></div>
+  </div>
+  <script src="https://unpkg.com/vue@next"></script>
+  <script>
+    const { createApp } = Vue
+
+    const app = createApp({
+      data() {
+        return {
+          
+        }
+      }
+    })
+
+    app.directive('custom', {
+      created(el, binding, vnode, prevNnode) {
+        console.log('created', el, binding, vnode, prevNnode)
+      },
+      beforeMount(el, binding, vnode, prevNnode) {
+        console.log('beforeMount', el, binding, vnode, prevNnode)
+      },
+      mounted(el, binding, vnode, prevNnode) {
+        console.log('mounted', el, binding, vnode, prevNnode)
+      },
+      beforeUpdate(el, binding, vnode, prevNnode) {
+        console.log('beforeUpdate', el, binding, vnode, prevNnode)
+      },
+      updated(el, binding, vnode, prevNnode) {
+        console.log('updated', el, binding, vnode, prevNnode)
+      },
+      beforeUnmount(el, binding, vnode, prevNnode) {
+        console.log('beforeUnmount', el, binding, vnode, prevNnode)
+      },
+      unmounted(el, binding, vnode, prevNnode) {
+        console.log('unmounted', el, binding, vnode, prevNnode)
+      }
+    })
+
+    app.mount('#app')
+  </script>
+</body>
+</html>

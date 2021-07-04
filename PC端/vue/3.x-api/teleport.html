@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .modal {
+      position: absolute;
+      top: 0; right: 0; bottom: 0; left: 0;
+      background-color: rgba(0,0,0,.5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: white;
+      width: 300px;
+      height: 300px;
+      padding: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <modal-button></modal-button>
+  </div>
+  <script src="https://unpkg.com/vue@next"></script>
+  <script>
+    const { createApp } = Vue
+    const app = createApp({})
+    
+    // teleport 可以指定元素在哪个dom下渲染
+    app.component('modal-button', {
+      template: `
+        <button @click="show = true">显示弹窗</button>
+        <teleport to="body">
+          <div v-show="show" class="modal">
+            <div>
+              <button @click="show = false">关闭弹窗</button>
+            </div>
+          </div>
+        </teleport>
+      `,
+      data() {
+        return {
+          show: false
+        }
+      }
+    })
+
+    app.mount('#app')
+  </script>
+</body>
+</html>

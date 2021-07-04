@@ -8,11 +8,13 @@
 </head>
 <body>
   <div id="app">
-    <model-comp v-model="value" v-model:title="title"></model-comp>
+    <model-comp v-model.custom="value" v-model:title.custom="title"></model-comp>
+    <async-comp></async-comp>
   </div>
   <script src="https://unpkg.com/vue@next"></script>
   <script>
-    const app = Vue.createApp({
+    const { createApp } = Vue
+    const app = createApp({
       data() {
         return {
           title: '',
@@ -29,9 +31,9 @@
       }
     })
     
-    // v-model 在组件上的实现，v-model:title 也支持多属性同步了
+    // v-model 在组件上的实现，多属性同步可以用 v-model:title
     app.component('model-comp', {
-      props: ['modelValue', 'title'],
+      props: ['modelValue', 'modelModifiers', 'title', 'titleModifiers'],
       emits: ['update:modelValue', 'update:title'],
       template: `<div><input v-model="value"><input v-model="titleValue"></div>`,
       computed: {
@@ -39,7 +41,8 @@
           get() {
             return this.modelValue
           },
-          set(value) { 
+          set(value) {
+            console.log('value modifiers', this.modelModifiers)
             this.$emit('update:modelValue', value)
           }
         },
@@ -48,11 +51,20 @@
             return this.title
           },
           set(value) {
+            console.log('title modifiers', this.titleModifiers)
             this.$emit('update:title', value)
           }
         }
       }
     })
+
+    // 异步组件
+    app.component('async-comp', Vue.defineAsyncComponent(() => new Promise((resolve, reject) => {
+      resolve({
+        // v-once 可以用在静态内容组件上，保证只渲染一次
+        template: '<div v-once>async-comp</div>'
+      })
+    })))
 
     const vm = app.mount('#app')
   </script>

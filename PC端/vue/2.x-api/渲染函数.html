@@ -77,7 +77,7 @@
 									alert('native-click')
 								}
 							},
-							// 定义作用域插槽，组件内部可通过 this.$scopedSlots 访问内部函数调用获取渲染结果
+							// 定义作用域插槽，子组件内部可通过 this.$scopedSlots 访问内部函数调用获取渲染结果
 							scopedSlots: {
 								header: props => {
 									return createElement('div', 'scopedSlots header' + props)

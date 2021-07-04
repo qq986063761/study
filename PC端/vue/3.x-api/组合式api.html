@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <child :usr="{name: 'hehe'}"></child>
+  </div>
+  <script src="https://unpkg.com/vue@next"></script>
+  <script>
+    const { createApp, provide, inject, readonly, ref, toRefs, reactive, computed, watch, onMounted } = Vue
+
+    const app = createApp({
+      setup() {
+        // 抽离 provide，readonly 可保证数据不被改变
+        provide('key', readonly('value'))
+      }
+    })
+
+    app.component('child', {
+      props: ['usr'],
+      template: '<div ref="root"></div>',
+      // 安装函数，用于给组件安装抽离在外的属性
+      setup(props, { attrs, slots, emit }) {
+        // 转换成响应式对象，转换前可通过 props.usr 直接取到对象，转换后要通过 value 获取值
+        // 注意：props 本身是响应式的，但是直接对 props 解构，就会移除响应式，所以这里借助 toRefs
+        const { usr } = toRefs(props) // 或者单独获取 const usr = toRefs(props, 'usr')
+        console.log('toRefs', usr.value)
+        
+        // 创建响应式对象，reactive 创建的响应式对象可直接取值，ref 需要获取 value，一般用于 number、string 类型值
+        const arr = ref([])
+        const obj = reactive({ title: 'Vue 3 Guide' })
+        console.log('reactive', obj)
+
+        // 抽离 computed
+        const fullName = computed(() => usr.value.name + ' 666')
+        console.log('computed', fullName.value)
+        
+        // 抽离 watch
+        watch(arr, (val, oldVal) => {
+          console.log('watch', val, oldVal)
+        })
+        
+        const root = ref(null)
+        // 抽离生命周期，所有的生命周期在 setup 中引入都是前缀加 on 的驼峰命名
+        onMounted(() => { 
+          arr.value = [1, 2, 3]
+          console.log('ref', arr.value) // DOM 元素将在初始渲染后分配给 ref
+          console.log('template-ref', root.value)
+        })
+
+        // 抽离 inject
+        const value = inject('key')
+        console.log('inject', value)
+
+        return {
+          arr,
+          root // 配合 onMounted 返回模版上的 ref
+        }
+      }
+    })
+    
+    app.mount('#app')
+  </script>
+</body>
+</html>
