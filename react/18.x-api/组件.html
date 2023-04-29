@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app"></div>
+
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script type="text/babel">
+    const {PureComponent, Component, Suspense, lazy, createContext, createRef, Fragment, Profiler} = React
+    const {createRoot} = ReactDOM
+    const AppVm = createContext('') // 提供上下文内容
+    const { Provider, Consumer } = AppVm // 解析出注入对象
+
+    const app = createRoot(document.getElementById('app'))
+
+    // 子组件
+    class Child extends Component {
+      // 将 AppVm 类型的上下文,注入到 this.context 中
+      // 如果 html 中直接用可以不需要这样
+      static contextType = AppVm
+      constructor(props) {
+        super(props)
+        // ref 内部挂组件实例
+        this.el = createRef() 
+      }
+
+      changeParentVal = () => {
+        // 和父组件通信
+        this.props.changeValue(Math.random())
+      }
+
+      render() {
+        console.log('Chlid', this)
+
+        return <div ref={ this.el }>
+          <h1>子组件：{this.props.name}</h1>
+          <h1>
+            获取上下文的值: 
+            <Consumer>
+              { value => value.name }
+            </Consumer>
+          </h1>
+          <button onClick={ this.changeParentVal }><h1>改变父组件</h1></button>
+        </div>
+      }
+    }
+
+    // 懒加载组件, lazy 应该要使用 import 导入组件,这里只是演示 Suspense 组件效果
+    class LazyChildSrc extends Component {
+      render() {
+        return <h1>懒加载组件</h1>
+      }
+    }
+    const LazyChild = lazy(() => new Promise(r => {
+      setTimeout(() => {
+        r(LazyChildSrc)
+      }, 5000)
+    }))
+
+    // Fragment 不会生成自身元素，常用于 table tr 多个 td
+    class Cols extends Component {
+      render() {
+        return <Fragment>
+          <td>Fragment 1</td>  
+          <td>Fragment 2</td>  
+        </Fragment>
+      }
+    }
+
+    // 父组件 PureComponent 会有内部的简单优化避免重复 render
+    class App extends PureComponent {
+      constructor(props) {
+        super(props)
+
+        this.state = {
+          value: 0
+        }
+      }
+
+      changeValue = val => {
+        this.setState({
+          value: val
+        })
+      }
+
+      render() {
+        // 获取组件实例
+        const ref = createRef()
+        setTimeout(() => {
+          console.log('获取组件 ref', ref)
+        }, 1000)
+        
+        // 可以用变量动态赋值组件用于渲染
+        const Component = Child
+        
+        // Profiler 组件可以对包裹组件进行性能检查
+        const callback = (...opts) => {
+          console.log('Profiler', opts)
+        }
+
+        // 和子组件通信
+        // 组件.Provider 可以提供上下文内容
+        return <div>
+          <h1>父组件：{ this.state.value }</h1>
+          <Provider value={ { vm: this, name: 'provider' } }>
+            <Component ref={ ref } name="父组件传入的 prop name" changeValue={ this.changeValue }/>
+          </Provider>
+          <h1>Suspense 组件，点一下上面的按钮</h1>
+          <Suspense fallback={ <h1>加载中...,这里语法不支持所以等下会报错</h1> }>
+            { this.state.value ? <LazyChild /> : null}
+          </Suspense>
+          <table>
+            <tbody>
+              <tr>
+                <Profiler id="Cols" onRender={callback}>
+                  <Cols/>
+                </Profiler>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      }
+    }
+
+    app.render(<App/>)
+    console.log('app', app)
+  </script>
+</body>
+</html>

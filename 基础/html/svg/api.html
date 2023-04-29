@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <!-- 
+    坐标系统：
+    用户坐标系：用户查看坐标系
+    自身坐标系：内部图形自己的坐标系统
+    前驱坐标系：父容器坐标系
+    参考坐标系：任意一个坐标系都可以作为参考坐标系
+   -->
+
+   <!-- 
+    颜色：
+    rgb
+    hsl（颜色，饱和度，亮度） 
+    rgba
+    hsla
+    -->
+
+  <!-- 
+    矩形 
+    preserveAspectRatio="xMidYMid meet"控制图形的缩放对齐方式
+    viewBox：显示当前 svg 区域内的 x y width heihgt 矩形区域内容，宽高越大，看到的内容就会变小；宽高越小，看到的内容就会变大
+  -->
+  <svg width="300" height="150" viewBox="0 0 300 150">
+    <!-- 分组，分组可以统一调整属性，g 标签中的属性都会应用于子标签上 -->
+    <g fill="green" opacity="0.5">
+      <rect x="0" y="0" width="100" height="80" rx="4" ry="4"></rect>
+      <rect x="100" y="80" width="100" height="80"></rect>
+    </g>
+  </svg>
+  <!-- 圆形 -->
+  <svg>
+    <defs>
+      <!-- gradientUnits="userSpaceOnUse" 配置这个起点终点将会用实际坐标值作为起点终点 -->
+      <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0", stop-color="skyblue" />
+        <!-- <stop offset="0.6", stop-color="red" /> -->
+        <stop offset="1", stop-color="#fff" />
+      </linearGradient>
+    </defs>
+    <circle cx="50" cy="50" r="50" fill="url(#grad)"></circle>
+  </svg>
+  <!-- 椭圆 -->
+  <svg>
+    <defs>
+      <radialGradient id="grad1" cx="0.5" cy="0.5" r="0.5">
+        <stop offset="0", stop-color="#fff" />
+        <!-- <stop offset="0.6", stop-color="red" /> -->
+        <stop offset="1", stop-color="skyblue" />
+      </radialGradient>
+    </defs>
+    <ellipse cx="100" cy="50" rx="100" ry="50" fill="url(#grad1)" transform="scale(0.8)"></ellipse>
+  </svg>
+
+  <!-- 线 -->
+  <svg><line x1="0" y1="0" x2="100" y2="100" stroke="#000" stroke-width="2"></line></svg>
+  
+  <!-- 折线 -->
+  <svg><polyline points="0 0 100 100 0 100" stroke="#000" fill="none" stroke-width="2"></polyline></svg>
+  
+  <!-- 多边形 -->
+  <svg><polygon points="0 0 100 100 0 100" stroke="#000" fill="none" stroke-width="2"></polygon></svg>
+  
+  <!-- 笔刷（纹理） -->
+  <svg>
+    <defs>
+      <!-- 
+        如果不使用 patternUnits="userSpaceOnUse" 默认宽高是按百分比来配置的 
+        patternContentUnits="objectBoundingBox"
+      -->
+      <pattern id="p1" x="0" y="0" width="0.2" height="0.2">
+        <circle cx="20" cy="20" r="20" fill="skyblue"></circle>
+      </pattern>
+    </defs>
+    <rect x="0" y="0" width="300" height="150" fill="url(#p1)" stroke="blue"></rect>
+  </svg>
+  
+  <!-- 路径 path -->
+  <svg>
+    <!-- 直线
+      Mx y 移动画笔
+      Lx y 绘制直线到指定位置
+      Hx 绘制水平线到指定位置
+      Vy 绘制垂直线到指定位置
+      m、l、h、v 命令和上面命令一样，只是相对位置绘制
+    -->
+    <path d="M10 10 L100 100" stroke="blue"></path>
+  </svg>
+  <svg>
+    <!-- 弧线
+      Arx(弧线所在椭圆x半轴长) ry(弧线所在椭圆y半轴长) xr(弧线所在椭圆x轴和水平线的顺时针角度) laf(是否选择弧线较长的那边绘制) sf(是否选择逆时针方向) x(弧线终点x标坐) y(弧线终点y标坐)
+    -->
+    <path d="M80 30 A100 50 0 0 0 150 100" stroke="blue" fill="none"></path>
+  </svg>
+  <svg>
+    <!-- 贝塞尔曲线
+      Qx1 y1 x2 y2 二次贝塞尔
+      Cx1 y1 x2 y2 x3 y3 三次贝塞尔
+      Tx1 y1 x2 y2 x3 y3... 光滑二次贝塞尔（这些点之间会用二次贝塞尔连接）
+      Sx1 y1 x2 y2 x3 y3... 光滑三次贝塞尔（这些点之间会用三次贝塞尔连接）
+    -->
+    <path d="M0 0 Q100 100 200 0" stroke="blue" fill="none"></path>
+    <path d="M0 150 C0 0 150 150 300 0" stroke="blue" fill="none"></path>
+    <path d="M0 0 T50 100 100 100 200 100" stroke="red" fill="none"></path>
+    <path d="M0 150 S50 0 100 75 200 0 300 0" stroke="red" fill="none"></path>
+  </svg>
+  
+  <!-- 文本 -->
+  <svg>
+    <!-- 
+      dx、dy 控制基线位置，也能控制每个字符之间的间距 
+      text-anchor 属性可以控制水平位置
+      dominant-baseline 属性可以控制垂直位置
+    -->
+    <text x="10" y="50" dx="0 20 20" dy="0 20 -20 20 -20 20 -20" stroke="red" fill="red" style="font-size: 40px">
+      Hell<tspan stroke="blue" fill="red" style="font-size: 80px">o</tspan> World
+    </text>
+    
+    <!-- 文本路径，可以让文本按着路径来展示 -->
+    <path id="tp" d="M0 75 Q100 150 200 75" stroke="none" fill="none"></path>
+    <!-- text-anchor="middle" 这个属性表示文本中心对齐路径开始位置 -->
+    <text x="20" dx="0 20 20" dy="0 20 -20 20 -20 20 -20" stroke="blue" fill="blue" style="font-size: 40px">
+      <!-- startOffset="100%" 表示文本在路径上的位置 -->
+      <textPath xlink:href="#tp">
+        Hello World
+      </textPath> 
+    </text>
+    <a xlink:href="https://www.baidu.com/" xlink:title="百度" target="_blank">
+      <text x="20" y="145" fill="green">超链接可以放任何图形上</text>
+    </a>
+  </svg>
+
+  <!-- 引用、裁切、蒙板 -->
+  <svg style="width: 500px;height: 500px;background: blue;">
+    <!-- 定义在 defs 中的内容不是可见的，是用于被引用的 -->
+    <defs>
+      <polygon id="star" points="10 0 20 10 10 20 0 10" fill="#fff"></polygon>
+      <!-- 裁剪元素 -->
+      <clipPath id="clip">
+        <polygon points="250 250 0 200 0 300"></polygon>
+      </clipPath>
+    </defs>
+    <!-- use 可以引用图形 -->
+    <use xlink:href="#star"></use>
+    <!-- 用裁剪路径裁剪这个图形的交集 -->
+    <circle cx="250" cy="250" r="100" fill="#fff" clip-path="url(#clip)"></circle>
+    <!-- 蒙板，可以遮掉不必要显示的部分， -->
+    <mask id="mask">
+      <circle cx="150" cy="150" r="100" fill="#fff"></circle>
+      <circle cx="200" cy="100" r="100" fill="#000"></circle>
+    </mask>
+    <circle cx="150" cy="150" r="100" fill="yellow" mask="url(#mask)"></circle>
+  </svg>
+  <!-- 动画 -->
+  <svg style="height: 500px;width: 500px;">
+    <rect id="rect1" x="50" y="50" width="150" height="150" fill="red">
+      <!-- 
+        xlink:href="url(#rect1)" 这个可以把动画标签放外面，然后关联上对应元素
+        fill 属性控制最终的状态 默认 remove，会还原；freeze 会停留最后一个状态
+        repeatCount 循环次数 indefinite 可以无限循环
+        begin 控制当前动画的开始条件
+      -->
+      <animate
+        id="goRight"
+        attributeType="XML"
+        attributeName="x"
+        from="50"
+        to="100"
+        dur="1s"
+        fill="freeze">
+      </animate>
+      <animate
+        attributeType="XML"
+        attributeName="fill"
+        begin="goRight.end + 0.5s"
+        from="red"
+        to="blue"
+        dur="1s"
+        fill="freeze"
+        repeatCount="indefinite">
+      </animate>
+    </rect>
+    <rect x="50" y="300" width="100" height="100" fill="red">
+      <animateTransform
+        attributeType="XML"
+        attributeName="transform"
+        type="rotate"
+        from="0"
+        to="360"
+        dur="1s"
+        repeatCount="indefinite">
+      </animateTransform>
+    </rect>
+    <!-- 轨迹移动 -->
+    <rect x="0" y="0" width="100" height="100" fill="green">
+      <!-- 
+        路径可以用属性，也可以配置 mpath 绑定路径
+        path="M0 0 L200 250 500 0" 
+      -->
+      <animateMotion
+        dur="3s"
+        rotate="auto">
+        <mpath xlink:href="#amp"></mpath>
+      </animateMotion>
+    </rect>
+    <path id="amp" d="M0 0 L200 250 500 0" stroke="blue" fill="none"></path>
+  </svg>
+
+  <script>
+    // svg 可以单独作为一个网页存在，所以 svg 中所有元素，都需要用带 ns 的创建元素 api
+    let el = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+    el = document.createElementNS('https://www.w3.org/1999/xlink', 'textPath')
+    el.setAttributeNS('https://www.w3.org/1999/xlink', 'xlink:href', '#tp')
+  </script>
+</body>
+</html>

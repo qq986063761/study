@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    
+    .box {
+      width: 200px;
+      height: 200px;
+      border: 2px solid #000;
+      margin: 20px;
+    }
+
+    .box:first-child {
+      border-radius: 100% 0 0 0;
+    }
+
+    .box:nth-child(2) {
+      border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+    }
+
+    .box:nth-child(3) {
+      width: 300px;
+      height: 200px;
+      border-radius: 50%;
+    }
+
+    .box:nth-child(4) {
+      width: 300px;
+      /* 高是宽的一半 */
+      height: 150px;
+      /* 圆角和宽度相等 */
+      border-radius: 300px 300px 0 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">1/4圆</div>
+  <div class="box">半椭圆</div>
+  <div class="box">椭圆</div>
+  <div class="box">半圆</div>
+</body>
+</html>

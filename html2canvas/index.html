@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .left,
+    .right {
+      position: relative;
+      float: left;
+      width: 50%;
+      height: 50%;
+      overflow: auto;
+    }
+
+    .content {
+      position: relative;
+      float: left;
+    }
+
+    .line {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 60px;
+      border-bottom: 2px dashed red;
+    }
+
+    #download {
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      z-index: 666;
+    }
+  </style>
+</head>
+
+<body>
+  <button id="download" type="button">下载</button>
+
+  <div id="wrap" class="left">
+    <div id="content" class="content">
+      <img src="./test.png">
+      <div class="line"></div>
+    </div>
+  </div>
+  <div id="display" class="right"></div>
+  <img id="img">
+
+  <script src="https://cdn.bootcss.com/lz-string/1.4.4/lz-string.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
+  <script>
+    var content = document.querySelector("#content")
+    var scroll = document.querySelector("#wrap")
+    var display = document.getElementById('display')
+    var line = document.getElementsByClassName('line')[0]
+
+    // 创建一个 canvas 用于克隆成图片
+    var canvas = document.createElement("canvas")
+    canvas.crossOrigin = "anonymous"
+
+    // 下载
+    document.getElementById('download').onclick = function (ev) {
+      // 利用缩放提高清晰度，默认和设备像素比相同，压缩字符串可以使用 lz-string 压缩
+      var scale = window.devicePixelRatio
+      var width = content.offsetWidth
+      var height = content.offsetHeight
+
+      // 设置 canvas 内部所包含的像素宽高
+      canvas.width = width * scale
+      canvas.height = height * scale
+
+      // 设置 canvas 外部展示样式宽高，通常和所见宽高一致即可
+      canvas.style.width = width + 'px'
+      canvas.style.height = height + 'px'
+      canvas.getContext('2d').scale(scale, scale)
+
+      // 重置滚动
+      scroll.scrollLeft = scroll.scrollTop = 0
+
+      // 先获取虚线的样式，后面用于手动绘制到 canvas 中
+      var parentRect = content.getBoundingClientRect()
+      var borders = findDashedBorders(content, '.line')
+
+      // 绘制虚线
+      // line.style.display = 'none'
+
+      // 注意：尽量不要在元素上使用变形，要利用配置的缩放属性不容易产生边角裁剪问题
+      html2canvas(content, {
+        useCORS: true,
+        allowTaint: true,
+        logging: false,
+        scale: scale,
+        canvas: canvas,
+        backgroundColor: null
+      }).then(canvas => {
+        var dataUrl = canvas.toDataURL("image/png");
+        console.log('压缩前：', dataUrl);
+        // var link = document.createElement('a');
+        // link.href = dataUrl;
+        // link.download = '下载图片.png';
+        // link.click();
+
+        var str = LZString.compress(dataUrl);
+        console.log('压缩后：', str)
+
+        drawDashedBorder(canvas, borders, parentRect, 'red', 2);
+
+        // img.src = LZString.decompress(str)
+
+        // canvas添加到指定位置
+        display.appendChild(canvas)
+      });
+    }
+
+    const dashedBorder = ["Top", "Right", "Bottom", "Left"];
+    // 提取虚线 border 相关的方向 rect 等信息
+    function findDashedBorders(page, selector) {
+      const eles = page.querySelectorAll(selector);
+      const borders = [];
+      eles.forEach(el => {
+        const computedStyle = window.getComputedStyle(el);
+        const borderStyle = computedStyle.borderStyle ? computedStyle.borderStyle.split(' ') : [];
+
+        const dashedIndex = borderStyle
+          .map((val, index) => val === 'dashed' ? index : null)
+          .filter(val => val !== null);
+        if (dashedIndex.length) {
+          const rect = el.getBoundingClientRect();
+          dashedIndex.map(index => {
+            const border = {
+              rect,
+              border: dashedBorder[index]
+            }
+            borders.push(border);
+
+            // 将虚线设置透明，防止 html2canvas 生成样式，最终绘制完成后要恢复
+            el.style[`border${dashedBorder[index]}Color`] = 'transparent';
+          });
+        }
+      });
+      return borders;
+    }
+
+    // 利用 border 信息、容器 rect 信息绘制虚线到生成的 canvas 中
+    function drawDashedBorder (canvas, borders, parentRect, color = 'red', lineWidth = 1, scale = 1) {
+      var ctx = canvas.getContext("2d");
+      ctx.setLineDash([6, 3]); // 设置绘制线样式为虚线样式
+      ctx.strokeStyle = color;
+      ctx.lineWidth = lineWidth;
+      ctx.globalAlpha = 1;
+
+      borders.forEach(border => {
+        var left = (border.rect.left + 0.5 - parentRect.left) * scale;
+        var right = (border.rect.right - 0.5 - parentRect.left) * scale;
+        var top = (border.rect.top + 0.5 - parentRect.top) * scale;
+        var bottom = (border.rect.bottom - 0.5 - parentRect.top) * scale;
+
+        switch (border.border) {
+          case 'Top':
+            ctx.beginPath();
+            ctx.moveTo(left, top);
+            ctx.lineTo(right, top);
+            ctx.stroke();
+            break;
+          case 'Right':
+            ctx.beginPath();
+            ctx.moveTo(right, top);
+            ctx.lineTo(right, bottom);
+            ctx.stroke();
+            break;
+          case 'Bottom':
+            ctx.beginPath();
+            ctx.moveTo(left, bottom);
+            ctx.lineTo(right, bottom);
+            ctx.stroke();
+            break;
+          case 'Left':
+            ctx.beginPath();
+            ctx.moveTo(left, top);
+            ctx.lineTo(left, bottom);
+            ctx.stroke();
+            break;
+          default:
+            break;
+        }
+      })
+    }
+  </script>
+</body>
+
+</html>

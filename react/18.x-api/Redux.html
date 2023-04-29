@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app"></div>
+
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/redux@4.2.0/dist/redux.js"></script>
+  <script src="https://unpkg.com/react-redux@8.0.5/dist/react-redux.js"></script>
+  <script type="text/babel">
+    const {  } = React
+    const { createRoot } = ReactDOM
+    const { createStore } = Redux
+    const { Provider, useSelector } = ReactRedux
+
+    const initState = {
+      count: 0
+    }
+    
+    function reducer(state, action) {
+      console.log('store handle', state, action)
+      switch (action.type) {
+        case 'ADD':
+          return {
+            ...state,
+            count: state.count + 1
+          }
+        default:
+          return state
+      }
+    }
+
+    const store = createStore(reducer, initState)
+
+    function App() {
+      const add = () => {
+        store.dispatch({
+          type: 'ADD'
+        })
+      }
+
+      const count = useSelector((state) => state.count)
+
+      return <div>
+        <h1>数字: { count }</h1>
+        <button onClick={ add }><h1>添加</h1></button>
+      </div>
+    }
+    
+    const app = createRoot(document.getElementById('app'))
+    app.render(<Provider store={ store }>
+      <App />
+    </Provider>)
+  </script>
+</body>
+</html>

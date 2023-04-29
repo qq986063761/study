@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link href="https://vjs.zencdn.net/7.6.5/video-js.css" rel="stylesheet">
+</head>
+<body>
+  <video id="video" class="video-js" width="640" height="264">
+    <source src="http://www.w3school.com.cn/example/html5/mov_bbb.mp4" type="video/mp4">
+    <p class='vjs-no-js'>
+      To view this video please enable JavaScript, and consider upgrading to a web browser that
+      <a href='https://videojs.com/html5-video-support/' target='_blank'>supports HTML5 video</a>
+    </p>
+  </video>
+
+  <script src='https://vjs.zencdn.net/7.6.5/video.js'></script>
+  <script>
+    // 全局配置
+    videojs.options.autoplay = true;
+
+    // 初始化 video
+    var player = videojs('video', {
+      controls: true, // 是否显示交互控件
+      autoplay: true, // 是否自动播放
+      loop: false, // 是否循环播放
+      preload: 'auto', // 预加载配置
+      poster: '', // 播放前的预览图片
+      liveui: true, // 是否开启默认 UI 交互细节
+      notSupportedMessage: '当前视频不支持播放', // 视频不支持时显示文案
+      playbackRates: [0.5, 1, 2, 3], // 显示播放速度切换控件
+      // 自定义用户其它行为
+      userActions: {
+        // 双击
+        doubleClick: function () {},
+        // 热键按下
+        hotkeys: function (event) {},
+      }
+    });
+
+    // 事件
+    player.on('ready', function() {
+      
+    });
+  </script>
+</body>
+</html>

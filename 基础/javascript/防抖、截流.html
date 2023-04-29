@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <fieldset>
+    <legend>debounce</legend>
+    <input id="i1" type="text">
+  </fieldset>
+  <fieldset>
+    <legend>throttle</legend>
+    <input id="i2" type="text">
+  </fieldset>
+
+  <script>
+    // 防抖(debounce)和节流(throttle)
+    // 作用：高频事件触发优化方案，应用于如：resize、scroll 等场景
+    
+    i1.oninput = debounce(function (event) {
+      console.log('debounce', event)
+    }, 500)
+
+    i2.oninput = throttle(function (event) {
+      console.log('throttle', event)
+    }, 1000)
+
+    /**
+     * 防抖 高频事件结束后触发
+     * @param {function} callback 频繁执行的函数
+     * @param {number} wait 毫秒
+     */
+    function debounce(callback, wait = 300) {
+      var timer = null
+      return function () {
+        clearTimeout(timer)
+        // 延迟执行
+        timer = setTimeout(() => {
+          callback.apply(this, arguments)
+        }, wait)
+      }
+    }
+
+    /**
+     * 节流 高频事件过程中达到一个最大等待时间必定触发一次
+     * @param {function} callback 频繁执行的函数
+     * @param {number} wait 毫秒
+     */
+    function throttle(callback, wait = 300) {
+      var start = 0
+      return function () {
+        var end = Date.now()
+        // 间断执行
+        if (end - start > wait) {
+          start = end
+          callback.apply(this, arguments)
+        }
+      }
+    }
+  </script>
+</body>
+
+</html>

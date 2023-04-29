@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    @keyframes animate {
+      to {
+        transform: rotate(-90deg);
+      }
+    }
+    
+    .box {
+      width: 200px;
+      height: 200px;
+      border: 2px solid #000;
+    }
+
+    #animate {
+      /* 
+        name 动画名
+        duration 一个动画的时长
+        timing-function 动画速度
+        delay 延迟多久执行动画
+        iteration-count 重复次数
+        direction 动画执行完后的运动方向，反向还是重新开始
+        fill-mode 动画执行前后是否保留动画中的样式
+      */
+      animation: animate 1s ease 0s infinite alternate both;
+    }
+  </style>
+</head>
+<body>
+  <div id="animate" class="box">
+    <h1>动画</h1>
+  </div>
+
+  <script>
+    // 动画的 hook
+    function listener(event) {
+      console.log(event.type, event)
+    }
+    animate.addEventListener("animationstart", listener, false);
+    animate.addEventListener("animationend", listener, false);
+    animate.addEventListener("animationiteration", listener, false);
+  </script>
+</body>
+</html>

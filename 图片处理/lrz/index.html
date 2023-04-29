@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <input type="file" accept="image/*" onchange="onUpload(event)">
+  <div>
+    <img id="img">
+    <div>原图大小：<span id="sourceSize"></span></div>
+    <div>压缩后大小：<span id="newSize"></span></div>
+  </div>
+  <script src="./dist/lrz.bundle.js"></script>
+  <script>
+    var token = 'R77JNB3TNu85pgrDWdu0gjhDkltmbN8/UCzYAxWydqH6SWwdLZnowyG03j0j6u7XnisHSiYhLnMbbYGyn9zVyB0YzS9JIJO66ZV9G/kdaSh5i+FUjFFEkwIeMyzfLye2Y3IU6OqQ6yuMraGghHtnuB2nqUidZ1Fc5S6McrXb9ayHLK/1BgKtPA=='
+
+    // 文件上传
+    function onUpload(event) {
+      var file = event.target.files[0]
+      console.log('源文件：', file)
+      sourceSize.innerText = (file.size / 1024) + 'kb'
+      
+      lrz(file, {
+        width: 300
+      })
+      .then(function (rs) {
+        img.src = rs.base64
+        newSize.innerText = (rs.fileLen / 1024) + 'kb'
+
+        // 上传到后端
+        // rs.formData.append('linkId', 'd2652cd6-2ca8-4016-9e35-25cee7b1276e')
+        // rs.formData.append('classId', '8e763dca-729b-4ece-87ad-9a045c2c353f')
+        // fetch('https://demo1.topscrm.cn/v3/employee/linkServiceUploadAttFile', {
+        //   method: 'POST',
+        //   body: rs.formData,
+        //   headers: {
+        //     token: token
+        //   }
+        // })
+        
+        // uploadFileToOss(rs.formData)
+
+        console.log('成功：', rs)
+      })
+      .catch(function (err) {
+        console.error('失败：', err)
+      })
+      .always(function () {
+        console.log('完成')
+      })
+    }
+
+
+    // 随机生成文件后缀，用于阿里云文件路径
+    function getFileSuffix(filename) {
+      var pos = filename.lastIndexOf(".")
+      var suffix = ""
+      if (pos !== -1) suffix = filename.substring(pos)
+      return suffix.toLocaleLowerCase()
+    }
+
+    // 获取随机字符串，用于阿里云文件路径
+    function getRandomString(len) {
+      len = len || 32;
+      var chars = "ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678";
+      var maxPos = chars.length;
+      var pwd = "";
+      for (let i = 0; i < len; i++) {
+        pwd += chars.charAt(Math.floor(Math.random() * maxPos));
+      }
+      return pwd
+    }
+
+    // 上传到阿里云
+    function uploadFileToOss(formdata) {
+      // 获取阿里云代理
+      fetch('https://demo1.topscrm.cn/v3/common/getOssPolicy', {
+        headers: {
+          token: token
+        }
+      }).then(response => {
+        response.json().then(rs => {
+          const file = formdata.get('file')
+          formdata.delete("file")
+
+          // 获取阿里云代理数据
+          const multipart = {
+            key: rs.data.dir,
+            policy: rs.data.policy,
+            OSSAccessKeyId: rs.data.accessid,
+            signature: rs.data.signature
+          }
+          
+          let ext = getFileSuffix(file.name)
+          multipart.key += `/${getRandomString(10) + ext}`
+          
+          formdata.append("name", file.name)
+          for (const key in multipart) {
+            if (multipart.hasOwnProperty(key)) {
+              const value = multipart[key]
+              formdata.append(key, value)
+            }
+          }
+          formdata.append("file", file)
+          
+          fetch(rs.data.host, {
+            method: 'POST',
+            body: formdata,
+            headers: {
+              token: token
+            }
+          })
+
+          console.log('图片地址：', rs.data.host + "/" + multipart.key)
+        })
+      })
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // 父类
+    function Parent() {}
+
+    // 原型链继承
+    // 缺点：因为原型都是用的同一个 Parent 实例，所以如果 Child 的多个实例操作了 Parent 原型上同一个私有属性，会互相影响，因为内存共用的
+    function Child() {}
+    Child.prototype === new Parent()
+    Child.prototype.constructor = Child
+
+    // 构造函数继承
+    // 缺点：不会继承原型上的属性，只会继承实例自身属性
+    function Child() {
+      Parent.call(this)
+    }
+
+    // 组合继承（上两种方式组合）
+    // 缺点，new Child() 的时候，会触发 Parent 的内部代码，然后 Child 内部又调用了 Parent.call(this) 又重复执行了一次
+    function Child() {
+      Parent.call(this)
+    }
+    Child.prototype === new Parent()
+    Child.prototype.constructor = Child
+
+    // 原型式继承
+    // 缺点：parent 中的引用类型会被多个子实例共享
+    var parent = {}
+    var child = Object.create(parent)
+    
+    // 寄生式继承
+    function create(src) {
+      let obj = Object.create(src)
+      return obj
+    }
+    child = create(parent)
+
+    // 寄生组合式继承
+    function extend (Parent, Child) {
+      // 这里改用 Object.create 就可以减少组合继承中多进行一次构造的过程
+      Child.prototype = Object.create(Parent.prototype)
+      Child.prototype.constructor = Child
+    }
+    extend(Parent, Child)
+  </script>
+</body>
+</html>

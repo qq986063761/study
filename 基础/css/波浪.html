@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    @keyframes rotate {
+      0% {
+        transform: translate(-50%, 0) rotateZ(0deg);
+      }
+      50% {
+        transform: translate(-50%, -2%) rotateZ(180deg);
+      }
+      100% {
+        transform: translate(-50%, 0%) rotateZ(360deg);
+      }
+    }
+
+    .box {
+      position: relative;
+      border: 2px solid skyblue;
+      background-color: skyblue;
+      width: 300px;
+      height: 300px;
+      overflow: hidden;
+      border-radius: 50%;
+    }
+
+    .box:before, 
+    .box:after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 150px;
+      width: 900px;
+      height: 900px;
+      background-color: #fff;
+      animation-name: rotate;
+      animation-iteration-count: infinite;
+      animation-timing-function: linear;
+    }
+
+    .box:before {
+      border-radius: 45%;
+      animation-duration: 10s;
+    }
+
+    .box:after {
+      bottom: 140px;
+      opacity: .5;
+      border-radius: 47%;
+      animation-duration: 10s;
+    }
+  </style>
+</head>
+<body>
+  <div class="box"></div>
+</body>
+</html>

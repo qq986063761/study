@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title></title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <style>
+    body {
+      font-family: "Helvetica Neue", Helvetica, Arial;
+      background: rgb(244, 215, 201);
+    }
+
+    .block {
+      display: flex;
+    }
+    
+    .container {
+      margin: 5px;
+      flex: 1;
+    }
+
+    .item {
+      padding: .75rem 1.25rem;
+      margin-bottom: -1px;
+      border: 1px solid rgba(0,0,0,.1);
+      background: #fff;
+    }
+
+    .item:first-child {
+      border-top-left-radius: .25rem;
+      border-top-right-radius: .25rem;
+    }
+    .item:last-child {
+      border-bottom-left-radius: .25rem;
+      border-bottom-right-radius: .25rem;
+    }
+
+    .item-bg-blue {
+      background: #c3ecf5;
+    }
+
+    .item-bg-green {
+      background-color: green;
+    }
+
+    .bg-yellow {
+      background-color: rgb(255, 246, 178);
+    }
+
+    .handle {
+      margin-right: 10px;
+      cursor: pointer;
+    }
+
+    .filtered {
+      background-color: #dc3545;
+    }
+
+    .selected {
+      background-color: #f9c7c8;
+      border: solid red 1px; 
+    }
+  </style>
+</head>
+
+<body>
+  <div class="block">
+    <div id="container1" class="container">
+      <div class="item"><span class="handle el-icon-s-tools"></span>Item 1</div>
+      <div class="item"><span class="handle el-icon-s-tools"></span>Item 2</div>
+      <div class="item"><span class="handle el-icon-s-tools"></span>Item 3</div>
+      <div class="item filtered"><span class="handle el-icon-s-tools"></span>Item 4</div>
+      <div class="item"><span class="handle el-icon-s-tools"></span>Item 5</div>
+    </div>
+    <div id="container2" class="container">
+      <div class="item bg-yellow"><span class="handle el-icon-s-tools"></span>Item 1</div>
+      <div class="item bg-yellow filtered"><span class="handle el-icon-s-tools"></span>Item 2</div>
+      <div class="item bg-yellow"><span class="handle el-icon-s-tools"></span>Item 3</div>
+      <div class="item bg-yellow"><span class="handle el-icon-s-tools"></span>Item 4</div>
+      <div class="item bg-yellow"><span class="handle el-icon-s-tools"></span>Item 5</div>
+    </div>
+  </div>
+  <div class="block">
+    <div class="container">
+      <button id="btnInit">初始化 sortable.js 实例</button>
+      <button id="btnDisable">禁用/启用 sortable.js 实例</button>
+      <button id="btnDty">销毁 sortable.js 实例</button>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+  <script>
+    var container1 = document.getElementById('container1');
+    var container2 = document.getElementById('container2');
+    
+    var config = {
+      group: {
+        name: 'common', // 相同的组内元素可以互相拖拽
+        pull: 'clone', // 允许当前容器内的元素，克隆到同组容器中
+        put: false // 禁止其他组容器中的元素拖拽到当前容器
+      },
+      filter: '.filtered', // 禁止拖拽的选择器
+      handle: '.handle', // 拖拽手柄选择器
+      animation: 150, // 动画时间
+      ghostClass: 'item-bg-blue', // 拖拽时，原元素的类名
+      dragClass: 'item-bg-green', // 正在被拖拽的元素类名
+      multiDrag: true, // 支持多选拖拽
+      selectedClass: 'selected', // 被选中元素的类名
+      forceFallback: true, // 不用 HTML5 默认拖拽的交互，自己新生成拖拽中的元素
+    }
+
+    // 初始化实例
+    var instance1 = null;
+    var instance2 = null;
+
+    function init () {
+      instance1 = new Sortable(container1, Object.assign({}, config, {
+        sort: false, // 禁止排序
+        onStart: function (event) {
+          console.log('onStart', event)
+        },
+        onEnd: function (event) {
+          console.log('onEnd', event)
+        }
+      }))
+
+      instance2 = new Sortable(container2, Object.assign({}, config, {
+        group: {
+          name: 'common', // 相同的组内元素可以互相拖拽
+          pull: 'clone', // 允许当前容器内的元素，克隆到同组容器中
+        }
+      }));
+    }
+    init();
+    
+    btnInit.onclick = init;
+    btnDisable.onclick = function () {
+      instance1.option('disabled', !instance1.option("disabled"));
+      instance2.option('disabled', !instance2.option("disabled"));
+    };
+    btnDty.onclick = function () {
+      instance1.destroy();
+      instance2.destroy();
+    };
+  </script>
+</body>
+
+</html>

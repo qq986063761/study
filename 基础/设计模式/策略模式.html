@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <fieldset>
+    <legend>操作</legend>
+    <button id="btn1">获取A级策略</button>
+    <button id="btn2">获取B级策略</button>
+    <button id="btn3">获取C级策略</button>
+  </fieldset>
+
+  <script>
+    // 定义策略对象
+    const strategy = {
+      "A": function(salary) {
+        return salary * 4;
+      },
+      "B" : function(salary) {
+        return salary * 3;
+      },
+      "C" : function(salary) {
+        return salary * 2;
+      }
+    };
+
+    // 根据不同条件获取不同策略
+    function getStrategyResult(level, salary) {
+      return strategy[level](salary);
+    }
+
+    btn1.onclick = function () {
+      alert(getStrategyResult('A', 10000))
+    }
+    btn2.onclick = function () {
+      alert(getStrategyResult('B', 10000))
+    }
+    btn3.onclick = function () {
+      alert(getStrategyResult('C', 10000))
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <fieldset>
+    <legend>简单工厂</legend>
+    <input id="input" type="text" value="iphone XS Max">
+    <button id="btn">获取输入框中的产品</button>
+  </fieldset>
+
+  <script>
+    /*
+      工厂模式：将创建对象的过程单独封装
+      好处：隐藏实现、提供接口
+    */
+
+    /*----------------  简单工厂  ----------------*/
+    {
+      // 具体的产品
+      class Phone {
+        constructor(name) {
+          this.name = name
+        }
+        getName() {
+          alert(this.name)
+        }
+      }
+
+      // 简单工厂
+      class PhoneFactory {
+        static create(name) {
+          return new Phone(name)
+        }
+      }
+
+      btn.onclick = function () {
+        PhoneFactory.create(input.value).getName()
+      }
+    }
+
+    /*----------------  抽象工厂  ----------------*/
+    {
+      // 抽象工厂提供接口，不提供实现，由具体工厂去实现
+      class PhoneFactory {
+        // 提供操作系统接口，给具体工厂实现
+        createOS() {
+          throw new Error("抽象工厂方法不允许直接调用，你需要将我重写！");
+        }
+        // 提供硬件的接口，给具体工厂实现
+        createHardWare() {
+          throw new Error("抽象工厂方法不允许直接调用，你需要将我重写！");
+        }
+      }
+
+      // 具体工厂继承抽象工厂，并实现抽象工厂的需求
+      class AndroidPhoneFactory extends PhoneFactory {
+        createOS() {
+          // 安卓系统
+          return new AndroidOS()
+        }
+        createHardWare() {
+          // 高通硬件
+          return new QualcommHardWare()
+        }
+      }
+
+      // 定义操作系统这类产品的抽象产品类
+      class OS {
+        controlHardWare() {
+          throw new Error('抽象产品方法不允许直接调用，你需要将我重写！');
+        }
+      }
+
+      // 定义具体操作系统的具体产品类
+      class AndroidOS extends OS {
+        controlHardWare() {
+          console.log('我会用安卓的方式去操作硬件')
+        }
+      }
+
+      class AppleOS extends OS {
+        controlHardWare() {
+          console.log('我会用苹果的方式去操作硬件')
+        }
+      }
+
+      // 定义手机硬件这类产品的抽象产品类
+      class HardWare {
+        // 手机硬件的共性方法，这里提取了“根据命令运转”这个共性
+        run() {
+          throw new Error('抽象产品方法不允许直接调用，你需要将我重写！');
+        }
+      }
+
+      // 定义具体硬件的具体产品类
+      class QualcommHardWare extends HardWare {
+        run() {
+          console.log('我会用高通的方式去运转')
+        }
+      }
+
+      class MiWare extends HardWare {
+        run() {
+          console.log('我会用小米的方式去运转')
+        }
+      }
+      
+      // 生产手机的过程
+      const phone = new AndroidPhoneFactory() // 生产手机
+      const os = phone.createOS() // 配置系统
+      const hardware = phone.createHardWare() // 配置硬件
+      os.controlHardWare() // 启动操作系统操作硬件
+      hardware.run() // 硬件运行
+    }
+  </script>
+</body>
+
+</html>

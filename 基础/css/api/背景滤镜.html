@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      background-image: url('https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F0%2F58b3efaed8eb9.jpg&refer=http%3A%2F%2Fpic1.win4000.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1670060744&t=e9401835720acacefe6cdecf28dd56ae');
+      background-size: contain;
+    }
+
+    .box {
+      width: 200px;
+      height: 200px;
+      border: 2px solid #000;
+    }
+
+    #backDropFilter {
+      margin: 100px;
+      width: 400px;
+      height: 400px;
+    }
+
+    .backdrop-filter {
+      backdrop-filter: blur(20px) saturate(150%);
+    }
+  </style>
+</head>
+<body>
+  <div id="backDropFilter" class="box">
+    <h1>hover我，后面的背景添加滤镜</h1>
+  </div>
+
+  <script>
+    backDropFilter.onmouseenter = () => {
+      backDropFilter.className += ' backdrop-filter'
+    }
+    backDropFilter.onmouseleave = () => {
+      backDropFilter.className = backDropFilter.className.replace(' backdrop-filter', '')
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <fieldset>
+    <legend>操作</legend>
+    <button id="btn">触发事件</button>
+  </fieldset>
+
+  <script>
+    // 事件处理类
+    function Event() {
+      // 缓存
+      const callback = {}
+      return {
+        // 监听
+        listen(eventKey, fn) {
+          callback[eventKey] = fn;
+        },
+        // 触发
+        trigger(eventKey, data) {
+          if (callback[eventKey]) callback[eventKey](data)
+        }
+      }
+    }
+
+    const tv = Event()
+
+    // 监听（订阅者）
+    tv.listen('play', data => alert('事件被触发：' + JSON.stringify(data)))
+    
+    btn.onclick = function () {
+      // 触发（发送者）
+      tv.trigger('play', {'name': 'lisi'})
+    }
+  </script>
+</body>
+</html>

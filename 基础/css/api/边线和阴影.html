@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .box {
+      width: 200px;
+      height: 200px;
+      border: 2px solid #000;
+    }
+
+    #outline {
+      border-radius: 30px;
+      border-width: 20px;
+      outline: 20px solid blue;
+      outline-offset: 10px;
+      margin: 100px;
+    }
+
+    #boxShadow {
+      margin: 100px;
+      outline: 10px dashed rgba(0, 0, 0, .5);
+      box-shadow: 0 0 0 10px skyblue,
+        0 0 0 20px red,
+        0 0 0 30px blueviolet;
+    }
+  </style>
+</head>
+<body>
+  <div id="outline" class="box">
+    <h1>outline不占空间，但是没有圆角</h1>
+  </div>
+
+  <div id="boxShadow" class="box">
+    <h1>boxShadow不占空间，还能多重边框</h1>
+  </div>
+</body>
+</html>

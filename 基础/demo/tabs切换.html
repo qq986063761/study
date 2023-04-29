@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        /* 内部的定位可以去掉 */
+        .tabs {
+            position: relative;
+            text-align: center;
+        }
+
+        .tab {
+            position: relative;
+            display: inline-block;
+            padding: 20px;
+            font-size: 24px;
+            color: #000;
+            line-height: 1;
+            transition: .2s all linear;
+            cursor: pointer;
+        }
+
+        .tab:active {
+            background: #000;
+            color: #fff;
+        }
+
+        .tab-line {
+            position: absolute;
+            bottom: 0px;
+            border-bottom: 2px solid #000;
+            transition: all .2s ease-in-out;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="tabs">
+        <div class="tab" data-index="0" onclick="tabclick(event)">不可思议的CSS</div>
+        <div class="tab" data-index="1" onclick="tabclick(event)">导航栏</div>
+        <div class="tab" data-index="2" onclick="tabclick(event)">光标下划线跟随</div>
+        <div class="tab" data-index="3" onclick="tabclick(event)">PURE CSS</div>
+        <div class="tab" data-index="4" onclick="tabclick(event)">Coco</div>
+        <div class="tab-line" id="line"></div>
+    </div>
+    <script>
+        // tab线
+        var line = document.getElementById('line');
+
+        // 初始化
+        var active = 0;
+        var initTab = document.getElementsByClassName('tab')[active]
+        line.style.left = initTab.offsetLeft + 'px';
+        line.style.width = initTab.offsetWidth + 'px';
+        
+        // 点击tab
+        function tabclick(ev) {
+            if (active == ev.target.dataset.index) return
+            active = ev.target.dataset.index;
+            line.style.left = ev.target.offsetLeft + 'px';
+            line.style.width = ev.target.offsetWidth + 'px';
+        }
+    </script>
+</body>
+
+</html>

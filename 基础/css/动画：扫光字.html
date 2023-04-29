@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    @keyframes shine {
+      0% {
+        background-position: top left;
+      }
+
+      100% {
+        background-position: top right;
+      }
+    }
+
+    h1 {
+      background-image: -webkit-linear-gradient(left, #147B96, #E6D205 25%, #147B96 50%, #E6D205 75%, #147B96);
+      -webkit-text-fill-color: transparent;
+      -webkit-background-clip: text;
+      -webkit-background-size: 200% 100%;
+      animation: shine 3s infinite linear;
+      font-size: 60px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>hello world</h1>
+</body>
+
+</html>

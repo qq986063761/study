@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>video</title>
+</head>
+
+<body>
+  <video id="video" controls="controls" width="50%" webkit-playsinline="" playsinline="" x5-playsinline="" x-webkit-airplay="allow">
+    浏览器不支持视频组件
+  </video>
+
+  <div>
+    <button id="btnFull" type="button">全屏</button>
+    <button id="btnPause" type="button">暂停|播放</button>
+    <label>音量<input id="slider" type="range"></label>
+    <label>进度<input id="progress" type="range"></label>
+    <input id="file" type="file">
+  </div>
+
+  <script>
+    var video = document.getElementById('video');
+
+    // 进入全屏
+    function fullScreen(ele) {
+      var ele = ele || document.documentElement;
+      if (ele.requestFullscreen) {
+        ele.requestFullscreen();
+      } else if (ele.mozRequestFullScreen) {
+        ele.mozRequestFullScreen();
+      } else if (ele.webkitRequestFullScreen) {
+        ele.webkitRequestFullScreen();
+      } else {
+        alert('浏览器不支持全屏');
+      }
+    }
+
+    // 退出全屏
+    function exitFullscreen() {
+      var de = document;
+      if (de.exitFullscreen) {
+        de.exitFullscreen();
+      } else if (de.mozCancelFullScreen) {
+        de.mozCancelFullScreen();
+      } else if (de.webkitCancelFullScreen) {
+        de.webkitCancelFullScreen();
+      } else {
+        alert('浏览器不支持全屏');
+      }
+    }
+
+    // 获取当前占满全屏的元素，没有则返回null
+    function getFullScreenEl() {
+      const ele = document;
+      return ele.fullscreenElement ||
+        ele.msFullscreenElement ||
+        ele.mozFullScreenElement ||
+        ele.webkitFullscreenElement || null;
+    }
+
+    // 全屏测试
+    btnFull.onclick = function (e) {
+      if (!getFullScreenEl()) {
+        fullScreen(video);
+      } else {
+        exitFullscreen();
+      }
+    }
+
+    // 暂停、播放
+    btnPause.onclick = function (e) {
+      if (video.paused) {
+        video.play();
+      } else {
+        video.pause();
+      }
+    }
+
+    // 音量
+    slider.value = 0;
+    slider.onchange = function (e) {
+      video.volume = e.target.value / 100;
+    }
+
+    // 播放进度
+    progress.onchange = function (e) {
+      video.currentTime = video.duration * e.target.value / 100;
+    }
+
+    // 加载视频
+    video.src = 'http://www.w3school.com.cn/example/html5/mov_bbb.mp4';
+    video.load();
+
+    // 加载完成
+    video.onloadedmetadata = function (e) {
+      console.log('end', e);
+    }
+    
+    // 播放本地文件
+    file.onchange = function (event) {
+      var file = event.target.files[0];
+      var url = URL.createObjectURL(file);
+      video.src = url;
+      video.load();
+    }
+  </script>
+</body>
+
+</html>

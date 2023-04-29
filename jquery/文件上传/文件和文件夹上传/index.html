@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <style>
+        	.item {
+            	height: 60px;
+            	border: 1px solid gray;
+            }
+            
+            .item > div {
+            	float: left;
+            	height: 100%;
+            }
+            
+            .item img {
+            	height: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+        	<input id="upload" type="file" name="files" accept="*/*" webkitdirectory multiple>
+        </div>
+        <div id="container"></div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="index.js"></script>
+    </body>
+</html>
+

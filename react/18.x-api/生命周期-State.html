@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app"></div>
+
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script type="text/babel">
+    const {Component} = React
+    const {createRoot} = ReactDOM
+
+    const app = createRoot(document.getElementById('app'))
+    
+    class Child extends Component {
+      constructor(props) {
+        super(props)
+        this.state = {a: 1}
+      }
+
+      // 最近一次渲染输出之前调用
+      getSnapshotBeforeUpdate(prevProps, prevState) {
+        // console.log('Child getSnapshotBeforeUpdate', prevProps, prevState)
+        return 666 // 返回值是 componentDidUpdate 的参数3
+      }
+
+      // 父组件 state 变化后会触发，不建议用
+      // UNSAFE_componentWillReceiveProps(nextProps) {
+      //   console.log('Child UNSAFE_componentWillReceiveProps', this.props, nextProps)
+      // }
+
+      // 在发现渲染更新非常慢时，可以利用这个 hook 提前更新
+      shouldComponentUpdate(nextProps, nextState) {
+        // 在这里可以自己决定数据被改变了是否需要更新
+        // console.log('Child shouldComponentUpdate', this.props, this.state, nextProps, nextState)
+        return true
+      }
+
+      // 组件被更新前，不建议用
+      // UNSAFE_componentWillUpdate() {
+      //   console.log('UNSAFE_componentWillUpdate')
+      // }
+
+      // 组件被更新后
+      componentDidUpdate(prevProps, prevState, params) {
+        // console.log('componentDidUpdate', prevProps, prevState, params)
+      }
+
+      render() {
+        const { count } = this.props
+        return <h1>计数器：{ count }</h1>
+      }
+    }
+    
+    class App extends Component {
+      // 构造器初始化
+      constructor(props) {
+        super(props)
+
+        // 存储状态数据
+        this.state = {
+          date: new Date(),
+          count: 0
+        }
+      }
+      
+      // 组件被渲染前，不建议用
+      // UNSAFE_componentWillMount() {
+      //   console.log('UNSAFE_componentWillMount')
+      // }
+
+      // 组件被渲染后
+      componentDidMount() {
+        console.log('componentDidMount')
+        this.timer = setInterval(
+          // setState 用于更新组件 state 数据
+          () => this.setState({
+            date: new Date()
+          }),
+          1000
+        )
+
+        setInterval(
+          // 如果更新状态依赖 state 自身，需要使用函数，因为 setState 是异步更新的，可能有误差
+          () => this.setState((state, props) => ({
+            count: state.count + 1
+          })),
+          1000
+        )
+      }
+    
+      // 组件销毁前
+      componentWillUnmount() {
+        console.log('componentWillUnmount')
+        clearInterval(this.timer);
+      }
+      
+      // 错误拦截
+      componentDidCatch(error, errorInfo) {
+        console.warn(error, errorInfo)
+      }
+      
+      render() {
+        // console.log('render')
+        const { date, count } = this.state
+        return <>
+          <h1>{ date.toLocaleTimeString() }</h1>
+          <Child count={ count } />
+        </>
+      }
+    }
+
+    app.render(<App/>)
+  </script>
+</body>
+</html>

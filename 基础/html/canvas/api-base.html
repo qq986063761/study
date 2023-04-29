@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>api</title>
+  <style>
+    html,
+    body {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    canvas {
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas" style="margin-left: 8px;margin-top: 8px;border: 1px solid">
+    浏览器太老啦
+  </canvas>
+
+  <script>
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d'); // 获取2d绘图上下文
+    var startLeft = 50;
+    var startTop = 50;
+    canvas.width = window.innerWidth - 35;
+    canvas.height = window.innerHeight * 3;
+
+    // 清除矩形区域内容
+    context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+
+    /*-------------------   路径  -------------------*/
+    // 准备开始新的路径（相当于抬起手中的画笔）
+    // 路径非零环绕原则：当一个复杂图形内某一点向外发射一条射线，假设路径绘制的某一个方向为正方向，初始化一个值为0，
+    // 则射线相交一个正方向路径值+1，相交一个负方向路径值-1，最终值如果为正则表示此区域为内部，为负则表示此区域为外部；
+    // 上述原则使用场景：如需要阴影，显示在圆环内部
+    context.beginPath();
+    context.moveTo(startLeft, startTop); // 设置开始点
+    context.lineTo(startLeft + 400, startTop); // 设置目标点
+    startTop += 300
+    context.lineTo(startLeft, startTop);
+    context.closePath(); // 关闭之前绘制的路径（会自动闭合路径中的所有连接点）
+    context.stroke(); // 绘制路径
+    // context.fill(); // 填充路径内部
+
+    /*-------------------  形状  -------------------*/
+    context.beginPath()
+    
+    startTop += 150
+    var r = 150
+    var x = startLeft + r
+    var y = startTop
+
+    // 绘制弧路径(x, y, r, startAngle（x轴正方向为起点）, endAngle, anticlockwise（是否逆时针）)
+    context.arc(x, y, r, 0, 1.5 * Math.PI);
+
+    // 绘制弧路径，以moveTo作为开始点，x1、y1、x2、y2作为切线画弧（x1, y1, x2, y2, radius（半径））
+    context.moveTo(x, y - r);
+    context.arcTo(x + r, y - r, x + r, y, r);
+
+    // 二次贝塞尔曲线，1个控制点加终点（x1，y1，x2，y2）
+    startTop += (r + 100)
+    context.moveTo(startLeft, startTop);
+    context.quadraticCurveTo(startLeft + 300, startTop, startLeft + 100, startTop + 200);
+
+    // 三次贝塞尔曲线，2个控制点加终点（x1，y1，x2，y2，x3，y3）
+    context.moveTo(startLeft + 300, startTop);
+    context.bezierCurveTo(startLeft + 600, startTop - 100, startLeft + 600, startTop + 100, startLeft + 100, startTop + 200);
+
+    context.stroke();
+
+    // 绘制矩形路径(x, y, width, height)
+    context.beginPath();
+    startTop += 300
+    context.rect(startLeft, startTop, 300, 200);
+    context.stroke();
+
+    // 绘制矩形(x, y, width, height)
+    context.strokeRect(startLeft + 50, startTop + 50, 200, 100);
+    // 填充矩形(x, y, width, height)
+    context.fillRect(startLeft + 100, startTop + 70, 100, 50);
+
+    /*--------------------- 图形变换 ----------------------*/
+    // 保存当前时间节点的绘制状态
+    context.save(); 
+
+    // 平移
+    context.translate(30, 30);
+    // 旋转
+    context.rotate(35 / 180 * Math.PI);
+    // 缩放
+    context.scale(1.5, 1.5);
+    // 变形（水平缩放，水平倾斜，垂直倾斜，垂直缩放，水平移动，垂直移动）
+    // 可使用 setTransform 避免变形叠加
+    context.transform(1, 0, 0, 1, 0, 0);
+
+    // 恢复到上次保存的绘制状态，避免后面的绘制被变形影响
+    context.restore();
+
+    //-------------- 文字绘制 ---------------//
+    // 设置文字属性（
+    // font-style：normal；italic（斜体）；oblique（倾斜字体）；
+    // font-variant：normal；small-caps（以小写字母大小，将小写字母以大写形式显示）；
+    // font-weight：lighter；normal（100 - 400）；bold（500 - 700）；bolder（800 - 900）；
+    // font-size：px，em，%；
+    // font-family
+    // ）
+    context.font = 'bold 40px Arial';
+    // 文本对齐 left center right，以文本 x，y 给定坐标所在垂直线作为左、中、右边界开始绘制
+    context.textAlign = 'left';
+    // 垂直对齐 top middle bottom alphabetic ideographic hanging，以文本 x，y 给定坐标所在水平线作为上、中、下边界开始绘制
+    context.textBaseline = 'middle';
+    startTop += 300
+
+    // 填充文本（string，x，y，maxlen=默认原字体大小）
+    context.fillText('你好', startLeft, startTop);
+    // 绘制描边（string，x，y，maxlen）
+    context.lineWidth = 1;
+    context.strokeText('你好', startLeft + 150, startTop, 60);
+
+    // 获取文本度量
+    console.log( '“你好”这两个字的文本度量：', `${context.measureText('你好').width}px`);
+
+    /*-------------------   设置绘制状态  -------------------*/
+    context.globalAlpha = 0.7; // 全局透明度
+    
+    // 全局复合操作 
+    // source-over（后绘制图形在先绘制图形之上） 
+    // source-atop（后绘制图形在前绘制图形之上，但只显示先绘制图形范围内的内容）
+    // source-in（后绘制图形在前绘制图形之上，但只显示先绘制图形范围内的后绘制图形部分）
+    // source-out（后绘制图形在前绘制图形之上，但只显示后绘制图形中在先绘制图形范围外的部分）
+    // destination-over（先绘制图形在后绘制图形之上）
+    // destination-atop（先绘制图形在后绘制图形之上，但只显示后绘制图形范围内的内容）
+    // destination-in（先绘制图形在后绘制图形之上，但只显示后绘制图形范围内的先绘制图形部分）
+    // destination-out（先绘制图形在后绘制图形之上，但只显示先绘制图形中在后绘制图形范围外的部分）
+    // lighter（保留显示所有图形，叠加区域颜色被合成新颜色）
+    // copy（只显示后绘制图形）
+    // xor（异或操作，图形叠加区域被清空）
+    context.globalCompositeOperation = 'lighter';
+
+    context.lineWidth = 10; // 设置路径宽
+    context.lineCap = 'round'; // 设置路径起始端和终端衔接样式 butt|round|square，如果关闭了路径，则衔接点设置 lineJoin 即可
+    context.lineJoin = 'round'; // 设置路径连接点衔接样式 bevel（斜切）|round（圆滑）
+    context.miterLimit = 10; // 配合 lineJoin='miter' 时的最大像素限制
+    // context.shadowColor = 'gray'; // 阴影颜色
+    // context.shadowOffsetX = 20; // 阴影水平偏移
+    // context.shadowOffsetY = 20; // 阴影垂直偏移
+    context.shadowBlur = 10; // 阴影模糊
+    context.strokeStyle = 'green'; // 设置路径样式
+
+    // 创建线性渐变色（xstart, ystart, xend, yend）
+    var lgrd = context.createLinearGradient(0, 0, canvas.width / 2, canvas.height / 2);
+
+    // 创建径向渐变（x0，y0，r0，x1，y1，r1）
+    var rgrd = context.createRadialGradient(
+      canvas.width / 2, canvas.height / 2, 0, 
+      canvas.width / 2, canvas.height / 2, 1000);
+    // 追加渐变色断点（stop，color）
+    rgrd.addColorStop(0.0, '#fff');
+    rgrd.addColorStop(1.0, '#000');
+
+    context.fillStyle = rgrd; // 设置填充样式
+
+    var img = new Image();
+    img.src = './demo.jpg';
+    img.onload = function() {
+      // 创建图片作为填充样式（img|canvas|video，repeat-style（no-repeat,repeat-x,repeat-y,repeat））
+      var pat = context.createPattern(img, 'no-repeat');
+      context.fillStyle = pat; // 设置填充样式
+      startTop += 100
+      
+      context.save(); 
+      context.translate(startLeft, startTop)
+      context.fillRect(0, 0, this.width, this.height);
+      context.restore();
+    }
+
+    //-------------------- 交互 ---------------------//
+    canvas.addEventListener('mouseup', function(e) {
+      var x = e.clientX - canvas.getBoundingClientRect().left;
+      var y = e.clientY - canvas.getBoundingClientRect().top;
+
+      // 点是否在路径中，通常在beginPath和绘制完路径后进行判断
+      console.log( context.isPointInPath(x, y) );
+    })
+
+    //------------------ 兼容 -------------------//
+    // explorecanvas 可以支持老版本ie
+
+
+    //-------------------- 扩展 ---------------------//
+    // 原型扩展2d上下文方法
+    CanvasRenderingContext2D.prototype.methods = CanvasRenderingContext2D.prototype.methods || function() {}
+
+    // 图形库：canvasplus、artisan js、Rgraph
+  </script>
+</body>
+
+</html>

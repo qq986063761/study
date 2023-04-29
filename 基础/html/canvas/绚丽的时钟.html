@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>绚丽的时钟</title>
+  <style>
+    html,
+    body {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    canvas {
+      margin: 7px 0 0 7px;
+      border: 1px solid #666;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+
+  <script src="./digit.js"></script>
+  <script>
+    // 日期圆点属性
+    var RADIUS = 10;
+    // 开始绘制位置
+    var START_LEFT = RADIUS + 20;
+    var START_TOP = RADIUS + 50;
+
+    // 获取canvas
+    var canvas = document.getElementById('canvas');
+    canvas.width = window.innerWidth - 17;
+    canvas.height = window.innerHeight - 17;
+    context = canvas.getContext('2d');
+    
+    // 定义过程中使用的变量
+    var currentDates = null
+    var prevDates = null
+    var balls = []
+    var colors = ["#33B5E5", "#0099CC", "#AA66CC", "#9933CC", "#99CC00", "#669900", "#FFBB33", "#FF8800", "#FF4444", "#CC0000"];
+
+    // 开始计时
+    setInterval(updateDate, 1000 / 60);
+
+    // 更新日期
+    function updateDate() {
+      const date = new Date()
+      const h = date.getHours()
+      const m = date.getMinutes()
+      const s = date.getSeconds()
+
+      // 判断此次是否有时间数字变化
+      prevDates = currentDates
+
+      currentDates = []
+
+      addDateCell(h)
+      currentDates.push(10)
+      addDateCell(m)
+      currentDates.push(10)
+      addDateCell(s)
+
+      // 每次绘制前清除之前的画面
+      context.clearRect(0, 0, canvas.width, canvas.height);
+
+      // 绘制日期
+      drawDate()
+      // 绘制小球
+      drawBalls()
+
+      // 追加时间数字到数组中
+      function addDateCell(val) {
+        if (val > 9) {
+          currentDates.push(Math.floor(val / 10))
+          currentDates.push(val % 10)
+        } else {
+          currentDates.push(0)
+          currentDates.push(val)
+        }
+      }
+    }
+
+    // 绘制日期
+    function drawDate() {
+      var startLeft = START_LEFT;
+      context.fillStyle = '#87ceeb';
+
+      for (let i = 0; i < currentDates.length; i++) {
+        const number = currentDates[i]
+        const matrix = digit[number] // 获取对应的数字矩阵
+        const isChange = prevDates && prevDates[i] !== currentDates[i] // 判断是否当前数字有改变过
+
+        for (let j = 0; j < matrix.length; j++) {
+          const rows = matrix[j];
+
+          for (let k = 0; k < rows.length; k++) {
+            const col = rows[k];
+            if (!col) continue;
+
+            // 画圆
+            const x = startLeft + k * RADIUS * 2
+            const y = START_TOP + j * RADIUS * 2
+            context.beginPath();
+            context.arc(x, y, RADIUS, 0, 2 * Math.PI);
+            context.closePath();
+            context.fill();
+
+            // 如果当前数字改变了，则追加彩色小球
+            if (isChange) {
+              balls.push({
+                x,
+                y,
+                g: 1.2 * Math.random(),
+                vx: Math.pow(-1, Math.ceil(Math.random() * 1000)) * 6,
+                vy: -1,
+                color: colors[Math.floor(Math.random() * colors.length)]
+              })
+            }
+          }
+        }
+
+        startLeft += (number === 10 ? 4 : 7) * RADIUS * 2 // 获取下一个数字绘制时的开始 left 位置
+      }
+    }
+
+    // 绘制小球
+    function drawBalls() {
+      for (let index = 0; index < balls.length; index++) {
+        const ball = balls[index];
+
+        context.beginPath();
+        context.arc(ball.x, ball.y, RADIUS, 0, 2 * Math.PI);
+        context.closePath();
+        context.fillStyle = ball.color;
+        context.fill();
+
+        // 根据小球速度变化，计算小球的下一次位置
+        ball.x += ball.vx;
+        ball.y += ball.vy;
+        ball.vy += ball.g;
+
+        // 如果小球碰到底部则回弹
+        if (ball.y + RADIUS >= canvas.height) {
+          ball.y = canvas.height - RADIUS;
+          ball.vy = -ball.vy * 0.75;
+        }
+      }
+      
+      // 小球回收，避免内存占用过多
+      for (let index = balls.length - 1; index >= 0; index--) {
+        const ball = balls[index];
+        if (ball.x + RADIUS <= 0 || ball.x - RADIUS >= canvas.width) {
+          balls.splice(index, 1)
+        }
+      }
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <style>
+            .item {
+            	height: 60px;
+            	border: 1px solid gray;
+            }
+            
+            .item .left {
+            	float: left;
+				height: 100%;
+            }
+            
+            .item .left img {
+            	height: 100%;
+    			border-right: 1px solid gray;
+    			vertical-align: top;
+            }
+            
+            .item .left > div {
+            	display: inline-block;
+            }
+            
+            .item .center {
+            	float: right;
+            }
+            
+            .item .right {
+            	float: right;
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+        	<input id="upload" type="file" multiple>
+        </div>
+        <div id="container"></div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="index.js"></script>
+    </body>
+</html>

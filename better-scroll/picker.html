@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .picker-wrapper {
+      position: relative;
+      /* 总高度 */
+      height: 300px;  
+      overflow: hidden;
+      border: 1px solid lightgray;
+    }
+    .picker-mask {
+      position: absolute;
+      z-index: 10;
+      width: 100%;
+      /* (总高度 - item 高度) / 2 */
+      height: 120px;
+      border-color: gray;
+      pointer-events: none;
+      transform: translateZ(0);
+    }
+    .picker-mask-top {
+      top: 0;
+      background: linear-gradient(0deg,hsla(0,0%,100%,.4),hsla(0,0%,100%,.8));
+      border-bottom: 1px solid lightgray;
+    }
+    .picker-mask-bottom {
+      bottom: 1px;
+      border-top: 1px solid lightgray;
+      background: linear-gradient(180deg,hsla(0,0%,100%,.4),hsla(0,0%,100%,.8));
+    }
+    .picker-scroll-wrapper {
+      height: 100%;
+    }
+    .picker-scroll {
+      /* (总高度 - item 高度) / 2 */
+      margin-top: 120px;
+      /* item 高度 */
+      line-height: 60px;
+    }
+    .picker-item {
+      /* item 高度 */
+      height: 60px;
+      font-size: 31px;
+      text-align: center;
+      counter-increment: count;
+    }
+    .picker-item:before {
+      content: counter(count)
+    }
+  </style>
+</head>
+<body> 
+  <div class="picker-wrapper">
+    <div class="picker-mask picker-mask-top"></div>
+    <div class="picker-mask picker-mask-bottom"></div>
+    <div class="picker-scroll-wrapper">
+      <div class="picker-scroll">
+        <div class="picker-item"></div>
+        <div class="picker-item"></div>
+        <div class="picker-item"></div>
+        <div class="picker-item"></div>
+        <div class="picker-item"></div>
+        <div class="picker-item"></div>
+        <div class="picker-item"></div>
+        <div class="picker-item"></div>
+        <div class="picker-item"></div>
+        <div class="picker-item"></div>
+        <div class="picker-item"></div>
+        <div class="picker-item"></div>
+        <div class="picker-item"></div>
+        <div class="picker-item"></div>
+        <div class="picker-item"></div>
+        <div class="picker-item"></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding: 1rem;">
+    <button id="btnInit" type="button">滚动到索引为10的位置</button>
+    <button id="btnConfirm" type="button">确定</button>
+  </div>
+  
+  <script src="https://unpkg.com/better-scroll/dist/bscroll.js"></script>
+  <script>
+    var bs = new BScroll('.picker-scroll-wrapper', {
+      // Picker 组件的实现配置
+      wheel:{
+        wheelWrapperClass: 'picker-scroll',
+        wheelItemClass: 'picker-item'
+      }
+    });
+    
+    btnConfirm.onclick = function (event) {
+      // 获取当前 picker 的选中索引
+      alert('你选择的索引是：' + bs.getSelectedIndex())
+    };
+    btnInit.onclick = function (event) {
+      // 滚动到指定索引位置
+      bs.wheelTo(10);
+    };
+  </script>
+</body>
+</html>

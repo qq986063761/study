@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <h1 id="parent">呵呵，我是父窗口</h1>
+        <button id="btn" type="button">打开新窗口</button>
+
+        <script>
+            btn.onclick = function () {
+                window.open('childWindow.html', 'window', 'height=100, width=400, top=0,left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+            }
+
+            function getData (name) {
+                alert(name)
+            }
+        </script>
+    </body>
+</html>

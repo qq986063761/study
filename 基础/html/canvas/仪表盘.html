@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+
+  <style>
+    html,
+    body {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+
+    canvas {
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas">
+    <p>抱歉，您的浏览器不支持canvas</p>
+  </canvas>
+
+  <script>
+    function Dashboard({ canvas, width, height, progress }) {
+      this.canvas = canvas
+      this.canvas.style.width = width + 'px'
+      this.canvas.style.height = height + 'px'
+      this.canvas.width = width * window.devicePixelRatio
+      this.canvas.height = height * window.devicePixelRatio
+      this.progress = progress || 0
+      this.ctx = this.canvas.getContext("2d")
+      
+      // 配置自定义属性
+      this.cX = 0 //中心x坐标，默认定在原点
+      this.cY = 0 //中心y坐标，默认定在原点
+      this.fontSize = 40;
+      this.step = 0.5; // 步长
+      this.gradients = getGradientColor('#f50606', '#00fb1f', 10);
+
+      // 配置 canvas 上下文绘制属性
+      this.ctx.lineLength = 20 * window.devicePixelRatio; // 线长
+      this.ctx.lineWidth = 6 * window.devicePixelRatio; // 线宽
+      this.ctx.font = `${this.fontSize}px Arial`;
+      // 利用变形移动位置
+      this.ctx.translate(this.canvas.width / 2, this.canvas.height - this.fontSize);
+
+      this.innerRadius = Math.min(this.canvas.width, this.canvas.height); // 内圆半径
+      if (this.innerRadius > (this.canvas.width / 2)) this.innerRadius = this.canvas.width / 2
+      this.innerRadius -= (this.ctx.lineLength * 2 + 5)
+    }
+    
+    // 绘制一个指针
+    Dashboard.prototype.drawPointerItem = function (progress, color) {
+      // 绘制弧
+      let startAngle = Math.PI + Math.PI * progress / 100
+      if (startAngle < Math.PI) startAngle = Math.PI
+      let diffAngle = startAngle - Math.PI
+      let startX = progress
+        ? (this.cX - this.innerRadius * Math.cos(diffAngle))
+        : (this.cX - this.innerRadius)
+      let startY = progress
+        ? (this.cY - this.innerRadius * Math.sin(diffAngle))
+        : this.cY
+      const diffX = this.ctx.lineLength * Math.cos(diffAngle)
+      const diffY = this.ctx.lineLength * Math.sin(diffAngle)
+
+      this.ctx.beginPath()
+      this.ctx.moveTo(startX, startY)
+      this.ctx.lineTo(startX - diffX, startY - diffY)
+      this.ctx.closePath()
+
+      this.ctx.strokeStyle = color
+      this.ctx.stroke()
+    }
+
+    // 绘制指针的背景指针槽
+    Dashboard.prototype.drawPointerBg = function () {
+      this.drawText()
+      this.drawPointerItem(this.bgProgress, '#DDD')
+      
+      let nextProgress = this.step * 2
+      this.bgProgress += nextProgress
+
+      if (this.bgProgress > 100) return
+      this.drawPointerBg()
+    }
+
+    // 绘制真实进度指针
+    Dashboard.prototype.drawPointer = function () {
+      if (this.progress) {
+        this.drawPointerItem(
+          this.currentProgress, 
+          this.gradients[parseInt(this.currentProgress / 10)]
+        )
+      }
+      let nextProgress = this.step * 2
+      this.currentProgress += nextProgress
+    }
+
+    // 绘制指针下的文案
+    Dashboard.prototype.drawText = function () {
+      // 绘制文字的比例，每 10% 距离绘制一个文案
+      if (this.bgProgress % 10 === 0) {
+        this.ctx.save();
+
+        // 先旋转，再写文字
+        let currentAngle = this.bgProgress * Math.PI / 100
+        let diffX = (this.innerRadius - this.fontSize) * Math.cos(currentAngle)
+        let diffY = (this.innerRadius - this.fontSize) * Math.sin(currentAngle)
+        this.ctx.translate(this.cX - diffX, this.cY - diffY);
+        this.ctx.rotate(- Math.PI / 2 + currentAngle);
+
+        // 获取当前渲染文本内容的实际宽度
+        let textWidth = this.ctx.measureText(this.bgProgress).width
+        this.ctx.fillText(this.bgProgress, -textWidth / 2, this.fontSize / 2);
+
+        this.ctx.restore();
+      }
+    }
+
+    // 更新进度
+    Dashboard.prototype.update = function () {
+      this.drawPointer()
+    }
+
+    // 开始绘制
+    Dashboard.prototype.start = function (opts) {
+      const { width, height, progress } = opts || {}
+
+      if (width !== undefined) this.canvas.width = width;
+      if (height !== undefined) this.canvas.height = height;
+      if (progress !== undefined) this.progress = progress
+
+      // 先清理画布
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+      // 重置属性
+      this.currentProgress = 0
+      this.bgProgress = 0
+      this.drawPointerBg()
+      this.timer = setInterval(() => {
+        this.update()
+        if (this.currentProgress > this.progress) {
+          clearInterval(this.timer)
+          return
+        }
+      }, 1000 / 60)
+    }
+
+    new Dashboard({
+      canvas, 
+      width: window.innerWidth, 
+      height: window.innerHeight,
+      progress: 70
+    }).start()
+
+    /*
+      @param {string} startColor 开始颜色hex
+      @param {string} endColor 结束颜色hex
+      @param {number} step 几个阶级
+    */
+    function getGradientColor(startColor, endColor, step) {
+      let startRGB = hex2Rgb(startColor); // 转换为 rgb 数组模式
+      let startR = startRGB[0];
+      let startG = startRGB[1];
+      let startB = startRGB[2];
+      let endRGB = hex2Rgb(endColor);
+      let endR = endRGB[0];
+      let endG = endRGB[1];
+      let endB = endRGB[2];
+      let sR = (endR - startR) / step;//总差值
+      let sG = (endG - startG) / step;
+      let sB = (endB - startB) / step;
+      var colorArr = [];
+      for (var i = 0; i < step; i++) {
+        //计算每一步的hex值 
+        var hex = rgb2Hex('rgb(' + parseInt((sR * i + startR)) + ',' + parseInt((sG * i + startG)) + ',' + parseInt((sB * i + startB)) + ')');
+        colorArr.push(hex);
+      }
+      return colorArr;
+    }
+
+    // 将 hex 表示方式转换为rgb表示方式(这里返回rgb数组模式)
+    function hex2Rgb(sColor) {
+      var reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
+      var sColor = sColor.toLowerCase();
+      if (sColor && reg.test(sColor)) {
+        if (sColor.length === 4) {
+          var sColorNew = "#";
+          for (var i = 1; i < 4; i += 1) {
+            sColorNew += sColor.slice(i, i + 1).concat(sColor.slice(i, i + 1));
+          }
+          sColor = sColorNew;
+        }
+        //处理六位的颜色值
+        var sColorChange = [];
+        for (var i = 1; i < 7; i += 2) {
+          sColorChange.push(parseInt("0x" + sColor.slice(i, i + 2)));
+        }
+        return sColorChange;
+      } else {
+        return sColor;
+      }
+    };
+    // 将rgb表示方式转换为hex表示方式
+    function rgb2Hex(rgb) {
+      var _this = rgb;
+      var reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
+      if (/^(rgb|RGB)/.test(_this)) {
+        var aColor = _this.replace(/(?:(|)|rgb|RGB)*/g, "").split(",");
+        var strHex = "#";
+        for (var i = 0; i < aColor.length; i++) {
+          var hex = Number(aColor[i]).toString(16);
+          hex = hex < 10 ? 0 + '' + hex : hex;// 保证每个rgb的值为2位
+          if (hex === "0") {
+            hex += hex;
+          }
+          strHex += hex;
+        }
+        if (strHex.length !== 7) {
+          strHex = _this;
+        }
+        return strHex;
+      } else if (reg.test(_this)) {
+        var aNum = _this.replace(/#/, "").split("");
+        if (aNum.length === 6) {
+          return _this;
+        } else if (aNum.length === 3) {
+          var numHex = "#";
+          for (var i = 0; i < aNum.length; i += 1) {
+            numHex += (aNum[i] + aNum[i]);
+          }
+          return numHex;
+        }
+      } else {
+        return _this;
+      }
+    }
+  </script>
+</body>
+
+</html>

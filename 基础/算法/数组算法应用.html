@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // 在数组 arr 中找出两个元素之和是 targetNum 的索引，返回索引数组 [index1, index2]
+    // 解法：空间换时间
+    function twoSum(arr, targetNum) {
+      var map = {}
+      for (var i = 0; i < arr.length; i++) {
+        var num = arr[i]
+        if (map[targetNum - num] !== undefined) {
+          return [map[targetNum - num], i]
+        }
+        map[num] = i
+      }
+    }
+    console.log(twoSum([2, 7, 11, 15], 9))
+
+    // 两个有序数组 arr1、arr2，m（arr1的长度）、n（arr2的长度），将 arr2 合到 arr1 中，让 arr1 成为一个新的有序数组
+    // 解法：双指针
+    var arr1 = [1, 2, 3], m = 3
+    var arr2 = [2, 5, 6], n = 3
+    function merge(arr1, m, arr2, n) {
+      // 先将两个指针分别指向 arr1、arr2 的最后位置
+      var i = m - 1; 
+      var j = n - 1;
+      // 新建插入指针指向 arr1 中加上 arr2 长度的索引位置
+      var k = m + n - 1;
+      
+      while (i >= 0 && j >= 0) {
+        // i、j 指针比较，将大的值从 k 指针开始从后往前填充
+        if (arr1[i] < arr2[j]) {
+          arr1[k] = arr2[j]
+          j--
+          k--
+        } else {
+          arr1[k] = arr1[i]
+          i--
+          k--
+        }
+      }
+
+      // 将 arr2 中可能剩余的值继续填充中间剩余位置
+      while (j >= 0) {
+        arr1[k] = arr2[j]
+        j--
+        k--
+      }
+    }
+    merge(arr1, m, arr2, n)
+    console.log(arr1)
+
+    // 三数求和，给定数组 arr，收集满足三个元素之和是 0 的组合，这样返回 [[-1, 0, 1], [-1, -1, 2]]
+    // 解法：双指针（对撞指针）
+    var arr = [-1, 0, 1, 2, -1, -4]
+    function treeSum(arr) {
+      var res = []
+      // 先排序
+      arr = arr.sort((a, b) => a - b)
+      
+      for (let index = 0; index < arr.length - 2; index++) {
+        var num = arr[index]; // 固定一个数
+        var i = index + 1; // 定义左指针
+        var j = arr.length - 1; // 定义右指针
+        
+        if (num === arr[index - 1]) continue // 跳过相同的固定数
+        while (i < j) {
+          // 如果三个数相加小于 0，则左边指针向右边移动换一个大的数
+          if (num + arr[i] + arr[j] < 0) {
+            i++
+            // 如果指针指向数值还是之前的数值则跳过
+            while (i < j && arr[i] === arr[i - 1]) {
+              i++
+            }
+          } else if (num + arr[i] + arr[j] > 0) {
+            // 如果三个数相加大于 0，则右边指针向右边移动换一个小的数
+            j--
+            // 如果指针指向数值还是之前的数值则跳过
+            while (i < j && arr[j] === arr[j + 1]) {
+              j--
+            }
+          } else {
+            res.push([num, arr[i], arr[j]])
+            i++
+            j--
+
+            // 如果指针指向数值还是之前的数值则跳过
+            while (i < j && arr[i] === arr[i - 1]) {
+              i++
+            }
+            // 如果指针指向数值还是之前的数值则跳过
+            while (i < j && arr[j] === arr[j + 1]) {
+              j--
+            }
+          }
+        }
+      }
+
+      return res
+    }
+    console.log(treeSum(arr))
+  </script>
+</body>
+</html>

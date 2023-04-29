@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // 判断一个26小写字母组成的字符串中，最多去掉一个字母，剩下的部分是否是回文字符串
+    // 解法：双指针
+    function validatePalindrome(str) {
+      // 定义两个指针从两端向中间推进
+      var i = 0
+      var j = str.length - 1
+      
+      // 如果两端相同，则满足回文条件，则继续推进
+      while (i < j && str[i] === str[j]) {
+        i++
+        j--
+      }
+
+      // 到这里有可能出现两种情况：
+      // 1、str本身是回文比如 aba，则这里 i 会是 2，j 是 1，则进入 isPalindrome 函数后会直接返回 true
+      // 2、i、j 索引对应字符，不相等的情况，则分两种情况，分别去掉左边或者右边字符后，判断剩下部分是不是回文
+      if (isPalindrome(i + 1, j)) return true
+      if (isPalindrome(i, j - 1)) return true
+      
+      // 是否是回文数
+      function isPalindrome(x, y) {
+        while (x < y) {
+          if (str[x] !== str[y]) return false
+          x++
+          y--
+        }
+
+        return true
+      }
+
+      return false
+    }
+    console.log(validatePalindrome('abca'))
+
+    // 设计一个数据结构，能支持 addWord(str) 添加字符串，和 search(str) 判断是否存在满足条件的字符串、正则
+    // search 参数只支持字母 . 或 a-z，. 表示任何字符
+    class WordDict {
+      constructor() {
+        this.wordsMap = {}
+      }
+
+      addWord(str) {
+        const len = str.length
+        if (!this.wordsMap[len]) this.wordsMap[len] = []
+        this.wordsMap[len].push(str)
+      }
+
+      search(str) {
+        const len = str.length
+
+        if (!this.wordsMap[len]) return false
+
+        // 如果是正则
+        if (str.includes('.')) {
+          const reg = new RegExp(str)
+          return this.wordsMap[len].some(item => reg.test(item))
+        }
+
+        return this.wordsMap[len].includes(str)
+      }
+    }
+
+    // 设计一个函数 atoi(str) 实现功能：
+    // 1、找到第一个非空字符，如果这个字符是正负号，则返回字符串包含正负号+后面的连续数字字符（再后面的其他字符都不包含在内）
+    // 2、如果不能进行有效转换，则返回 0；比如只有一个 +、- 号，这种情况就无效
+    // 3、假设我们环境只能存 32 位大小有符号整数（数值范围为 [−2^31,  2^31 − 1]），超过范围则返回最大最小值
+    function atoi(str) {
+      let reg = /\s*([\+-]?\d*).*/
+      let groups = str.match(reg)
+      let max = Math.pow(2, 31) - 1
+      let min = -max - 1
+      
+      let returnNum = 0
+      if (groups) {
+        returnNum = Number(groups[1])
+        if (isNaN(returnNum)) returnNum = 0
+      }
+
+      if (returnNum > max) {
+        returnNum = max
+      } else if (returnNum < min) {
+        returnNum = min
+      }
+
+      return returnNum
+    }
+  </script>
+</body>
+</html>

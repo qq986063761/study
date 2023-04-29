@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    h1 {
+      margin: 0;
+    }
+    
+    .box {
+      width: 200px;
+      height: 200px;
+      border: 4px solid #000;
+    }
+
+    #flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 600px;
+    }
+
+    #flex h1:nth-child(1) {
+      background: red;
+    }
+    #flex h1:nth-child(2) {
+      align-self: flex-start;
+      background: green;
+    }
+    #flex h1:nth-child(3) {
+      align-self: stretch;
+      background: blue;
+    }
+
+    #flex h1:nth-child(4) {
+      background: yellowgreen;
+      order: -1;
+    }
+  </style>
+</head>
+<body>
+  <div id="flex" class="box">
+    <h1>Flex布局1</h1>
+    <h1>Flex布局2</h1>
+    <h1>Flex布局3</h1>
+    <h1>Flex布局4 order 改变顺序</h1>
+  </div>
+</body>
+</html>

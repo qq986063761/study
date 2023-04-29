@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1 id="num" style="font-size: 120px"></h1>
+  <script src="https://inorganik.github.io/countUp.js/dist/countUp.umd.js"></script>
+  <script>
+    let CountUp = countUp.CountUp
+
+    let demo = new CountUp('num', 7119)
+    if (!demo.error) {
+      demo.start()
+    } else {
+      console.error(demo.error)
+    }
+  </script>
+</body>
+</html>

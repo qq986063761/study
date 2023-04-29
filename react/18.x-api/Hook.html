@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app"></div>
+
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script type="text/babel">
+    const { 
+      useState, 
+      useReducer, 
+      useEffect, 
+      useLayoutEffect, 
+      memo,
+      useMemo, 
+      useRef, 
+      forwardRef, 
+      createContext, 
+      useContext 
+    } = React
+    const { createRoot } = ReactDOM
+
+    const Context = createContext('666')
+    const { Provider } = Context
+
+    // 自定义 Hook，必须 use 开头才能知道内部用了 Hook
+    function useDateTxt() {
+      const updateDateTxt = (state, action) => new Date().toLocaleTimeString() // 需要更新时执行
+      const initDateTxt = initVal => initVal // 会初始化执行一次
+      // useReducer 可用于替代 useState 的一种方案
+      const [dateTxt, dispatch] = useReducer(updateDateTxt, new Date().toLocaleTimeString(), initDateTxt)
+
+      setTimeout(() => {
+        dispatch()
+      }, 1000)
+      
+      return dateTxt
+    }
+
+    // forwardRef 用于函数组件的父组件获取 ref
+    const Child = forwardRef((props, ref) => {
+      const context = useContext(Context) // 获取上下文对象
+      // console.log('Child-context', context)
+      
+      return <div ref={ ref }>
+        子组件
+      </div>
+    })
+
+    // memo 优化组件渲染
+    const Child2 = React.memo((props) => {
+      // console.log('render Child2', props)
+      return <div>
+        <h1>子组件2</h1>
+        { 
+          // 获取使用组件标签内的节点
+          props.children 
+        }
+      </div>
+    }, (prevProps, nextProps) => {
+      // 返回 true 则更新，false 则不更新
+      // console.log('memo comp', prevProps, nextProps)
+      return false
+    })
+
+    function App(props) {
+      // useState hook 可以获取到值和 set 方法，代替 state
+      const [count, setCount] = useState(0)
+      const childVm = useRef(null) // 获取 ref 挂载对象
+
+      // 组件变更后会触发，相当于 componentDidMount、componentDidUpdate
+      // 参数二，只监听指定变量变更后触发
+      // 内部不能执行渲染相关操作
+      useEffect(() => {
+        console.log('useEffect')
+        console.log('useRef childVm', childVm)
+        
+        // return 的函数是清除函数，相当于 componentWillUnmount
+        return () => {
+          // 这里可以做一些删除事件等销毁操作
+        }
+      }, [count])
+      
+      // 元素渲染更新后触发，其他和 useEffect 一样
+      useLayoutEffect(() => {
+        // console.log('useLayoutEffect')
+      })
+
+      // 监听依赖对象，内部可执行其他渲染相关操作
+      useMemo(() => {
+        console.log('useMemo', count)
+      }, [count])
+
+      // 使用自定义 Hook
+      const dateTxt = useDateTxt()
+      
+      return <div>
+        <button onClick={ () => setCount(count + 1) }><h1>点击: { count }</h1></button>
+        <h1>时间：{ dateTxt }</h1>
+        <Provider value={ 555 }>
+          <Child ref={ childVm }/>
+        </Provider>
+        <Child2>
+          <h1>组件内的内容1</h1>
+          <h1>组件内的内容2</h1>
+        </Child2> 
+      </div>
+    }
+
+    const app = createRoot(document.getElementById('app'))
+    app.render(<App />)
+  </script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+
+  <style lang="scss">
+    .wangeditor-wrapper {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+
+    .w-e-text {
+      position: relative;
+      z-index: 6;
+    }
+    .placeholder-input {
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      border: none;
+      z-index: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="wangeditor-wrapper">
+      <input ref="upload" type="file" style="display: none" accept="image/*" @change="onUpload($event)">
+      <div :id="id"></div>
+    </div>
+  </div>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+  <script src="https://unpkg.com/wangeditor@3.1.1/release/wangEditor.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        id: ''
+      },
+      // props: {
+      //   value: {
+      //     type: String
+      //   },
+      //   toolBarId: {
+      //     type: String,
+      //     default: ''
+      //   }
+      // },
+      // watch: {
+      //   value(newVal, oldVal) {
+      //     if (this.editor && newVal !== this.content) {
+      //       this.content = newVal
+      //       this.editor.txt.html(this.content)
+      //     }
+      //   }
+      // },
+      methods: {
+        onfocus() {
+          this.placeholderEl.style.visibility = 'hidden'
+        },
+        onblur(html) {
+          this.content = html
+          this.checkNull(this.content)
+          this.$emit('blur', this.content)
+        },
+        checkNull(html) {
+          if (!html || html === '<p><br></p>') {
+            this.placeholderEl.style.visibility = 'visible'
+          } else {
+            this.placeholderEl.style.visibility = 'hidden'
+          }
+        },
+        onchange(html) {
+          this.content = html
+          
+          const validateBase64 = /< *img src="data:image([\S\s\t]*?) *>/gi;
+          if (validateBase64.test(this.content)) {
+            this.$message.warning('不能粘贴图片，请上传！');
+            let baseImgArr = this.content.match(validateBase64);
+            for (let item of baseImgArr) {
+              this.content = this.content.replace(item, '');
+            }
+          }
+          this.$emit('input', this.content);
+        },
+        onClickImg() {
+          this.$refs.upload.click()
+        },
+        async onUpload(e) {
+          const url = await this.$ajax.uploadFileToOss(e.target.files, 'exam_question')
+          if (url) {
+            this.editor.txt.append(`<img src="${url}">`)
+            this.content = this.editor.txt.html()
+            this.$emit('input', this.content)
+          } else {
+            this.$message.warning('上传失败')
+          }
+        },
+        init() {
+          this.$nextTick(() => {
+            this.container = this.$el.querySelector('.w-e-text-container') // 获取输入容器
+
+            const toolbar = this.$el.querySelector('.w-e-toolbar')
+            if (!toolbar) return
+            const imgMenu = document.createElement('div')
+            imgMenu.className = 'w-e-menu'
+            imgMenu.style.zIndex = 10001
+            imgMenu.innerHTML = '<i class="w-e-icon-image"></i>'
+            imgMenu.onclick = this.onClickImg
+            toolbar.appendChild(imgMenu)
+
+            // 初始化 placeholder
+            let input = document.createElement('input')
+            input.placeholder = '请输入...'
+            input.className = 'placeholder-input'
+            this.container.appendChild(input)
+            this.placeholderEl = this.container.querySelector('.placeholder-input')
+
+            // 初始化内容
+            this.content = this.value
+            this.editor.txt.html(this.content)
+            this.checkNull(this.content)
+          })
+        }
+      },
+      mounted() {
+        this.id = this.toolBarId || `wangeditor${this._uid}`
+        this.$nextTick(() => {
+          this.editor = new wangEditor(`#${this.id}`)
+          this.editor.customConfig.onchange = this.onchange
+          this.editor.customConfig.onblur = this.onblur
+          this.editor.customConfig.onfocus = this.onfocus
+
+          this.editor.customConfig.menus = [
+            'head',  // 标题
+            'bold',  // 粗体
+            'fontSize',  // 字号
+            'fontName',  // 字体
+            'italic',  // 斜体
+            'underline',  // 下划线
+            'strikeThrough',  // 删除线
+            'foreColor',  // 文字颜色
+            'backColor',  // 背景颜色
+            'link',  // 插入链接
+            'list',  // 列表
+            'justify',  // 对齐方式
+            'quote',  // 引用
+            'emoticon',  // 表情
+            // 'image',  // 插入图片去掉，采用自定义图片
+            'table',  // 表格
+            'video',  // 插入视频
+            'code',  // 插入代码
+            'undo',  // 撤销
+            'redo'  // 重复
+          ]
+
+          this.editor.create()
+
+          this.init()
+        })
+      }
+    })
+  </script>
+</body>
+</html>

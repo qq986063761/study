@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <button type="button" onclick="create()" style="margin-bottom: 10px;">生成二维码</button>
+  <div id="qrcode"></div>
+
+	<script src="./qrcode.min.js"></script>
+  <script>
+    var qrcode = null
+    function create() {
+      if (qrcode) {
+        qrcode.clear()
+        qrcode.makeCode('https://www.baidu.com/')
+      } else {
+        qrcode = new QRCode(document.getElementById("qrcode"), {
+          text: 'https://w.url.cn/s/A2cW05B',
+          width: 256,
+          height: 256,
+          colorDark : "#000000",
+          colorLight : "#ffffff",
+          correctLevel : QRCode.CorrectLevel.H
+        })
+      }
+    }
+  </script>
+</body>
+</html>

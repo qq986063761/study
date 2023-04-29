@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // 手写 new
+    function _new(Ctor, ...args) {
+      if (typeof Ctor !== 'function') {
+        throw 'Ctor 必须是 function'
+      }
+      var obj = {}
+      obj.__proto__ = Object.create(Ctor.prototype)
+      var res = Ctor.call(obj, ...args)
+
+      return res instanceof Object ? res : obj
+    }
+    
+    // 手写 call
+    Function.prototype._call = function(cxt, ...args) {
+      var context = cxt || window
+      // 更换上下文，让调用 context.fn 的时候，上下文是新的 context
+      context.fn = this
+      const res = context.fn(...args)
+      delete context.fn
+      return res
+    }
+
+    // 手写 apply
+    Function.prototype._apply = function(cxt, args) {
+      var context = cxt || window
+      context.fn = this
+      var res = context.fn(...args)
+      delete context.fn
+      return res
+    }
+
+    // 手写 bind
+    Function.prototype._bind = function (cxt, ...args) {
+      const self = this
+      return function F() {
+        // 如果是采用 new F() 的形式调用的，则直接给它返回一个实例
+        if (this instanceof F) return new self(...arguments, ...args)
+        return self.apply(cxt, [...arguments].concat(...args))
+      }
+    }
+
+    // 手写 instanceof
+    function _instanceof(obj, fn) {
+      var prototype = fn.prototype
+      var left = obj.__proto__
+      while (true) {
+        if (left === null || left === undefined) return false
+        if (prototype === left) return true
+        left = left.__proto__
+      }
+    }
+  </script>
+</body>
+</html>

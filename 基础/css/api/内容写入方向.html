@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .box {
+      display: inline-block;
+      padding: 10px;
+      border: 1px solid gray;
+    }
+
+    .default {
+      writing-mode: horizontal-tb;
+    }
+
+    .vertical-lr {
+      writing-mode: vertical-lr;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <div class="box default">
+      我现在正在写入内容
+    </div>
+    
+    <div class="box vertical-lr">
+      我现在正在写入内容但是英文My Plan可能有问题
+    </div>
+  </div>
+</body>
+</html>

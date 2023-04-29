@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    .grid {
+      float: left;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      width: 451px;
+      height: 451px;
+      border: 5px solid gray;
+    }
+
+    /* 属性内容生成 */
+    .d1:after {
+      content: attr(data-content);
+    }
+    
+    /* 计数器内容生成 */
+    .d2 {
+      counter-reset: count;
+    }
+
+    .d2 li:before {
+      counter-increment: count;
+      content: "第" counter(count) "个内容；";
+    }
+
+    /* 凹，凸实现，原理：溢出换行，一个英文单词始终保持完整 */
+    .d3 {
+        display: inline-block;
+        width: 0;
+    }
+    .d3:before {
+        content: 'love 你 love';
+        outline: 2px solid #cd0000;
+        color: #fff;
+    }
+  </style>
+</head>
+
+<body>
+  <a style="float: left;" href="http://www.zhangxinxu.com/wordpress/2010/04/css-content内容生成技术以及应用/">内容原文博客地址</a>
+
+  <div class="grid">
+    <h1 class="d1" data-content="属性内容生成"></h1>
+  </div>
+
+  <div class="grid">
+    <ul class="d2">
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+  </div>
+
+  <div class="grid">
+    <div class="d3"></div>    
+  </div>
+</body>
+
+</html>

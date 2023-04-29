@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <style>
+    ::selection {
+      text-decoration: line-through;
+      background-color: aqua;
+    }
+
+    .content-box {
+      position: relative;
+    }
+
+    #content {
+
+    }
+
+    #hideContent {
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    #comment {
+      position: absolute;
+      padding: 10px;
+      background-color: #fff;
+      border: 1px solid gray;
+      border-radius: 2px;
+    }
+  </style>
+</head>
+<body>
+  <h1>普通内容开始划词触发 selectstart 事件</h1>
+  <div class="content-box">
+    <div id="content">很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容</div>
+    <div id="hideContent"></div>
+  </div>
+  
+  <h1>输入元素内划完词触发 select 事件</h1>
+  <input type="text" value="很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容">
+  <textarea style="width: 500px;height: 500px;">
+    很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容
+  </textarea>
+
+  <div id="comment">评论</div>
+
+  <script>
+    let timer = null
+    let sel = null
+
+    // 非输入元素内划词触发
+    document.addEventListener('selectstart', function (event) {
+      console.log('selectstart', event)
+    })
+
+    // 输入元素内划词触发
+    document.addEventListener('select', function (event) {
+      console.log('select', event)
+    })
+
+    // 一直在划词的过程中触发，什么元素都支持
+    document.addEventListener('selectionchange', function (event) {
+      // console.log('selectionchange', event)
+      clearTimeout(timer)
+      timer = setTimeout(() => {
+        sel = window.getSelection()
+        let start = sel.anchorOffset
+        let end = sel.focusOffset
+        
+        // window.getSelection() 记录当前选区的信息
+        console.log(
+          'getSelection',
+          start,
+          end,
+          window.getSelection()
+        )
+        
+        const diffContent = content.innerHTML.slice(start, end)
+        hideContent.innerHTML = content.innerHTML.slice(0, start) + 
+          '<span id="light">' + diffContent + '</span>' +
+          content.innerHTML.slice(end)
+
+        const rect = document.getElementById('light').getBoundingClientRect()
+        comment.style.left = rect.left + 'px'
+        comment.style.top = (rect.top - 43) + 'px'
+      }, 300)
+    })
+  </script>
+</body>
+</html>

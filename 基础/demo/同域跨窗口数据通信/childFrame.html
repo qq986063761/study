@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      background-color: blueviolet;
+    }
+  </style>
+</head>
+<body>
+  <h1>子窗口</h1>
+  <button id="send">发送消息给父窗口</button>
+
+  <script src="https://unpkg.com/vconsole@latest/dist/vconsole.min.js"></script>
+  <script>
+    // var vConsole = new VConsole()
+
+    window.addEventListener('message', ({data}) => {
+      alert('子窗口收到数据' + data)
+    })
+
+    send.onclick = () => {
+      window.parent.postMessage(JSON.stringify({
+        type: '子'
+      }))
+    }
+  </script>
+</body>
+</html>

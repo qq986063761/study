@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .box {
+      width: 200px;
+      height: 200px;
+      border: 2px solid #000;
+    }
+    
+    #perspective {
+      margin-top: 80px;
+      perspective: 250px;
+    }
+
+    #perspective h1 {
+      height: 100%;
+      width: 100%;
+      background-color: yellowgreen;
+      transform: rotateX(45deg);
+    }
+  </style>
+</head>
+<body>
+  <div id="perspective" class="box"> 
+    <h1>沿着z轴视距，自身不会有效果，设置在父元素上</h1>
+  </div>
+</body>
+</html>

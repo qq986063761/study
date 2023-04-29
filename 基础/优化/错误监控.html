@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/vConsole/3.3.4/vconsole.min.js" as="script">
+  
+  <title>Document</title>
+  <script>
+    /**
+     * window.onerror 能捕获大部分的异常（同步、异步进行时的js异常），不能捕获语法错误
+     * @param {String} message 错误信息
+     * @param {String} source 出错文件
+     * @param {Number} lineno 行号
+     * @param {Number} colno 列号
+     * @param {Object} error Error对象（对象）
+     */
+    window.onerror = function(message, source, lineno, colno, error) {
+      console.log('window.onerror', {message, source, lineno, colno, error})
+      return true // 返回 true 表示已经被接收，就不会被上抛给浏览器
+    }
+
+    /**
+     * window.addEventListener 监听 error 可以捕获到资源请求等异常
+     * @param {String} type 事件类型
+     * @param {function} fn 事件触发函数 
+     * @param {boolean|object} useCapture|options 是否启动捕获
+     */
+    window.addEventListener('error', function (error) {
+      console.log('window-event-listener-error', error)
+    }, true)
+
+    // 捕获一些漏掉的 promise 异常，可通过 Promise.reject('promise error') 测试
+    window.addEventListener("unhandledrejection", function (event) {
+      event.preventDefault()
+      console.log('unhandledrejection', event)
+      return true
+    })
+
+    // 崩溃日志处理
+    window.addEventListener('load', function () {
+      sessionStorage.setItem('good_exit', 'pending')
+      // 一段时间汇报一下正常使用的时间日志
+      // setInterval(function () {
+      //   sessionStorage.setItem('time_before_crash', newDate().toString())
+      // }, 1000)
+    })
+
+    window.addEventListener('beforeunload', function () {
+      // 正常退出
+      sessionStorage.setItem('good_exit', 'true')
+    })
+
+    // 如果正常进入异常崩溃退出，崩溃退出时缓存变量将不会被设置为 true
+    if (sessionStorage.getItem('good_exit') && sessionStorage.getItem('good_exit') !== 'true') {
+      alert('异常崩溃退出日期：' + sessionStorage.getItem('time_before_crash'));
+    }
+
+    // try catch 只能捕获同步运行时 js 的错误，不能捕获语法错误
+    try {
+      // 异步运行时js内部错误还是会上报到浏览器，不会被 try catch 捕获
+      setTimeout(function () {
+        var age = 23
+        // console.log(ag) // 测试异步js异常
+      }, 1000)
+
+      var name = 'hello'
+      // console.log(nam) // 测试同步js异常
+    } catch (error) {
+      console.log('try-catch-error', error)
+    }
+
+    // vue 异常处理可以见 readme.md 中的异常处理的一个链接中有提及
+  </script>
+</head>
+<body>
+  <!-- 测试请求异常 -->
+  <img src="./test.png">
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    .grid {
+      position: relative;
+      float: left;
+      width: 451px;
+      height: 451px;
+      border: 5px solid gray;
+    }
+    
+    .item {
+      padding: 50px;
+      background-color: skyblue;
+      border: 5px solid blueviolet;
+    }
+    
+    /* flex居中 */
+    .d1 {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    /* 定位，变形居中 */
+    .d2 {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+    
+    /* 绝对定位居中 */
+    .d3 {
+      position: absolute; 
+      left:0; 
+      right:0; 
+      top:0; 
+      bottom:0; 
+      width: 150px;
+      height: 150px;
+      margin: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="grid d1">
+    <div class="item"></div>
+  </div>
+  <div class="grid">
+    <div class="item d2"></div>
+  </div>
+  <div class="grid">
+    <div class="item d3"></div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <style>
+        	.drag-wrap {
+        		height: 60px;
+        		border: 1px solid lightgray;
+        		color: #000;
+        		text-align: center;
+        		line-height: 60px;
+          	}
+        	
+            .item {
+            	height: 60px;
+            	border: 1px solid gray;
+            }
+            
+            .item > div {
+            	float: left;
+            	height: 100%;
+            }
+            
+            .item img {
+            	height: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+        	<input id="upload" type="file" multiple>
+        	<div id="dragContainer" class="drag-wrap">请拖拽到此容器内</div>
+        </div>
+        <div id="container"></div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="index.js"></script>
+    </body>
+</html>

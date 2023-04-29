@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>按钮</title>
+  <style>
+    button {
+      display: inline-block;
+      margin: 10px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    /* 一般的按钮按下弹起 */
+    .btn {
+      position: relative;
+      background: skyblue;
+      border: 1px solid lightgray;
+      width: 90px;
+      height: 40px;
+      box-shadow: 1px 1px 3px black;
+    }
+
+    .btn:hover {
+      background-color: lightblue;
+    }
+
+    .btn:active {
+      left: 1px;
+      top: 1px;
+      box-shadow: -1px -1px 3px black;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 普通的按下弹起效果   -->
+  <button class="btn" type="button">普通按钮</button>
+</body>
+
+</html>

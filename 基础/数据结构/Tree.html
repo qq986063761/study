@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #content {
+      display: inline-block;
+      text-align: center;
+    }
+
+    .node {
+      display: flex;
+      justify-content: center;
+    }
+    
+    .node-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      border: 1px solid;
+      border-radius: 50%;
+    }
+
+    .node-children {
+      display: flex;
+    }
+  </style>
+</head>
+<body>
+  <input id="num" type="text" placeholder="请输入数值">
+  <button id="add">添加树节点</button>
+  <button id="del">删除树节点</button>
+  <br>
+  <div id="content"></div>
+
+  <script src="./Tree.js"></script>
+  <script>
+    const tree = new Tree()
+    init()
+
+    add.onclick = function () {
+      tree.add(Number(num.value))
+      num.value = ''
+      showContent()
+    }
+    del.onclick = function () {
+      tree.remove(Number(num.value))
+      showContent()
+    }
+
+    function init() {
+      const arr = [8, 7, 9, 6, 7.5, 8.5, 9.5, 5, 6.5, 7.4, 7.6, 8.4, 8.6, 9.4, 10]
+      arr.forEach(num => tree.add(num))
+      showContent()
+
+      console.log('深度优先搜索')
+      tree.dfs()
+
+      console.log('广度优先搜索')
+      tree.bfs()
+    }
+
+    function showContent() {
+      content.innerHTML = deep(tree.root)
+    }
+
+    function deep(node) {
+      if (!node) return ''
+
+      return `<div class="node-wrap">
+        <div class="node">
+          <div class="node-content">${node.value}</div>
+        </div>
+        <div class="node-children">
+          ${deep(node.left)}
+          ${deep(node.right)}
+        </div>
+      </div>`
+    }
+  </script>
+</body>
+</html>

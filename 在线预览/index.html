@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.3.2/viewer.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      display: flex;
+      padding: 10px;
+      height: 100vh;
+    }
+    #viewer {
+      display: none;
+    }
+    .left {
+      display: flex;
+      max-width: 300px;
+      flex-direction: column;
+      flex-shrink: 0;
+      padding-right: 10px;
+      border-right: 1px solid #eee;
+    }
+    .item {
+      position: relative;
+    }
+    .item + .item {
+      margin-top: 10px;
+    }
+    .right {
+      flex: 1;
+      padding-left: 10px;
+      height: 100%;
+    }
+    .preview-frame {
+      width: 100%;
+      height: 100%;
+    }
+    #pdfUploader {
+      position: absolute;
+      opacity: 0;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="left">
+    <button type="button" class="item btn btn-primary" onclick="preview('img')">预览图片</button>
+    <button type="button" class="item btn btn-primary" onclick="preview('pdf')">预览服务器上的pdf文件</button>
+    <button type="button" class="item btn btn-primary">
+      <input id="pdfUploader" type="file">
+      选择本地pdf文件（必须在先预览一次服务器上的pdf，因为需要调用对应 frame 内的方法）
+    </button>
+    <button type="button" class="item btn btn-primary" onclick="preview('word')">预览服务器上的word文件</button>
+    <button type="button" class="item btn btn-primary" onclick="preview('xls')">预览服务器上的xls文件</button>
+    <button type="button" class="item btn btn-primary" onclick="preview('ppt')">预览服务器上的ppt文件</button>
+  </div>
+  <div class="right"> 
+    <iframe class="preview-frame" frameborder="0"></iframe>
+  </div>
+
+  <!-- 图片预览 -->
+  <div id="viewer">
+    <img src="https://seashel-online.oss-cn-beijing.aliyuncs.com//info/AbsC5w4paS.png">
+  </div>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.3.2/viewer.min.js"></script>
+  <script>
+    // demo
+    var pdfUrl1 = 'https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/examples/learning/helloworld.pdf'
+    var pdfUrl2 = 'https://zxb-online.topscrm.cn/test_c57c93bb-ec5d-4194-ba8e-ae370b89085f.pdf'
+    var wordUrl = 'https://zxb-online.topscrm.cn/word文档_9389fe7e-3199-4792-b043-2009b3802d14.docx'
+    var xlsUrl = 'https://zxb-online.topscrm.cn/xls文档_f8b6bff3-258a-41a3-b5bf-131f43423b81.xlsx'
+    var pptUrl = 'https://zxb-online.topscrm.cn/ppt文档_bdfa999b-6592-4084-ae23-ed0e25e6387a.pptx'
+
+    // 实例
+    var frame = document.getElementsByClassName('preview-frame')[0]
+    var viewer = new Viewer(document.getElementById('viewer'))
+    var pdfRoot = './pdfjs/viewer.html?file='
+    var previewRoot = 'https://view.officeapps.live.com/op/view.aspx?src='
+
+    // 预览
+    function preview(type) {
+      switch (type) {
+        case 'img':
+          // viewer.update() // 如果在原实例上更新了图片则调用此方法
+          viewer.show()
+          break;
+        case 'pdf':
+          frame.src = pdfRoot + pdfUrl2
+          break;
+        case 'word':
+          frame.src = previewRoot + wordUrl
+          break;
+        case 'xls':
+          frame.src = previewRoot + xlsUrl
+          break
+        case 'ppt':
+          frame.src = previewRoot + pptUrl
+          break
+      
+        default:
+          break;
+      }
+    }
+
+    // 本地上传 pdf
+    pdfUploader.onchange = function (e) {
+      if (frame.src.indexOf(pdfRoot) === -1) frame.src = pdfRoot
+      // 调用 frame 内部引用的 viewer.js 文件中定义的方法
+      frame.contentWindow.webViewerChange(e)
+      e.target.value = null
+    }
+
+    frame.src = ''
+  </script>
+</body>
+</html>

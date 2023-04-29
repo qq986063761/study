@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>three.js</title>
+  <style>
+    html,
+    body {
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    canvas { 
+      width: 100%; 
+      height: 100% 
+    }
+  </style>
+</head>
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/107/three.min.js"></script>
+  <script>
+    // 初始化场景（用于存放物体的区域）
+    var scene = new THREE.Scene();
+    // 设置场景中的雾
+    scene.fog = new THREE.Fog( 0x000000, 1, 500 )
+    // 设置场景背景元素
+    scene.background = new THREE.Color('skyblue');
+
+    var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+
+    // 创建渲染器（用于将场景渲染到渲染元素上的对象）
+    var renderer = new THREE.WebGLRenderer();
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    document.body.appendChild( renderer.domElement );
+
+    renderer.render( scene, camera );
+  </script>
+</body>
+</html>

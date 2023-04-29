@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    ul {
+      max-height: 500px;
+      overflow: auto;
+    }
+  </style>
+</head>
+<body>
+  <button id="start" onclick="loop()">开始</button>
+  <ul></ul>
+
+  <script>
+    // 十万条数据
+	  var total = 100000
+    // 一次插入 20 条，如果觉得性能不好就减少
+    var once = 20
+    // 渲染数据总共需要几次
+    var loopCount = total / once
+    // 已经渲染的数目
+    var renderCount = 0
+
+    // 容器
+    var ul = document.querySelector("ul");
+
+    // 追加dom
+    function add() {
+      // 创建文档帧，先将数据追加到文档帧内，因为没有直接插入到dom树节点中，所以不会造成回流，来达到优化性能的目的
+      var fragment = document.createDocumentFragment();
+      
+      for (var i = 0; i < once; i++) {
+        var li = document.createElement("li");
+        li.innerText = renderCount * once + i + ' Item'
+        fragment.appendChild(li);
+      }
+
+      // 追加子节点包装动画帧
+      ul.appendChild(fragment);
+
+      // 已渲染的次数，一次渲染20条数据
+      renderCount += 1;
+
+      loop();
+    }
+
+    // 循环追加数据
+    function loop() {
+      if (renderCount < loopCount) {
+        // 请求执行动画，下一次重绘前执行回调
+        window.requestAnimationFrame(add);
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <input id="num" type="text" placeholder="请输入数值">
+  <button id="add">入队列</button>
+  <button id="del">出队列</button>
+  <p id="content"></p>
+
+  <script>
+    var queue = []
+    add.onclick = function () {
+      queue.push(num.value)
+      content.innerText = queue
+      num.value = ''
+    }
+    del.onclick = function () {
+      queue.shift()
+      content.innerText = queue
+    }
+  </script>
+</body>
+</html>

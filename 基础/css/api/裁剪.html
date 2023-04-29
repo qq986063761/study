@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .box {
+      width: 200px;
+      height: 200px;
+      border: 2px solid #000;
+    }
+
+    #clipPath {
+      background: url('https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F0%2F58b3efaed8eb9.jpg&refer=http%3A%2F%2Fpic1.win4000.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1670060744&t=e9401835720acacefe6cdecf28dd56ae');
+      /* 
+        ellipse(x半径 y半径 at x圆心 y圆心)
+      */
+      clip-path: ellipse(200px 200px at 0 0);
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div id="clipPath" class="box">
+    <h1>clip-path<br>裁剪显示</h1>
+  </div>
+</body>
+</html>

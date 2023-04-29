@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    
+    .box {
+      width: 200px;
+      height: 200px;
+      border: 2px solid #000;
+      margin: 10px;
+    }
+
+    .box:nth-child(1) {
+      background: url('https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F0%2F58b3efaed8eb9.jpg&refer=http%3A%2F%2Fpic1.win4000.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1670060744&t=e9401835720acacefe6cdecf28dd56ae'),
+        url('https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2018-05-25%2F5b07781d8104c.jpg&refer=http%3A%2F%2Fpic1.win4000.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1670118427&t=3d4bee8373a30ef4a7719ba9d0b0c805'),
+        linear-gradient(to right, rgba(30, 75, 115, 1), rgba(255, 255, 255, 0)),
+        radial-gradient(red, yellow, rgb(30, 144, 255));
+      background-position: 0 0, 100px 100px, 0 100px, 100px 0;
+      background-size: 100px 100px, 100px 100px;
+      background-repeat: no-repeat;
+      /* background-origin content-box 让背景渲染到盒子内容区域，不包含 padding 区域 */
+      background-origin: content-box;
+      padding: 10px;
+      color: #fff;
+    }
+
+    .box:nth-child(2) {
+      margin: 10px;
+      background: linear-gradient(to right, red 50%, blueviolet 50%);
+      background-size: 40px 100%;
+    }
+
+    .box:nth-child(3) {
+      margin: 10px;
+      background: linear-gradient(45deg, red 50%, blueviolet 50%);
+      background-size: 40px 40px;
+    }
+
+    .box:nth-child(4) {
+      margin: 10px;
+      background: repeating-linear-gradient(60deg,#fb3,#fb3 20px,#58a 0,#58a 40px,#fb3 0,#fb3 60px,#58a 0,#58a 80px);
+    }
+
+    .box:nth-child(5) {
+      margin: 10px;
+      background: #58a;
+      background-image: linear-gradient(90deg,white 1px,transparent 0),
+                        linear-gradient(white 1px,transparent 0);
+      background-size: 40px 40px; 
+    }
+
+    .box:nth-child(6) {
+      padding: 1em;
+      /* 透明的边框使得能看见底部的背景图片 */
+      border: 1em solid transparent;
+      background: linear-gradient(white, white),
+                  url("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2018-05-25%2F5b07781d8104c.jpg&refer=http%3A%2F%2Fpic1.win4000.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1670118427&t=3d4bee8373a30ef4a7719ba9d0b0c805");
+      background-size: cover;
+      /* 第一个背景按 padding-box 盒子，第二个背景按 border-box 盒子 */
+      background-clip: padding-box, border-box;
+      /* 图片默认是从 padding 位置开始渲染，将背景图片设为从 border 区域开始渲染。这样 border 的透明区域就不会出线图片拼接的怪异样式。 */
+      background-origin: border-box;
+    }
+
+    .box:nth-child(7) {
+      padding: 1em;
+      border: 1em solid transparent;
+      background: linear-gradient(white,white) padding-box,
+                  repeating-linear-gradient(-45deg,red 0,red 12.5%,transparent 0,transparent 25%,#58a 25%,#58a 37.5%,transparent 0,transparent 50%);
+      background-size: 100%, 60px 40px;
+    }
+
+    .box:nth-child(8) {
+      border-top:  3px solid transparent;
+      border-image: 100% 0 0 linear-gradient(90deg, currentColor 3em,transparent 0);
+    }
+
+    .box:nth-child(9) {
+      border: none;
+      background:
+        linear-gradient(-135deg, transparent 33%, #fb3 0) top right,
+        linear-gradient(-45deg, transparent 33%, #fb3 0) bottom right,
+        radial-gradient(circle at top left, transparent 20%, #fb3 0) top left,
+        radial-gradient(circle at bottom left, transparent 20%, #fb3 0) bottom left;
+      background-size: 50% 50%;
+      background-repeat: no-repeat;
+    }
+  </style>
+</head>
+<body>
+  <div class="box"></div>
+  <div class="box"></div>
+  <div class="box"></div>
+  <div class="box"></div>
+  <div class="box"></div>
+  <div class="box">利用背景渲染 border</div>
+  <div class="box">利用背景渲染 border</div>
+  <div class="box">利用背景渲染角标</div>
+  <div class="box">利用背景做切角</div>
+</body>
+</html>

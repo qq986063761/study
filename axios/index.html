@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+  <script>
+    // 创建基本axios实例
+    var instance = axios.create({
+      baseURL: 'http://127.0.0.1:3000',
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+        'Accept': 'application/json'
+      }
+    });
+
+    // 拦截器
+    instance.interceptors.response.use(function (response) {
+      if (response.data.message === '请先登录!') {
+        localStorage.removeItem('token');
+        location.reload();
+      } else {
+        return response;
+      }
+    }, function (error) {
+      console.error(error)
+    });
+
+    // 用于取消请求操作
+    var cancel = null;
+
+    // 发起请求
+    instance.post('/goods/getList', {
+      name: 'wanpeng',
+      arr: [1, 2, 3],
+      obj: {
+        age: 23
+      }
+    }, {
+        // 接收一个函数引用，用于取消请求，执行cancel后，会触发catch，需要在catch中排除这种情况报错
+        cancelToken: new axios.CancelToken(function (cancel) {
+          cancel = cancel;
+        }),
+        // 请求头
+        headers: {
+          // token: '798465139784513'
+        }
+      }).then(function (res) {
+        console.info(res)
+      }).catch(function (err) {
+        console.error(err)
+      })
+
+    // 选择适合时机取消请求
+    if (cancel) {
+      // cancel();
+    }
+  </script>
+</body>
+
+</html>

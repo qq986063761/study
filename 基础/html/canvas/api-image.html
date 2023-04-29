@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>图像处理</title>
+  <style>
+    html,
+    body {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    canvas {
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+<body>
+  <!-- 原图层 -->
+  <canvas id="canvas" style="margin-left: 8px;margin-top: 8px;border: 1px solid;background: black;">
+    浏览器太老啦
+  </canvas>
+  <!-- 像素测试canvas -->
+  <canvas id="canvas2" style="margin-left: 8px;margin-top: 8px;border: 1px solid;background: black;">
+    浏览器太老啦
+  </canvas>
+
+  <input id="range" type="range" min="0.5" max="3.0" step="0.01" value="1.0" style="display: block;margin: 0 auto;width: 80%;">
+  <!-- 水印 -->
+  <canvas id="watermarkCanvas" style="display: none;margin: 0;border: 1px solid #aaa;">
+    浏览器太老啦
+  </canvas>
+  <!-- 放大镜 -->
+  <canvas id="offCanvas" style="display: none;">
+    浏览器太老啦
+  </canvas>
+  
+  <button id="btnFilter">滤镜</button>
+  <button id="btnBlur">滤镜-模糊</button>
+
+  <script>
+    var canvas = document.getElementById('canvas')
+    var canvas2 = document.getElementById('canvas2')
+    canvas.width = canvas2.width = 416
+    canvas.height = canvas2.height = 402
+
+    var context = canvas.getContext('2d')
+    var context2 = canvas2.getContext('2d')
+    // 水印canvas
+    var watermarkCanvas = document.getElementById('watermarkCanvas')
+    var watermarkContext = watermarkCanvas.getContext('2d')
+    watermarkCanvas.width = 515
+    watermarkCanvas.height = 100
+    
+    watermarkContext.font = 'bold 50px Arial'
+    watermarkContext.lineWidth = '1'
+    watermarkContext.fillStyle = 'rgba(255, 255, 255, 0.5)'
+    watermarkContext.textBaseline = 'middle'
+    watermarkContext.fillText('== wanpeng.com ==', 20, 50)
+
+    // 放大镜canvas
+    var offCanvas = document.getElementById('offCanvas')
+    var offContext = offCanvas.getContext('2d')
+    var isMouseDown = false
+    var scale = 1
+
+    // 初始化图形
+    var img = new Image()
+    img.src = './demo.jpg'
+    img.onload = function() {
+      // 初始化放大镜 canvas 宽高和实际图片一样尺寸
+      offCanvas.width = img.width
+      offCanvas.height = img.height
+      
+      // 初始化放大镜宽和canvas实际宽的比例
+      scale = offCanvas.width / canvas.width
+
+      // 初始化一个默认缩放比例到原canvas上
+      drawImageByScale( canvas.width / img.width )
+      
+      // 初始化放大镜canvas上的图像
+      offContext.drawImage(img, 0, 0)
+    }
+
+    // 根据缩放绘制图像
+    function drawImageByScale( scale ) {
+      var width = img.width * scale
+      var height = img.height * scale
+      var x = canvas.width / 2 - width / 2
+      var y = canvas.height / 2 - height / 2
+
+      context.clearRect(0, 0, canvas.width, canvas.height)
+
+      // 绘制图像（image|canvas，x，y，width，height[， dx，dy，dWidth，dHeight ]）
+      // 如果存在后四个参数，则表示将原图像上x，y位置取width，height大小的图像，在画布目标位置取目标宽高进行绘制
+      context.drawImage(img, x, y, width, height)
+      
+      // 绘制水印
+      context.drawImage(
+        watermarkCanvas, 
+        canvas.width - watermarkCanvas.width, 
+        canvas.height - watermarkCanvas.height - 50
+      )
+    }
+    
+    // 操作范围进度条缩放图像
+    range.oninput = e => {drawImageByScale( e.target.value )}
+
+    // 放大镜操作事件
+    canvas.onmousedown = function(e) {
+      e.preventDefault()
+
+      var point = windowToCanvas(e.clientX, e.clientY)
+
+      isMouseDown = true
+      drawCanvasWithMagnifier(true, point)
+    }
+
+    canvas.onmousemove = function(e) {
+      e.preventDefault()
+      if (isMouseDown) {
+        var point = windowToCanvas(e.clientX, e.clientY)
+        drawCanvasWithMagnifier(true, point)
+      }
+    }
+
+    canvas.onmouseup = function(e) {
+      e.preventDefault()
+      isMouseDown = false
+      drawCanvasWithMagnifier(false)
+    }
+
+    canvas.onmouseout = function(e) {
+      e.preventDefault()
+      isMouseDown = false
+      drawCanvasWithMagnifier(false)
+    }
+
+    // 绘制放大镜
+    function drawCanvasWithMagnifier(isShowMagnifier, point) {
+      context.clearRect(0, 0, canvas.width, canvas.height)
+      context.drawImage(img, 0, 0, canvas.width, canvas.height)
+      if (isShowMagnifier) drawMagnifier(point)
+    }
+
+    // 将大图所在画布上取指定区域绘制到存在的画布上对应的区域
+    function drawMagnifier(point) {
+      // 根据放大镜实际图像的canvas和原canvas的缩放比计算放大镜中心点
+      var imgLG_cx = point.x * scale
+      var imgLG_cy = point.y * scale
+      var mr = 200 // 放大镜半径
+
+      // 需要截取在放大镜canvas上的图像开始点
+      var sx = imgLG_cx - mr
+      var sy = imgLG_cy - mr
+      
+      // 需要放置在原canvas上的开始位置
+      var dx = point.x - mr
+      var dy = point.y - mr
+
+      context.save()
+      
+      // 配置放大镜样式
+      context.lineWidth = 10
+      context.strokeStyle = '#069'
+      
+      // 在原canvas上绘制放大镜路径
+      context.beginPath()
+      context.arc(point.x, point.y, mr, 0, Math.PI * 2)
+      context.stroke()
+      // 剪切原canvas上的放大镜路径，并将实际完整的放大镜canvas绘制到原canvas上
+      context.clip()
+      // 将实际图像canvas上sx, sy开始宽高为2 * mr的区域绘制到原canvas上dx, dy开始同样宽高的位置
+      context.drawImage(offCanvas, sx, sy, 2 * mr, 2 * mr, dx, dy, 2 * mr, 2 * mr)
+      context.restore()
+    }
+
+    // 获取鼠标点击位置相对图像canvas的位置信息
+    function windowToCanvas(x, y) {
+      var bbox = canvas.getBoundingClientRect()
+      return {
+        x: x - bbox.left,
+        y: y - bbox.top
+      }
+    }
+
+    // 点击对图像进行滤镜操作
+    btnFilter.onclick = function() {
+      filter()
+    }
+
+    // 点击对图像进行模糊操作
+    btnBlur.onclick = function() {
+      marblur()
+    }
+
+    // 滤镜
+    function filter() {
+      // 获取图像数据信息（x，y，width，height）
+      var imgData = context.getImageData(0, 0, canvas.width, canvas.height)
+      // 像素数据array，每4个索引的元素表示一个rgba数据
+      var pixelData = imgData.data
+
+      for (var i = 0; i < canvas2.width * canvas2.height; i++) {
+        var r = pixelData[4 * i + 0]
+        var g = pixelData[4 * i + 1]
+        var b = pixelData[4 * i + 2]
+        var a = pixelData[4 * i + 3]
+
+        // 灰度滤镜
+        var grey = r * 0.3 + g * 0.59 + b * 0.11
+        
+        // 黑白滤镜
+        if (grey > 255 / 2) {
+          v = 255
+        } else {
+          v = 0
+        }
+
+        // 反色滤镜
+        pixelData[4 * i + 0] = 255 - r
+        pixelData[4 * i + 1] = 255 - g
+        pixelData[4 * i + 2] = 255 - b
+      }
+
+      // 将图像数据绘制到canvas上（imgData，dx, dy, dirtyX, dirtyY, dirtyW, dirtyH）
+      // 将图像dirtyX，dirtyY位置上宽高为dirtyW, dirtyH的图形，绘制到canvas上dx,dy开始的位置上
+      context2.putImageData(imgData, 0, 0, 0, 0, canvas.width, canvas.height)
+    }
+
+    // 滤镜--马赛克模糊
+    function marblur() {
+      var tmpImgData = context.getImageData(0, 0, canvas.width, canvas.height)
+      var tmpPixelData = tmpImgData.data
+
+      var imgData = context.getImageData(0, 0, canvas.width, canvas.height)
+      var pixelData = imgData.data
+      
+      var size = 16
+      var totalnum = size * size
+
+      // 将像素视为二维矩阵
+      for (var i = 0; i < canvas2.height; i += size) {
+        for (var j = 0; j < canvas2.width; j += size) {
+          var totalr = 0
+          var totalg = 0
+          var totalb = 0
+          
+          // 获取一个像素点周边所有的点
+          for (var dx = 0; dx <= size; dx++) {
+            for (var dy = 0; dy <= size; dy++) {
+              var x = i + dx
+              var y = j + dy
+
+              var p = x * canvas2.width + y
+              totalr += tmpPixelData[p * 4 + 0]
+              totalg += tmpPixelData[p * 4 + 1]
+              totalb += tmpPixelData[p * 4 + 2]
+            }
+          }
+
+          var resr = totalr / totalnum
+          var resg = totalg / totalnum
+          var resb = totalb / totalnum
+
+          // 获取一个像素点周边所有的点
+          for (var dx = 0; dx <= size; dx++) {
+            for (var dy = 0; dy <= size; dy++) {
+              var x = i + dx
+              var y = j + dy
+
+              var p = x * canvas2.width + y
+              pixelData[p * 4 + 0] = resr
+              pixelData[p * 4 + 1] = resg
+              pixelData[p * 4 + 2] = resb
+            }
+          }
+        }
+      }
+
+      context2.putImageData(imgData, 0, 0, 0, 0, canvas.width, canvas.height)
+    }
+    
+    // 滤镜--失焦模糊
+    function blur() {
+      var tmpImgData = context.getImageData(0, 0, canvas.width, canvas.height)
+      var tmpPixelData = tmpImgData.data
+
+      var imgData = context.getImageData(0, 0, canvas.width, canvas.height)
+      var pixelData = imgData.data
+      
+      var blurR = 3
+      var totalnum = (2 * blurR + 1) * (2 * blurR + 1)
+
+      // 将像素视为二维矩阵
+      for (var i = blurR; i < canvas2.height - blurR; i++) {
+        for (var j = blurR; j < canvas2.width - blurR; j++) {
+          var totalr = 0
+          var totalg = 0
+          var totalb = 0
+          
+          // 获取一个像素点周边所有的点
+          for (var dx = -blurR; dx <= blurR; dx++) {
+            for (var dy = -blurR; dy <= blurR; dy++) {
+              var x = i + dx
+              var y = j + dy
+
+              var p = x * canvas2.width + y
+              totalr += tmpPixelData[p * 4 + 0]
+              totalg += tmpPixelData[p * 4 + 1]
+              totalb += tmpPixelData[p * 4 + 2]
+            }
+          }
+          
+          // 模糊处理（将原像素点设置为周边9个像素点的平均值）
+          var p = i * canvas2.width + j
+          pixelData[p * 4 + 0] = totalr / totalnum
+          pixelData[p * 4 + 1] = totalg / totalnum
+          pixelData[p * 4 + 2] = totalb / totalnum
+        }
+      }
+
+      context2.putImageData(imgData, 0, 0, 0, 0, canvas.width, canvas.height)
+    }
+
+    // 创建rgb图像数据
+    var imgData = context2.createImageData(canvas2.width, canvas2.height)
+    var pixelData = imgData.data
+
+    for (var i = 0; i < canvas2.height; i++) {
+      for (var j = 0; j < canvas2.width; j++) {
+        var p = i * canvas2.width + j
+        pixelData[4 * p + 0] = parseInt(Math.pow(Math.cos( Math.atan2(j - 400, i - 400) / 2 ), 2) * 255)
+        pixelData[4 * p + 1] = parseInt(Math.pow(Math.cos( Math.atan2(j - 400, i - 400) / 2 - 2 * Math.acos(-1) / 3 ), 2) * 255)
+        pixelData[4 * p + 2] = parseInt(Math.pow(Math.cos( Math.atan2(j - 400, i - 400) / 2 + 2 * Math.acos(-1) / 3 ), 2) * 255)
+        pixelData[4 * p + 3] = 255
+      }
+    }
+
+    context2.putImageData(imgData, 0, 0, 0, 0, canvas2.width, canvas2.height)
+  </script>
+</body>
+</html>

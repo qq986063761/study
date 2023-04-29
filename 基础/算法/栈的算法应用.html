@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // 给定只包括 '('，')'，'{'，'}'，'['，']' 的字符串，判断字符串是否有效
+    // 有效字符串需满足：1、左括号必须用相同类型的右括号闭合；2、左括号必须以正确的顺序闭合；3、注意空字符串可被认为是有效字符串。
+    // 输入: "()"，输出: true；输入: "()[]{}"，输出: true；输入: "(]"，输出: false；输入: "([)]"，输出: false；输入: "{[]}"，输出: true
+    function isValid(str) {
+      if (!str) return true
+      let stack = []
+
+      let map = {
+        '(': ')',
+        '{': '}',
+        '[': ']'
+      }
+
+      for (let index = 0; index < str.length; index++) {
+        const ch = str[index]
+        
+        // 如果是左符号，则将左符号对应的右符号添加到栈中
+        if (ch === '(' || ch === '{' || ch === '[') {
+          stack.push(map[ch])
+        } else if (!stack.length || ch !== stack.pop()) {
+          // 如果不满足左符号了，则说明本来应该存在成对的符号，则用 stack.pop() 弹出之前存的成对符号
+          // 如果不是则不成对，直接返回 false
+          return false
+        }
+      }
+      
+      // stack 中的成对符号如果没有被全清空说明还剩余不成对的符号，则也不满足
+      return !stack.length
+    }
+
+    // 给一个温度列表，一天一个温度：[73, 74, 75, 71, 69, 72, 76, 73]，输出每个索引位置的温度在之后几天后的温度能超过当前索引所在温度，
+    // 如果之后温度没有升高，则对应索引位置数字为 0，上面的温度列表对应的输出数组应该是：[1, 1, 4, 2, 1, 1, 0, 0]
+    console.log(dailyTemperatures([73, 74, 75, 71, 69, 72, 76, 73]))
+    function dailyTemperatures(arr) {
+      let res = new Array(arr.length).fill(0)
+      let stack = []
+      
+      for (let index = 0; index < arr.length; index++) {
+        const t = arr[index]
+        
+        // stack 没内容的时候，把当前索引存到 stack 中，用于下一轮 for 循环的下一个索引温度和之前 stack 中存的索引所在温度做对比
+        // 如果后面索引的温度有大于 stack 中存的索引的温度，则说明找到了刚好大于之前温度的索引将 index - prevIndex 差值保存到之前 stack 中的索引
+        // 对应新数组 res 中即可
+        while (stack.length && t > arr[stack[stack.length - 1]]) {
+          const prevIndex = stack.pop()
+          res[prevIndex] = index - prevIndex
+        }
+
+        stack.push(index)
+      }
+
+      return res
+    }
+
+    // 设计一个支持 push，pop，top，getMin操作，并能在常数时间内检索到最小元素的栈
+    class MinStack {
+      constructor() {
+        this.stack = [] // 主要栈容器
+        this.stack1 = [] // 辅助栈容器，用于存最小值
+      }
+
+      push(value) {
+        this.stack.push(value)
+        if (!this.stack1.length || value < this.stack1[this.stack1.length - 1]) {
+          this.stack1.push(value)
+        }
+      }
+
+      pop() {
+        if (this.stack.pop() === this.stack1[this.stack1.length - 1]) {
+          this.stack1.pop()
+        }
+      }
+
+      top() {
+        if (!this.stack.length) return null
+        return this.stack[this.stack.length - 1]
+      }
+
+      getMin() {
+        if (!this.stack1.length) return null
+        return this.stack1[this.stack1.length - 1]
+      }
+    }
+  </script>
+</body>
+</html>
