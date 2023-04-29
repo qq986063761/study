@@ -1,2 +1,1 @@
-# 资源
-- [官网](https://fullcalendar.io/#demos)
+- [官网](https://fullcalendar.io/)
