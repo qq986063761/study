@@ -23,7 +23,7 @@
       /* 内联尺寸 */
       inline-size: 600px;
       /* 垂直尺寸 */
-      block-size: 600px;
+      block-size: 200px;
       /* 间隔，解决两边 padding 问题 */
       gap: 45px;
     }
@@ -44,6 +44,25 @@
       background: yellowgreen;
       order: -1;
     }
+
+    #flex1 {
+      display: flex;
+      flex-wrap: wrap;
+      inline-size: 600px;
+      block-size: 300px;
+      margin-top: 20px;
+      /*  多行 item 时，控制侧轴方向的布局 */
+      align-content: space-between;
+      /* 主轴方向上的布局 */
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    #flex1 h1 {
+      width: 150px;
+      height: 100px;
+      background-color: skyblue;
+    }
   </style>
 </head>
 <body>
@@ -52,6 +71,15 @@
     <h1>Flex布局2</h1>
     <h1>Flex布局3</h1>
     <h1>Flex布局4 order 改变顺序</h1>
+  </div>
+
+  <div id="flex1" class="box">
+    <h1>Flex布局1</h1>
+    <h1>Flex布局2</h1>
+    <h1>Flex布局3</h1>
+    <h1>Flex布局4</h1>
+    <h1>Flex布局5</h1>
+    <h1>Flex布局6</h1>
   </div>
 </body>
 </html>
