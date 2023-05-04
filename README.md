@@ -6,11 +6,10 @@
 - [三分机场](https://xn--ehq00hgtfdmt.xyz/#/register?code=qZzW9TXr)
 - [赔钱机场](https://xn--mes358aby2apfg.com/#/login)
 - [追风岛](https://www.gozhuifeng.club/)
-- [买chatgpt账号](http://caihong.tanka.work/)
-- [买chatgpt账号](https://dwz.cn/RKN0BqDO)
-- [买chatgpt账号](https://dwz.cn/pRVCwapC)
-- [买chatgpt账号](http://shop.isving.cn/)
-- [谷歌免费chatgpt插件](https://app.usechatgpt.ai/?invite=xsLgYmA1)
+- [买chatgpt](http://caihong.tanka.work/)
+- [买chatgpt](https://dwz.cn/RKN0BqDO)
+- [买chatgpt](https://dwz.cn/pRVCwapC)
+- [买chatgpt](http://shop.isving.cn/)
 - [w3c](http://www.chinaw3c.org/)
 - [svg编辑器](http://editor.method.ac/)
 - [图片压缩](https://squoosh.app/)
@@ -26,7 +25,6 @@
 - [字节图标库 IconPark](https://iconpark.oceanengine.com/home)
 - [静态站点部署 netlify](https://www.netlify.com/)
 - [在线画流程图 processon](https://www.processon.com/)
-- [css揭秘学习笔记](https://yqwoshuai.github.io/note/css-secret/1.html#currentcolor)
 - [神三元博客](https://github.com/sanyuan0704/my_blog/tree/master/blogs)
 
 
