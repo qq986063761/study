@@ -7,19 +7,68 @@
   <title>Document</title>
   <style>
     .box {
-      width: 200px;
-      height: 200px;
       border: 2px solid #000;
     }
 
+    .box h1 {
+      margin: 0;
+      border: 1px solid gray;
+    }
+
     #grid {
-      width: 800px;
-      display: grid;
+      display: inline-grid;
+      /* 列尺寸分配，当 grid 自己有固定宽时，
+        值可通过 1fr 2fr 3fr 这种来分配几个空间单位 */
       grid-template-columns: 200px 200px 200px;
-      gap: 10px 20px;
-      justify-content: space-between;
+      /* 行尺寸分配 */
+      /* grid-template-rows: 200px 200px 200px; */
+      /* 元素之间的间距 */
+      gap: 10px 30px;
+      /* 下面这些属性可以用在网格布局中使用 */
+      /* justify-content: space-between;
       align-items: center;
-      text-align: center;
+      text-align: center; */
+    }
+
+    #grid h1 {
+      min-height: 200px;
+    }
+
+    #grid h1:nth-child(1) {
+      /* 当前元素，在网格的第几列 */
+      /* grid-column: 2; */
+      /* 当前元素在网格的第几行开始到几行之前结束 */
+      grid-row-start: 1;
+      grid-row-end: 3;
+    }
+
+    #grid1 {
+      display: grid;
+      margin-top: 10px;
+      width: 600px;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: 200px 200px 200px;
+      /* 定义网格模板id */
+      grid-template-areas:
+        "header header header"
+        "aside main main"
+        "footer footer footer" 
+    }
+
+    #grid1 .header {
+      grid-area: header;
+    }
+
+    #grid1 .aside {
+      grid-area: aside;
+    }
+
+    #grid1 .main {
+      grid-area: main;
+    }
+    
+    #grid1 .footer {
+      grid-area: footer;
     }
   </style>
 </head>
@@ -31,6 +80,16 @@
     <h1>Grid布局</h1>
     <h1>Grid布局</h1>
     <h1>Grid布局</h1>
+    <h1>Grid布局</h1>
+    <h1>Grid布局</h1>
+    <h1>Grid布局</h1>
+  </div>
+
+  <div id="grid1" class="box">
+    <h1 class="header">header</h1>
+    <h1 class="aside">aside</h1>
+    <h1 class="main">main</h1>
+    <h1 class="footer">footer</h1>
   </div>
 </body>
 </html>

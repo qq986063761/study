@@ -83,6 +83,24 @@
       height: 100px;
       background-color: skyblue;
     }
+
+    #flex3 {
+      display: flex;
+      flex-direction: column;
+      margin-top: 20px;
+    }
+
+    #flex3 .scroller {
+      max-height: calc(100% - 50px);
+      background-color: palevioletred;
+      overflow: auto;
+    }
+
+    #flex3 .footer {
+      height: 50px;
+      background-color: skyblue;
+      flex-shrink: 0;
+    }
   </style>
 </head>
 <body>
@@ -109,6 +127,13 @@
     <h1>Flex布局4</h1>
     <h1>Flex布局5</h1>
     <h1>Flex布局6</h1>
+  </div>
+
+  <div id="flex3" class="box">
+    <div class="scroller" contenteditable>
+      测试自适应内容撑高到最大后滚动
+    </div>
+    <div class="footer">底部</div>
   </div>
 </body>
 </html>
