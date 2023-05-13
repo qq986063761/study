@@ -11,6 +11,8 @@
 - [express](https://expressjs.com/zh-cn/)
 - [单页面应用模拟多页面 prerender-spa-plugin](https://www.npmjs.com/package/prerender-spa-plugin)
 - [monorepo](相似包多项目统一管理)
+- [vitest](https://cn.vitest.dev/)
+- [jest](https://www.jestjs.cn/)
 
 # 特点 
 - 基于 Chrome V8 引擎， 高效的服务端 js 运行环境
