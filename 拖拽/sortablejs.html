@@ -18,6 +18,8 @@
     .container {
       margin: 5px;
       flex: 1;
+      max-height: 90vh;
+      overflow: auto;
     }
 
     .item {
@@ -102,12 +104,15 @@
       },
       filter: '.filtered', // 禁止拖拽的选择器
       handle: '.handle', // 拖拽手柄选择器
-      animation: 150, // 动画时间
+      animation: 0, // 150, // 动画时间
       ghostClass: 'item-bg-blue', // 拖拽时，原元素的类名
       dragClass: 'item-bg-green', // 正在被拖拽的元素类名
       multiDrag: true, // 支持多选拖拽
       selectedClass: 'selected', // 被选中元素的类名
       forceFallback: true, // 不用 HTML5 默认拖拽的交互，自己新生成拖拽中的元素
+      onMove(opts, event) {
+        console.log('move', opts, event)
+      }
     }
 
     // 初始化实例

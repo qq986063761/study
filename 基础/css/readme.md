@@ -54,12 +54,12 @@
   - !important > id选择器（100） > 类、属性、伪类选择器（10） > 标签、关系、伪元素选择器（1）> *通配符（0）
 - 作用域：style 属性内联样式 > style 标签外嵌样式 > link 标签外链样式
 
-# float
-- 表现：脱离标准流，停留在元素旁，可设置宽高，不会扩张父元素高度
+# float 浮动
+- 脱离标准流，停留在元素旁，可设置宽高，不会撑开父元素高
 - 清除浮动
-  - 容器内追加一个（伪）元素（display: block;clear: both;）
-  - BFC，父元素设置 overflow: hidden;
-  - 父元素设置 float；
+  - 子元素设置 display: block; clear: both
+  - BFC，父元素设置 overflow: hidden
+  - 父元素设置 float
 
 # position
 - static：标准流定位，从左向右、从上向下流式定位，默认此定位模式
@@ -89,17 +89,18 @@
 - vertical-align：相对 line-height
 
 # css 上下文
-- BFC（块级格式化上下文 Block Formatting Context）
+- BFC 块级格式化上下文 Block Formatting Context
   - 性质
     - 内部盒子垂直放置，相邻盒子 margin 重叠；不与外部元素 marign 重叠
     - 内部元素不受外部元素影响也不会影响外部元素
     - 不会和 float 元素重叠，内部浮动元素高度会被算在容器高度中
   - 形成条件
-    - html 根元素
-    - float 不是 none
-    - overflow 不是 visible
-    - position 不为 relative、static
+    - 根元素 html
+    - 浮动元素 float 不是 none
+    - 定位元素 position 不为 relative、static
+    - overflow 不是 visible 的块元素
     - display 为 inline-block、table-cell、table-caption
+    - 网格元素 display 为 grid 或 inline-grid 元素的直接子元素
   - 应用场景
     - 防止 margin 重叠
     - 清除内部浮动
@@ -163,15 +164,17 @@
 
   # 居中
   - 水平居中：
-    - 行内元素：text-align: center
-    - 块级元素：margin: 0 auto
+    - 让行内元素居中：text-align: center
+    - 已知宽度的块级元素自己居中：margin: 0 auto
+    - 绝对定位 + margin-left: -自身宽/2
   - 垂直居中：
-    - line-height: 自身 height
-    - flex + align-items: center
+    - line-height 等于自身 height，内部元素居中
+    - flex 元素设置 align-items: center；内部元素居中
     - table布局
   - 水平垂直居中：
     - absolute + transform
     - flex + justify-content + align-items
+    - 父 flex，子 margin: auto
 
 # @import 和 link 的区别
 - @import 只能加载css，而且是页面加载完之后再加载
