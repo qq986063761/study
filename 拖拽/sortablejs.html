@@ -38,11 +38,20 @@
       border-bottom-right-radius: .25rem;
     }
 
-    .item-bg-blue {
-      background: #c3ecf5;
+    .drag-place-item {
+      padding: 5px 0;
+      > * {
+        display: none;
+      }
+      &:after {
+        display: block;
+        width: 100%;
+        border-top: 4px solid blue;
+        content: '';
+      }
     }
 
-    .item-bg-green {
+    .dragging-item {
       background-color: green;
     }
 
@@ -69,18 +78,18 @@
 <body>
   <div class="block">
     <div id="container1" class="container">
-      <div class="item"><span class="handle el-icon-s-tools"></span>Item 1</div>
-      <div class="item"><span class="handle el-icon-s-tools"></span>Item 2</div>
-      <div class="item"><span class="handle el-icon-s-tools"></span>Item 3</div>
-      <div class="item filtered"><span class="handle el-icon-s-tools"></span>Item 4</div>
-      <div class="item"><span class="handle el-icon-s-tools"></span>Item 5</div>
+      <div class="item"><span class="handle el-icon-s-tools"></span><span>Item 1</span></div>
+      <div class="item"><span class="handle el-icon-s-tools"></span><span>Item 2</span></div>
+      <div class="item"><span class="handle el-icon-s-tools"></span><span>Item 3</span></div>
+      <div class="item filtered"><span class="handle el-icon-s-tools"></span><span>Item 4</span></div>
+      <div class="item"><span class="handle el-icon-s-tools"></span><span>Item 5</span></div>
     </div>
     <div id="container2" class="container">
-      <div class="item bg-yellow"><span class="handle el-icon-s-tools"></span>Item 1</div>
-      <div class="item bg-yellow filtered"><span class="handle el-icon-s-tools"></span>Item 2</div>
-      <div class="item bg-yellow"><span class="handle el-icon-s-tools"></span>Item 3</div>
-      <div class="item bg-yellow"><span class="handle el-icon-s-tools"></span>Item 4</div>
-      <div class="item bg-yellow"><span class="handle el-icon-s-tools"></span>Item 5</div>
+      <div class="item bg-yellow"><span class="handle el-icon-s-tools"></span><span>Item 1</span></div>
+      <div class="item bg-yellow filtered"><span class="handle el-icon-s-tools"></span><span>Item 2</span></div>
+      <div class="item bg-yellow"><span class="handle el-icon-s-tools"></span><span>Item 3</span></div>
+      <div class="item bg-yellow"><span class="handle el-icon-s-tools"></span><span>Item 4</span></div>
+      <div class="item bg-yellow"><span class="handle el-icon-s-tools"></span><span>Item 5</span></div>
     </div>
   </div>
   <div class="block">
@@ -105,13 +114,18 @@
       filter: '.filtered', // 禁止拖拽的选择器
       handle: '.handle', // 拖拽手柄选择器
       animation: 0, // 150, // 动画时间
-      ghostClass: 'item-bg-blue', // 拖拽时，原元素的类名
-      dragClass: 'item-bg-green', // 正在被拖拽的元素类名
+      ghostClass: 'drag-place-item', // 拖拽时，原元素的类名
+      dragClass: 'dragging-item', // 正在被拖拽的元素类名
       multiDrag: true, // 支持多选拖拽
       selectedClass: 'selected', // 被选中元素的类名
       forceFallback: true, // 不用 HTML5 默认拖拽的交互，自己新生成拖拽中的元素
       onMove(opts, event) {
         console.log('move', opts, event)
+      },
+      onClone: function (opts) {
+        const { clone } = opts
+        console.log('onClone', opts)
+        // clone.innerHTML = ''
       }
     }
 
