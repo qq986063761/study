@@ -100,7 +100,7 @@
     </div>
   </div>
   
-  <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/Sortable/1.15.0/Sortable.js"></script>
   <script>
     var container1 = document.getElementById('container1');
     var container2 = document.getElementById('container2');
@@ -114,10 +114,13 @@
       filter: '.filtered', // 禁止拖拽的选择器
       handle: '.handle', // 拖拽手柄选择器
       animation: 0, // 150, // 动画时间
+      scroll: true, // document.getElementById('container2'),
+      scrollSensitivity: 50, // 触发滚动距离边缘的距离，forceFallback 必须是 true
       ghostClass: 'drag-place-item', // 拖拽时，原元素的类名
       dragClass: 'dragging-item', // 正在被拖拽的元素类名
       multiDrag: true, // 支持多选拖拽
       selectedClass: 'selected', // 被选中元素的类名
+      swapThreshold: 0.5, // 交换的阈值，拖拽到多少比例后执行交换
       forceFallback: true, // 不用 HTML5 默认拖拽的交互，自己新生成拖拽中的元素
       onMove(opts, event) {
         console.log('move', opts, event)
