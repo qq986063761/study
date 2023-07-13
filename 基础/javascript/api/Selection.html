@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    input,
+    textarea,
+    div {
+      font-size: 30px;
+      width: 100%;
+    }
+
+    button {
+      font-size: 20px;
+    }
+
+    #div {
+      min-height: 30px;
+      border: 1px solid gray;
+      border-radius: 4px;
+    }
+
+    .at {
+      color: blue;
+    }
+  </style>
+</head>
+<body>
+  <h1>input</h1>
+  <input id="input" type="text" value="很多字很多字很多字很多字很多字很多字">
+  <button id="iCursorBtn">光标定位到指定位置</button>
+  <button id="iInsert">插入内容到指定位置</button>
+
+  <h1>textarea</h1>
+  <textarea id="textarea">很多字很多字很多字很多字很多字很多字</textarea>
+  <button id="tCursorBtn">光标定位到指定位置</button>
+  <button id="tInsert">插入内容到指定位置</button>
+  
+  <h1>div</h1>
+  <div id="div" contenteditable>很多字很<span class="at">@你</span>多字很多字很多字很多字很多字</div>
+  <button id="dCursorBtn">光标定位到指定位置</button>
+  <button id="dInsert">插入内容到指定位置</button>
+  
+  <script>
+    // 鼠标操作获取选取信息
+    function onMouseUp(event) {
+      // 可设置内容元素的选区
+      if (event.target === div) {
+        // 获取选取信息
+        const selection = window.getSelection()
+        console.log(event.target, selection)
+        
+        // 获取选取内的 range 对象
+        const range = selection.getRangeAt(0)
+        console.log(range)
+      } else {
+        // input textarea 这类输入元素不能直接获取选取
+        console.log(
+          event.target,
+          event.target.selectionStart,
+          event.target.selectionEnd
+        )
+      }
+    }
+    input.addEventListener('mouseup', onMouseUp)
+    textarea.addEventListener('mouseup', onMouseUp)
+    div.addEventListener('mouseup', onMouseUp)
+
+    // 光标定位
+    function getOnSetCursor(el) {
+      return function (event) {
+        // div 这类元素设置光标
+        if (el === div) {
+          const range = document.createRange()
+          // 光标定位到元素最后
+          range.selectNodeContents(el)
+          range.collapse(false) // 光标折叠到最后
+          
+          // 光标定位到指定节点的指定位置区间
+          // range.setStart(div.lastChild, 2)
+          // range.setEnd(div.lastChild, 2)
+          
+          const selection = window.getSelection()
+          selection.removeAllRanges()
+          selection.addRange(range)
+        } else { // input textarea 这类元素光标定位
+          el.focus() // 必须先出现光标再定位
+          el.setSelectionRange(el.value.length, el.value.length)
+        }
+      }
+    }
+    iCursorBtn.addEventListener('click', getOnSetCursor(input))
+    tCursorBtn.addEventListener('click', getOnSetCursor(textarea))
+    dCursorBtn.addEventListener('click', getOnSetCursor(div))
+
+    // 插入内容
+    function getOnInsert(el) {
+      return function (event) {
+        if (el === div) {
+          const node = document.createElement('span')
+          node.className = 'at'
+          node.innerText = '@插入内容'
+          
+          // 把节点插入到 range 的指定位置
+          const range = document.createRange()
+          const index = div.lastChild.textContent.length / 2
+          range.selectNodeContents(div.lastChild)
+          range.setStart(div.lastChild, index)
+          range.insertNode(node)
+          range.selectNodeContents(node)
+          range.collapse(false)
+
+          const selection = window.getSelection()
+          selection.removeAllRanges()
+          selection.addRange(range)
+        } else {
+          const insertText = '插入内容'
+          const value = el.value
+          const index = value.length / 2
+          const text = value.slice(0, index) + 
+            insertText + 
+            value.slice(index)
+          el.value = text
+
+          const pos = index + insertText.length
+          el.focus()
+          el.setSelectionRange(pos, pos)
+        }
+      }
+    }
+    iInsert.addEventListener('click', getOnInsert(input))
+    tInsert.addEventListener('click', getOnInsert(textarea))
+    dInsert.addEventListener('click', getOnInsert(div))
+  </script>
+</body>
+</html>
