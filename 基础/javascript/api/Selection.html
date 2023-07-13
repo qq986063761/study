@@ -101,6 +101,7 @@
         if (el === div) {
           const node = document.createElement('span')
           node.className = 'at'
+          node.onclick = () => false
           node.innerText = '@插入内容'
           
           // 把节点插入到 range 的指定位置
@@ -109,8 +110,15 @@
           range.selectNodeContents(div.lastChild)
           range.setStart(div.lastChild, index)
           range.insertNode(node)
-          range.selectNodeContents(node)
-          range.collapse(false)
+          // 光标移到插入元素后
+          range.setStartAfter(node)
+          range.setEndAfter(node)
+          
+          // 插入 &nbsp; 让光标能定位到最后
+          const text = document.createTextNode('\u00A0')
+          range.insertNode(text)
+          range.setStartAfter(text)
+          range.setEndAfter(text)
 
           const selection = window.getSelection()
           selection.removeAllRanges()
@@ -133,6 +141,11 @@
     iInsert.addEventListener('click', getOnInsert(input))
     tInsert.addEventListener('click', getOnInsert(textarea))
     dInsert.addEventListener('click', getOnInsert(div))
+    
+    // 删除内容
+    // range.setStart(range.startContainer, range.startOffset - 1)
+    // range.setEnd(range.startContainer, range.startOffset + 1)
+    // range.deleteContents()
   </script>
 </body>
 </html>
