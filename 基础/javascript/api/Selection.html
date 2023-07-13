@@ -32,16 +32,19 @@
   <input id="input" type="text" value="很多字很多字很多字很多字很多字很多字">
   <button id="iCursorBtn">光标定位到指定位置</button>
   <button id="iInsert">插入内容到指定位置</button>
+  <button id="iDel">从指定位置删除内容</button>
 
   <h1>textarea</h1>
   <textarea id="textarea">很多字很多字很多字很多字很多字很多字</textarea>
   <button id="tCursorBtn">光标定位到指定位置</button>
   <button id="tInsert">插入内容到指定位置</button>
+  <button id="tDel">从指定位置删除内容</button>
   
   <h1>div</h1>
   <div id="div" contenteditable>很多字很<span class="at">@你</span>多字很多字很多字很多字很多字</div>
   <button id="dCursorBtn">光标定位到指定位置</button>
   <button id="dInsert">插入内容到指定位置</button>
+  <button id="dDel">从指定位置删除内容</button>
   
   <script>
     // 鼠标操作获取选取信息
@@ -101,7 +104,7 @@
         if (el === div) {
           const node = document.createElement('span')
           node.className = 'at'
-          node.onclick = () => false
+          node.contentEditable = false // 让元素能被一次删除
           node.innerText = '@插入内容'
           
           // 把节点插入到 range 的指定位置
@@ -115,10 +118,10 @@
           range.setEndAfter(node)
           
           // 插入空字符让光标能定位到最后 \u00A0（&nbsp;） \u200b（空）
-          const text = document.createTextNode('\u200b')
-          range.insertNode(text)
-          range.setStartAfter(text)
-          range.setEndAfter(text)
+          // const text = document.createTextNode('\u200b')
+          // range.insertNode(text)
+          // range.setStartAfter(text)
+          // range.setEndAfter(text)
 
           const selection = window.getSelection()
           selection.removeAllRanges()
@@ -143,9 +146,31 @@
     dInsert.addEventListener('click', getOnInsert(div))
     
     // 删除内容
-    // range.setStart(range.startContainer, range.startOffset - 1)
-    // range.setEnd(range.startContainer, range.startOffset + 1)
-    // range.deleteContents()
+    function getOnDelete(el) {
+      return function (event) {
+        if (el === div) {
+          const range = document.createRange()
+          range.selectNodeContents(el.lastChild)
+          range.setStart(range.startContainer, range.startOffset + 2)
+          range.setEnd(range.startContainer, range.endOffset - 1)
+          range.deleteContents()
+
+          range.selectNodeContents(el)
+          range.collapse(false)
+
+          const selection = window.getSelection()
+          selection.removeAllRanges()
+          selection.addRange(range)
+        } else {
+          el.value = el.value.substring(el.value.length / 2, el.value.length) 
+          el.focus()
+          el.setSelectionRange(el.value.length, el.value.length)
+        }
+      }
+    }
+    iDel.addEventListener('click', getOnDelete(input))
+    tDel.addEventListener('click', getOnDelete(textarea))
+    dDel.addEventListener('click', getOnDelete(div))
   </script>
 </body>
 </html>
