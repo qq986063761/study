@@ -34,6 +34,7 @@
       background-color: #fff;
       border: 1px solid gray;
       border-radius: 2px;
+      display: none;
     }
   </style>
 </head>
@@ -45,29 +46,33 @@
   </div>
   
   <h1>输入元素内划完词触发 select 事件</h1>
-  <input type="text" value="很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容">
-  <textarea style="width: 500px;height: 500px;">
+  <input id="input" type="text" value="很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容">
+  <textarea id="textarea" style="width: 200px;height: 200px;">
     很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容很多很多内容
   </textarea>
-
   <div id="comment">评论</div>
+
+  <h1>光标定位</h1>
+  <button onclick="onSetCursor()">光标定位到指定位置</button>
+  <!-- <input id="editor" value="sf asdfasdf assad fasd fasdfasdf"> -->
+  <div id="editor" contenteditable>sf asdfasdf assad fasd fasdfasdf</div>
 
   <script>
     let timer = null
     let sel = null
+    let start = false
 
     // 非输入元素内划词触发
-    document.addEventListener('selectstart', function (event) {
-      console.log('selectstart', event)
+    content.addEventListener('selectstart', function (event) {
+      start = true
+      console.log('content-selectstart', event)
     })
 
-    // 输入元素内划词触发
-    document.addEventListener('select', function (event) {
-      console.log('select', event)
-    })
-
-    // 一直在划词的过程中触发，什么元素都支持
+    // 一直在划词的过程中触发，什么元素都会触发这个事件
     document.addEventListener('selectionchange', function (event) {
+      if (!start) return
+      start = false
+
       // console.log('selectionchange', event)
       clearTimeout(timer)
       timer = setTimeout(() => {
@@ -89,10 +94,54 @@
           content.innerHTML.slice(end)
 
         const rect = document.getElementById('light').getBoundingClientRect()
+        comment.style.display = 'block'
         comment.style.left = rect.left + 'px'
         comment.style.top = (rect.top - 43) + 'px'
       }, 300)
     })
+
+    // 输入元素内划词触发
+    input.addEventListener('select', function (event) {
+      start = true
+      console.log('input-select', event)
+    })
+    textarea.addEventListener('select', function (event) {
+      start = true
+      console.log('textarea-select', event)
+    })
+
+    // 光标定位，只针对可插 html 的元素有效
+    function onSetCursor() {
+      let el = editor
+      let offset = 0
+
+      if (window.getSelection) {
+        // 设置焦点
+        if (!el.firstChild) {
+          el.focus();
+          return;
+        }
+
+        // 获取选中信息对象
+        var sel = window.getSelection();
+        // 创建一个范围对象,初始范围的左右边界点都是文档开头
+        var range = document.createRange();
+        if (offset) {
+          //把该范围的开始点设置为指定的节点中的指定偏移量
+          range.setStart(el.firstChild, offset);
+          // range.setEnd(el.firstChild, 1);        
+        } else {
+          // 定位到末尾
+          range.selectNodeContents(el);
+          range.collapse(false);
+        }
+        // 重新添加一个新的范围对象
+        sel.removeAllRanges();
+        sel.addRange(range);
+      } else {
+        console.warn('浏览器不支持window.getSelection');
+      }
+    }
   </script>
 </body>
 </html>
