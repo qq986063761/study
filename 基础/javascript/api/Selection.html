@@ -114,8 +114,8 @@
           range.setStartAfter(node)
           range.setEndAfter(node)
           
-          // 插入 &nbsp; 让光标能定位到最后
-          const text = document.createTextNode('\u00A0')
+          // 插入空字符让光标能定位到最后 \u00A0（&nbsp;） \u200b（空）
+          const text = document.createTextNode('\u200b')
           range.insertNode(text)
           range.setStartAfter(text)
           range.setEndAfter(text)
