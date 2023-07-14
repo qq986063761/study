@@ -10,7 +10,6 @@
 - [买chatgpt](https://dwz.cn/RKN0BqDO)
 - [买chatgpt](https://dwz.cn/pRVCwapC)
 - [买chatgpt](http://shop.isving.cn/)
-- [w3c](http://www.chinaw3c.org/)
 - [svg编辑器](http://editor.method.ac/)
 - [png图片压缩](https://tinypng.com/)
 - [图片压缩](https://squoosh.app/)
