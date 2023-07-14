@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      font-size: 30px;
+    }
+
+    button {
+      font-size: 30px;
+    }
+  </style>
+</head>
+<body>
+  <p>内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容</p>
+  <button id="copy">复制到剪贴板</button>
+  <button id="get">获取当前剪贴板的内容</button>
+  <script>
+    // 获取系统信息
+    console.log('userAgent', navigator.userAgent)
+    
+    copy.onclick = event => {
+      // navigator.clipboard.write('新写入的内容')
+      navigator.clipboard.writeText('新写入的内容')
+    }
+
+    get.onclick = event => {
+      // 获取复杂内容
+      // navigator.clipboard.read().then(async clipboardItems => {
+      //   console.log('read', clipboardItems)
+
+      //   for (const clipboardItem of clipboardItems) {
+      //     for (const type of clipboardItem.types) {
+      //       const val = await clipboardItem.getType(type)
+      //       console.log('read-clipboardItem', await val.text())
+      //     }
+      //   }
+      // })
+
+      navigator.clipboard.readText().then(rs => {
+        console.log('readText', rs)
+      })
+    }
+  </script>
+</body>
+</html>
