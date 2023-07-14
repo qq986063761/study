@@ -1,1 +1,0 @@
-- [文档](https://peachscript.github.io/vue-infinite-loading/zh/guide/)
