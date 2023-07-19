@@ -22,14 +22,14 @@
   <script>
     // var vConsole = new VConsole()
 
-    window.addEventListener('message', ({data}) => {
-      alert('父窗口收到数据' + data)
+    window.addEventListener('message', opts => {
+      console.log('父窗口收到数据', opts)
     })
 
     send.onclick = () => {
-      iframe.contentWindow.postMessage(JSON.stringify({
-        type: '父'
-      }))
+      iframe.contentWindow.postMessage({
+        type: '来自父iframe'
+      })
     }
   </script>
 </body>

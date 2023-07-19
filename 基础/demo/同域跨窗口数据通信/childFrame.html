@@ -19,14 +19,14 @@
   <script>
     // var vConsole = new VConsole()
 
-    window.addEventListener('message', ({data}) => {
-      alert('子窗口收到数据' + data)
+    window.addEventListener('message', opts => {
+      console.log('子窗口收到数据', opts)
     })
 
     send.onclick = () => {
-      window.parent.postMessage(JSON.stringify({
-        type: '子'
-      }))
+      window.parent.postMessage({
+        type: '来自子iframe'
+      })
     }
   </script>
 </body>
