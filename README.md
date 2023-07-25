@@ -30,6 +30,7 @@
 - [无界微前端](https://wujie-micro.github.io/doc/)
 - [乾坤微前端](https://qiankun.umijs.org/zh/guide)
 码市，程序员客栈
+- [甘特图](https://github.com/frappe/gantt)
 
 
 
