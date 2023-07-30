@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <style>
+    body {
+      padding-left: 100px;
+    }
+
+    #box1 {
+      background: red;
+      width: 500px;
+      height: 100px;
+    }
+
+    #box2 {
+      margin-top: 100px;
+      width: 500px;
+      height: 100px;
+      background: greenyellow;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <div id="box1"></div>
+    <div id="box2"></div>
+  </div>
+  <button id="remove">移除</button>
+
+  <script src="https://cdn.bootcdn.net/ajax/libs/leader-line/1.0.7/leader-line.min.js"></script>
+  <script>
+    const line = new LeaderLine(
+      document.getElementById('box1'),
+      document.getElementById('box2'),
+      {
+        path: 'grid',
+        startSocket: 'right', 
+        endSocket: 'left'
+      }
+    )
+
+    remove.onclick = () => {
+      line.remove()
+    }
+  </script>
+</body>
+</html>

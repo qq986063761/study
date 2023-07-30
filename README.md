@@ -30,7 +30,6 @@
 - [无界微前端](https://wujie-micro.github.io/doc/)
 - [乾坤微前端](https://qiankun.umijs.org/zh/guide)
 码市，程序员客栈
-- [画指引线](https://anseki.github.io/leader-line/)
 
 
 
