@@ -4,6 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <style>
+    body {
+      padding-left: 100px;
+      padding-top: 100px;
+    }
+  </style>
 </head>
 <body>
   <svg width="400" height="200">
@@ -12,7 +18,13 @@
         <path d="M0,0 L0,6 L9,3 z" fill="red" />
       </marker>
     </defs>
-    <line x1="50" y1="100" x2="350" y2="100" stroke="red" stroke-width="2" marker-end="url(#arrow)" />
+    <polyline 
+      points="200 10 390 10 390 100 10 100 10 190 200 190" 
+      stroke="red"
+      fill="none" 
+      stroke-width="2"
+      marker-end="url(#arrow)">
+    </polyline>
   </svg>
 </body>
 </html>
