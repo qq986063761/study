@@ -14,11 +14,13 @@
 <body>
   <svg width="400" height="200">
     <defs>
-      <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
-        <path d="M0,0 L0,6 L9,3 z" fill="red" />
+      <!-- 定义标记图形 -->
+      <marker id="arrow" markerWidth="4" markerHeight="5" refX="3" refY="3" orient="auto" markerUnits="strokeWidth">
+        <path d="M0,1 L0,5 L4,3 z" fill="red"></path>
       </marker>
     </defs>
-    <polyline 
+    <!-- 画线，在结尾使用标记 -->
+    <polyline
       points="200 10 390 10 390 100 10 100 10 190 200 190" 
       stroke="red"
       fill="none" 
