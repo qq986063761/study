@@ -6,7 +6,6 @@
 - [三分机场](https://xn--ehq00hgtfdmt.xyz/#/register?code=qZzW9TXr)
 - [赔钱机场](https://xn--mes358aby2apfg.com/#/login)
 - [追风岛](https://www.gozhuifeng.club/)
-- [买chatgpt](http://caihong.tanka.work/)
 - [买chatgpt](https://dwz.cn/RKN0BqDO)
 - [买chatgpt](https://dwz.cn/pRVCwapC)
 - [买chatgpt](http://shop.isving.cn/)
