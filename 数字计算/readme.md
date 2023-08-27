@@ -1,0 +1,3 @@
+- [bigjs](http://mikemcl.github.io/big.js/)
+- [number-precision](https://www.npmjs.com/package/number-precision)
+- [mathjs](https://www.npmjs.com/package/mathjs)
