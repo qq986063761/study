@@ -9,7 +9,7 @@
 - [Koa 官网](https://koa.bootcss.com/)
 - [Koa 进阶](https://chenshenhai.github.io/koa2-note/note/project/framework.html)
 - [express](https://expressjs.com/zh-cn/)
-- [单页面应用模拟多页面 prerender-spa-plugin](https://www.npmjs.com/package/prerender-spa-plugin)
+- [prerender-spa-plugin](https://www.npmjs.com/package/prerender-spa-plugin)
 - [monorepo](相似包多项目统一管理)
 - [vitest](https://cn.vitest.dev/)
 - [jest](https://www.jestjs.cn/)
