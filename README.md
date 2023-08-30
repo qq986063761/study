@@ -26,8 +26,6 @@
 - [静态站点部署 netlify](https://www.netlify.com/)
 - [在线画流程图 processon](https://www.processon.com/)
 - [css兼容性](https://caniuse.com/)
-- [无界微前端](https://wujie-micro.github.io/doc/)
-- [乾坤微前端](https://qiankun.umijs.org/zh/guide)
 - Monorepo
 - cdn平台，jsDelivr、Cloudflare、bootcdn、UNPKG、Netlify
 require.context
