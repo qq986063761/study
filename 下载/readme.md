@@ -1,1 +1,0 @@
-- [FileSaver](https://www.npmjs.com/package/file-saver)
