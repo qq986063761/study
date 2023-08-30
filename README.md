@@ -29,6 +29,7 @@
 - [无界微前端](https://wujie-micro.github.io/doc/)
 - [乾坤微前端](https://qiankun.umijs.org/zh/guide)
 - Monorepo
+- cdn平台，jsDelivr、Cloudflare、bootcdn、UNPKG、Netlify
 require.context
 
 码市，程序员客栈
