@@ -1,3 +1,0 @@
-- [jspdf](https://github.com/parallax/jsPDF)
-- [jspdf-table]()
-- [html2pdf](https://ekoopmans.github.io/html2pdf.js/)
