@@ -3,7 +3,6 @@
 - [其他方式](https://github.com/Alvin9999/new-pac/wiki)
 - [FireFly](https://customer-01.yhcvpn.xyz/)
 - [一元机场](https://xn--4gq62f52gdss.com/#/login)
-- [追风岛](https://www.gozhuifeng.club/)
 - [买chatgpt](https://dwz.cn/RKN0BqDO)
 - [买chatgpt](https://dwz.cn/pRVCwapC)
 - [买chatgpt](http://shop.isving.cn/)
