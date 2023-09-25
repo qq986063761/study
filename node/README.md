@@ -90,3 +90,16 @@
 
 # 热更新
 - 浏览器热更新：
+
+# nvm（node 版本管理工具）
+```bash
+# mac 安装 nvm
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
+# mac 让系统能执行 nvm 命令，不然会报错
+source ~/.nvm/nvm.sh
+# 安装 nodejs 使用指定版本 node
+nvm install 16.15.0 && nvm use 16.15.0 && corepack enable
+nvm install 14.21.3 && nvm use 14.21.3
+# 卸载指定版本 node
+nvm uninstall 16.15.0
+```
