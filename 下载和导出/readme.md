@@ -1,4 +1,4 @@
 - [FileSaver](https://www.npmjs.com/package/file-saver)
 - [jspdf](https://github.com/parallax/jsPDF)
-- [jspdf-table]()
 - [html2pdf](https://ekoopmans.github.io/html2pdf.js/)
+- [jspdf-table]()
