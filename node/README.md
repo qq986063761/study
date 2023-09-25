@@ -103,3 +103,9 @@ nvm install 14.21.3 && nvm use 14.21.3
 # 卸载指定版本 node
 nvm uninstall 16.15.0
 ```
+
+# mac brew 
+```bash
+# 官网安装 brew
+- [Homebrew](https://brew.sh/)
+```
