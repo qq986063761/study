@@ -98,7 +98,7 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
 # mac 让系统能执行 nvm 命令，不然会报错，不过每次用都需要执行这个
 source ~/.nvm/nvm.sh
 # 如果想不用执行上面内容，可以在终端文件中最后写入下面内容配置好环境和终端默认执行命令
-export NVM_DIR="$HOME/.nvm"   
+export NVM_DIR="$HOME/.nvm"
 source ~/.nvm/nvm.sh
 # 安装 nodejs 临时使用指定版本 node
 nvm install 16.15.0 && nvm use 16.15.0 && corepack enable
