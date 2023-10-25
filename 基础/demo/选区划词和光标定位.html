@@ -54,8 +54,9 @@
 
   <h1>光标定位</h1>
   <button onclick="onSetCursor()">光标定位到指定位置</button>
+  <button onclick="onInsertInCursor()">光标位置插入内容</button>
   <!-- <input id="editor" value="sf asdfasdf assad fasd fasdfasdf"> -->
-  <div id="editor" contenteditable>sf asdfasdf assad fasd fasdfasdf</div>
+  <div id="editor" contenteditable>sf asdfasdf a<span style="color: skyblue">asdfasd</span>ssad fasd fasdfasdf</div>
 
   <script>
     let timer = null
@@ -111,6 +112,39 @@
     })
 
     // 光标定位，只针对可插 html 的元素有效
+    let selection = null
+    let range = null
+    editor.onclick = function () {
+      selection = window.getSelection()
+      range = selection.getRangeAt(0)
+    }
+
+    function onInsertInCursor() {
+      if (!range) {
+        alert('请点击产生光标后再插入')
+      }
+
+      // 插入元素
+      const btn = document.createElement('button')
+      btn.innerText = '插入内容'
+      range.insertNode(btn)
+      range.setStartAfter(btn)
+      range.setEndAfter(btn)
+      
+      // 追加空内容让鼠标可以点到最后出现光标
+      const text = document.createTextNode('\u200b')
+      range.insertNode(text)
+      range.setStartAfter(text)
+      range.setEndAfter(text)
+
+      // 光标移到空字符之前，为了按一次删除就能删掉at元素
+      // range.setStart(range.startContainer, range.startOffset - 1)
+      // range.setEnd(range.startContainer, range.startOffset)
+
+      selection.removeAllRanges()
+      selection.addRange(range)
+    }
+
     function onSetCursor() {
       let el = editor
       let offset = 0
