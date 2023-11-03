@@ -1,3 +1,4 @@
-- [driver.js](https://kamranahmed.info/driver.js)
+- [driver.js 0.x](https://kamranahmed.info/driver.js)
+- [driver.js 1.x](https://driverjs.com/)
 - [vue-tour]
 - [leader-line](https://anseki.github.io/leader-line/)
