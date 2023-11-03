@@ -2,9 +2,6 @@
 - 《CSS权威指南》;
 - 《精通CSS高级Web标准解决方案》;
 - 《CSS SECRETS》;
-- [csshake](http://elrumordelaluz.github.io/csshake/);
-- [animate.css](https://daneden.github.io/animate.css/);
-- [hover.css](http://ianlunn.github.io/Hover/)
 - [阮一峰-flex弹性布局](http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html);
 - [mdn css](https://developer.mozilla.org/zh-CN/docs/Web/CSS)
 - [传统中国色](https://colors.ichuantong.cn/)
