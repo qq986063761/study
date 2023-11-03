@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="https://cdn.jsdelivr.net/npm/driver.js@0.9.8/dist/driver.min.css" rel="stylesheet">
+  <style>
+    button {
+      position: absolute;
+    }
+
+    #btn1 {
+      left: 0;
+      top: 0;
+    }
+
+    #btn2 {
+      right: 0;
+      top: 0;
+    }
+
+    #btn3 {
+      left: 0;
+      bottom: 0;
+    }
+
+    #btn4 {
+      right: 0;
+      bottom: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <button id="btn1" onclick="start(1)"><h1>第1步</h1></button>
+  <button id="btn2" onclick="start(2)"><h1>第2步</h1></button>
+  <button id="btn3" onclick="start(3)"><h1>第3步</h1></button>
+  <button id="btn4" onclick="start(4)"><h1>第4步</h1></button>
+
+  <script src="https://cdn.jsdelivr.net/npm/driver.js@0.9.8/dist/driver.min.js"></script>
+  <script>
+    const driver = new Driver({
+      animate: true,
+      opacity: 0.5,
+      padding: 8,
+      allowClose: false // 允许点击遮罩层关闭
+    })
+
+    function start(step) {
+      driver.highlight(`#btn${step}`) // 高亮
+
+      const mask = document.querySelector('#driver-page-overlay')
+      mask.onclick = event => {
+        driver.reset() // 重置
+      }
+    }
+  </script>
+</body>
+
+</html>
