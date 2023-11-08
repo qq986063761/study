@@ -27,7 +27,7 @@
 require.context
 码市，程序员客栈
 代码仓库：github、gitee
-学习网站：技术文档官网、掘金、慕课网、拉钩教育
+学习网站：技术文档的官网、掘金（https://juejin.cn/）、慕课网（https://www.imooc.com/）、拉钩教育（https://kaiwu.lagou.com/）
 
 
 
