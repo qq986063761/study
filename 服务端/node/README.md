@@ -99,7 +99,7 @@ source ~/.nvm/nvm.sh
 # 如果想不用执行上面内容，可以在终端文件中最后写入下面内容配置好环境和终端默认执行命令
 export NVM_DIR="$HOME/.nvm"   
 source ~/.nvm/nvm.sh
-# 安装 nodejs 临时使用指定版本 node
+# 安装 nodejs 并且临时使用指定版本 node
 nvm install 16.15.0 && nvm use 16.15.0 && corepack enable
 nvm install 14.21.3 && nvm use 14.21.3
 # 全局使用默认版本
