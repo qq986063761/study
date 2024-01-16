@@ -4,3 +4,4 @@
 - [dragula](https://github.com/bevacqua/dragula)
 - [draggable](https://shopify.github.io/draggable/)
 - [vue-resizable](https://www.npmjs.com/package/vue-resizable)
+- [muuri](https://muuri.dev/)
