@@ -13,6 +13,7 @@
 - 配置用户名：git config --global user.name "WanPeng"
 - 配置邮箱：git config --global user.email "986063761@qq.com"
 - 配置代理：git config --global http.proxy 127.0.0.1:7890 
+- 配置代理：git config --global https.proxy 127.0.0.1:7890
 
 # 获取代码
 - git clone STORE_NAME：初始化获取远端仓库代码到本地
