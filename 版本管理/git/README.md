@@ -10,8 +10,9 @@
   - 混合合并|软合并：保留此分支提交内容，之后的提交会保留到暂存区，丢弃后会产生新的拉取，重新拉取后所有之后的提交会还原；
 
 # 配置
-- git config --global user.name "WanPeng"
-- git config --global user.email "986063761@qq.com"
+- 配置用户名：git config --global user.name "WanPeng"
+- 配置邮箱：git config --global user.email "986063761@qq.com"
+- 配置代理：git config --global http.proxy 127.0.0.1:7890 
 
 # 获取代码
 - git clone STORE_NAME：初始化获取远端仓库代码到本地
