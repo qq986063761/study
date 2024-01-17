@@ -26,6 +26,7 @@
 - [静态站点部署 netlify](https://www.netlify.com/)
 - [在线画流程图 processon](https://www.processon.com/)
 - [css兼容性](https://caniuse.com/)
+- [zoom.js](https://github.com/hakimel/zoom.js)
 - cdn平台，jsDelivr、Cloudflare、bootcdn、UNPKG、Netlify
 require.context
 码市，程序员客栈
