@@ -4,6 +4,7 @@
 - [上网 FireFly](https://customer-01.yhcvpn.xyz/)
 - [上网 一元机场](https://xn--4gq62f52gdss.art/)
 - [上网 creamdata](https://www.creamdata.xyz/User/Main)
+- [上网 shadowsocks](https://portal.shadowsocks.au/)
 - [买 chatgpt](https://dwz.cn/RKN0BqDO)
 - [买 chatgpt](https://dwz.cn/pRVCwapC)
 - [买 chatgpt](http://shop.isving.cn/)
