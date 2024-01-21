@@ -12,9 +12,8 @@ https://ding-doc.dingtalk.com/doc#/serverapi3/gydt1f
 # 宜搭
 文档：https://docs.aliwork.com/docs/developer/api/openAPI
 前端：
-  - 可做表单
-  - 可做报表
-
+  - 表单提交
+  - 报表展示
 后端：
   - 数据存宜搭，宜搭默认没数据库：外部可调宜搭接口实现增删改查(https://docs.aliwork.com/docs/yida_support/lbtl0t/rrwdug/agb8im)
   - 用我们自己的服务，手动请求接口
