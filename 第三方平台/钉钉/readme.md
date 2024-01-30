@@ -12,10 +12,10 @@ https://ding-doc.dingtalk.com/doc#/serverapi3/gydt1f
 # 宜搭
 文档：https://docs.aliwork.com/docs/developer/api/openAPI
 前端：
-  - 表单提交
-  - 报表展示
+  - 可做表单、报表
   - 怎么配请求：页面设计-数据源（文档：https://docs.aliwork.com/docs/developer/api/openAPI#%E8%AF%B7%E6%B1%82%E8%B7%AF%E5%BE%84）
   - js 编码：页面设计-动作面板
+  - 数据卡片
 后端：
   - 数据存宜搭，宜搭默认不用配数据库：外部可调宜搭接口实现增删改查(文档：https://developers.aliwork.com/docs/api/serverAPI)
   - 用我们自己的数据服务，前端手动请求接口到后端传递数据
