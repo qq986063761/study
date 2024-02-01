@@ -2,3 +2,6 @@
 - [virtual-scroll]
 - [vue-virtual-scroller]
 - [virtual-scroller]
+
+scrollbar-gutter
+scrollbar-width: thin;
