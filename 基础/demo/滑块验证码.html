@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .slider-container {
+      width: 300px;
+      height: 50px;
+      background-color: #f0f0f0;
+      position: relative;
+    }
+
+    .slider {
+      width: 50px;
+      height: 50px;
+      background-color: #ccc;
+      position: absolute;
+      top: 0;
+      left: 0;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="slider-container">
+    <div class="slider"></div>
+  </div>
+
+  <script>
+    let slider = document.querySelector('.slider');
+    let container = document.querySelector('.slider-container')
+    let totalWidth = container.offsetWidth - slider.offsetWidth
+    let isDragging = false; 
+    let startPos = 0;
+    let currentTranslate = 0;
+
+    slider.addEventListener('mousedown', dragStart);
+    slider.addEventListener('touchstart', dragStart);
+    slider.addEventListener('mousemove', drag);
+    slider.addEventListener('touchmove', drag);
+    document.addEventListener('mouseup', dragEnd);
+    document.addEventListener('touchend', dragEnd);
+
+    function dragStart(event) {
+      event.preventDefault();
+      if (event.type === 'touchstart') {
+        startPos = event.touches[0].clientX;
+      } else {
+        startPos = event.clientX;
+      }
+      isDragging = true;
+    }
+
+    function dragEnd() {
+      isDragging = false;
+      currentTranslate = 0;
+    }
+
+    function drag(event) {
+      if (!isDragging) return;
+      event.preventDefault();
+      let currentPosition = 0;
+      if (event.type === 'touchmove') {
+        currentPosition = event.touches[0].clientX;
+      } else {
+        currentPosition = event.clientX;
+      }
+      let translate = currentPosition - startPos;
+      if (translate < 0) translate = 0
+      if (translate >= totalWidth) {
+        translate = totalWidth
+        // 验证成功，执行相应操作
+        console.log('验证成功');
+      }
+      currentTranslate = translate;
+      slider.style.transform = `translateX(${translate}px)`
+    }
+  </script>
+</body>
+
+</html>
