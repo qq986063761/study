@@ -13,7 +13,7 @@ https://ding-doc.dingtalk.com/doc#/serverapi3/gydt1f
 文档：https://docs.aliwork.com/docs/developer/api/openAPI
 前端：
   - 表单
-  - 报表
+  - 报表，多表关联（应用设置-数据工厂-数据集-新建数据集从视图表）
   - 数据卡片
   - 怎么配请求：文档：https://docs.aliwork.com/docs/developer/api/openAPI#%E8%AF%B7%E6%B1%82%E8%B7%AF%E5%BE%84
   - 写 js 代码：文档：https://docs.aliwork.com/docs/yida_support/lbtl0t/ocmxyv
