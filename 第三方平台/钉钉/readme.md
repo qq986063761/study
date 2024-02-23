@@ -18,6 +18,7 @@ https://ding-doc.dingtalk.com/doc#/serverapi3/gydt1f
   - 怎么配请求：文档：https://docs.aliwork.com/docs/developer/api/openAPI#%E8%AF%B7%E6%B1%82%E8%B7%AF%E5%BE%84
   - 写 js 代码：文档：https://docs.aliwork.com/docs/yida_support/lbtl0t/ocmxyv
   - 发布应用给用户（文档：https://docs.aliwork.com/docs/yida_support/_3/xb5ylm）
+  - 平台角色控制菜单可见
 后端：
   - 数据存宜搭，宜搭默认不用配数据库：外部可调宜搭接口实现增删改查(文档：https://developers.aliwork.com/docs/api/serverAPI)
   - 用我们自己的数据服务，前端手动请求接口到后端传递数据
