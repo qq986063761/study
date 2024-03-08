@@ -62,6 +62,10 @@
 # scope hoisting
 - 将所有模块代码按引用顺序，多次引用的相同模块会放在同一个函数作用域中，然后合理重命名变量避免变量冲突；这样可以减少函数声明代码和内存开销
 
+# api
+- 检索文件 require.context
+
+# 问题
 # webpackJsonp is not defined
 - 大多是 html 中 js 资源加载先后顺序混乱
 
