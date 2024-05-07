@@ -25,7 +25,7 @@
   </style>
 </head>
 <body>
-  <div>
+  <div id="container">
     <div id="box1"></div>
     <div id="box2"></div>
   </div>
@@ -39,10 +39,12 @@
       {
         path: 'grid',
         startSocket: 'right', 
-        endSocket: 'left'
+        endSocket: 'left',
+        element: document.getElementById('container')
       }
     )
-
+    
+    console.log(line)
     remove.onclick = () => {
       line.remove()
     }
