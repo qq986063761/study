@@ -230,3 +230,7 @@
     - 问题：Did not find a new enough assembler, install one or build with，
   - 执行 make 编译源码
   - 执行 make install 安装 node
+
+
+
+  
