@@ -126,6 +126,10 @@
       selection = window.getSelection()
       range = selection.getRangeAt(0)
     }
+    editor.addEventListener('mouseup', event => {
+      range = window.getSelection().getRangeAt(0)
+      // console.log('editor mouseend', range)
+    })
 
     function onInsertInCursor() {
       if (!range) {
