@@ -6,6 +6,7 @@
 - [上网 creamdata](https://www.creamdata.xyz/User/Main)
 - [上网 shadowsocks](https://portal.shadowsocks.au/)
 - [上网 qiyi](http://www.qiyivpn.com/)
+- [上网 追风岛](https://www.gozhuifeng.club/)
 - [买 chatgpt](https://dwz.cn/RKN0BqDO)
 - [买 chatgpt](https://dwz.cn/pRVCwapC)
 - [买 chatgpt](http://shop.isving.cn/)
