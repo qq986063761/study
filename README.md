@@ -12,7 +12,7 @@
 - [用 chatgpt](https://nengyongai.com/)
 - [用 chatgpt](https://mosaic.xnewstar.com/?p=3311)
 - [买 openAI](https://eylink.cn/)
-- [kimi ai](https://kimi.ai)
+- [AI kimi](https://kimi.ai)
 - [svg编辑器](http://editor.method.ac/)
 - [png图片压缩](https://tinypng.com/)
 - [图片压缩](https://squoosh.app/)
@@ -31,6 +31,7 @@
 - [在线画流程图 processon](https://www.processon.com/)
 - [css兼容性](https://caniuse.com/)
 - [码上掘金，写代码片段](https://code.juejin.cn/)
+- [AI 文心快码](https://comate.baidu.com/zh?track=ff62080518943dd8b03b2254bf3f2c344bc2d099ae396650)
 - cdn平台，jsDelivr、Cloudflare、bootcdn、UNPKG、Netlify
 猪八戒，码市，程序员客栈，开源中国众包
 代码仓库：github、gitee
