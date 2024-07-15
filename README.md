@@ -7,8 +7,6 @@
 - [上网 shadowsocks](https://portal.shadowsocks.au/)
 - [上网 qiyi](http://www.qiyivpn.com/)
 - [上网 追风岛](https://www.gozhuifeng.club/)
-- [买 chatgpt](https://dwz.cn/RKN0BqDO)
-- [买 chatgpt](https://dwz.cn/pRVCwapC)
 - [买 chatgpt](http://shop.isving.cn/)
 - [用 chatgpt](https://nengyongai.com/)
 - [用 chatgpt](https://mosaic.xnewstar.com/?p=3311)
