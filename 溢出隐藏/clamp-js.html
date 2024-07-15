@@ -4,17 +4,30 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+
+  <style>
+    body > div {
+      margin-bottom: 20px;
+    }
+  </style>
 </head>
 <body>
   <div id="content"></div>
+
+  <div id="content1">内容不多内容不多</div>
+
+  <div id="content2"></div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/clamp-js/0.7.0/clamp.min.js" integrity="sha512-Zf7q41OZ49XVIFrkbCVLkBEklVxQv4sVdMGnCwL9bfuCfA862QmAJSU61yrcrMwze7Ij7oUXpQVoUXmftBfk0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script>
     var text = '很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容'
     content.innerHTML = text
+    
+    content2.innerHTML = text + '<button>更多</button>'
 
     $clamp(content, {clamp: 3})
-    
+    $clamp(content1, {clamp: 3})
+    $clamp(content2, {clamp: 3})
   </script>
 </body>
 </html>
