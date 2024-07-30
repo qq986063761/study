@@ -1,6 +1,7 @@
 ﻿- [上网 蓝灯](https://github.com/getlantern/forum)
 - [上网 ss账号](https://github.com/Alvin9999/new-pac/wiki/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7)
 - [上网 其他方式](https://github.com/Alvin9999/new-pac/wiki)
+- [上网 v2free](https://w1.v2free.cyou/user)
 - [上网 一元机场](https://一元机场.club)
 - [上网 creamdata](https://www.creamdata.xyz/User/Main)
 - [上网 shadowsocks](https://portal.shadowsocks.au/)
