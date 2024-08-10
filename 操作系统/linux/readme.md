@@ -1,7 +1,7 @@
 # 资源
 - [linux内核官网](https://www.kernel.org/)
 - [虚拟机vmware](https://www.vmware.com/cn.html)
-
+- [Parallels Desktop](https://www.parallels.cn/products/desktop/welcome/)
 
 # 简介
 
