@@ -93,7 +93,7 @@
 # nvm（node 版本管理工具）
 ```bash
 # mac 安装 nvm，后面的 bash 是安装的对应终端环境
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
 # mac 让系统能执行 nvm 命令，不然会报错，不过每次用都需要执行这个
 source ~/.nvm/nvm.sh
 # 如果想不用执行上面内容，可以在终端文件中，最后写入配置，让终端默认执行配置
