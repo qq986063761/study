@@ -124,7 +124,6 @@
     - Speed Index：页面的可见填充内容速度
     - TBT：页面被阻止响应用户交互的总时长
 - 利用 performance 变量获取页面加载性能信息
-  - [timing属性中的属性对应加载关系图](https://user-gold-cdn.xitu.io/2018/10/7/1664ddd4e3df9a14?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
   - 调用 api：`performance.getEntriesByType('navigation')`获取具体的时间区间信息，[相关网站](https://developer.mozilla.org/zh-CN/docs/Web/API/Performance)
 
 # 页面埋点

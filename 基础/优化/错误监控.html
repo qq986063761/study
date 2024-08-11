@@ -53,7 +53,7 @@
     })
 
     // 如果正常进入异常崩溃退出，崩溃退出时缓存变量将不会被设置为 true
-    if (sessionStorage.getItem('good_exit') && sessionStorage.getItem('good_exit') !== 'true') {
+    if (sessionStorage.getItem('good_exit') !== 'true') {
       alert('异常崩溃退出日期：' + sessionStorage.getItem('time_before_crash'));
     }
 
