@@ -119,6 +119,9 @@ nvm uninstall 16.15.0
 nvm ls
 # 更新 nvm 版本
 nvm install-latest-npm
+
+# nvm 可视化工具
+vscode 插件 vscode-nvm
 ```
 
 # mac brew 
