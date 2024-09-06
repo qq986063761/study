@@ -3,7 +3,6 @@
 - [上网 其他方式](https://github.com/Alvin9999/new-pac/wiki)
 - [上网 v2free](https://w1.v2free.cyou/user)
 - [上网 一元机场](https://一元机场.club)
-- [上网 另一个一元机场](https://xn--1-q07a56pdss.com/?new_locale=zh-cn#/login)
 - [上网 creamdata](https://www.creamdata.xyz/User/Main)
 - [上网 shadowsocks](https://portal.shadowsocks.au/)
 - [上网 qiyi](http://www.qiyivpn.com/)
