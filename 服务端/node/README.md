@@ -44,7 +44,7 @@
 - 退出账号：npm logout
 - 发布项目到npm：npm publish
 - 获取仓库源地址：npm config get registry
-- 设置仓库源地址：npm config set registry https://registry.npmmirror.com（默认是：npm config set registry https://registry.npmjs.org/，原淘宝地址好像没了https://registry.npm.taobao.org）
+- 设置仓库源地址：npm config set registry https://registry.npmmirror.com（默认是：npm config set registry https://registry.npmjs.org/
 
 # npm 包发布流程
 - 需要一个 npm 账号（npm adduser)
