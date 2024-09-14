@@ -5,7 +5,6 @@
 - [上网 一元机场](https://一元机场.club)
 - [上网 creamdata](https://www.creamdata.xyz/User/Main)
 - [上网 shadowsocks](https://portal.shadowsocks.au/)
-- [上网 qiyi](http://www.qiyivpn.com/)
 - [上网 追风岛](https://www.gozhuifeng.club/)
 - [买 openAI](https://eylink.cn/)
 - [买 chatgpt](http://u9v.cn/6p592r)
