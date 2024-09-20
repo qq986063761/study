@@ -19,7 +19,6 @@
 - [jpg图片压缩](https://jpeg-optimizer.com/)
 - [图片压缩](https://compressnow.com/)
 - [svg图片压缩](https://jakearchibald.github.io/svgomg/?utm_source=next.36kr.com)
-- [markdown](http://xianbai.me/learn-md/article/about/readme.html)
 - [获取IOS UUID](http://www.pgyer.com/udid/)
 - [免费图床](https://imgchr.com/)
 - [windows镜像](https://msdn.itellyou.cn)
