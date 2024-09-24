@@ -20,7 +20,7 @@
       console.log('onerror', { message, source, lineno, colno, error })
       return true // 返回 true 表示已经被接收，就不会被上抛给浏览器
     }
-
+    
     /**
      * window.addEventListener 监听 error 可以捕获到资源请求等异常
      * @param {String} type 事件类型
@@ -76,6 +76,27 @@
     ) {
       alert('异常崩溃退出日期：' + sessionStorage.getItem('time_before_crash'))
     }
+
+    // date 时间 2024/9/24 11:45:25 这种
+    // 设备端：pc还是移动端
+    // url 当前网页地址
+
+    // 系统崩溃
+
+    // js代码报错
+    // message 错误信息
+    // source 出错文件路径
+    // lineno 行号
+    // colno 列号
+    // stack 堆栈信息，包含报错文件路径的所有信息
+    
+    // 资源加载报错
+    // nodeName 报错元素标签名
+    // src 资源路径
+
+    // 其他未知异常 unhandledrejection
+    // message 错误信息
+    // stack 堆栈信息，包含报错文件路径的所有信息
   </script>
 </head>
 <body>
