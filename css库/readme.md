@@ -2,3 +2,4 @@
 - [animate.css](https://daneden.github.io/animate.css/);
 - [hover.css](http://ianlunn.github.io/Hover/)
 - [tailwindcss](https://tailwindcss.com/)
+- [tailwindcss 中文](https://www.tailwindcss.cn/)
