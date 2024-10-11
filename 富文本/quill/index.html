@@ -6,9 +6,35 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <link href="https://at.alicdn.com/t/c/font_3536606_vty3twinj1.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
 
   <style>
+    .editor-wrap .ql-toolbar,
+    .editor-wrap .ql-container {
+      background-color: #fff;
+    }
+
+    .editor-wrap.max {
+      position: fixed;
+      z-index: 9999;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .editor-wrap.max .ql-toolbar {
+      flex-shrink: 0;
+    }
+
+    .editor-wrap.max .ql-container {
+      flex: 1;
+      overflow: hidden;
+    }
+
     .footer {
       margin-top: 10px;
     }
@@ -17,7 +43,8 @@
 
 <body>
   <div class="editor-wrap">
-    <div class="editor"></div>
+    <div class="editor">初始化内容</div>
+    <input type="file" id="fileInput" accept="image/*" style="display: none;">
   </div>
   <div class="footer">
     <button id="getHtmlBtn">获取Html</button>
@@ -28,17 +55,81 @@
   <script>
     var quill = new Quill(document.querySelector('.editor'), {
       modules: {
-        toolbar: [
-          { 'font': [] }, // 字体
-          { 'size': [] }, // 字体大小
-        ]
+        toolbar: {
+          container: [
+            // 分组
+            [
+              { 'font': [] }, // 字体风格
+              { header: [] }, // 标题大小
+              { 'size': [] }, // 字体大小
+            ],
+            [
+              { 'color': [] }, // 前景色
+              { 'background': [] }, // 背景色
+            ],
+            ['bold', 'italic', 'underline', 'strike'], // 文字装饰 
+            [ 
+              { 'align': [] }, // 对齐
+              { 'list': 'ordered'}, { 'list': 'bullet' } // 列表
+            ],
+            ['blockquote', 'code-block'], // 代码格式
+            ['link', 'image', 'video', 'formula'], // 媒体
+            [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+            [{ 'indent': '-1'}, { 'indent': '+1' }], // 缩进
+            ['clean'], // 清除格式
+            ['imageBtn', 'maxBtn'] // 自定义按钮
+          ],
+          handlers: {
+            imageBtn: () => {
+              // console.log('imageBtn')
+              fileInput.click()
+            },
+            maxBtn: () => {
+              let el = document.querySelector('.editor-wrap')
+              if (el.className.includes(' max')) {
+                el.className = el.className.replace(' max', '')
+              } else {
+                el.className += ' max'
+              }
+            }
+          }
+        }
       },
       placeholder: '请输入',
       // readOnly: true, // 只读
       theme: 'snow' // 主题
     })
+
+    // var quill = new Quill(document.querySelector('.editor'), {
+    //   modules: {
+    //     toolbar: [['bold', 'italic'], ['underline', 'strike']]
+    //   },
+    //   theme: 'snow'
+    // })
     console.log('初始化完成', quill)
+
+    // 补充自定义按钮的功能
+    let btn = document.querySelector('.editor-wrap .ql-imageBtn')
+    btn.innerHTML = '<span class="iconfont icon-image"></span>'
+
+    // 监听文件选择，处理文件上传
+    fileInput.addEventListener('change', (event) => {
+      var file = event.target.files[0];
+      if (file) {
+        var reader = new FileReader()
+        reader.onload = function(e) {
+          var base64String = e.target.result;
+          var range = quill.getSelection()
+          quill.insertEmbed(range.index, 'image', base64String)
+        }
+        reader.readAsDataURL(file)
+      }
+      fileInput.value = ''
+    })
     
+    btn = document.querySelector('.editor-wrap .ql-maxBtn')
+    btn.innerHTML = '<span class="iconfont icon-max"></span>'
+
     // 获取文本格式内容
     getTextBtn.onclick = () => {
       console.log('获取文本', quill.getText())
