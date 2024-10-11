@@ -35,6 +35,10 @@
       overflow: hidden;
     }
 
+    .editor-at {
+      color: blue;
+    }
+
     .footer {
       margin-top: 10px;
     }
@@ -53,6 +57,37 @@
 
   <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
   <script>
+    // 注册自己的 html 格式
+    const BlockEmbed = Quill.import('blots/block/embed');
+    const Inline = Quill.import('blots/inline');
+
+    class atBtn extends Inline {
+      static create(value) {
+        console.log('atBtn BlockEmbed', value)
+        const node = super.create();
+        node.setAttribute('contenteditable', false);
+        node.innerHTML = '@' + value.label
+        // node.style.backgroundColor = value.backgroundColor || '#3498db';
+        // node.style.color = value.color || '#fff';
+        // node.style.padding = '5px 10px';
+        // node.style.borderRadius = '5px';
+        // node.style.cursor = 'pointer';
+        return node;
+      }
+
+      static value(node) {
+        return {
+          label: node.innerHTML.replace('@', '')
+        };
+      }
+    }
+
+    atBtn.blotName = 'atBtn';
+    atBtn.tagName = 'span';
+    atBtn.className = 'editor-at'
+
+    Quill.register(atBtn);
+
     var quill = new Quill(document.querySelector('.editor'), {
       modules: {
         toolbar: {
@@ -77,9 +112,38 @@
             [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
             [{ 'indent': '-1'}, { 'indent': '+1' }], // 缩进
             ['clean'], // 清除格式
-            ['imageBtn', 'maxBtn'] // 自定义按钮
+            ['imageBtn', 'tableBtn', 'atBtn', 'maxBtn'] // 自定义按钮
           ],
           handlers: {
+            atBtn: () => {
+              // const html = `<span class="editor-at">@人员</span>`
+              const range = quill.getSelection()
+              if (range) {
+                quill.insertText(range.index, ' ')
+                quill.insertEmbed(range.index, 'atBtn', {
+                  label: '人员'
+                })
+                // quill.clipboard.dangerouslyPasteHTML(range.index, html)
+              }
+            },
+            tableBtn: () => {
+              const html = `
+                <table border="1">
+                  <tr>
+                    <td>表头1</td>
+                    <td>表头2</td>
+                  </tr>
+                  <tr>
+                    <td>Cell 1</td>
+                    <td>Cell 2</td>
+                  </tr>
+                </table>
+              `
+              const range = quill.getSelection()
+              if (range) {
+                quill.clipboard.dangerouslyPasteHTML(range.index, html)
+              }
+            },
             imageBtn: () => {
               // console.log('imageBtn')
               fileInput.click()
@@ -111,6 +175,15 @@
     // 补充自定义按钮的功能
     let btn = document.querySelector('.editor-wrap .ql-imageBtn')
     btn.innerHTML = '<span class="iconfont icon-image"></span>'
+    
+    btn = document.querySelector('.editor-wrap .ql-maxBtn')
+    btn.innerHTML = '<span class="iconfont icon-max"></span>'
+
+    btn = document.querySelector('.editor-wrap .ql-tableBtn')
+    btn.innerHTML = '<span class="iconfont icon-biaoge1"></span>'
+
+    btn = document.querySelector('.editor-wrap .ql-atBtn')
+    btn.innerHTML = '<span class="iconfont icon-at"></span>'
 
     // 监听文件选择，处理文件上传
     fileInput.addEventListener('change', (event) => {
@@ -127,9 +200,6 @@
       fileInput.value = ''
     })
     
-    btn = document.querySelector('.editor-wrap .ql-maxBtn')
-    btn.innerHTML = '<span class="iconfont icon-max"></span>'
-
     // 获取文本格式内容
     getTextBtn.onclick = () => {
       console.log('获取文本', quill.getText())
