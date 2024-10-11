@@ -37,13 +37,14 @@
       // readOnly: true, // 只读
       theme: 'snow' // 主题
     })
-
-    console.log('初始化', quill)
-
+    console.log('初始化完成', quill)
+    
+    // 获取文本格式内容
     getTextBtn.onclick = () => {
       console.log('获取文本', quill.getText())
     }
 
+    // 获取 html 格式内容
     getHtmlBtn.onclick = () => {
       console.log('获取html', quill.root.innerHTML)
     }
