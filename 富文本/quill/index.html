@@ -230,6 +230,26 @@
       fileInput.value = ''
     })
     
+    // 监听编辑器事件
+    quill.root.addEventListener('keydown', function(event) {
+      if (event.key === 'Backspace') {
+        const range = quill.getSelection();
+        if (!range || range.index === 0) return;
+
+        // 获取当前光标前面的字符
+        const [line, offset] = quill.getLine(range.index);
+        const charBeforeCursor = quill.getText(range.index - 1, 1);
+
+        // 检查是否为零宽空格
+        if (charBeforeCursor === '\u200B') {
+          event.preventDefault(); // 阻止默认的删除行为
+          
+          // 删除@人员
+          // quill.deleteText(range.index - 2, 2); // 假设@和内容一共占了2个字符，如果不止，调整此范围
+        }
+      }
+    })
+
     // 获取文本格式内容
     getTextBtn.onclick = () => {
       console.log('获取文本', quill.getText())
