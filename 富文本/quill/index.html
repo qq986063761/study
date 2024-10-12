@@ -39,8 +39,8 @@
       overflow: hidden;
     }
 
-    .custom-list-icon .ql-ui:before {
-      content: '🚀' !important;
+    [data-list-custom="rocket"] .ql-ui:before {
+      content: '🚀';
     }
 
     .editor-at {
@@ -78,7 +78,7 @@
       static className = 'editor-at';
       
       static create(value) {
-        console.log('atBtn BlockEmbed', value)
+        // console.log('atBtn BlockEmbed', value)
         const node = super.create();
         // node.setAttribute('data-at', value)
         node.setAttribute('contenteditable', false);
@@ -106,7 +106,7 @@
       // }
 
       static value(node) {
-        console.log('atBtn value', node)
+        // console.log('atBtn value', node)
         return {
           label: node.innerHTML.replace('@', ''),
           usrId: node.dataset.usrid
@@ -133,61 +133,53 @@
     Quill.register(fontSize)
 
     // 自定义列表
-    import type Scroll from '../blots/scroll.js';
-
-    class ListContainer extends Container {}
-    ListContainer.blotName = 'list-container';
-    ListContainer.tagName = 'OL';
-
-    class ListItem extends Block {
-      static create(value: string) {
-        const node = super.create() as HTMLElement;
-        node.setAttribute('data-list', value);
-        return node;
-      }
-
-      static formats(domNode: HTMLElement) {
-        return domNode.getAttribute('data-list') || undefined;
-      }
+    class CustomListContainer extends Container {
+      static blotName = 'customListContainer';
+      static tagName = 'ol';
+    }
+    
+    class CustomListItem extends Block {
+      static blotName = 'customList';
+      static tagName = 'li';
 
       static register() {
-        Quill.register(ListContainer);
+        Quill.register(CustomListContainer);
       }
 
-      constructor(scroll: Scroll, domNode: HTMLElement) {
+      static create(value) {
+        const node = super.create();
+        node.className = 'custom-list-item'
+        node.setAttribute('data-list-custom', value)
+        return node;
+      }
+      
+      static formats(node) {
+        return node.getAttribute('data-list-custom')
+      }
+
+      constructor(scroll, domNode) {
         super(scroll, domNode);
         const ui = domNode.ownerDocument.createElement('span');
-        const listEventHandler = (e: Event) => {
+        const listEventHandler = (e) => {
           if (!scroll.isEnabled()) return;
           const format = this.statics.formats(domNode, scroll);
-          if (format === 'checked') {
-            this.format('list', 'unchecked');
-            e.preventDefault();
-          } else if (format === 'unchecked') {
-            this.format('list', 'checked');
-            e.preventDefault();
-          }
         };
         ui.addEventListener('mousedown', listEventHandler);
         ui.addEventListener('touchstart', listEventHandler);
         this.attachUI(ui);
       }
 
-      format(name: string, value: string) {
+      format(name, value) {
         if (name === this.statics.blotName && value) {
-          this.domNode.setAttribute('data-list', value);
+          this.domNode.setAttribute('data-list-custom', value);
         } else {
           super.format(name, value);
         }
       }
     }
-    ListItem.blotName = 'list';
-    ListItem.tagName = 'LI';
-
-    ListContainer.allowedChildren = [ListItem];
-    ListItem.requiredContainer = ListContainer;
-
-    export { ListContainer, ListItem as default };
+    CustomListContainer.allowedChildren = [CustomListItem];
+    CustomListItem.requiredContainer = CustomListContainer;
+    Quill.register(CustomListItem)
     
     // 初始化
     var quill = new Quill(document.querySelector('.editor'), {
@@ -221,7 +213,16 @@
             listBtn: () => {
               const range = quill.getSelection();
               if (range) {
-                quill.formatLine(range.index, range.length, 'list', 'bullet');
+                // 获取格式
+                let data = quill.getFormat(range.index, range.length)
+                // console.log('getFormat', data)
+                
+                // 移除格式
+                if (data.customList) {
+                  quill.removeFormat(range.index, range.length)
+                } else {
+                  quill.formatLine(range.index, range.length, 'customList', 'rocket')
+                }
               }
             },
             // 字体大小
@@ -230,7 +231,7 @@
               if (range) {
                 // 获取格式
                 let data = quill.getFormat(range.index, range.length)
-                console.log('getFormat', data)
+                // console.log('getFormat', data)
 
                 // 这里 '16px' 是你想设置的字体大小，可以根据需要进行更改
                 quill.formatText(range.index, range.length, 'fontSize', data.fontSize === '32px' ? '26px' : '32px');
@@ -394,22 +395,26 @@
     quill.root.addEventListener('keydown', function(event) {
       if (event.key === 'Backspace') {
         const range = quill.getSelection();
-        if (!range || range.index === 0) return;
+
+        // console.log('Backspace range', range)
+        if (!range || range.index === 0) {
+          // 删除到第一行的自定义列表，就手动清除
+          let data = quill.getFormat(range.index, range.length)
+          // console.log('getFormat', data)
+          quill.removeFormat(range.index, range.length)
+          return
+        }
 
         // 获取光标之前的内容
         const beforeCursor = quill.getContents(0, range.index)
         let ops = beforeCursor.ops;
-        // console.log('ops', ops)
+        let lastOp = ops[ops.length - 1]
+        console.log('ops', ops, lastOp)
 
-        for (let i = ops.length - 1; i >= 0; i--) {
-          const op = ops[i];
-
-          // 删除@
-          if (op.attributes.atBtn) {  
-            quill.deleteText(range.index - op.insert.length, op.insert.length);
-            event.preventDefault()
-            break
-          }
+        // 删除@
+        if (lastOp.attributes && lastOp.attributes.atBtn) {  
+          quill.deleteText(range.index - lastOp.insert.length, lastOp.insert.length);
+          event.preventDefault()
         }
       }
     })
