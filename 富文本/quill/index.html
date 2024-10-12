@@ -15,6 +15,10 @@
       background-color: #fff;
     }
 
+    .editor-wrap .ql-toolbar button {
+      width: unset;
+    }
+
     .editor-wrap.max {
       position: fixed;
       z-index: 9999;
@@ -33,6 +37,10 @@
     .editor-wrap.max .ql-container {
       flex: 1;
       overflow: hidden;
+    }
+
+    .custom-list-icon .ql-ui:before {
+      content: '🚀' !important;
     }
 
     .editor-at {
@@ -57,11 +65,12 @@
 
   <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
   <script>
-    // 注册自己的 html 格式
+    // 注册自己的 html 元素
     const Block = Quill.import('blots/block')
     const BlockEmbed = Quill.import('blots/block/embed');
     const Inline = Quill.import('blots/inline');
 
+    // @人
     class atBtn extends Inline {
       static blotName = 'atBtn';
       static tagName = 'span';
@@ -103,9 +112,26 @@
         };
       }
     }
+    Quill.register(atBtn)
 
-    Quill.register(atBtn);
-
+    // 支持 fontsize
+    class fontSize extends Inline {
+      static blotName = 'fontSize';
+      static tagName = 'span';
+      
+      static create(value) {
+        const node = super.create();
+        node.style.fontSize = value;
+        return node;
+      }
+      
+      static formats(node) {
+        return node.style.fontSize;
+      }
+    }
+    Quill.register(fontSize)
+    
+    // 初始化
     var quill = new Quill(document.querySelector('.editor'), {
       modules: {
         toolbar: {
@@ -130,9 +156,37 @@
             [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
             [{ 'indent': '-1'}, { 'indent': '+1' }], // 缩进
             ['clean'], // 清除格式
-            ['imageBtn', 'tableBtn', 'atBtn', 'maxBtn'] // 自定义按钮
+            ['imageBtn', 'tableBtn', 'atBtn', 'maxBtn', 'fontSizeBtn', 'fontColorBtn', 'listBtn'] // 自定义按钮
           ],
           handlers: {
+            // 自定义列表
+            listBtn: () => {
+              const range = quill.getSelection();
+              if (range) {
+                quill.formatLine(range.index, range.length, 'list', 'bullet');
+              }
+            },
+            // 字体大小
+            fontSizeBtn: () => {
+              const range = quill.getSelection();
+              if (range) {
+                // 获取格式
+                let data = quill.getFormat(range.index, range.length)
+                console.log('getFormat', data)
+
+                // 这里 '16px' 是你想设置的字体大小，可以根据需要进行更改
+                quill.formatText(range.index, range.length, 'fontSize', data.fontSize === '32px' ? '26px' : '32px');
+              }
+            },
+            // 字体颜色
+            fontColorBtn: () => {
+              const range = quill.getSelection();
+              if (range) {
+                // 这里 '16px' 是你想设置的字体大小，可以根据需要进行更改
+                quill.formatText(range.index, range.length, 'color', 'rgb(153, 51, 255)');
+              }
+            },
+            // at
             atBtn: () => {
               let htmlContent = '@人员'
               // const html = `<span class="editor-at" data-usrid="123">${htmlContent}</span>`
@@ -156,8 +210,10 @@
                 quill.setSelection(range.index + htmlContent.length + 1)
               }
             },
+            // 表格
             tableBtn: () => {
               const html = `
+                <p></p>
                 <table border="1">
                   <tr>
                     <td>表头1</td>
@@ -168,16 +224,19 @@
                     <td>Cell 2</td>
                   </tr>
                 </table>
+                <p></p>
               `
               const range = quill.getSelection()
               if (range) {
                 quill.clipboard.dangerouslyPasteHTML(range.index, html)
               }
             },
+            // 图片
             imageBtn: () => {
               // console.log('imageBtn')
               fileInput.click()
             },
+            // 最大化
             maxBtn: () => {
               let el = document.querySelector('.editor-wrap')
               if (el.className.includes(' max')) {
@@ -215,6 +274,15 @@
     btn = document.querySelector('.editor-wrap .ql-atBtn')
     btn.innerHTML = '<span class="iconfont icon-at"></span>'
 
+    btn = document.querySelector('.editor-wrap .ql-fontSizeBtn')
+    btn.innerHTML = '改文字大小'
+
+    btn = document.querySelector('.editor-wrap .ql-fontColorBtn')
+    btn.innerHTML = '改文字颜色'
+
+    btn = document.querySelector('.editor-wrap .ql-listBtn')
+    btn.innerHTML = '自定义列表'
+
     // 监听文件选择，处理文件上传
     fileInput.addEventListener('change', (event) => {
       var file = event.target.files[0];
@@ -230,22 +298,60 @@
       fileInput.value = ''
     })
     
+    // 监听文本变化事件
+    quill.on('text-change', (delta, oldDelta, source) => {
+      console.log('text-change', delta, oldDelta, source)
+      
+      // 只处理来自用户触发的变化
+      if (source === 'user') {
+        let index = 0; // 维护当前操作影响的文档位置
+
+        // 遍历 Delta 对象的操作
+        delta.ops.forEach(op => {
+          if (op.insert) {
+            // 如果插入是普通文本，更新索引
+            if (typeof op.insert === 'string') {
+              index += op.insert.length;
+            } else if (op.insert.image) {
+              // 在发现图像插入时进行处理
+              const originalUrl = op.insert.image;
+              const newUrl = 'https://zxb-online.oss-cn-beijing.aliyuncs.com/web/static/img/logo_white.svg'
+
+              // 使用 delete 和 insert 以替换 URL
+              quill.deleteText(index, 1); // 删除原图像
+              quill.insertEmbed(index, 'image', newUrl); // 插入新的图像
+
+              index += 1; // 增加位置指针
+            }
+          }
+          // 处理保留和属性
+          if (op.retain) {
+            index += op.retain;
+          }
+        })
+      }
+    })
+
     // 监听编辑器事件
     quill.root.addEventListener('keydown', function(event) {
       if (event.key === 'Backspace') {
         const range = quill.getSelection();
         if (!range || range.index === 0) return;
 
-        // 获取当前光标前面的字符
-        const [line, offset] = quill.getLine(range.index);
-        const charBeforeCursor = quill.getText(range.index - 1, 1);
+        // 获取光标之前的内容
+        const beforeCursor = quill.getContents(0, range.index)
+        let ops = beforeCursor.ops;
+        // console.log('ops', ops)
 
-        // 检查是否为零宽空格
-        if (charBeforeCursor === '\u200B') {
-          event.preventDefault(); // 阻止默认的删除行为
-          
-          // 删除@人员
-          // quill.deleteText(range.index - 2, 2); // 假设@和内容一共占了2个字符，如果不止，调整此范围
+        for (let i = ops.length - 1; i >= 0; i--) {
+          const op = ops[i];
+
+          // 删除@
+          if (op.attributes.atBtn) {  
+            quill.deleteText(range.index - op.insert.length, op.insert.length);
+            event.preventDefault()
+            break
+          }
         }
       }
     })
