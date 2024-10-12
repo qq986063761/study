@@ -392,6 +392,7 @@
     })
 
     // 监听编辑器事件
+    let lastIsCustomListBr = false
     quill.root.addEventListener('keydown', function(event) {
       if (event.key === 'Backspace') {
         const range = quill.getSelection();
@@ -411,6 +412,14 @@
         let lastOp = ops[ops.length - 1]
         console.log('ops', ops, lastOp)
 
+        // 删除了最后一个自定义列表，则插入新行
+        if (lastIsCustomListBr) {
+          // quill.insertText(range.index, '\n')
+          // quill.insertEmbed(range.index, 'block', true)
+          // quill.removeFormat(range.index, range.length)
+        }
+        lastIsCustomListBr = lastOp.attributes && lastOp.attributes.customList && lastOp.insert === '\n'
+        
         // 删除@
         if (lastOp.attributes && lastOp.attributes.atBtn) {  
           quill.deleteText(range.index - lastOp.insert.length, lastOp.insert.length);
