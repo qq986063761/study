@@ -58,33 +58,51 @@
   <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
   <script>
     // 注册自己的 html 格式
+    const Block = Quill.import('blots/block')
     const BlockEmbed = Quill.import('blots/block/embed');
     const Inline = Quill.import('blots/inline');
 
     class atBtn extends Inline {
+      static blotName = 'atBtn';
+      static tagName = 'span';
+      static className = 'editor-at';
+      
       static create(value) {
         console.log('atBtn BlockEmbed', value)
         const node = super.create();
+        // node.setAttribute('data-at', value)
         node.setAttribute('contenteditable', false);
-        node.innerHTML = '@' + value.label
-        // node.style.backgroundColor = value.backgroundColor || '#3498db';
-        // node.style.color = value.color || '#fff';
-        // node.style.padding = '5px 10px';
-        // node.style.borderRadius = '5px';
-        // node.style.cursor = 'pointer';
+        if (value.usrId) {
+          node.dataset.usrid = value.usrId
+        }
+        if (value.label) {
+          node.innerHTML = '@' + value.label
+        }
+
         return node;
       }
+      
+      static formats(node) {
+        return node.className
+        // return node.getAttribute('data-at')
+      }
+
+      // format(name, value) {
+      //   if (name === 'at' && value) {
+      //     this.domNode.setAttribute('data-mention', value)
+      //   } else {
+      //     super.format(name, value)
+      //   }
+      // }
 
       static value(node) {
+        console.log('atBtn value', node)
         return {
-          label: node.innerHTML.replace('@', '')
+          label: node.innerHTML.replace('@', ''),
+          usrId: node.dataset.usrid
         };
       }
     }
-
-    atBtn.blotName = 'atBtn';
-    atBtn.tagName = 'span';
-    atBtn.className = 'editor-at'
 
     Quill.register(atBtn);
 
@@ -116,14 +134,26 @@
           ],
           handlers: {
             atBtn: () => {
-              // const html = `<span class="editor-at">@人员</span>`
+              let htmlContent = '@人员'
+              // const html = `<span class="editor-at" data-usrid="123">${htmlContent}</span>`
               const range = quill.getSelection()
               if (range) {
-                quill.insertText(range.index, ' ')
+                // 用数据插入
                 quill.insertEmbed(range.index, 'atBtn', {
-                  label: '人员'
+                  label: htmlContent.replace('@', ''),
+                  usrId: '123'
                 })
+
+                // 用 html 插入，好像有的属性上不去，还是用上面的 insertEmbed 吧
                 // quill.clipboard.dangerouslyPasteHTML(range.index, html)
+                // console.log('quill.getContents', quill.getContents())
+
+                // 反向添加空格，因为 range.index 没变
+                quill.insertText(range.index + htmlContent.length, '\u200B') // 空格
+
+                // 光标
+                // quill.focus({ preventScroll: true })
+                quill.setSelection(range.index + htmlContent.length + 1)
               }
             },
             tableBtn: () => {
