@@ -392,7 +392,7 @@
     })
 
     // 监听编辑器事件
-    let lastIsCustomListBr = false
+    // let lastIsCustomListBr = false
     quill.root.addEventListener('keydown', function(event) {
       if (event.key === 'Backspace') {
         const range = quill.getSelection();
@@ -407,18 +407,19 @@
         }
 
         // 获取光标之前的内容
-        const beforeCursor = quill.getContents(0, range.index)
-        let ops = beforeCursor.ops;
+        const beforeCursorContent = quill.getContents(0, range.index)
+        const afterCursorContent = quill.getContents(range.index + 1)
+        let ops = beforeCursorContent.ops;
         let lastOp = ops[ops.length - 1]
-        console.log('ops', ops, lastOp)
+        let afterOpts = afterCursorContent.ops
+        console.log('ops', ops, lastOp, afterOpts)
 
         // 删除了最后一个自定义列表，则插入新行
-        if (lastIsCustomListBr) {
-          // quill.insertText(range.index, '\n')
-          // quill.insertEmbed(range.index, 'block', true)
-          // quill.removeFormat(range.index, range.length)
-        }
-        lastIsCustomListBr = lastOp.attributes && lastOp.attributes.customList && lastOp.insert === '\n'
+        // if (lastIsCustomListBr && !afterOpts.length) {
+        //   quill.removeFormat(range.index + 1)
+        //   quill.insertEmbed(range.index, 'block', true)
+        // }
+        // lastIsCustomListBr = lastOp.attributes && lastOp.attributes.customList && lastOp.insert === '\n'
         
         // 删除@
         if (lastOp.attributes && lastOp.attributes.atBtn) {  
