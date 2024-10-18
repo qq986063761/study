@@ -11,7 +11,6 @@
 - [买 chatgpt](http://u9v.cn/6p592r)
 - [买 chatgpt](http://shop.isving.cn/)
 - [用 chatgpt](https://nengyongai.com/)
-- [用 chatgpt](https://mosaic.xnewstar.com/?p=3311)
 - [AI kimi](https://kimi.ai)
 - [svg编辑器](http://editor.method.ac/)
 - [png图片压缩](https://tinypng.com/)
