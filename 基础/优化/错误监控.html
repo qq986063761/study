@@ -32,7 +32,7 @@
       function(event) {
         console.log('addEventListener error', event)
         
-        if (event.target.nodeName) {
+        if (event.target && event.target.nodeName) {
           errStore.add({ 
             message: '资源加载错误',
             nodeName: event.target.nodeName, 
