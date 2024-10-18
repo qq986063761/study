@@ -49,8 +49,8 @@
       console.log('unhandledrejection', event)
       
       errStore.add({
-        message: event.reason.message,
-        stack: event.reason.stack,
+        message: typeof event.reason === 'string' ? event.reason : event.reason.message,
+        source: event.reason && event.reason.stack || ''
       })
       return true
     })
