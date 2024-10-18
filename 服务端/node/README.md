@@ -121,6 +121,7 @@ nvm ls
 nvm install-latest-npm
 
 # nvm 可视化工具
+nvm-desktop https://github.com/1111mp/nvm-desktop/releases
 vscode 插件 vscode-nvm
 ```
 
