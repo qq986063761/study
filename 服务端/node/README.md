@@ -97,10 +97,10 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 # mac 让系统能执行 nvm 命令，不然会报错，不过每次用都需要执行这个
 source ~/.nvm/nvm.sh
 # 如果想不用执行上面内容，可以在终端文件中，最后写入配置，让终端默认执行配置
-# 如果要加入到 bash 终端，在 ~ 目录下，用 vim 改 .bash_profile 文件加上下面内容
+# 先加入到 bash 终端，在 ~ 目录下，用 vim 改 .bash_profile 文件加上下面内容
 export NVM_DIR="$HOME/.nvm"   
 source ~/.nvm/nvm.sh
-# 如果要加入到 zsh 终端，在 ~ 目录下，用 vim 改 .zshrc，最后加下面代码，让 zsh 命令默认执行下面内容
+# 再加入到 zsh 终端，在 ~ 目录下，用 vim 改 .zshrc，最后加下面代码，让 zsh 命令默认执行下面内容
 source ~/.bash_profile
 
 # 安装 nodejs 并且临时使用指定版本 node
