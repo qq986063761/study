@@ -125,6 +125,10 @@ Version '14.21.3' not found - try `nvm ls-remote` to browse available versions
 # 可以切换镜像源后再尝试
 export NVM_NODEJS_ORG_MIRROR=https://nodejs.org/dist
 export NVM_NODEJS_ORG_MIRROR=https://npmmirror.com/mirrors/node/
+# 上面的失败的话，就只能带上下面的环境变量后再执行需要的命令了
+NVM_NODEJS_ORG_MIRROR=http://nodejs.org/dist nvm ls-remote 
+NVM_NODEJS_ORG_MIRROR=https://npmmirror.com/mirrors/node/ nvm ls-remote
+NVM_NODEJS_ORG_MIRROR=http://nodejs.org/dist nvm install v16.20.2
 
 # nvm 可视化工具
 nvm-desktop https://github.com/1111mp/nvm-desktop/releases
