@@ -120,6 +120,12 @@ nvm ls
 # 更新 nvm 版本
 nvm install-latest-npm
 
+# 安装 node 版本报错是镜像源不对
+Version '14.21.3' not found - try `nvm ls-remote` to browse available versions
+# 可以切换镜像源后再尝试
+export NVM_NODEJS_ORG_MIRROR=https://nodejs.org/dist
+export NVM_NODEJS_ORG_MIRROR=https://npmmirror.com/mirrors/node/
+
 # nvm 可视化工具
 nvm-desktop https://github.com/1111mp/nvm-desktop/releases
 vscode 插件 Node Visual Manager、vscode-nvm
