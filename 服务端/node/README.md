@@ -131,6 +131,9 @@ vscode 插件 Node Visual Manager、vscode-nvm
 ```
 
 # 如果需要装 python，因为npm装包有时候 node-gyp 卡住因为这个没有
+先检查本地有的 python 版本：python --version
+如果检查到有一个版本，则直接 npm config set python python2.7.16 这样指定这个版本
+如果没有 python，则按下面步骤下载：
 下包：https://www.python.org/ftp/python/2.7.9/Python-2.7.9.tgz 然后手动解压
 解压后跳到文件夹 Python-2.7.9 内，终端命令执行 sudo ./configure --prefix=/usr/local/python-2.7.9 配置安装目录
 然后执行安装 sudo make install
