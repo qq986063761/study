@@ -94,9 +94,8 @@
 ```bash
 # mac 安装 nvm，后面的 bash 是安装的对应终端环境
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
-# mac 让系统能执行 nvm 命令，不然会报错，不过每次用都需要执行这个
-source ~/.nvm/nvm.sh
-# 如果想不用执行上面内容，可以在终端文件中，最后写入配置，让终端默认执行配置
+# 如果上面命令失败了443，则直接下载上面的文件，然后用 bash ./install.sh 本地执行下载
+# 配置环境文件如下，让终端能使用 nvm：
 # 先加入到 bash 终端，在 ~ 目录下，用 vim 改 .bash_profile 文件加上下面内容
 export NVM_DIR="$HOME/.nvm"   
 source ~/.nvm/nvm.sh
