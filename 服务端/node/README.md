@@ -140,6 +140,7 @@ vscode 插件 Node Visual Manager、vscode-nvm
 安装完执行 python2.7.9 -V 看看版本，应该 usr 目录下，local 下就有内容了，然后 usr/bin 下要有 python2.7.9 的执行文件，
 如果执行找不到命令，则通过软链接 ln -s /usr/local/python-2.7.9/bin/python /usr/bin/python2.7.9 链接一下
 最后把 npm 的配置指向 python 安装的版本，npm config set python python2.7.9
+配置环境变量：vim 打开根目录下的 bash_profile 文件，加一行：export PATH="/usr/local/python-2.7.9/bin:$PATH"
 
 # mac brew 
 ```bash
