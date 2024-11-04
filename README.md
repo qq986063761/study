@@ -30,7 +30,6 @@
 - [css兼容性](https://caniuse.com/)
 - [码上掘金，写代码片段](https://code.juejin.cn/)
 - [AI 文心快码](https://comate.baidu.com/zh?track=ff62080518943dd8b03b2254bf3f2c344bc2d099ae396650)
-- [远程传文件 snapdrop](https://snapdrop.net/)
 - cdn平台，jsDelivr、Cloudflare、bootcdn、UNPKG、Netlify
 猪八戒，码市，程序员客栈，开源中国众包
 代码仓库：github、gitee
