@@ -130,6 +130,9 @@ nvm-desktop https://github.com/1111mp/nvm-desktop/releases
 vscode 插件 Node Visual Manager、vscode-nvm
 ```
 
+# fsevents node install.js 卡住
+- 装个包 npm install puppeteer
+
 # 如果需要装 python，因为npm装包有时候 node-gyp 卡住因为这个没有
 先检查本地有的 python 版本：python --version
 如果检查到有一个版本，则直接 npm config set python python2.7.16 这样指定这个版本
