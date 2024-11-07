@@ -131,7 +131,7 @@ vscode 插件 Node Visual Manager、vscode-nvm
 ```
 
 # fsevents node install.js 卡住
-- 装个包 npm install puppeteer
+- 装个包 npm install puppeteer@19，注意和 node 版本匹配
 
 # 如果需要装 python，因为npm装包有时候 node-gyp 卡住因为这个没有
 先检查本地有的 python 版本：python --version
