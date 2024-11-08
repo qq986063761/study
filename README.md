@@ -1,9 +1,6 @@
-﻿- [上网 ss账号](https://github.com/Alvin9999/new-pac/wiki/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7)
-- [上网 其他方式](https://github.com/Alvin9999/new-pac/wiki)
-- [上网 追风岛](https://www.gozhuifeng.club/)
-- [上网 追风岛备用](https://zfd.369.cyou)
-- [上网 蓝灯](https://lantern.io/zh)
-- [上网 蓝灯github](https://github.com/getlantern/forum)
+﻿- [上网 github](https://github.com/Alvin9999/new-pac/wiki)
+- [上网 追风岛](https://www.gozhuifeng.club/)(https://zfd.369.cyou)
+- [上网 蓝灯](https://lantern.io/zh)(https://github.com/getlantern/forum)
 - [上网 v2free](https://w1.v2free.cyou/user)
 - [上网 creamdata](https://www.creamdata.xyz/User/Main)
 - [上网 一元机场](https://一元机场.club)
@@ -11,7 +8,6 @@
 - [买 chatgpt](http://u9v.cn/6p592r)
 - [买 chatgpt](http://shop.isving.cn/)
 - [用 chatgpt](https://nengyongai.com/)
-- [AI kimi](https://kimi.ai)
 - [svg编辑器](http://editor.method.ac/)
 - [png图片压缩](https://tinypng.com/)
 - [图片压缩](https://squoosh.app/)
@@ -29,12 +25,10 @@
 - [在线画流程图 processon](https://www.processon.com/)
 - [css兼容性](https://caniuse.com/)
 - [码上掘金，写代码片段](https://code.juejin.cn/)
-- [AI 文心快码](https://comate.baidu.com/zh?track=ff62080518943dd8b03b2254bf3f2c344bc2d099ae396650)
 - cdn平台，jsDelivr、Cloudflare、bootcdn、UNPKG、Netlify
 猪八戒，码市，程序员客栈，开源中国众包
 代码仓库：github、gitee
 学习网站：技术文档的官网、掘金（https://juejin.cn/）、慕课网（https://www.imooc.com/）、拉钩教育（https://kaiwu.lagou.com/）
-了解一些前端规范
 
 - [电影](https://github.com/88ys/website)
 止咳：复方岩白菜素片
