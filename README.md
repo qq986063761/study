@@ -5,7 +5,7 @@
 - [上网 creamdata](https://www.creamdata.xyz/User/Main)
 - [上网 一元机场](https://一元机场.club)
 - [买 openAI](https://eylink.cn/)
-- [买 chatgpt](http://u9v.cn/6p592r)
+- [买 chatgpt](http://www.thetimework.com/links/7852BB87249C7F7A)(http://u9v.cn/6p592r)
 - [买 chatgpt](http://shop.isving.cn/)
 - [svg编辑器](http://editor.method.ac/)
 - [png图片压缩](https://tinypng.com/)
