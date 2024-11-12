@@ -7,7 +7,6 @@
 - [买 openAI](https://eylink.cn/)
 - [买 chatgpt](http://u9v.cn/6p592r)
 - [买 chatgpt](http://shop.isving.cn/)
-- [用 chatgpt](https://nengyongai.com/)
 - [svg编辑器](http://editor.method.ac/)
 - [png图片压缩](https://tinypng.com/)
 - [图片压缩](https://squoosh.app/)
