@@ -1,8 +1,9 @@
 
 # 资源
-- [electron官网](https://electronjs.org/)
+- [electron 官网](https://electronjs.org/)
+- [electron 中文官网](https://www.electronjs.org/zh/)
 - [electron-builder](https://www.electron.build/configuration/configuration/)
-- [electron-vue文档](https://simulatedgreg.gitbooks.io/electron-vue/content/cn/)
+- [electron-vue 文档](https://simulatedgreg.gitbooks.io/electron-vue/content/cn/)
 - [vue-cli-plugin-electron-builder npm](https://www.npmjs.com/package/vue-cli-plugin-electron-builder)
 
 # 方式1：asar打包
