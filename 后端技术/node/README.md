@@ -94,12 +94,12 @@
 ```bash
 # mac 安装 nvm，后面的 bash 是安装的对应终端环境
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
-# 如果上面命令失败了443，则直接下载上面的文件，然后用 bash ./install.sh 本地执行下载
+# 如果上面命令失败了443，则直接浏览器下载上面的脚本文件，然后用 bash ./install.sh 本地执行下载
 # 配置环境文件如下，让终端能使用 nvm：
-# 先加入到 bash 终端，在 ~ 目录下，用 vim 改 .bash_profile 文件加上下面内容
+# 先给 bash 终端加 nvm 配置，在 ~ 目录下，用 vim .bash_profile 最后一行加下面内容
 export NVM_DIR="$HOME/.nvm"   
 source ~/.nvm/nvm.sh
-# 再加入到 zsh 终端，在 ~ 目录下，用 vim 改 .zshrc，最后加下面代码，让 zsh 命令默认执行下面内容
+# 再加入到 zsh 终端，在 ~ 目录下，用 vim .zshrc 在最后一行加下面代码，让 zsh 命令默认执行下面内容
 source ~/.bash_profile
 
 # 安装 nodejs 并且临时使用指定版本 node
