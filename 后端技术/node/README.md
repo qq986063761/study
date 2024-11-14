@@ -125,7 +125,9 @@ Version '14.21.3' not found - try `nvm ls-remote` to browse available versions
 export NVM_NODEJS_ORG_MIRROR=https://nodejs.org/dist
 export NVM_NODEJS_ORG_MIRROR=https://npmmirror.com/mirrors/node/
 
+# mac 查看环境变量 echo $PATH
 # vscode 内切换默认版本后，下次进还没效可以改设置和系统终端保持一致，打开设置文件后，按下面配置
+# 然后如果 vscode 脚本点击 zsh 终端报错 npm 不存在，那就换 vscode 终端为 bash 就行
 "terminal.integrated.env.osx": {
   "NVM_DIR": "$HOME/.nvm",
   "PATH": "$HOME/.nvm/versions/node/vX.X.X/bin:$PATH"
