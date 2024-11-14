@@ -125,6 +125,12 @@ Version '14.21.3' not found - try `nvm ls-remote` to browse available versions
 export NVM_NODEJS_ORG_MIRROR=https://nodejs.org/dist
 export NVM_NODEJS_ORG_MIRROR=https://npmmirror.com/mirrors/node/
 
+# vscode 内切换默认版本后，下次进还没效可以改设置和系统终端保持一致，打开设置文件后，按下面配置
+"terminal.integrated.env.osx": {
+  "NVM_DIR": "$HOME/.nvm",
+  "PATH": "$HOME/.nvm/versions/node/vX.X.X/bin:$PATH"
+}
+
 # nvm 可视化工具
 nvm-desktop https://github.com/1111mp/nvm-desktop/releases
 vscode 插件 Node Visual Manager、vscode-nvm
