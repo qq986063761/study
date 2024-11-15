@@ -100,7 +100,7 @@
     </div>
   </div>
   
-  <script src="https://cdn.bootcdn.net/ajax/libs/Sortable/1.15.0/Sortable.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
   <script>
     var container1 = document.getElementById('container1');
     var container2 = document.getElementById('container2');
@@ -138,7 +138,7 @@
 
     function init () {
       instance1 = new Sortable(container1, Object.assign({}, config, {
-        sort: false, // 禁止排序
+        sort: true, // 禁止排序
         onStart: function (event) {
           console.log('onStart', event)
         },

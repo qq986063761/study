@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .item {
+      padding: 20px;
+      background-color: lightblue;
+      border: 1px solid #ccc;
+      cursor: grab;
+    }
+
+    .item:active {
+      cursor: grabbing;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="item" id="item1">Item 1</div>
+    <div class="item" id="item2">Item 2</div>
+    <div class="item" id="item3">Item 3</div>
+    <div class="item" id="item4">Item 4</div>
+  </div>
+
+  <script src="https://unpkg.com/interactjs/dist/interact.min.js"></script>
+  <script>
+    interact('.item')
+      .draggable({
+        // 拖拽开始时执行
+        onstart(event) {
+          // 你可以在这里进行一些初始化，例如显示占位符，或者设置样式
+          event.target.style.opacity = '0.5'; // 拖拽时改变透明度
+        },
+        // 拖拽过程中执行
+        onmove(event) {
+          // 设置元素的移动位置
+          var target = event.target;
+          target.style.transform = `translate(${event.dx}px, ${event.dy}px)`;
+        },
+        // 拖拽结束时执行
+        onend(event) {
+          // 恢复透明度，恢复元素位置
+          event.target.style.opacity = '1';
+          event.target.style.transform = ''; // 清除transform
+        }
+      })
+      .on('dragmove', function (event) {
+        // 在拖拽过程中，检查拖拽的元素与其他元素的位置关系
+        var draggedElement = event.target;
+        var draggedRect = draggedElement.getBoundingClientRect();
+
+        // 获取所有的目标元素
+        var items = document.querySelectorAll('.item');
+        
+        items.forEach(function (item) {
+          var itemRect = item.getBoundingClientRect();
+          // 如果被拖拽元素在目标元素上方，就交换位置
+          if (draggedElement !== item && draggedRect.top < itemRect.top) {
+            item.parentNode.insertBefore(draggedElement, item);
+          }
+        });
+      });
+  </script>
+</body>
+</html>

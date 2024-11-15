@@ -1,5 +1,6 @@
 # 资源
 - [sortable.js](http://sortablejs.github.io/Sortable/);
+- [smooth-dnd](https://www.npmjs.com/package/smooth-dnd)
 - [Vue.Draggable](https://github.com/SortableJS/Vue.Draggable)
 - [vue-smooth-dnd](https://kutlugsahin.github.io/vue-smooth-dnd/#/drag-handle)
 - [Interact.js](https://interactjs.io/)
