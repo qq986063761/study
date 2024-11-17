@@ -102,7 +102,11 @@ source ~/.nvm/nvm.sh
 # 再加入到 zsh 终端，在 ~ 目录下，用 vim .zshrc 在最后一行加下面代码，让 zsh 命令默认执行下面内容
 source ~/.bash_profile
 
-# 安装 nodejs 并且临时使用指定版本 node
+# windows 上安装前配置下载源
+nvm node_mirror https://npmmirror.com/mirrors/node/
+nvm npm_mirror https://npmmirror.com/mirrors/npm/
+
+# 安装 nodejs 并且临时使用指定版本 node，windows 上不带 v 字母
 nvm install v20.16.0 && nvm use v20.16.0
 nvm install v18.20.4 && nvm use v18.20.4
 nvm install v16.15.0 && nvm use v16.15.0 && corepack enable
