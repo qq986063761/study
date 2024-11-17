@@ -107,7 +107,7 @@ nvm install v20.16.0 && nvm use v20.16.0
 nvm install v18.20.4 && nvm use v18.20.4
 nvm install v16.15.0 && nvm use v16.15.0 && corepack enable
 nvm install v14.21.3 && nvm use v14.21.3
-# 全局使用默认版本
+# 全局使用默认版本,好像只在mac有效
 nvm alias default v14.21.3
 nvm alias default v16.15.0
 nvm alias default v18.20.4
