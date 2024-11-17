@@ -92,7 +92,7 @@
 
 # nvm（node 版本管理工具）
 ```bash
-# mac 安装 nvm，后面的 bash 是安装的对应终端环境
+# mac 安装 nvm，后面的 bash 是安装的对应终端环境，windows 上别装到系统默认文件夹中，直接装d盘根目录否则可能后续安装node会出问题
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 # 如果上面命令失败了443，则直接浏览器下载上面的脚本文件，然后用 bash ./install.sh 本地执行下载
 # 配置环境文件如下，让终端能使用 nvm：
