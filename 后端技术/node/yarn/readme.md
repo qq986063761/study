@@ -10,9 +10,9 @@
 # 命令
 - yarn --version: 查询版本； 
 - yarn [install]：安装项目所有依赖； 
-- yarn [global] add MODULE [-D]： 安装指定依赖； 
-- yarn [global] remove MODULE: 移除模块； 
-- yarn info MODULE [field]： 查询依赖信息； 
+- yarn [global] add 包名 [-D]： 安装指定依赖； 
+- yarn [global] remove 包名: 移除模块； 
+- yarn info 包名 [field]： 查询依赖信息； 
 - yarn global dir: 查询全局模块所在目录； 
 - yarn autoclean: 清除不必要的依赖文件；
 - yarn list：查看已安装的包列表
