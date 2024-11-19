@@ -17,4 +17,5 @@
 - yarn autoclean: 清除不必要的依赖文件；
 - yarn list：查看已安装的包列表
 - yarn list --pattern 包名：查看包版本
+- yarn 脚本命令key 启动项目
 
