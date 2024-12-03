@@ -163,6 +163,7 @@
         const listEventHandler = (e) => {
           if (!scroll.isEnabled()) return;
           const format = this.statics.formats(domNode, scroll);
+          // console.log('constructor format', format, e)
         };
         ui.addEventListener('mousedown', listEventHandler);
         ui.addEventListener('touchstart', listEventHandler);
@@ -174,6 +175,13 @@
           this.domNode.setAttribute('data-list-custom', value);
         } else {
           super.format(name, value);
+
+          // 当移除自定义格式时，添加空白行逻辑
+          console.log('name', name, value)
+          // if (name === this.statics.blotName && !value) {
+          //     const blankNode = document.createElement('br'); // 或者创建一个空白文本节点等方式
+          //     this.domNode.appendChild(blankNode);
+          // }
         }
       }
     }
@@ -359,7 +367,7 @@
     
     // 监听文本变化事件
     quill.on('text-change', (delta, oldDelta, source) => {
-      console.log('text-change', delta, oldDelta, source)
+      // console.log('text-change', delta, oldDelta, source)
       
       // 只处理来自用户触发的变化
       if (source === 'user') {
@@ -392,7 +400,7 @@
     })
 
     // 监听编辑器事件
-    // let lastIsCustomListBr = false
+    let lastIsCustomListIcon = false
     quill.root.addEventListener('keydown', function(event) {
       if (event.key === 'Backspace') {
         const range = quill.getSelection();
@@ -415,11 +423,12 @@
         console.log('ops', ops, lastOp, afterOpts)
 
         // 删除了最后一个自定义列表，则插入新行
-        // if (lastIsCustomListBr && !afterOpts.length) {
-        //   quill.removeFormat(range.index + 1)
-        //   quill.insertEmbed(range.index, 'block', true)
-        // }
-        // lastIsCustomListBr = lastOp.attributes && lastOp.attributes.customList && lastOp.insert === '\n'
+        if (lastIsCustomListIcon && !afterOpts.length) {
+          // console.log('lastIsCustomListIcon opts', ops, lastOp, afterOpts)
+          // quill.removeFormat(range.index + 1)
+          quill.insertEmbed(range.index + 1, 'block', true)
+        }
+        lastIsCustomListIcon = lastOp.attributes && lastOp.attributes.customList === 'rocket'
         
         // 删除@
         if (lastOp.attributes && lastOp.attributes.atBtn) {  
