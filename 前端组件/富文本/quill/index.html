@@ -420,13 +420,13 @@
         let ops = beforeCursorContent.ops;
         let lastOp = ops[ops.length - 1]
         let afterOpts = afterCursorContent.ops
-        console.log('ops', ops, lastOp, afterOpts)
+        // console.log('ops', ops, lastOp, afterOpts, lastIsCustomListIcon)
 
-        // 删除了最后一个自定义列表，则插入新行
-        if (lastIsCustomListIcon && !afterOpts.length) {
+        // 删除了自定义列表行头部的图标后，则插入新行
+        if (lastIsCustomListIcon) {
           // console.log('lastIsCustomListIcon opts', ops, lastOp, afterOpts)
-          // quill.removeFormat(range.index + 1)
           quill.insertEmbed(range.index + 1, 'block', true)
+          quill.setSelection(range.index + 1)
         }
         lastIsCustomListIcon = lastOp.attributes && lastOp.attributes.customList === 'rocket'
         
