@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <link href="https://at.alicdn.com/t/c/font_3536606_vty3twinj1.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
 
   <style>
     .editor-wrap .ql-toolbar,
@@ -61,137 +61,39 @@
   <div class="footer">
     <button id="getHtmlBtn">获取Html</button>
     <button id="getTextBtn">获取文本</button>
+    <button id="setHtmlBtn">插入一些 html</button>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
   <script>
-    // 注册自己的 html 元素
-    const Block = Quill.import('blots/block')
+    const Inline = Quill.import('blots/inline')
     const Container = Quill.import('blots/container')
-    const BlockEmbed = Quill.import('blots/block/embed');
-    const Inline = Quill.import('blots/inline');
-
-    // @人
-    class atBtn extends Inline {
-      static blotName = 'atBtn';
-      static tagName = 'span';
-      static className = 'editor-at';
-      
-      static create(value) {
-        // console.log('atBtn BlockEmbed', value)
-        const node = super.create();
-        // node.setAttribute('data-at', value)
-        node.setAttribute('contenteditable', false);
-        if (value.usrId) {
-          node.dataset.usrid = value.usrId
-        }
-        if (value.label) {
-          node.innerHTML = '@' + value.label
-        }
-
-        return node;
-      }
-      
-      static formats(node) {
-        return node.className
-        // return node.getAttribute('data-at')
-      }
-
-      // format(name, value) {
-      //   if (name === 'at' && value) {
-      //     this.domNode.setAttribute('data-mention', value)
-      //   } else {
-      //     super.format(name, value)
-      //   }
-      // }
-
-      static value(node) {
-        // console.log('atBtn value', node)
-        return {
-          label: node.innerHTML.replace('@', ''),
-          usrId: node.dataset.usrid
-        };
-      }
-    }
-    Quill.register(atBtn)
-
-    // 支持 fontsize
-    class fontSize extends Inline {
-      static blotName = 'fontSize';
-      static tagName = 'span';
-      
-      static create(value) {
-        const node = super.create();
-        node.style.fontSize = value;
-        return node;
-      }
-      
-      static formats(node) {
-        return node.style.fontSize;
-      }
-    }
-    Quill.register(fontSize)
-
-    // 自定义列表
-    class CustomListContainer extends Container {
-      static blotName = 'customListContainer';
-      static tagName = 'ol';
-    }
-    
-    class CustomListItem extends Block {
-      static blotName = 'customList';
-      static tagName = 'li';
-
-      static register() {
-        Quill.register(CustomListContainer);
-      }
-
-      static create(value) {
-        const node = super.create();
-        node.className = 'custom-list-item'
-        node.setAttribute('data-list-custom', value)
-        return node;
-      }
-      
-      static formats(node) {
-        return node.getAttribute('data-list-custom')
-      }
-
-      constructor(scroll, domNode) {
-        super(scroll, domNode);
-        const ui = domNode.ownerDocument.createElement('span');
-        const listEventHandler = (e) => {
-          if (!scroll.isEnabled()) return;
-          const format = this.statics.formats(domNode, scroll);
-          // console.log('constructor format', format, e)
-        };
-        ui.addEventListener('mousedown', listEventHandler);
-        ui.addEventListener('touchstart', listEventHandler);
-        this.attachUI(ui);
-      }
-
-      format(name, value) {
-        if (name === this.statics.blotName && value) {
-          this.domNode.setAttribute('data-list-custom', value);
-        } else {
-          super.format(name, value);
-
-          // 当移除自定义格式时，添加空白行逻辑
-          console.log('name', name, value)
-          // if (name === this.statics.blotName && !value) {
-          //     const blankNode = document.createElement('br'); // 或者创建一个空白文本节点等方式
-          //     this.domNode.appendChild(blankNode);
-          // }
-        }
-      }
-    }
-    CustomListContainer.allowedChildren = [CustomListItem];
-    CustomListItem.requiredContainer = CustomListContainer;
-    Quill.register(CustomListItem)
-    
+    const Block = Quill.import('blots/block')
+  </script>
+  <script src="./at.js"></script>
+  <script src="./fontSize.js"></script>
+  <script src="./customList.js"></script>
+  <!-- <script src="./table.js"></script> -->
+  <script>
     // 初始化
     var quill = new Quill(document.querySelector('.editor'), {
       modules: {
+        clipboard: {
+          // 支持插入的表格元素格式兼容
+          matchers: [
+            // 为 <th> 元素定义自定义处理规则
+            ['th', (node, delta) => {
+              delta.ops[0].insert += '\n'
+              // delta.ops[0].attributes = { 
+              //   color: 'blue'
+              // }
+              console.log('th', node, delta)
+
+              // 自定义处理 <th> 标签，保留它或做进一步处理
+              return delta;
+            }]
+          ]
+        },
         toolbar: {
           container: [
             // 分组
@@ -446,6 +348,14 @@
     // 获取 html 格式内容
     getHtmlBtn.onclick = () => {
       console.log('获取html', quill.root.innerHTML)
+    }
+
+    // 插入 html
+    setHtmlBtn.onclick = () => {
+      let html = '<h1>H1标题</h1><p><span style="font-size: 24px;">24px的字号</span></p><p><span style="color: rgb(106, 57, 201); font-size: 24px;">文字颜色紫色</span></p><p><span style="background-color: rgb(130, 0, 20);">背景色棕色</span></p><p><strong>加粗样式</strong></p><p><em>斜体样式</em></p><p><u>下划线样式</u></p><p><s>划线样式</s></p><p style="text-align: right;">右对齐</p><ul><li style="text-align: left;">无序列表1</li><li style="text-align: left;">无序列表2</li><li style="text-align: left;">无需列表3</li></ul><ol><li style="text-align: left;">有序列表1</li><li style="text-align: left;">有序列表2</li><li style="text-align: left;">有序列表3</li></ol><table style="width: auto;"><tbody><tr><th colSpan="1" rowSpan="1" width="auto">表格</th><th colSpan="1" rowSpan="1" width="auto">1</th><th colSpan="1" rowSpan="1" width="auto">2</th></tr><tr><td colSpan="1" rowSpan="1" width="auto">表格</td><td colSpan="1" rowSpan="1" width="auto">1</td><td colSpan="1" rowSpan="1" width="auto">2</td></tr><tr><td colSpan="1" rowSpan="1" width="auto">表格</td><td colSpan="1" rowSpan="1" width="auto">1</td><td colSpan="1" rowSpan="1" width="auto">2</td></tr></tbody></table><p> <a href="http://www.baidu.com" target="_blank">插入链接</a> </p><p><img src="https://zxb-online.topscrm.cn//info/Ty64X8J5Rk.png" alt="" data-href="https://zxb-online.topscrm.cn//info/Ty64X8J5Rk.png" style=""/></p>'
+      quill.setText('')
+      quill.clipboard.dangerouslyPasteHTML(0, html)
+      quill.focus()
     }
   </script>
 </body>
