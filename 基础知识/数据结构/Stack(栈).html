@@ -5,23 +5,49 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
+  <style>
+    body {
+      
+    }
+
+    button {
+      font-size: 50px;
+    }
+  </style>
 </head>
 <body>
-  <input id="num" type="text" placeholder="请输入数值">
   <button id="add">入栈</button>
   <button id="del">出栈</button>
-  <p id="content"></p>
-
+  
   <script>
-    var stack = []
+    // 后进先出
+    class Stack {
+      constructor() {
+        this.value = []
+      }
+
+      getVal() {
+        return this.value
+      }
+
+      pop() {
+        this.value.shift()
+      }
+
+      push(val) {
+        this.value.push(val)
+      }
+    }
+
+    let num = 0
+    let stack = new Stack()
     add.onclick = function () {
-      stack.push(num.value)
-      content.innerText = stack
-      num.value = ''
+      stack.push(num++)
+      console.log(stack.getVal())
     }
     del.onclick = function () {
       stack.pop()
-      content.innerText = stack
+      console.log(stack.getVal())
     }
   </script>
 </body>
