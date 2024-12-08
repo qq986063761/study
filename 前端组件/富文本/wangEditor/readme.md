@@ -1,2 +1,3 @@
 # 资源
-- [官网](http://www.wangeditor.com/)
+- [官网](https://www.wangeditor.com/)
+- [wangeditor-next](https://cycleccc.github.io/docs/)
