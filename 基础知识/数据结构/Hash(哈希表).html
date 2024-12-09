@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    body {
+      
+    }
+
+    button {
+      font-size: 50px;
+    }
+  </style>
+</head>
+<body>
+  <button id="add">入队列</button>
+  <button id="del">出队列</button>
+  
+  <script>
+    // 先进先出
+    class Queue {
+      constructor() {
+        this.value = []
+      }
+
+      getVal() {
+        return this.value
+      }
+      
+      // 入队列
+      enqueue(val) {
+        return this.value.push(val)
+      }
+      
+      // 出队列
+      dequeue() {
+        return this.value.shift()
+      }
+    }
+
+    let num = 0
+    let instance = new Queue()
+    add.onclick = function () {
+      instance.enqueue(num++)
+      console.log(instance.getVal())
+    }
+    del.onclick = function () {
+      instance.dequeue()
+      console.log(instance.getVal())
+    }
+  </script>
+</body>
+</html>
