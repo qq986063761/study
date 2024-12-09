@@ -17,9 +17,9 @@
 </head>
 <body>
   <button id="add">向后插入</button>
-  <button id="del">向前插入</button>
+  <button id="prepend">向前插入</button>
   <button id="insert">指定位置插入</button>
-  <button id="delete">指定位置删除</button>
+  <button id="del">指定位置删除</button>
   
   <script>
     // 节点，通过指针链接其他节点
@@ -28,53 +28,136 @@
         this.prev = prev
         this.value = value
         this.next = next
+
+        if (prev) {
+          prev.next = this
+        }
+
+        if (next) {
+          next.prev = this
+        }
       }
     }
 
     class List {
       constructor() {
-        
+        // 头部和尾部节点
+        this.head = null
       }
 
       getVal() {
+        let arr = []
+        let node = this.head
+        while (node && node.next) {
+          arr.push(node.value)
+          node = node.next
+        }
+        if (node) arr.push(node.value)
 
+        return arr
+      }
+
+      getLength() {
+        let vals = this.getVal()
+        return vals.length
       }
 
       // 向前插入
-      prepend() {
-
+      prepend(val) {
+        if (this.head) {
+          new Node({ value: val, next: this.head })
+          this.head = this.head.prev
+        } else {
+          this.head = new Node({ value: val })
+        }
       }
       
       // 向后插入
-      append() {
-
+      append(val) {
+        if (this.head) {
+          let node = this.getTail()
+          new Node({ value: val, prev: node })
+        } else {
+          this.head = new Node({ value: val })
+        }
       }
 
       // 指定位置插入
       insert(val, index) {
+        let i = 0
+        let node = this.head
+
+        while (index !== i && node.next) {
+          i++
+          node = node.next
+        }
         
+        new Node({ value: val, prev: node.prev, next: node })
       }
       
-      // 指定位置删除
-      delete() {
-        
+      // 删除指定值
+      delete(val) {
+        let node = this.find(val) 
+        if (node) {
+          if (node.value !== val) return 
+
+          let prevNode = node.prev
+          let nextNode = node.next
+          
+          // 删除的是头部，则头部更换
+          if (!prevNode) {
+            this.head = nextNode
+            return
+          }
+
+          prevNode.next = nextNode
+          if (nextNode) nextNode.prev = prevNode
+        }
+      }
+
+      // 获取尾部节点
+      getTail() {
+        let node = this.head
+        while (node.next) {
+          node = node.next
+        }
+        return node
       }
 
       // 查找
-      find() {
+      find(val) {
+        let node = this.head
+        while (node && node.next && node.value !== val) {
+          node = node.next
+        }
 
+        return node && node.value === val ? node : null
       }
     }
 
     let num = 0
     let instance = new List()
     add.onclick = function () {
-      instance.enqueue(num++)
-      console.log(instance.getVal())
+      instance.append(num++)
+      console.log(instance.getVal(), instance.head)
     }
+
+    prepend.onclick = function () {
+      instance.prepend(num++)
+      console.log(instance.getVal(), instance.head)
+    }
+
+    insert.onclick = function () {
+      let index = parseInt(instance.getLength() / 2)
+      instance.insert(num++, index)
+      console.log(instance.getVal(), instance.head)
+    }
+
     del.onclick = function () {
-      instance.dequeue()
-      console.log(instance.getVal())
+      let index = parseInt(instance.getLength() / 2)
+      let val = instance.getVal()[index]
+      instance.delete(val)
+      console.log(instance.getVal(), instance.head)
     }
   </script>
 </body>
