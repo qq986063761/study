@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    body {
+      
+    }
+
+    button {
+      font-size: 50px;
+    }
+  </style>
+</head>
+<body>
+  <button id="add">向后插入</button>
+  <button id="del">向前插入</button>
+  <button id="insert">指定位置插入</button>
+  <button id="delete">指定位置删除</button>
+  
+  <script>
+    // 节点，通过指针链接其他节点
+    class Node {
+      constructor({ value = null, prev = null, next = null }) {
+        this.prev = prev
+        this.value = value
+        this.next = next
+      }
+    }
+
+    class List {
+      constructor() {
+        
+      }
+
+      getVal() {
+
+      }
+
+      // 向前插入
+      prepend() {
+
+      }
+      
+      // 向后插入
+      append() {
+
+      }
+
+      // 指定位置插入
+      insert(val, index) {
+        
+      }
+      
+      // 指定位置删除
+      delete() {
+        
+      }
+
+      // 查找
+      find() {
+
+      }
+    }
+
+    let num = 0
+    let instance = new List()
+    add.onclick = function () {
+      instance.enqueue(num++)
+      console.log(instance.getVal())
+    }
+    del.onclick = function () {
+      instance.dequeue()
+      console.log(instance.getVal())
+    }
+  </script>
+</body>
+</html>

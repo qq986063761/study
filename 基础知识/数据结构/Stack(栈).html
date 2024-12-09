@@ -31,23 +31,23 @@
       }
 
       pop() {
-        this.value.shift()
+        return this.value.pop()
       }
 
       push(val) {
-        this.value.push(val)
+        return this.value.push(val)
       }
     }
 
     let num = 0
-    let stack = new Stack()
+    let instance = new Stack()
     add.onclick = function () {
-      stack.push(num++)
-      console.log(stack.getVal())
+      instance.push(num++)
+      console.log(instance.getVal())
     }
     del.onclick = function () {
-      stack.pop()
-      console.log(stack.getVal())
+      instance.pop()
+      console.log(instance.getVal())
     }
   </script>
 </body>
