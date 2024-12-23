@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    button,
+    input {
+      font-size: 40px;
+    }
+  </style>
+</head>
+<body>
+  <input type="text" id="input" placeholder="请输入一个数字">
+  <button id="add">添加</button>
+  <button id="del">删除</button>
+
+  <script>
+    class TreeNode {
+      constructor(value = null) {
+        this.value = value
+        this.left = null
+        this.right = null
+      }
+
+      insert(value) {
+        if (this.value === null) {
+          this.value = value
+        } else if (value < this.value) {
+          if (this.left === null) {
+            this.left = new TreeNode(value)
+          } else {
+            this.left.insert(value)
+          }
+        } else if (this.right === null) {
+          this.right = new TreeNode(value)
+        } else {
+          this.right.insert(value)
+        }
+      }
+
+      remove(value) {
+        if (this.value === value) {
+          if (this.left === null && this.right === null) {
+            this.value = null
+          } else if (this.left === null) {
+            this.value = this.right.value
+            this.right = this.right.right
+          } else if (this.right === null) {
+            this.value = this.left.value
+            this.left = this.left.left
+          } else {
+            let minNode = this.right
+            while (minNode.left !== null) {
+              minNode = minNode.left
+            }
+            this.value = minNode.value
+            this.right.remove(minNode.value)
+          }
+        } else if (value < this.value) {
+          this.left.remove(value)
+        } else {
+          this.right.remove(value)
+        }
+      }
+    }
+
+    class Tree {
+      constructor() {
+        this.root = new TreeNode()
+      }
+
+      insert(value) {
+        this.root.insert(value)
+      }
+
+      remove(value) {
+        this.root.remove(value)
+      }
+    }
+    
+    let num = 0
+    let tree = new Tree()
+    add.onclick = function () {
+      tree.insert(input.value)
+      console.log(tree.root)
+    }
+
+    del.onclick = function () {
+      tree.remove(input.value)
+      console.log(tree.root)
+    }
+  </script>
+</body>
+</html>

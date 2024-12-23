@@ -1,56 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
   <style>
-    body {
-      
-    }
-
+    input,
     button {
-      font-size: 50px;
+      font-size: 40px;
     }
   </style>
 </head>
+
 <body>
-  <button id="add">入队列</button>
-  <button id="del">出队列</button>
-  
+  <input type="text" id="key" placeholder="输入 key">
+  <input type="text" id="value" placeholder="输入 value">
+  <button id="add">添加</button>
+  <button id="del">删除</button>
+  <button id="get">获取</button>
+
   <script>
-    // 先进先出
-    class Queue {
+    // 定义哈希表构造函数
+    class HashTable {
       constructor() {
-        this.value = []
+        this.table = {};
       }
 
-      getVal() {
-        return this.value
+      hash(key) {
+        // console.log('hash', key)
+        let hash = 0;
+        for (let i = 0; i < key.length; i++) {
+          hash += key.charCodeAt(i);
+          // console.log('hash 1', hash, i, key.charCodeAt(i))
+        }
+
+        // console.log('hash 2', hash, hash % 10)
+        return hash % 10; // 简单取余，假设哈希表大小为10，实际中可根据需求调整
       }
-      
-      // 入队列
-      enqueue(val) {
-        return this.value.push(val)
+
+      set(key, value) {
+        if (!key) return
+
+        const index = this.hash(key);
+        if (!this.table[index]) {
+          this.table[index] = [];
+        }
+        
+        // 避免一个 key 对应多个 value
+        if (this.table[index][0]) {
+          this.table[index].pop()
+        }
+
+        this.table[index].push([key, value])
+        return this;
       }
-      
-      // 出队列
-      dequeue() {
-        return this.value.shift()
+
+      get = function (key) {
+        const index = this.hash(key);
+        if (this.table[index]) {
+          for (let i = 0; i < this.table[index].length; i++) {
+            if (this.table[index][i][0] === key) {
+              return this.table[index][i][1];
+            }
+          }
+        }
+        return null;
+      }
+
+      remove(key) {
+        const index = this.hash(key);
+        if (this.table[index]) {
+          for (let i = 0; i < this.table[index].length; i++) {
+            if (this.table[index][i][0] === key) {
+              this.table[index].splice(i, 1);
+              return true;
+            }
+          }
+        }
+        return false;
       }
     }
 
-    let num = 0
-    let instance = new Queue()
+    let hashTable = new HashTable();
     add.onclick = function () {
-      instance.enqueue(num++)
-      console.log(instance.getVal())
+      const key = document.getElementById('key').value;
+      const value = document.getElementById('value').value;
+      hashTable.set(key, value);
+      console.log(hashTable.table);
     }
+
     del.onclick = function () {
-      instance.dequeue()
-      console.log(instance.getVal())
+      const key = document.getElementById('key').value;
+      hashTable.remove(key);
+      console.log(hashTable.table);
+    }
+
+    get.onclick = function () {
+      const key = document.getElementById('key').value;
+      const value = hashTable.get(key);
+      console.log(value);
     }
   </script>
 </body>
+
 </html>
