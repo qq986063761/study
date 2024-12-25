@@ -43,7 +43,7 @@
 - 登录账号：npm login
 - 退出账号：npm logout
 - 发布项目到npm：npm publish
-- 获取仓库源地址：npm config get registry
+- 获取仓库源地址：npm config get registry 原地址是：https://registry.npmjs.org/
 - 设置仓库源地址：npm config set registry https://registry.npmmirror.com
 
 # npm 包发布流程
