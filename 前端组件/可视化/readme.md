@@ -2,3 +2,5 @@
 - [甘特图](https://frappe.io/gantt)
 - [脑图](https://docs.mind-elixir.com/zh-Hans/)
 - [fabric.js](https://fabricjs.com/)
+- [zrender](https://ecomfe.github.io/zrender-doc/public/)
+- [konvajs](https://konvajs.org/api/Konva.html)
