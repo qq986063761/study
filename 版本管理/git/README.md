@@ -24,6 +24,9 @@
 - git clone STORE_NAME：初始化获取远端仓库代码到本地
 - git pull [origin BRANCH_NAME]：从远端仓库拉取最新代码到本地，可能会出现冲突代码
 
+# 获取两个分支之间的代码行数变化
+git log feature/20241230-okr6.13..feature/20250211-okr6.14 --author="wanpeng" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf "新增行数: %s\n删除行数: %s\n净增行数: %s\n", add, subs, loc }'
+
 # 分支
 - git branch 
   - -a：查看远端所有分支
