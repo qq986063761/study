@@ -105,6 +105,10 @@ source ~/.bash_profile
 # windows 上安装前配置下载源
 nvm node_mirror https://npmmirror.com/mirrors/node/
 nvm npm_mirror https://npmmirror.com/mirrors/npm/
+# 如果开了 vpn 设置 nvm 代理
+nvm proxy http://127.0.0.1:7890 https://127.0.0.1:7890
+# 取消代理
+nvm proxy none
 
 # 安装 nodejs 并且临时使用指定版本 node，windows 上不带 v 字母
 nvm install v20.16.0 && nvm use v20.16.0
