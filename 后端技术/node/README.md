@@ -102,6 +102,7 @@ source ~/.nvm/nvm.sh
 # 再加入到 zsh 终端，在 ~ 目录下，用 vim .zshrc 在最后一行加下面代码，让 zsh 命令默认执行下面内容
 source ~/.bash_profile
 
+windows 的 nvm 装 1.1.12 版本，最新版本好像有报错
 # 必须用系统管理员终端装，别用编辑器装，会报错
 # windows 上安装前配置下载源
 nvm node_mirror https://npmmirror.com/mirrors/node/
