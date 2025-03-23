@@ -3,3 +3,4 @@
 - [pako](https://github.com/nodeca/pako)
 - [js-md5]
 - [diff](https://www.npmjs.com/package/diff)(https://github.com/kpdecker/jsdiff#readme)
+- [pinyin-pro]

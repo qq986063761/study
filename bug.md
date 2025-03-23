@@ -5,8 +5,24 @@
 
 # web
 
-# 网页被缓存
-- 可前后端配合，通过当前系统中存的版本号来手动刷新到最新状态
+# 网页被缓存，可以每次打包注入不同时间戳，请求最新包信息判断
+// 判断包是否是最新包，不是的话进来就重新刷新避免缓存页面
+if (window.fetch && window.timestamp) {
+  var pathname = window.location.pathname
+  var origin = window.location.origin
+  fetch(origin + pathname + '?timestamp=' + Date.now(), {
+    headers: {
+      "Cache-Control": "no-cache"
+    }
+  }).then(res => {
+    res.text().then(html => {
+      // 每次打包全局 timestamp 都会更新，如果请求到的 html 不包含当前我系统中的 timestamp，则表示有更新
+      if (!html.includes(timestamp)) {
+        location.reload()
+      }
+    })
+  })
+}
 
 # get 请求数据量限制转 post 表单提交
 
