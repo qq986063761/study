@@ -149,3 +149,10 @@
     - 追加 crossorigin 属性，但是服务器需要配置 Access-Control-Allow-Origin
   - 崩溃、卡顿
     - 利用 window 的 load 和 beforeunload
+
+
+# 首屏加载优化，开发过程
+- 检查资源请求大小，检查分析图表中各模块内的大小，得出需要拆分的包 vendor.js app.js ...
+- 三方包改成 cdn 延迟加载减少包体积
+- 项目内路由改造成懒加载，全局插件、组件改造成异步组件
+- 语言包、ajax 接口映射字典提到静态资源下，通过请求访问
