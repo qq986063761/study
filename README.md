@@ -27,6 +27,7 @@
 代码仓库：github、gitee
 学习网站：技术文档的官网、掘金（https://juejin.cn/）、慕课网（https://www.imooc.com/）、拉钩教育（https://kaiwu.lagou.com/）
 
+- cursor 免费用 https://github.com/yeongpin/cursor-free-vip
 - ngrok 直接提供外网访问
 
 - [电影](https://github.com/88ys/website)
