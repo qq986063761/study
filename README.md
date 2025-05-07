@@ -30,6 +30,9 @@
 - cursor 免费用 https://github.com/yeongpin/cursor-free-vip
 - ngrok 直接提供外网访问
 
+写一个 vue 表格组件
+
+
 - [电影](https://github.com/88ys/website)
 止咳：复方岩白菜素片
 清火：黄莲上清片
