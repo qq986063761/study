@@ -1,4 +1,5 @@
 [打包 rollup.js](https://cn.rollupjs.org/)
+[打包 Rslib](https://lib.rsbuild.dev/zh/)
 [分析工具 rollup-plugin-visualizer]()
 [按需插件 babel-plugin-component]()
 [单元测试 Vitest]()
