@@ -56,9 +56,6 @@ git log feature/20241230-okr6.13..feature/20250211-okr6.14 --author="wanpeng" --
 - 版本发布：release/child
 - 产品分支：master
 
-测试改动2
-测试改动1
-
 # sourcetree
 
 # 强制回滚代码
