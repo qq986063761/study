@@ -6,7 +6,7 @@
 [代码风格格式化 eslint-config-prettier eslint-plugin-prettier]()
 [单元测试 Vitest]()
 
-构建工具选型（打包后文件代码压缩）
+构建工具选型（打包后文件代码压缩、图片）
 按需引入 js css
 开发规范
 单元测试
