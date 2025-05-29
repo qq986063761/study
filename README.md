@@ -30,7 +30,9 @@
 - cursor 免费用 https://github.com/yeongpin/cursor-free-vip
 - ngrok 直接提供外网访问
 
-写一个 vue 表格组件
+
+组件库
+监控
 
 
 - [电影](https://github.com/88ys/website)
