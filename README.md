@@ -30,7 +30,7 @@
 - cursor 免费用 https://github.com/yeongpin/cursor-free-vip
 - ngrok 直接提供外网访问
 
-
+cursor rules
 组件库
 监控
 
