@@ -13,3 +13,6 @@ Tab
 Chat
   Agent：代理模式 根据你的提问，需要时直接对文件进行修改
   Ask：提问模式 只给出解答，不修改文件
+
+claude code
+augment code
