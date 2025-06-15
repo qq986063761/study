@@ -1,0 +1,63 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+[theme.scss](mdc:src/assets/theme.scss)
+# 主题变量使用规范
+
+## 全局主题文件
+项目已定义全局 SCSS 主题文件：`src/assets/theme.scss`
+该文件包含所有设计系统变量，已在 `vue.config.js` 中全局注入
+
+## 使用要求
+1. **所有样式必须使用主题变量**：
+   - 禁止使用硬编码的颜色值（如 `#fff`, `red`）
+   - 禁止使用硬编码的尺寸值（如 `16px`, `1rem`）
+   - 禁止使用硬编码的阴影/圆角值
+
+2. **变量使用优先级**：
+   1. 直接使用主题变量（如 `$primary-500`）
+   2. 使用基于主题变量的计算（如 `darken($primary-500, 10%)`）
+   3. 在特殊情况下才允许创建局部变量（需注释说明原因）
+
+## 变量分类使用指南
+
+### 颜色系统
+- 主色：`$primary-50` 到 `$primary-900`
+```scss
+  // ✅ 正确
+  background-color: $primary-500;
+  
+  // ❌ 错误
+  background-color: #0f62fe;
+```
+- 中性色：`$gray-50` 到 `$gray-900`
+- 语义色：
+  成功：`$success-500`
+  警告：`$warning-500`
+  错误：`$danger-500`
+  信息：`$info-500`
+
+### 文字系统
+- 主要文字：`$text-primary`
+- 次要文字：`$text-secondary`
+- 禁用文字：`$text-disabled`
+- 字体：`$font-family-base`
+
+### 间距系统
+- 使用间距变量代替固定像素值：
+```scss
+  // ✅ 正确
+  padding: $spacing-md $spacing-lg;
+
+  // ❌ 错误
+  padding: 16px 24px;
+```
+
+### 阴影与圆角
+- 阴影：`$shadow-sm, $shadow-md, $shadow-lg`
+- 圆角：`$radius-sm, $radius-md, $radius-lg`
+
+
+
