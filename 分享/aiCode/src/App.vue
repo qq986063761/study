@@ -120,7 +120,7 @@ export default {
       align-items: center;
       position: relative;
       overflow: hidden;
-      width: 84%;
+      width: 98%;
       margin-left: -17px;
 
       &::before {

@@ -28,12 +28,15 @@ Chat
   Manual：手动模式，你自己知道要修改什么文件，只修改指定文件
 
 @引入
-  Files&Folders：
-  Rules：可复用的用于统一 ai 行为的上下文
+  @Files&Folders：引入文件、文件夹作为给 ai 的上下文
+  @Rules：可复用的用于统一 ai 行为的上下文，按 cursor 定义的规则文件格式，会有特殊的可编辑内容
+  @Code：选择指定行数代码添加到 chat 中当做上下文
+  @Docs：
 
-其他 ai code
-  claude code
-  augment code 贵。
+其他 ai code 工具（贵）
+  claude code（https://www.anthropic.com/claude-code）
+  augment code（https://www.augmentcode.com/）
+
 
 提问过程：
 
@@ -42,4 +45,5 @@ App.vue
 1、优先使用规则中的scss变量；
 2、左右布局，左边菜单，右边内容区；
 3、菜单不用 element 组件，实现一个炫酷菜单效果，要包含css3新特性；切换菜单后右边的内容区，也需要切换动画效果；
+
 
