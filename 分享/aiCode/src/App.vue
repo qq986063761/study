@@ -43,14 +43,16 @@ export default {
           icon: '📦',
           value: 'password'
         },
-        // {
-        //   title: '服务',
-        //   icon: '⚙️',
-        // },
-        // {
-        //   title: '关于',
-        //   icon: 'ℹ️',
-        // }
+        {
+          title: '统计图表',
+          icon: '⚙️',
+          value: 'sta'
+        },
+        {
+          title: '城市街景',
+          icon: 'ℹ️',
+          value: 'atWeb'
+        }
       ]
     }
   },

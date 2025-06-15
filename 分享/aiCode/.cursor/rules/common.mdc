@@ -3,7 +3,7 @@ description:
 globs: 
 alwaysApply: false
 ---
-[theme.scss](mdc:src/assets/theme.scss)
+@theme.scss
 # 主题变量使用规范
 
 ## 全局主题文件
@@ -26,10 +26,10 @@ alwaysApply: false
 ### 颜色系统
 - 主色：`$primary-50` 到 `$primary-900`
 ```scss
-  // ✅ 正确
+  // 正确
   background-color: $primary-500;
   
-  // ❌ 错误
+  // 错误
   background-color: #0f62fe;
 ```
 - 中性色：`$gray-50` 到 `$gray-900`
@@ -48,16 +48,20 @@ alwaysApply: false
 ### 间距系统
 - 使用间距变量代替固定像素值：
 ```scss
-  // ✅ 正确
+  // 正确
   padding: $spacing-md $spacing-lg;
 
-  // ❌ 错误
+  // 错误
   padding: 16px 24px;
 ```
 
 ### 阴影与圆角
 - 阴影：`$shadow-sm, $shadow-md, $shadow-lg`
 - 圆角：`$radius-sm, $radius-md, $radius-lg`
+
+
+
+
 
 
 
