@@ -1,56 +1,56 @@
 // ======================
-// 主色调
+// 主色调 (更新为柔和蓝紫色系)
 // ======================
-$primary-50: #eef5ff;
-$primary-100: #d0e2ff;
-$primary-200: #a6c8ff;
-$primary-300: #78a9ff;
-$primary-400: #4589ff;
-$primary-500: #0f62fe;  // 主色
-$primary-600: #0043ce;
-$primary-700: #002d9c;
-$primary-800: #001d6c;
-$primary-900: #001141;
+$primary-50: #f0f4ff;
+$primary-100: #dbeafe;
+$primary-200: #bfdbfe;
+$primary-300: #93c5fd;
+$primary-400: #60a5fa;
+$primary-500: #3b82f6;  // 主色 - 更柔和的宝石蓝
+$primary-600: #2563eb;
+$primary-700: #1d4ed8;
+$primary-800: #1e40af;
+$primary-900: #1e3a8a;
 
 // ======================
-// 中性色（灰度）
+// 中性色（优化灰度）
 // ======================
-$gray-50: #f9fafb;
-$gray-100: #f3f4f6;
-$gray-200: #e5e7eb;
-$gray-300: #d1d5db;
-$gray-400: #9ca3af;
-$gray-500: #6b7280;
-$gray-600: #4b5563;
-$gray-700: #374151;
-$gray-800: #1f2937;
-$gray-900: #111827;
+$gray-50: #f8fafc;
+$gray-100: #f1f5f9;
+$gray-200: #e2e8f0;
+$gray-300: #cbd5e1;
+$gray-400: #94a3b8;
+$gray-500: #64748b;
+$gray-600: #475569;
+$gray-700: #334155;
+$gray-800: #1e293b;
+$gray-900: #0f172a;
 
 // ======================
-// 语义色
+// 语义色 (优化饱和度)
 // ======================
 $success-50: #f0fdf4;
 $success-100: #dcfce7;
 $success-200: #bbf7d0;
-$success-500: #22c55e;  // 成功色
-$success-700: #15803d;
+$success-500: #10b981;  // 更柔和的翡翠绿
+$success-700: #047857;
 
 $warning-50: #fffbeb;
 $warning-100: #fef3c7;
 $warning-200: #fde68a;
-$warning-500: #f59e0b;  // 警告色
+$warning-500: #f59e0b;  // 保持琥珀色但微调
 $warning-700: #b45309;
 
 $danger-50: #fef2f2;
 $danger-100: #fee2e2;
 $danger-200: #fecaca;
-$danger-500: #ef4444;   // 错误色
+$danger-500: #ef4444;   // 调整为珊瑚红
 $danger-700: #b91c1c;
 
 $info-50: #f0f9ff;
 $info-100: #e0f2fe;
 $info-200: #bae6fd;
-$info-500: #0ea5e9;    // 信息色
+$info-500: #0ea5e9;    // 保持清爽青蓝色
 $info-700: #0369a1;
 
 // ======================
