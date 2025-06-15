@@ -178,7 +178,8 @@ export default {
     padding: $spacing-xl;
     border-radius: $radius-lg;
     box-shadow: $shadow-md;
-    height: 100%;
+    min-height: 100%;
+    border: 1px solid $gray-200;
   }
 }
 
