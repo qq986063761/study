@@ -57,5 +57,5 @@ sta.vue
 App.vue
 @git 帮我分析一下这次提交记录和我当前文件代码的区别
 
-atWeb.vue
+atWeb.vue  可以看出不精确描述，并不能让ai产出比较好的结果
 @web @doc three.js 帮我用 three.js 实现一个城市的街景效果吧
