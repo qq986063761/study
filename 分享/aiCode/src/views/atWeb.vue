@@ -57,7 +57,7 @@ export default {
       // 添加环境光和平行光
       const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
       this.scene.add(ambientLight);
-
+      
       const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
       directionalLight.position.set(5, 5, 5);
       directionalLight.castShadow = true;

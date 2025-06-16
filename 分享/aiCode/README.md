@@ -34,6 +34,7 @@ Chat
   @Docs：添加技术文档作为上下文
   @git：授权 git 提交记录后，用来作为上下文分析变动和问题
   @web：开启网络搜索，ai 会从网络上找相关资料
+  
 
 其他 ai code 工具（贵）
   claude code（https://www.anthropic.com/claude-code）
