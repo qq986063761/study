@@ -34,7 +34,9 @@ Chat
   @Docs：添加技术文档作为上下文
   @git：授权 git 提交记录后，用来作为上下文分析变动和问题
   @web：开启网络搜索，ai 会从网络上找相关资料
-  
+  @link：引入网页内容作为上下文
+  @Lint Errors：引入终端错误信息作为上下文
+  @Recent Changes：引入最近修改记录作为上下文
 
 其他 ai code 工具（贵）
   claude code（https://www.anthropic.com/claude-code）
@@ -49,7 +51,7 @@ App.vue
 2、左右布局，左边菜单，右边内容区；
 3、菜单不用 element 组件，实现一个炫酷菜单效果，要包含css3新特性；切换菜单后右边的内容区，也需要切换动画效果；
 
-sta.vue
+sta.vue @doc echarts
 帮我实现如下功能，使用中文回答我：
 1、优先使用 common.mdc 规则中的scss变量；
 2、左右两栏布局，瀑布流；
@@ -58,5 +60,10 @@ sta.vue
 App.vue
 @git 帮我分析一下这次提交记录和我当前文件代码的区别
 
-atWeb.vue  可以看出不精确描述，并不能让ai产出比较好的结果
+atWeb.vue  可以看出不精确描述，并不能让 ai 产出比较好的结果
 @web @doc three.js 帮我用 three.js 实现一个城市的街景效果吧
+
+atLink.vue 可以看出局限性，我们不能完全用这个功能躺平式无脑输出
+@https://www.apple.com.cn/
+帮我用 vue2 实现这个网站中的页面效果
+

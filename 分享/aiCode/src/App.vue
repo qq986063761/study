@@ -49,9 +49,14 @@ export default {
           value: 'sta'
         },
         {
-          title: '城市街景',
+          title: '@web',
           icon: 'ℹ️',
           value: 'atWeb'
+        },
+        {
+          title: '@link',
+          icon: '🔗',
+          value: 'atLink'
         }
       ]
     }
@@ -176,6 +181,7 @@ export default {
   overflow: auto;
 
   .content-wrapper {
+    position: relative;
     background-color: $gray-50;
     padding: $spacing-xl;
     border-radius: $radius-lg;
