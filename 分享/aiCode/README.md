@@ -36,7 +36,7 @@ Chat
   @web：开启网络搜索，ai 会从网络上找相关资料
   @link：引入网页内容作为上下文
   @Lint Errors：引入终端错误信息作为上下文
-  @Recent Changes：引入最近修改记录作为上下文
+  @Recent Changes：引入最近修改记录，作为上下文
 
 其他 ai code 工具（贵）
   claude code（https://www.anthropic.com/claude-code）
