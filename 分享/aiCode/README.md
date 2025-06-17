@@ -61,6 +61,9 @@ gantt.vue
 4、显示“今天”时间线，与头部今天时间点对齐；
 用中文回答我
 
+password.vue
+帮我用 vue2 实现如图所示的安全验证功能
+
 sta.vue @doc echarts
 实现如下功能：
 1、优先使用规则中的scss变量；
