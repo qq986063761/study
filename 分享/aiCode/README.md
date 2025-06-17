@@ -2,7 +2,6 @@ AI 优势总结
   快（搜索快、响应快），才能提交效率；
 
 
-
 Cursor
 
 特点：
@@ -45,7 +44,6 @@ Chat
   augment code（https://www.augmentcode.com/）
 
 
-
 提问过程：
 
 App.vue
@@ -73,10 +71,10 @@ sta.vue @doc echarts
 App.vue
 @git 分析一下这次提交记录和我当前文件代码的区别
 
-atWeb.vue  可以看出不精确描述，并不能让 ai 产出比较好的结果
+atWeb.vue  可以看出局限性
 @web @doc three.js 用 three.js 实现一个城市的街景效果吧
 
-atLink.vue 可以看出局限性，我们不能完全用这个功能躺平式无脑输出
+atLink.vue 可以看出局限性
 @https://www.apple.com.cn/
 用 vue2 实现这个网站中的页面效果
 
