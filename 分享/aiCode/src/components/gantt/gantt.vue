@@ -2,37 +2,37 @@
   <div class="gantt-container">
     <!-- 头部日期显示 -->
     <div class="gantt-header" ref="header">
-      <div class="task-column">任务</div>
-      <div class="date-columns" ref="dateColumns">
-        <div v-for="date in dateList" 
-             :key="date" 
-             class="date-column"
-             :class="{ 'today': isToday(date) }">
-          {{ formatDate(date) }}
+      <div class="header-content">
+        <div class="task-name">任务名称</div>
+        <div class="date-cells">
+          <div v-for="date in dateList" :key="date" class="date-cell">
+            {{ formatDate(date) }}
+          </div>
         </div>
       </div>
     </div>
     
     <!-- 主体部分 -->
-    <div class="gantt-body" ref="body">
-      <div class="task-list">
-        <div v-for="task in tasks" 
-             :key="task.id" 
-             class="task-row">
-          <div class="task-name">{{ task.name }}</div>
-          <div class="task-bars">
-            <div class="task-bar"
-                 :style="getTaskBarStyle(task)"
-                 :title="task.name">
+    <div class="gantt-body" ref="body" @scroll="handleScroll">
+      <div class="body-content">
+        <!-- 任务列表 -->
+        <div class="task-list">
+          <div v-for="task in tasks" :key="task.id" class="task-item">
+            <div class="task-name">{{ task.name }}</div>
+            <div class="task-bar-container">
+              <div class="task-bar" 
+                   :style="getTaskBarStyle(task)"
+                   :title="task.name">
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      
-      <!-- 今天时间线 -->
-      <div class="today-line" 
-           v-if="showTodayLine"
-           :style="{ left: todayLinePosition + 'px' }">
+        
+        <!-- 时间线 -->
+        <div class="timeline" :style="{ left: todayLinePosition + 'px' }">
+          <div class="timeline-label">今天</div>
+          <div class="timeline-line"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -44,61 +44,47 @@ export default {
   data() {
     return {
       startDate: new Date('2025/6/12'),
-      endDate: new Date('2026/1/1'),
-      dateList: [],
+      endDate: new Date('2025/10/1'),
+      cellWidth: 40, // 每个日期单元格的宽度
       tasks: [
-        {
-          id: 1,
-          name: '任务1',
-          startDate: new Date('2025/7/1'),
-          endDate: new Date('2025/8/15')
-        },
-        {
-          id: 2,
-          name: '任务2',
-          startDate: new Date('2025/8/1'),
-          endDate: new Date('2025/9/30')
-        }
+        { id: 1, name: '任务1', start: '2025/6/15', end: '2025/7/1' },
+        { id: 2, name: '任务2', start: '2025/7/1', end: '2025/8/15' },
+        { id: 3, name: '任务3', start: '2025/8/1', end: '2025/9/1' },
       ],
-      columnWidth: 100, // 每列的宽度
-      showTodayLine: true,
       todayLinePosition: 0
     }
   },
-  created() {
-    this.generateDateList()
-  },
-  mounted() {
-    this.updateTodayLine()
-    // 监听窗口大小变化
-    window.addEventListener('resize', this.updateTodayLine)
-  },
-  beforeDestroy() {
-    window.removeEventListener('resize', this.updateTodayLine)
-  },
-  methods: {
-    generateDateList() {
+  computed: {
+    dateList() {
       const dates = []
       let currentDate = new Date(this.startDate)
-      
       while (currentDate <= this.endDate) {
         dates.push(new Date(currentDate))
         currentDate.setDate(currentDate.getDate() + 1)
       }
-      
-      this.dateList = dates
-    },
+      return dates
+    }
+  },
+  mounted() {
+    this.calculateTodayLinePosition()
+    window.addEventListener('resize', this.calculateTodayLinePosition)
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.calculateTodayLinePosition)
+  },
+  methods: {
     formatDate(date) {
       return `${date.getMonth() + 1}/${date.getDate()}`
     },
-    isToday(date) {
-      const today = new Date()
-      return date.toDateString() === today.toDateString()
+    handleScroll(e) {
+      // 同步头部滚动
+      this.$refs.header.scrollLeft = e.target.scrollLeft
     },
     getTaskBarStyle(task) {
-      const startOffset = this.getDateOffset(task.startDate)
-      const endOffset = this.getDateOffset(task.endDate)
-      const width = endOffset - startOffset
+      const startDate = new Date(task.start)
+      const endDate = new Date(task.end)
+      const startOffset = this.getDateOffset(startDate)
+      const width = this.getDateOffset(endDate) - startOffset
       
       return {
         left: startOffset + 'px',
@@ -106,17 +92,14 @@ export default {
       }
     },
     getDateOffset(date) {
-      const start = new Date(this.startDate)
-      const diffTime = date.getTime() - start.getTime()
+      const diffTime = date - this.startDate
       const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24))
-      return diffDays * this.columnWidth
+      return diffDays * this.cellWidth
     },
-    updateTodayLine() {
+    calculateTodayLinePosition() {
       const today = new Date()
       if (today >= this.startDate && today <= this.endDate) {
         this.todayLinePosition = this.getDateOffset(today)
-      } else {
-        this.showTodayLine = false
       }
     }
   }
@@ -127,44 +110,39 @@ export default {
 .gantt-container {
   width: 100%;
   height: 100%;
-  border: 1px solid #ddd;
   display: flex;
   flex-direction: column;
+  border: 1px solid #ddd;
 }
 
 .gantt-header {
-  display: flex;
   border-bottom: 1px solid #ddd;
-  background: #f5f5f5;
-  position: sticky;
-  top: 0;
-  z-index: 2;
+  overflow: hidden;
 }
 
-.task-column {
-  width: 200px;
-  padding: 10px;
-  border-right: 1px solid #ddd;
-  background: #f5f5f5;
-  position: sticky;
-  left: 0;
-  z-index: 3;
-}
-
-.date-columns {
+.header-content {
   display: flex;
-  overflow-x: auto;
+  min-width: max-content;
 }
 
-.date-column {
-  min-width: 100px;
-  padding: 10px;
+.task-name {
+  width: 150px;
+  padding: 8px;
+  background: #f5f5f5;
+  border-right: 1px solid #ddd;
+  font-weight: bold;
+}
+
+.date-cells {
+  display: flex;
+}
+
+.date-cell {
+  width: 40px;
+  padding: 8px 4px;
   text-align: center;
   border-right: 1px solid #ddd;
-}
-
-.date-column.today {
-  background: #e6f7ff;
+  font-size: 12px;
 }
 
 .gantt-body {
@@ -173,48 +151,60 @@ export default {
   position: relative;
 }
 
+.body-content {
+  position: relative;
+  min-width: max-content;
+}
+
 .task-list {
   position: relative;
 }
 
-.task-row {
+.task-item {
   display: flex;
   height: 40px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #ddd;
 }
 
-.task-name {
-  width: 200px;
-  padding: 10px;
-  border-right: 1px solid #ddd;
-  background: #fff;
-  position: sticky;
-  left: 0;
-  z-index: 1;
-}
-
-.task-bars {
+.task-bar-container {
   position: relative;
   flex: 1;
-  min-width: 0;
 }
 
 .task-bar {
   position: absolute;
   height: 20px;
   top: 10px;
-  background: #1890ff;
+  background: #4CAF50;
   border-radius: 3px;
   cursor: pointer;
 }
 
-.today-line {
+.timeline {
   position: absolute;
   top: 0;
   bottom: 0;
   width: 2px;
-  background: #ff4d4f;
-  z-index: 2;
-  pointer-events: none;
+  background: #ff0000;
+  z-index: 1;
+}
+
+.timeline-label {
+  position: absolute;
+  top: 0;
+  left: 4px;
+  background: #ff0000;
+  color: white;
+  padding: 2px 4px;
+  border-radius: 2px;
+  font-size: 12px;
+}
+
+.timeline-line {
+  position: absolute;
+  top: 20px;
+  bottom: 0;
+  width: 2px;
+  background: #ff0000;
 }
 </style>
