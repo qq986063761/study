@@ -81,4 +81,6 @@ atLink.vue 可以看出局限性
 @https://www.apple.com.cn/
 用 vue2 实现这个网站中的页面效果
 
-单元测试
+单元测试：
+我想对我 vue2 项目中的组件做单元测试；
+帮我用中文对 gantt.vue 组件做一个单元测试吧

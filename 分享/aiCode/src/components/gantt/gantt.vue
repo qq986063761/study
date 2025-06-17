@@ -5,7 +5,7 @@
       <div class="header-content">
         <div class="task-name">任务名称</div>
         <div class="date-cells">
-          <div v-for="date in dateList" :key="date" class="date-cell">
+          <div v-for="(date, i) in dateList" :key="i" class="date-cell">
             {{ formatDate(date) }}
           </div>
         </div>
@@ -17,7 +17,7 @@
       <div class="body-content">
         <!-- 任务列表 -->
         <div class="task-list">
-          <div v-for="task in tasks" :key="task.id" class="task-item">
+          <div v-for="task in tasks" :key="task.name" class="task-item">
             <div class="task-name">{{ task.name }}</div>
             <div class="task-bar-container">
               <div class="task-bar" 
