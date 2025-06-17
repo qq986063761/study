@@ -40,7 +40,8 @@ export default {
   text-align: center;
 
   .gantt-component {
-    height: 500px;
+    // height: 500px;
+    overflow: hidden;
   }
 }
 </style>
