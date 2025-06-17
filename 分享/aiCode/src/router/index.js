@@ -6,12 +6,7 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    redirect: '/components' // 修改默认重定向到组件页面
-  },
-  {
-    path: '/components',
-    name: 'components',
-    component: () => import('@/views/atLink')
+    redirect: '/gantt' // 修改默认重定向到组件页面
   },
   {
     path: '/gantt',
