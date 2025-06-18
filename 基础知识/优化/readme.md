@@ -5,6 +5,7 @@
 - [优雅处理异常监控](https://mp.weixin.qq.com/s?__biz=MzA4Nzg0MDM5Nw==&mid=2247484402&idx=1&sn=f8d2b3fb20b2026c7039ad8dba735048&source=41)
 - [YSlow](Yahoo发布的基于火狐的浏览器性能插件)
 - [谷歌性能分析](https://accounts.google.com/signin/v2/identifier?service=analytics&passive=1209600&continue=https%3A%2F%2Fanalytics.google.com%2Fanalytics%2Fweb%2F%23&followup=https%3A%2F%2Fanalytics.google.com%2Fanalytics%2Fweb%2F&flowName=GlifWebSignIn&flowEntry=ServiceLogin)
+- [谷歌性能检查](pagespeed.web.dev/)
 
 # html
 - 省略协议：`<link href="//x.x.x/x.css">`，节省体积
