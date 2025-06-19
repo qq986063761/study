@@ -1,46 +1,46 @@
 <template>
-  <div class="gantt-container">
+  <div class="gantt-demo">
     <div class="gantt-toolbar">
-      <button v-for="v in views" :key="v" :class="{active: view===v}" @click="changeView(v)">{{ viewLabels[v] }}</button>
+      <button v-for="v in views" :key="v" :class="{active: view === v}" @click="setView(v)">{{ viewLabels[v] }}</button>
     </div>
-    <div class="gantt-scroll" ref="scrollArea">
-      <div class="gantt-header" :style="{width: headerWidth+'px'}">
+    <div class="gantt-scroll-wrap" ref="scrollWrap">
+      <div class="gantt-header" :style="{ width: headerWidth + 'px' }">
         <div
           v-for="(cell, idx) in headerCells"
           :key="cell.key"
           class="gantt-header-cell"
-          :style="{left: (idx*cellWidth)+'px', width: cellWidth+'px'}"
+          :style="{ left: idx * cellWidth + 'px', width: cellWidth + 'px' }"
         >
-          <span class="gantt-header-cell-text">{{ cell.label }}</span>
+          <span class="gantt-header-cell-text" :title="cell.label">{{ cell.label }}</span>
         </div>
         <div
+          v-if="todayLinePos !== null"
           class="gantt-today-line"
-          v-if="todayPos!==null"
-          :style="{left: todayPos+'px'}"
+          :style="{ left: todayLinePos + 'px' }"
         ></div>
       </div>
-      <div class="gantt-body" :style="{width: headerWidth+'px'}">
+      <div class="gantt-body" :style="{ width: headerWidth + 'px' }">
         <div
-          v-for="(task, tIdx) in tasks"
+          v-for="(task, idx) in tasks"
           :key="task.id"
           class="gantt-task-row"
-          :style="{top: (tIdx*rowHeight)+'px', height: rowHeight+'px'}"
+          :style="{ top: idx * rowHeight + 'px', height: rowHeight + 'px' }"
         >
           <div class="gantt-task-label">{{ task.name }}</div>
           <div
             class="gantt-task-bar"
-            :style="taskBarStyle(task)"
-            @mousedown="onTaskBarMouseDown($event, task, tIdx)"
+            :style="getTaskBarStyle(task)"
+            @mousedown="onTaskBarMouseDown($event, task, idx)"
           >
-            <div class="gantt-task-handle left" @mousedown.stop="onHandleMouseDown($event, task, 'left')"></div>
-            <div class="gantt-task-bar-inner"></div>
-            <div class="gantt-task-handle right" @mousedown.stop="onHandleMouseDown($event, task, 'right')"></div>
+            <div class="gantt-task-handle left" @mousedown.stop="onHandleMouseDown($event, task, idx, 'left')"></div>
+            <div class="gantt-task-bar-inner">{{ task.name }}</div>
+            <div class="gantt-task-handle right" @mousedown.stop="onHandleMouseDown($event, task, idx, 'right')"></div>
           </div>
         </div>
         <div
-          class="gantt-today-line gantt-today-body"
-          v-if="todayPos!==null"
-          :style="{left: todayPos+'px', height: (tasks.length*rowHeight)+'px'}"
+          v-if="todayLinePos !== null"
+          class="gantt-today-line body"
+          :style="{ left: todayLinePos + 'px', height: tasks.length * rowHeight + 'px' }"
         ></div>
       </div>
     </div>
@@ -49,273 +49,280 @@
 
 <script>
 // 日期工具函数
-function pad(n) { return n<10 ? '0'+n : n; }
-function formatDate(date, fmt) {
-  const y = date.getFullYear();
-  const m = date.getMonth()+1;
-  const d = date.getDate();
-  if(fmt==='M月D日') return `${m}月${d}日`;
-  if(fmt==='M/D') return `${m}/${d}`;
-  if(fmt==='M月') return `${m}月`;
-  return `${y}-${pad(m)}-${pad(d)}`;
+function formatDate(date, fmt = 'YYYY-MM-DD') {
+  const d = new Date(date)
+  const pad = n => n < 10 ? '0' + n : n
+  return fmt
+    .replace('YYYY', d.getFullYear())
+    .replace('MM', pad(d.getMonth() + 1))
+    .replace('DD', pad(d.getDate()))
 }
 function addDays(date, n) {
-  const d = new Date(date);
-  d.setDate(d.getDate()+n);
-  return d;
+  const d = new Date(date)
+  d.setDate(d.getDate() + n)
+  return d
 }
 function addMonths(date, n) {
-  const d = new Date(date);
-  d.setMonth(d.getMonth()+n);
-  return d;
+  const d = new Date(date)
+  d.setMonth(d.getMonth() + n)
+  return d
 }
-function cloneDate(date) { return new Date(date.getTime()); }
-function dateDiffInDays(a, b) {
-  return Math.round((b-a)/(1000*60*60*24));
-}
-function dateDiffInMonths(a, b) {
-  return (b.getFullYear()-a.getFullYear())*12 + (b.getMonth()-a.getMonth());
+function addWeeks(date, n) {
+  return addDays(date, n * 7)
 }
 function getWeekRange(date) {
-  const d = new Date(date);
-  const day = d.getDay()||7;
-  const start = new Date(d);
-  start.setDate(d.getDate()-day+1);
-  const end = new Date(start);
-  end.setDate(start.getDate()+6);
-  return [start, end];
+  const d = new Date(date)
+  const day = d.getDay() || 7
+  const start = new Date(d)
+  start.setDate(d.getDate() - day + 1)
+  const end = new Date(start)
+  end.setDate(start.getDate() + 6)
+  return [start, end]
+}
+function daysBetween(a, b) {
+  return Math.round((b - a) / 86400000)
+}
+function monthsBetween(a, b) {
+  return (b.getFullYear() - a.getFullYear()) * 12 + (b.getMonth() - a.getMonth())
+}
+function clamp(val, min, max) {
+  return Math.max(min, Math.min(max, val))
 }
 
 export default {
   name: 'GanttDemo',
   data() {
-    const start = new Date('2025-06-12');
-    const end = new Date('2027-10-01');
-    // 5条demo任务
-    const tasks = [
-      {id: 1, name: '任务A', start: new Date('2025-07-01'), end: new Date('2025-08-10')},
-      {id: 2, name: '任务B', start: new Date('2025-09-15'), end: new Date('2025-12-01')},
-      {id: 3, name: '任务C', start: new Date('2026-01-10'), end: new Date('2026-03-20')},
-      {id: 4, name: '任务D', start: new Date('2026-05-01'), end: new Date('2026-08-15')},
-      {id: 5, name: '任务E', start: new Date('2027-01-01'), end: new Date('2027-04-30')},
-    ];
     return {
-      start,
-      end,
       view: 'day',
-      views: ['day','week','month'],
-      viewLabels: {day:'日视图', week:'周视图', month:'月视图'},
+      views: ['day', 'week', 'month'],
+      viewLabels: { day: '日视图', week: '周视图', month: '月视图' },
       cellWidth: 100,
       cellMargin: 8,
       rowHeight: 40,
-      tasks,
-      dragging: null, // {type, task, startX, origStart, origEnd}
-    };
-  },
-  computed: {
-    headerCells() {
-      const cells = [];
-      if(this.view==='day') {
-        let d = cloneDate(this.start);
-        while(d<=this.end) {
-          cells.push({
-            key: formatDate(d,'yyyy-MM-dd'),
-            label: formatDate(d,'M月D日'),
-            date: cloneDate(d),
-          });
-          d = addDays(d,1);
-        }
-      } else if(this.view==='week') {
-        let d = cloneDate(this.start);
-        while(d<=this.end) {
-          const [ws,we] = getWeekRange(d);
-          cells.push({
-            key: formatDate(ws,'yyyy-MM-dd'),
-            label: formatDate(ws,'M/D')+'-'+formatDate(we,'M/D'),
-            date: cloneDate(ws),
-            end: cloneDate(we),
-          });
-          d = addDays(we,1);
-        }
-      } else if(this.view==='month') {
-        let d = new Date(this.start.getFullYear(), this.start.getMonth(), 1);
-        while(d<=this.end) {
-          cells.push({
-            key: formatDate(d,'yyyy-MM'),
-            label: formatDate(d,'M月'),
-            date: cloneDate(d),
-          });
-          d = addMonths(d,1);
-        }
-      }
-      return cells;
-    },
-    headerWidth() {
-      return this.headerCells.length * this.cellWidth;
-    },
-    todayPos() {
-      const today = new Date();
-      if(today<this.start || today>this.end) return null;
-      if(this.view==='day') {
-        const idx = dateDiffInDays(this.start, today);
-        return idx*this.cellWidth + this.cellWidth/2;
-      } else if(this.view==='week') {
-        let d = cloneDate(this.start), idx=0;
-        while(d<=this.end) {
-          const [ws,we] = getWeekRange(d);
-          if(today>=ws && today<=we) return idx*this.cellWidth + this.cellWidth/2;
-          d = addDays(we,1); idx++;
-        }
-      } else if(this.view==='month') {
-        let d = new Date(this.start.getFullYear(), this.start.getMonth(), 1), idx=0;
-        while(d<=this.end) {
-          if(today.getFullYear()===d.getFullYear() && today.getMonth()===d.getMonth())
-            return idx*this.cellWidth + this.cellWidth/2;
-          d = addMonths(d,1); idx++;
-        }
-      }
-      return null;
-    },
-  },
-  methods: {
-    changeView(v) {
-      this.view = v;
-      this.$nextTick(()=>{
-        // 保证今日线可见
-        if(this.todayPos!==null && this.$refs.scrollArea) {
-          this.$refs.scrollArea.scrollLeft = Math.max(0, this.todayPos-300);
-        }
-      });
-    },
-    // 计算任务条样式
-    taskBarStyle(task) {
-      let startIdx=0, endIdx=0;
-      if(this.view==='day') {
-        startIdx = dateDiffInDays(this.start, task.start);
-        endIdx = dateDiffInDays(this.start, task.end);
-      } else if(this.view==='week') {
-        let d = cloneDate(this.start), idx=0;
-        while(d<=this.end) {
-          const [ws,we] = getWeekRange(d);
-          if(task.start<=we && task.end>=ws) {
-            if(task.start>ws) startIdx = idx + dateDiffInDays(ws, task.start)/7;
-            else startIdx = idx;
-            if(task.end<we) endIdx = idx + dateDiffInDays(ws, task.end)/7;
-            else endIdx = idx+1;
-            break;
-          }
-          d = addDays(we,1); idx++;
-        }
-      } else if(this.view==='month') {
-        let d = new Date(this.start.getFullYear(), this.start.getMonth(), 1), idx=0;
-        while(d<=this.end) {
-          const ms = d;
-          const me = addMonths(d,1); me.setDate(0);
-          if(task.start<=me && task.end>=ms) {
-            if(task.start>ms) startIdx = idx + dateDiffInDays(ms, task.start)/dateDiffInDays(ms, me);
-            else startIdx = idx;
-            if(task.end<me) endIdx = idx + dateDiffInDays(ms, task.end)/dateDiffInDays(ms, me);
-            else endIdx = idx+1;
-            break;
-          }
-          d = addMonths(d,1); idx++;
-        }
-      }
-      const left = startIdx*this.cellWidth;
-      const width = Math.max((endIdx-startIdx+1e-6)*this.cellWidth, 24);
-      return {
-        left:left+'px',
-        width:width+'px',
-      };
-    },
-    // 拖拽逻辑
-    onTaskBarMouseDown(e, task, tIdx) {
-      if(e.button!==0) return;
-      this.dragging = {
-        type: 'move',
-        task,
-        startX: e.clientX,
-        origStart: new Date(task.start),
-        origEnd: new Date(task.end),
-      };
-      document.addEventListener('mousemove', this.onMouseMove);
-      document.addEventListener('mouseup', this.onMouseUp);
-    },
-    onHandleMouseDown(e, task, side) {
-      if(e.button!==0) return;
-      this.dragging = {
-        type: side,
-        task,
-        startX: e.clientX,
-        origStart: new Date(task.start),
-        origEnd: new Date(task.end),
-      };
-      document.addEventListener('mousemove', this.onMouseMove);
-      document.addEventListener('mouseup', this.onMouseUp);
-    },
-    onMouseMove(e) {
-      if(!this.dragging) return;
-      const {type, task, startX, origStart, origEnd} = this.dragging;
-      const dx = e.clientX - startX;
-      let dayDelta = 0;
-      if(this.view==='day') dayDelta = Math.round(dx/this.cellWidth);
-      else if(this.view==='week') dayDelta = Math.round(dx/this.cellWidth)*7;
-      else if(this.view==='month') {
-        dayDelta = Math.round(dx/this.cellWidth)*30; // 近似
-      }
-      if(type==='move') {
-        let newStart = addDays(origStart, dayDelta);
-        let newEnd = addDays(origEnd, dayDelta);
-        if(newStart<this.start) {
-          newEnd = addDays(newEnd, dateDiffInDays(newStart, this.start));
-          newStart = cloneDate(this.start);
-        }
-        if(newEnd>this.end) {
-          newStart = addDays(newStart, dateDiffInDays(this.end, newEnd));
-          newEnd = cloneDate(this.end);
-        }
-        if(newStart<=newEnd) {
-          task.start = newStart;
-          task.end = newEnd;
-        }
-      } else if(type==='left') {
-        let newStart = addDays(origStart, dayDelta);
-        if(newStart<this.start) newStart = cloneDate(this.start);
-        if(newStart>task.end) newStart = cloneDate(task.end);
-        task.start = newStart;
-      } else if(type==='right') {
-        let newEnd = addDays(origEnd, dayDelta);
-        if(newEnd>this.end) newEnd = cloneDate(this.end);
-        if(newEnd<task.start) newEnd = cloneDate(task.start);
-        task.end = newEnd;
-      }
-      this.$forceUpdate();
-    },
-    onMouseUp() {
-      this.dragging = null;
-      document.removeEventListener('mousemove', this.onMouseMove);
-      document.removeEventListener('mouseup', this.onMouseUp);
-    },
-  },
-  mounted() {
-    if(this.todayPos!==null && this.$refs.scrollArea) {
-      this.$refs.scrollArea.scrollLeft = Math.max(0, this.todayPos-300);
+      startDate: new Date('2025-06-12'),
+      endDate: new Date('2027-10-01'),
+      tasks: [
+        { id: 1, name: '任务A', start: new Date('2025-06-20'), end: new Date('2025-07-10') },
+        { id: 2, name: '任务B', start: new Date('2025-08-01'), end: new Date('2025-09-15') },
+        { id: 3, name: '任务C', start: new Date('2026-01-10'), end: new Date('2026-03-01') },
+      ],
+      dragInfo: null,
+      headerCells: [],
+      headerWidth: 0,
+      todayLinePos: null,
     }
   },
+  computed: {
+    today() {
+      return new Date()
+    },
+  },
+  watch: {
+    view: 'updateHeader',
+  },
+  mounted() {
+    this.updateHeader()
+    window.addEventListener('mousemove', this.onMouseMove)
+    window.addEventListener('mouseup', this.onMouseUp)
+    this.$nextTick(this.scrollToToday)
+  },
   beforeDestroy() {
-    document.removeEventListener('mousemove', this.onMouseMove);
-    document.removeEventListener('mouseup', this.onMouseUp);
-  }
-};
+    window.removeEventListener('mousemove', this.onMouseMove)
+    window.removeEventListener('mouseup', this.onMouseUp)
+  },
+  methods: {
+    setView(v) {
+      if (this.view !== v) {
+        this.view = v
+        this.$nextTick(this.scrollToToday)
+      }
+    },
+    updateHeader() {
+      const cells = []
+      let cur = new Date(this.startDate)
+      let idx = 0
+      if (this.view === 'day') {
+        while (cur <= this.endDate) {
+          cells.push({
+            key: 'd' + formatDate(cur),
+            label: `${cur.getMonth() + 1}月${cur.getDate()}日`,
+            date: new Date(cur),
+          })
+          cur = addDays(cur, 1)
+          idx++
+        }
+      } else if (this.view === 'week') {
+        while (cur <= this.endDate) {
+          const [start, end] = getWeekRange(cur)
+          cells.push({
+            key: 'w' + formatDate(start),
+            label: `${start.getMonth() + 1}/${start.getDate()}-${end.getMonth() + 1}/${end.getDate()}`,
+            date: new Date(start),
+            end: new Date(end),
+          })
+          cur = addDays(end, 1)
+          idx++
+        }
+      } else if (this.view === 'month') {
+        while (cur <= this.endDate) {
+          cells.push({
+            key: 'm' + cur.getFullYear() + '-' + (cur.getMonth() + 1),
+            label: `${cur.getMonth() + 1}月`,
+            date: new Date(cur),
+          })
+          cur = addMonths(cur, 1)
+          idx++
+        }
+      }
+      this.headerCells = cells
+      this.headerWidth = cells.length * this.cellWidth
+      this.updateTodayLine()
+    },
+    getTaskBarStyle(task) {
+      // 计算任务条的 left/width
+      let startIdx = 0, endIdx = 0
+      if (this.view === 'day') {
+        startIdx = daysBetween(this.startDate, task.start)
+        endIdx = daysBetween(this.startDate, task.end)
+      } else if (this.view === 'week') {
+        const findIdx = d => {
+          for (let i = 0; i < this.headerCells.length; i++) {
+            const c = this.headerCells[i]
+            if (d >= c.date && (!c.end || d <= c.end)) return i
+          }
+          return 0
+        }
+        startIdx = findIdx(task.start)
+        endIdx = findIdx(task.end)
+      } else if (this.view === 'month') {
+        const findIdx = d => {
+          for (let i = 0; i < this.headerCells.length; i++) {
+            const c = this.headerCells[i]
+            if (d.getFullYear() === c.date.getFullYear() && d.getMonth() === c.date.getMonth()) return i
+          }
+          return 0
+        }
+        startIdx = findIdx(task.start)
+        endIdx = findIdx(task.end)
+      }
+      const left = startIdx * this.cellWidth + this.cellMargin
+      const width = Math.max((endIdx - startIdx + 1) * this.cellWidth - this.cellMargin * 2, 32)
+      return {
+        left: left + 'px',
+        width: width + 'px',
+      }
+    },
+    onTaskBarMouseDown(e, task, idx) {
+      if (e.button !== 0) return
+      this.dragInfo = {
+        type: 'move',
+        taskIdx: idx,
+        startX: e.clientX,
+        origStart: new Date(task.start),
+        origEnd: new Date(task.end),
+      }
+      document.body.style.userSelect = 'none'
+    },
+    onHandleMouseDown(e, task, idx, side) {
+      if (e.button !== 0) return
+      this.dragInfo = {
+        type: 'resize',
+        side,
+        taskIdx: idx,
+        startX: e.clientX,
+        origStart: new Date(task.start),
+        origEnd: new Date(task.end),
+      }
+      document.body.style.userSelect = 'none'
+    },
+    onMouseMove(e) {
+      if (!this.dragInfo) return
+      const { type, side, taskIdx, startX, origStart, origEnd } = this.dragInfo
+      const dx = e.clientX - startX
+      const cellDays = this.view === 'day' ? 1 : this.view === 'week' ? 7 : 30
+      const pxPerDay = this.cellWidth / cellDays
+      const deltaDays = Math.round(dx / pxPerDay)
+      const tasks = [...this.tasks]
+      const t = { ...tasks[taskIdx] }
+      if (type === 'move') {
+        let newStart = addDays(origStart, deltaDays * cellDays)
+        let newEnd = addDays(origEnd, deltaDays * cellDays)
+        // 限制范围
+        if (newStart < this.startDate) {
+          newEnd = addDays(newEnd, daysBetween(this.startDate, newStart))
+          newStart = new Date(this.startDate)
+        }
+        if (newEnd > this.endDate) {
+          newStart = addDays(newStart, daysBetween(newEnd, this.endDate))
+          newEnd = new Date(this.endDate)
+        }
+        t.start = newStart
+        t.end = newEnd
+      } else if (type === 'resize') {
+        if (side === 'left') {
+          let newStart = addDays(origStart, deltaDays * cellDays)
+          if (newStart > t.end) newStart = new Date(t.end)
+          if (newStart < this.startDate) newStart = new Date(this.startDate)
+          t.start = newStart
+        } else if (side === 'right') {
+          let newEnd = addDays(origEnd, deltaDays * cellDays)
+          if (newEnd < t.start) newEnd = new Date(t.start)
+          if (newEnd > this.endDate) newEnd = new Date(this.endDate)
+          t.end = newEnd
+        }
+      }
+      tasks[taskIdx] = t
+      this.tasks = tasks
+    },
+    onMouseUp() {
+      if (this.dragInfo) {
+        this.dragInfo = null
+        document.body.style.userSelect = ''
+      }
+    },
+    updateTodayLine() {
+      // 计算今日线在 header/body 的 left
+      const today = new Date()
+      if (today < this.startDate || today > this.endDate) {
+        this.todayLinePos = null
+        return
+      }
+      let idx = 0
+      if (this.view === 'day') {
+        idx = daysBetween(this.startDate, today)
+        this.todayLinePos = idx * this.cellWidth + this.cellWidth / 2
+      } else if (this.view === 'week') {
+        for (let i = 0; i < this.headerCells.length; i++) {
+          const c = this.headerCells[i]
+          if (today >= c.date && today <= c.end) {
+            this.todayLinePos = i * this.cellWidth + this.cellWidth / 2
+            break
+          }
+        }
+      } else if (this.view === 'month') {
+        for (let i = 0; i < this.headerCells.length; i++) {
+          const c = this.headerCells[i]
+          if (today.getFullYear() === c.date.getFullYear() && today.getMonth() === c.date.getMonth()) {
+            this.todayLinePos = i * this.cellWidth + this.cellWidth / 2
+            break
+          }
+        }
+      }
+    },
+    scrollToToday() {
+      if (this.todayLinePos !== null && this.$refs.scrollWrap) {
+        this.$refs.scrollWrap.scrollLeft = Math.max(this.todayLinePos - 200, 0)
+      }
+    },
+  },
+}
 </script>
 
 <style scoped>
-.gantt-container {
+.gantt-demo {
   font-family: Arial, sans-serif;
   background: #fff;
   border: 1px solid #eee;
-  border-radius: 6px;
-  box-shadow: 0 2px 8px #0001;
   padding: 16px;
 }
 .gantt-toolbar {
@@ -326,38 +333,38 @@ export default {
   padding: 4px 16px;
   border: 1px solid #bbb;
   background: #f8f8f8;
-  border-radius: 4px;
   cursor: pointer;
+  border-radius: 4px;
 }
 .gantt-toolbar button.active {
   background: #409eff;
   color: #fff;
   border-color: #409eff;
 }
-.gantt-scroll {
+.gantt-scroll-wrap {
   overflow-x: auto;
   overflow-y: hidden;
   position: relative;
-  border-top: 1px solid #eee;
-  border-bottom: 1px solid #eee;
+  border: 1px solid #eee;
   background: #fafbfc;
+  height: 220px;
 }
 .gantt-header {
   position: relative;
   height: 40px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #ddd;
+  background: #f5f7fa;
 }
 .gantt-header-cell {
   position: absolute;
   top: 0;
   height: 100%;
   box-sizing: border-box;
+  border-right: 1px solid #e0e0e0;
   padding: 0 8px;
-  width: 100px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  border-right: 1px solid #eee;
+  width: 100px;
   overflow: hidden;
 }
 .gantt-header-cell-text {
@@ -365,46 +372,42 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   width: 100%;
-  text-align: center;
 }
 .gantt-today-line {
   position: absolute;
   top: 0;
   width: 2px;
-  background: red;
   height: 40px;
-  z-index: 2;
-  pointer-events: none;
-}
-.gantt-today-body {
-  top: 40px;
-  height: auto;
-  width: 2px;
   background: red;
-  position: absolute;
   z-index: 2;
+}
+.gantt-today-line.body {
+  top: 0;
+  height: 100%;
 }
 .gantt-body {
   position: relative;
-  min-height: 220px;
+  min-height: 160px;
+  background: #fff;
 }
 .gantt-task-row {
   position: relative;
   height: 40px;
+  border-bottom: 1px solid #f0f0f0;
   display: flex;
   align-items: center;
 }
 .gantt-task-label {
   width: 80px;
   text-align: right;
-  padding-right: 12px;
+  padding-right: 8px;
   color: #888;
   font-size: 14px;
   flex-shrink: 0;
 }
 .gantt-task-bar {
   position: absolute;
-  left: 100px;
+  left: 88px;
   top: 8px;
   height: 24px;
   display: flex;
@@ -414,10 +417,14 @@ export default {
 }
 .gantt-task-bar-inner {
   flex: 1;
-  height: 100%;
   background: #409eff;
+  color: #fff;
+  text-align: center;
   border-radius: 4px;
-  min-width: 16px;
+  height: 100%;
+  line-height: 24px;
+  font-size: 13px;
+  user-select: none;
 }
 .gantt-task-handle {
   width: 10px;
@@ -425,6 +432,7 @@ export default {
   background: #a259e6;
   border-radius: 4px;
   cursor: ew-resize;
+  flex-shrink: 0;
 }
 .gantt-task-handle.left {
   margin-right: 2px;
