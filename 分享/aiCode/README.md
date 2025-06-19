@@ -1,6 +1,7 @@
 # ai服务平台
 mastergo
 manus.im
+Dify
 
 AI 优势总结
   快（搜索快、响应快），才能提交效率；
