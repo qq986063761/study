@@ -1,36 +1,42 @@
 <template>
   <div class="gantt-demo">
-    <h1>甘特图演示</h1>
-    <!-- 这里引入甘特图组件 -->
-    <GanttChart class="gantt-component"/>
+    <h1>Vue2 交互式甘特图 Demo</h1>
+    <div class="demo-container">
+      <GanttChart />
+    </div>
   </div>
 </template>
 
 <script>
-// 引入甘特图组件
-import GanttChart from '@/components/gantt/gantt.vue';
+import GanttChart from '@/components/gantt/gantt.vue'
 
 export default {
   name: 'GanttDemo',
   components: {
-    GanttChart,
-  },
-  data() {
-    return {
-
-    }
+    GanttChart
   }
-};
+}
 </script>
 
-<style lang="scss">
+<style scoped>
 .gantt-demo {
   padding: 20px;
-  text-align: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
 
-  .gantt-component {
-    // height: 500px;
-    overflow: hidden;
-  }
+h1 {
+  text-align: center;
+  color: #374151;
+  margin-bottom: 30px;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.demo-container {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 }
 </style>
