@@ -2,6 +2,7 @@
 mastergo
 manus.im
 Dify
+gemini
 
 # AI 优势
   快（搜索快、响应快），快速出结果，才能提交效率；
