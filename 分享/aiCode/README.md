@@ -1,8 +1,9 @@
-# ai服务平台
+# 其他ai和ai服务工具
 mastergo
 manus.im
 Dify
 gemini
+豆包
 
 # AI 优势
   快（搜索快、响应快），快速出结果，才能提交效率；
