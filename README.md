@@ -1,6 +1,6 @@
 ﻿- [上网 github](https://github.com/Alvin9999/new-pac/wiki)
 - [上网 一元机场](https://xn--4gq62f52gdss.com/)
-- [上网 追风岛](https://www.gozhuifeng.club/)(https://zfd.369.cyou)
+- [上网 追风岛](https://www.gozhuifeng.club/)(https://zfd.369.cyou)(https://gozhuifeng.club/)
 - [上网 蓝灯](https://github.com/getlantern/forum)
 - [上网 v2free](https://w1.v2free.cyou/user)
 - [上网 creamdata](https://www.creamdata.xyz/User/Main)
