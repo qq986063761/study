@@ -114,11 +114,11 @@ describe('甘特图组件测试', () => {
       await wrapper.vm.$nextTick()
       const monthStyle = wrapper.vm.getTaskBarStyle(task)
 
-      console.log('Task:', task.name, 'Start:', task.start, 'End:', task.end)
-      console.log('StartDate:', wrapper.vm.startDate, 'EndDate:', wrapper.vm.endDate)
-      console.log('Day style:', dayStyle)
-      console.log('Week style:', weekStyle)
-      console.log('Month style:', monthStyle)
+      // console.log('Task:', task.name, 'Start:', task.start, 'End:', task.end)
+      // console.log('StartDate:', wrapper.vm.startDate, 'EndDate:', wrapper.vm.endDate)
+      // console.log('Day style:', dayStyle)
+      // console.log('Week style:', weekStyle)
+      // console.log('Month style:', monthStyle)
       
       // 验证不同视图的样式确实不同
       // 注意：如果任务在时间范围边界，某些视图可能显示相同位置
@@ -128,7 +128,7 @@ describe('甘特图组件测试', () => {
       
       // 至少应该有2种不同的样式，或者如果都相同，那说明任务在边界位置
       if (uniqueStyles.length === 1) {
-        console.log('Warning: All views show same position, task might be at boundary')
+        // console.log('Warning: All views show same position, task might be at boundary')
         // 如果所有视图都相同，检查宽度是否不同
         const widths = [dayStyle.width, weekStyle.width, monthStyle.width]
         const uniqueWidths = [...new Set(widths)]

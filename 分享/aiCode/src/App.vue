@@ -1,26 +1,45 @@
 <template>
+  <!-- 应用主容器 -->
   <div class="app-container">
-    <!-- 左侧菜单 -->
+    <!-- 左侧菜单导航栏 -->
     <nav class="side-menu">
+      <!-- 菜单头部 -->
       <div class="menu-header">
         <h2>菜单</h2>
       </div>
+      <!-- 菜单列表 -->
       <ul class="menu-list">
+        <!-- 
+          循环渲染菜单项 
+          v-for: 遍历menuItems数组
+          :key: 为每个列表项提供唯一标识符
+          :class: 动态添加active类，当前路由匹配时高亮显示
+          @click: 点击事件处理器，切换菜单
+        -->
         <li 
           v-for="(item, index) in menuItems" 
           :key="index"
           :class="{ active: $route.name === item.value }"
           @click="switchMenu(item)"
         >
+          <!-- 菜单图标 -->
           <span class="menu-icon">{{ item.icon }}</span>
+          <!-- 菜单文本 -->
           <span class="menu-text">{{ item.title }}</span>
         </li>
       </ul>
     </nav>
 
-    <!-- 右侧内容区 -->
+    <!-- 右侧内容区域 -->
     <main class="content-area">
+      <!-- 
+        路由视图过渡动画
+        transition: 添加页面切换动画效果
+        name: 定义动画名称
+        mode: out-in表示先离开再进入
+      -->
       <transition name="fade-transform" mode="out-in">
+        <!-- 路由组件渲染区域 -->
         <router-view class="content-wrapper"></router-view>
       </transition>
     </main>
@@ -32,11 +51,12 @@ export default {
   name: 'App',
   data() {
     return {
+      // 菜单项配置数组
       menuItems: [
         {
-          title: '甘特图',
-          icon: '🏠',
-          value: 'gantt'
+          title: '甘特图',      // 菜单显示名称
+          icon: '🏠',          // 菜单图标（表情符号）
+          value: 'gantt'       // 路由名称，用于匹配当前路由
         },
         {
           title: '安全验证',
@@ -62,8 +82,15 @@ export default {
     }
   },
   methods: {
+    /**
+     * 菜单切换方法
+     * @param {Object} item - 菜单项对象
+     */
     switchMenu(item) {
+      // 如果当前路由已经是目标路由，则不进行跳转
       if (this.$route.name === item.value) return
+      
+      // 使用编程式导航跳转到目标路由
       this.$router.push({ name: item.value })
     }
   }
@@ -71,20 +98,23 @@ export default {
 </script>
 
 <style lang="scss">
+/* 应用主容器样式 */
 .app-container {
-  display: flex;
-  height: 100%;
-  background-color: $gray-50;
+  display: flex;              // 使用flex布局
+  height: 100%;               // 占满整个视口高度
+  background-color: $gray-50; // 使用主题变量的背景色
 }
 
+/* 左侧菜单样式 */
 .side-menu {
-  width: 240px;
-  background: linear-gradient(135deg, $primary-600, $primary-800);
-  padding: $spacing-lg;
-  box-shadow: $shadow-lg;
-  position: relative;
-  overflow: hidden;
+  width: 240px;               // 固定宽度
+  background: linear-gradient(135deg, $primary-600, $primary-800); // 渐变背景
+  padding: $spacing-lg;       // 内边距
+  box-shadow: $shadow-lg;     // 阴影效果
+  position: relative;         // 相对定位
+  overflow: hidden;           // 隐藏溢出内容
 
+  /* 菜单背景装饰层 */
   &::before {
     content: '';
     position: absolute;
@@ -93,19 +123,20 @@ export default {
     right: 0;
     bottom: 0;
     background: linear-gradient(45deg, rgba($primary-400, 0.1), transparent);
-    z-index: 1;
+    z-index: 1;               // 层级设置
   }
 
+  /* 菜单头部样式 */
   .menu-header {
-    color: $gray-50;
-    margin-bottom: $spacing-xl;
-    position: relative;
-    z-index: 2;
+    color: $gray-50;          // 文字颜色
+    margin-bottom: $spacing-xl; // 底部间距
+    position: relative;       // 相对定位
+    z-index: 2;               // 确保在装饰层之上
 
     h2 {
-      font-family: $font-family-base;
-      font-size: 1.5rem;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      font-family: $font-family-base; // 字体家族
+      font-size: 1.5rem;            // 字体大小
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); // 文字阴影
     }
   }
 
