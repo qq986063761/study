@@ -22,15 +22,15 @@
 - [css 兼容性](https://caniuse.com/)
 - [码上掘金，写代码片段](https://code.juejin.cn/)
 - [买国外虚拟卡](https://yeka.ai/)
+- [爬虫-易采集](https://github.com/NaiboWang/EasySpider)
 - cdn平台，jsDelivr、Cloudflare、bootcdn、UNPKG、Netlify
 猪八戒，码市，程序员客栈，开源中国众包
 代码仓库：github、gitee
 学习网站：技术文档的官网、掘金（https://juejin.cn/）、慕课网（https://www.imooc.com/）、拉钩教育（https://kaiwu.lagou.com/）
 
-- cursor 免费用 https://github.com/yeongpin/cursor-free-vip
 - ngrok 直接提供外网访问
 
-cursor rules
+
 组件库
 监控
 
