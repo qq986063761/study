@@ -24,6 +24,7 @@
 - [码上掘金，写代码片段](https://code.juejin.cn/)
 - [买国外虚拟卡](https://yeka.ai/)
 - [爬虫-易采集](https://github.com/NaiboWang/EasySpider)
+- [在线抠图](https://www.remove.bg/zh)(https://www.canva.cn/)
 - cdn平台，jsDelivr、Cloudflare、bootcdn、UNPKG、Netlify
 猪八戒，码市，程序员客栈，开源中国众包
 代码仓库：github、gitee
