@@ -3,7 +3,7 @@
 - [上网 追风岛](https://zfd.369.cyou)
   (https://gozhuifeng.club/)
   (https://www.gozhuifeng.club/)
-- [NCloud](https://xn--cloud-cl5i.net/#/register?code=CSsS3lqU)
+- [NCloud](https://xn--cloud-cl5i.net/)
 - [上网 v2free](https://w1.v2free.cyou/user)
 - [上网 蓝灯](https://github.com/getlantern/forum)
 - [买 openAI](https://eylink.cn/)
