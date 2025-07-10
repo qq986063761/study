@@ -10,7 +10,7 @@
 - [买 chatgpt](http://www.thetimework.com/links/7852BB87249C7F7A)(http://u9v.cn/6p592r)
 - [买 chatgpt](http://shop.isving.cn/)
 - [svg编辑器](http://editor.method.ac/)
-- [png图片压缩](https://tinypng.com/)
+- [png图片压缩](https://tinypng.com/)(https://tinify.cn/)
 - [图片压缩](https://squoosh.app/)(https://compressnow.com/)
 - [jpg图片压缩](https://jpeg-optimizer.com/)
 - [svg图片压缩](https://jakearchibald.github.io/svgomg/?utm_source=next.36kr.com)
