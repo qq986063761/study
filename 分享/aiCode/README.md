@@ -6,6 +6,11 @@ gemini
 豆包
 kimi
 
+# 其他 ai code 工具
+  claude code（https://www.anthropic.com/claude-code）
+  augment code（https://www.augmentcode.com/）
+  Kiro
+
 # 大纲
 AI的吸引力
 AI编程的开发方式
@@ -67,11 +72,6 @@ AI的局限与趋势
   @link：引入网页内容作为上下文
   @Lint Errors：引入终端错误信息作为上下文
   @Recent Changes：引入最近修改记录，作为上下文
-
-# 其他 ai code 工具（贵）
-  claude code（https://www.anthropic.com/claude-code）
-  augment code（https://www.augmentcode.com/）
-
 
 
 # 提问过程：
