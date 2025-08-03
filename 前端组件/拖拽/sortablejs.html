@@ -72,6 +72,16 @@
       background-color: #f9c7c8;
       border: solid red 1px; 
     }
+
+    table {
+      border-collapse: collapse;
+      border: 1px solid #000;
+    }
+
+    th,
+    td {
+      border: 1px solid #000;
+    }
   </style>
 </head>
 
@@ -98,6 +108,32 @@
       <button id="btnDisable">禁用/启用 sortable.js 实例</button>
       <button id="btnDty">销毁 sortable.js 实例</button>
     </div>
+  </div>
+  <div class="block">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+        </tr>
+      </thead>
+      <tbody id="tbody1">
+        <tr>
+          <td>1</td>
+        </tr>
+      </tbody>
+    </table>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+        </tr>
+      </thead>
+      <tbody id="tbody2">
+        <tr>
+          <td>1</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
   
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
@@ -165,6 +201,21 @@
       instance1.destroy();
       instance2.destroy();
     };
+
+    // 表格
+    var tbody1 = document.getElementById('tbody1');
+    var tbody2 = document.getElementById('tbody2');
+
+    new Sortable(tbody1, {
+      group: 'common',
+      fallbackOnBody: true,
+      forceFallback: true,
+    })
+    new Sortable(tbody2, {
+      group: 'common',
+      forceFallback: true,
+      fallbackOnBody: true,
+    })
   </script>
 </body>
 
