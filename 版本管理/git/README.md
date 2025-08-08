@@ -5,6 +5,8 @@
 - [github](https://github.com/)
 - [gitee](https://gitee.com/)
 - [coding](https://coding.net/)
+- sourcetree
+- fork
 
 # 简介
 - 回滚提交：只会将操作分支的提交内容回滚；
