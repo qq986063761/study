@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>子窗口</h1>
+
+  <script src="https://unpkg.com/penpal@^7/dist/penpal.min.js"></script>
+  <script>
+    const WindowMessenger = Penpal.WindowMessenger
+    const connect = Penpal.connect
+
+    const messenger = new WindowMessenger({
+      remoteWindow: window.parent,
+      allowedOrigins: ['*'],
+    })
+
+    const connection = connect({
+      messenger,
+      methods: {
+        showModal(opts) {
+          console.log('showModal', opts)
+
+          const { a, b, cb } = opts
+          const params = {
+            c: 1,
+            d: {
+              date: new Date(),
+              cb: (...args) => {
+                console.log('子 d cb', args)
+              }
+            },
+            cb: (...args) => {
+              console.log('子 cb', args)
+            }
+          }
+
+          cb(params)
+          b.cb(params)
+        }
+      }
+    })
+
+    connection.promise.then(remote => {
+      // 子调父方法
+      remote.add(2, 6).then(rs => {
+        console.log('子接收到父 add 的结果', rs)
+      })
+    })
+  </script>
+</body>
+</html>
