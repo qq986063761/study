@@ -1,5 +1,5 @@
 # 资源
-- [文档](https://www.tslang.cn/docs/handbook/basic-types.html);
+- [文档](https://www.tslang.cn/docs/home.html);
 
 # 编译
 - 安装编译器：npm install -g typescript;
