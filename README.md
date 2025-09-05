@@ -5,7 +5,6 @@
   (https://www.gozhuifeng.club/)
 - [NCloud](https://xn--cloud-cl5i.net/)
 - [上网 v2free](https://w1.v2free.cyou/user)
-- [上网 蓝灯](https://github.com/getlantern/forum)
 - [买 openAI](https://eylink.cn/)
 - [买 chatgpt](http://www.thetimework.com/links/7852BB87249C7F7A)(http://u9v.cn/6p592r)
 - [买 chatgpt](http://shop.isving.cn/)
