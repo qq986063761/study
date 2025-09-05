@@ -1,8 +1,5 @@
-﻿- [上网 github](https://github.com/Alvin9999/new-pac/wiki)
-  (https://dgithub.xyz/Alvin9999/new-pac/wiki)
-- [上网 追风岛](https://zfd.369.cyou)
-  (https://gozhuifeng.club/)
-  (https://www.gozhuifeng.club/)
+﻿- [上网 github](https://github.com/Alvin9999/new-pac/wiki)(https://dgithub.xyz/Alvin9999/new-pac/wiki)
+- [上网 追风岛](https://zfd.369.cyou)(https://gozhuifeng.club/)(https://www.gozhuifeng.club/)
 - [NCloud](https://xn--cloud-cl5i.net/)
 - [买 openAI](https://eylink.cn/)
 - [买 chatgpt](http://www.thetimework.com/links/7852BB87249C7F7A)(http://u9v.cn/6p592r)
@@ -25,13 +22,10 @@
 猪八戒，码市，程序员客栈，开源中国众包
 代码仓库：github、gitee
 学习网站：技术文档的官网、掘金（https://juejin.cn/）、慕课网（https://www.imooc.com/）、拉钩教育（https://kaiwu.lagou.com/）
-
 - ngrok 直接提供外网访问
 
-
-组件库
-监控
-
+# 最近学习
+Next.js nestjs 单元测试 微前端 Monorepo+（样式隔离、通信传方法作参数、跨应用调组件、路由跳转）组件库、错误监控
 
 - [电影](https://github.com/88ys/website)
 止咳：复方岩白菜素片
