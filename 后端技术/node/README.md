@@ -116,17 +116,11 @@ nvm proxy http://127.0.0.1:7890 https://127.0.0.1:7890
 nvm proxy none
 
 # 安装 nodejs 并且临时使用指定版本 node，windows 上不带 v 字母
-nvm install v20.16.0 && nvm use v20.16.0
-nvm install v18.20.4 && nvm use v18.20.4
-nvm install v16.15.0 && nvm use v16.15.0 && corepack enable
-nvm install v14.21.3 && nvm use v14.21.3
+nvm install v22.19.0 && nvm use v22.19.0
 # 全局使用默认版本,好像只在mac有效
-nvm alias default v14.21.3
-nvm alias default v16.15.0
-nvm alias default v18.20.4
-nvm alias default v20.16.0
+nvm alias default v22.19.0
 # 卸载指定版本 node
-nvm uninstall v16.15.0
+nvm uninstall v20.16.0
 # 查询 nvm 安装的 node 版本列表
 nvm ls
 # 更新 nvm 版本
