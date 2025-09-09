@@ -1,5 +1,5 @@
 # 资源
-- [react中文](https://react.docschina.org/)
+- [react中文](https://zh-hans.react.dev/)(https://react.docschina.org/)
 - [create-react-app中文](https://create-react-app.bootcss.com/)
 - [react-router](https://v5.reactrouter.com/web/guides/quick-start)
 - [redux中文1](https://cn.redux.js.org/)
