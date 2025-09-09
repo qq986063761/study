@@ -24,8 +24,10 @@
 学习网站：技术文档的官网、掘金（https://juejin.cn/）、慕课网（https://www.imooc.com/）、拉钩教育（https://kaiwu.lagou.com/）
 - ngrok 直接提供外网访问
 
-# 最近学习
-Next.js nestjs 单元测试 微前端 Monorepo+（样式隔离、通信传方法作参数、跨应用调组件、路由跳转）组件库、错误监控
+# 学习
+微前端（样式隔离、通信传方法作参数、跨应用调组件、路由跳转、Monorepo+） 
+Next.js react 单元测试 nestjs ai agent智能体 vue nuxt
+组件库、错误监控
 
 - [电影](https://github.com/88ys/website)
 止咳：复方岩白菜素片
