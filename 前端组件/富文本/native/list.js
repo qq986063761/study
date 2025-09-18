@@ -32,7 +32,7 @@ class ListManager {
 
   initKeyboardHandlers() {
     // 监听键盘事件，处理删除键退出列表的逻辑
-    this.editor.addEventListener('keydown', (e) => {
+    this.editor.editor.addEventListener('keydown', (e) => {
       this.handleListKeydown(e);
     });
   }
@@ -57,7 +57,6 @@ class ListManager {
 
     // 检查当前列表项是否为空（只有空白字符）
     const isListItemEmpty = this.isListItemEmpty(listItem);
-    
     if (isListItemEmpty) {
       // 如果列表项为空，阻止默认的删除行为，改为退出列表
       e.preventDefault();
