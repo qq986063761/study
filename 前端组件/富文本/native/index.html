@@ -34,7 +34,7 @@
                    v-for="option in group.options" 
                    :key="option.value"
                    :class="{ selected: group.currentValue === option.text }"
-                   @click="selectOption(group.id, option)">
+                   @click.stop="selectOption(group.id, option)">
                 {{ option.text }}
               </div>
             </div>

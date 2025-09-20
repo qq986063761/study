@@ -18,10 +18,9 @@ class LinkManager {
     const editor = this.getEditor();
     if (!editor) return;
 
-    const selection = window.getSelection();
-    if (selection.rangeCount === 0) return;
-
-    const range = selection.getRangeAt(0);
+    // 使用缓存的选区
+    const range = this.app.getCachedRange();
+    if (!range) return;
     
     // 获取链接URL
     const url = prompt('请输入链接地址:', 'https://');

@@ -55,14 +55,14 @@ class TableManager {
     table.appendChild(tbody);
     
     // 插入表格到编辑器
-    const selection = window.getSelection();
-    if (selection.rangeCount > 0) {
-      const range = selection.getRangeAt(0);
+    const range = this.app.getCachedRange();
+    if (range) {
       range.insertNode(table);
       
       // 将光标移到表格后面
       range.setStartAfter(table);
       range.setEndAfter(table);
+      const selection = window.getSelection();
       selection.removeAllRanges();
       selection.addRange(range);
     }

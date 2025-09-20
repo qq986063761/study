@@ -6,6 +6,9 @@ const { createApp } = Vue;
 createApp({
   data() {
     return {
+      // 选区缓存
+      cachedRange: null,
+      
       // 颜色选项
       colors: [
         '#000000', '#333333', '#666666', '#999999', '#cccccc', '#ffffff',
@@ -258,6 +261,9 @@ createApp({
     
     // 初始化编辑器状态
     this.updateEditorState();
+    
+    // 添加选区缓存监听
+    this.initRangeCache();
   },
   
   methods: {
@@ -268,8 +274,6 @@ createApp({
         group.open = !group.open;
         this.closeOtherSelectors(groupId);
       }
-
-      console.log('toggleSelect', this.toolbarGroups);
     },
     
     // 通用选项选择
@@ -445,6 +449,30 @@ createApp({
           group.open = false;
         }
       });
+    },
+    
+    // 初始化选区缓存
+    initRangeCache() {
+      const editor = this.$refs.editor;
+      if (!editor) return;
+      
+      // 监听鼠标和触摸事件来缓存选区
+      editor.addEventListener('mouseup', this.cacheRange);
+      editor.addEventListener('touchend', this.cacheRange);
+      editor.addEventListener('keyup', this.cacheRange);
+    },
+    
+    // 缓存当前选区
+    cacheRange() {
+      const selection = window.getSelection();
+      if (selection.rangeCount > 0) {
+        this.cachedRange = selection.getRangeAt(0).cloneRange();
+      }
+    },
+    
+    // 获取缓存的选区
+    getCachedRange() {
+      return this.cachedRange;
     }
   }
 }).mount('#app');

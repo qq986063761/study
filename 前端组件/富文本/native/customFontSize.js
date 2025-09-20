@@ -18,11 +18,9 @@ class CustomFontSizeManager {
     const editor = this.getEditor();
     if (!editor) return;
 
-    // 保存当前选区
-    const selection = window.getSelection();
-    if (selection.rangeCount === 0) return;
-
-    const range = selection.getRangeAt(0);
+    // 使用缓存的选区
+    const range = this.app.getCachedRange();
+    if (!range) return;
     
     // 如果选择了文本，直接应用样式
     if (!range.collapsed) {
