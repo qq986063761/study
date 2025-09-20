@@ -22,26 +22,33 @@ class AlignmentManager {
     const range = this.app.getCachedRange();
     if (!range) return;
     
-    // 获取当前段落或创建新段落
+    // 获取当前选区所在的段落
     let paragraph = this.getCurrentParagraph(range);
     
     if (!paragraph) {
-      // 如果没有段落，创建一个
-      paragraph = document.createElement('p');
-      paragraph.innerHTML = '&nbsp;';
-      range.insertNode(paragraph);
+      console.log('没有找到段落', range);
+
+      // 如果没有找到段落，根据选区情况处理
+      if (!range.collapsed) {
+        console.log('有选区', range);
+        // 如果有选区，将选区内容包裹在段落中
+        const contents = range.extractContents();
+        paragraph = document.createElement('p');
+        paragraph.appendChild(contents);
+        range.insertNode(paragraph);
+      } else {
+        console.log('只是光标位置', range);
+        // 如果只是光标位置，创建一个段落
+        paragraph = document.createElement('p');
+        paragraph.innerHTML = '&nbsp;';
+        range.insertNode(paragraph);
+      }
     }
     
-    // 设置对齐方式
+    // 设置整行的对齐方式
     paragraph.style.textAlign = alignment;
     
-    // 将光标移到段落内
-    const newRange = document.createRange();
-    newRange.selectNodeContents(paragraph);
-    newRange.collapse(false);
-    selection.removeAllRanges();
-    selection.addRange(newRange);
-
+    // 保持原有选区，不移动光标
     editor.focus();
   }
 

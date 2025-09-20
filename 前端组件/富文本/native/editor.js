@@ -391,16 +391,16 @@ createApp({
         textFormatGroup.buttons.forEach(button => {
           switch(button.id) {
             case 'bold':
-              button.active = document.queryCommandState('bold');
+              button.active = this.isFormatActive('strong');
               break;
             case 'italic':
-              button.active = document.queryCommandState('italic');
+              button.active = this.isFormatActive('em');
               break;
             case 'underline':
-              button.active = document.queryCommandState('underline');
+              button.active = this.isFormatActive('u');
               break;
             case 'strikethrough':
-              button.active = document.queryCommandState('strikeThrough');
+              button.active = this.isFormatActive('s');
               break;
           }
         });
@@ -412,10 +412,10 @@ createApp({
         listGroup.buttons.forEach(button => {
           switch(button.id) {
             case 'unorderedList':
-              button.active = document.queryCommandState('insertUnorderedList');
+              button.active = this.isInList('ul');
               break;
             case 'orderedList':
-              button.active = document.queryCommandState('insertOrderedList');
+              button.active = this.isInList('ol');
               break;
           }
         });
@@ -453,6 +453,69 @@ createApp({
     // 获取缓存的选区
     getCachedRange() {
       return this.cachedRange;
+    },
+
+    /**
+     * 检查当前选区是否在指定格式中
+     * @param {string} tagName - 标签名称
+     * @returns {boolean}
+     */
+    isFormatActive(tagName) {
+      const selection = window.getSelection();
+      if (selection.rangeCount === 0) return false;
+
+      const range = selection.getRangeAt(0);
+      let container = range.commonAncestorContainer;
+      
+      // 如果光标在文本节点中，获取其父元素
+      if (container.nodeType === Node.TEXT_NODE) {
+        container = container.parentNode;
+      }
+      
+      // 向上查找是否包含指定格式标签
+      while (container && container !== this.$refs.editor) {
+        if (container.nodeType === Node.ELEMENT_NODE) {
+          if (container.tagName.toLowerCase() === tagName) {
+            return true;
+          }
+        }
+        container = container.parentNode;
+      }
+      
+      return false;
+    },
+
+    /**
+     * 检查当前选区是否在指定列表中
+     * @param {string} listTag - 列表标签名称 ('ul' 或 'ol')
+     * @returns {boolean}
+     */
+    isInList(listTag) {
+      const selection = window.getSelection();
+      if (selection.rangeCount === 0) return false;
+
+      const range = selection.getRangeAt(0);
+      let container = range.startContainer;
+      
+      // 如果光标在文本节点中，获取其父元素
+      if (container.nodeType === Node.TEXT_NODE) {
+        container = container.parentNode;
+      }
+      
+      // 向上查找是否在列表中
+      while (container && container !== this.$refs.editor) {
+        if (container.nodeType === Node.ELEMENT_NODE) {
+          if (container.tagName.toLowerCase() === 'li') {
+            const parentList = container.parentNode;
+            if (parentList && parentList.tagName.toLowerCase() === listTag) {
+              return true;
+            }
+          }
+        }
+        container = container.parentNode;
+      }
+      
+      return false;
     }
   }
 }).mount('#app');

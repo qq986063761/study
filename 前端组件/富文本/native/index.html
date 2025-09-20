@@ -52,7 +52,7 @@
                      :key="color"
                      :class="{ selected: group.currentValue === color }"
                      :style="{ backgroundColor: color }"
-                     @click="selectColor(group.id, color)">
+                     @click.stop="selectColor(group.id, color)">
                 </div>
               </div>
             </div>
