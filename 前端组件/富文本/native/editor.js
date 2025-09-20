@@ -52,17 +52,6 @@ createApp({
           ]
         },
         {
-          id: 'customFontSize',
-          type: 'input',
-          inputType: 'number',
-          value: '',
-          placeholder: '自定义大小',
-          className: 'font-size-input',
-          min: 8,
-          max: 72,
-          onEnter: () => this.applyCustomFontSize()
-        },
-        {
           id: 'foreColor',
           type: 'color',
           label: '前景色:',
@@ -248,7 +237,6 @@ createApp({
     // 初始化各个功能模块
     this.headingManager = new HeadingManager(this);
     this.fontSizeManager = new FontSizeManager(this);
-    this.customFontSizeManager = new CustomFontSizeManager(this);
     this.foreColorManager = new ForeColorManager(this);
     this.backColorManager = new BackColorManager(this);
     this.textFormatManager = new TextFormatManager(this);
@@ -314,14 +302,6 @@ createApp({
         } else if (groupId === 'backColor') {
           this.backColorManager.applyBackColor(color);
         }
-      }
-    },
-    
-    // 自定义字体大小
-    applyCustomFontSize() {
-      const group = this.toolbarGroups.find(g => g.id === 'customFontSize');
-      if (group && group.value) {
-        this.customFontSizeManager.applyCustomFontSize(group.value + 'px');
       }
     },
     

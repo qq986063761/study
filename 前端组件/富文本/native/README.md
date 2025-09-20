@@ -32,7 +32,6 @@ native/
 ├── editor.js          # Vue主应用
 ├── heading.js         # 标题功能
 ├── fontSize.js        # 字体大小功能
-├── customFontSize.js  # 自定义字体大小
 ├── foreColor.js       # 前景色功能
 ├── backColor.js       # 背景色功能
 ├── textFormat.js      # 文本格式功能
