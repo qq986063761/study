@@ -1,7 +1,7 @@
 /**
- * 字体大小功能模块
+ * 自定义字体大小功能模块
  */
-class FontSizeManager {
+class CustomFontSizeManager {
   constructor(vueApp) {
     this.app = vueApp;
     this.editor = null;
@@ -14,7 +14,7 @@ class FontSizeManager {
     return this.editor;
   }
 
-  applyFontSize(size) {
+  applyCustomFontSize(size) {
     const editor = this.getEditor();
     if (!editor) return;
 

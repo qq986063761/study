@@ -1,7 +1,7 @@
 /**
- * 字体大小功能模块
+ * 前景色功能模块
  */
-class FontSizeManager {
+class ForeColorManager {
   constructor(vueApp) {
     this.app = vueApp;
     this.editor = null;
@@ -14,7 +14,7 @@ class FontSizeManager {
     return this.editor;
   }
 
-  applyFontSize(size) {
+  applyForeColor(color) {
     const editor = this.getEditor();
     if (!editor) return;
 
@@ -27,7 +27,7 @@ class FontSizeManager {
     // 如果选择了文本，直接应用样式
     if (!range.collapsed) {
       const span = document.createElement('span');
-      span.style.fontSize = size;
+      span.style.color = color;
       
       try {
         range.surroundContents(span);
@@ -39,7 +39,7 @@ class FontSizeManager {
     } else {
       // 如果没有选择文本，插入一个带样式的span
       const span = document.createElement('span');
-      span.style.fontSize = size;
+      span.style.color = color;
       span.innerHTML = '&nbsp;';
       range.insertNode(span);
       

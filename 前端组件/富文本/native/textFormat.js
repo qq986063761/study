@@ -1,26 +1,40 @@
 /**
- * 文本格式模块
+ * 文本格式功能模块
  */
-class TextFormatter {
-  constructor(editor) {
-    this.editor = editor;
-    this.initTextFormat();
+class TextFormatManager {
+  constructor(vueApp) {
+    this.app = vueApp;
+    this.editor = null;
   }
 
-  initTextFormat() {
-    // 粗体
-    document.getElementById('boldBtn').addEventListener('click', () => {
-      this.toggleFormat('bold');
-    });
-
-    // 斜体
-    document.getElementById('italicBtn').addEventListener('click', () => {
-      this.toggleFormat('italic');
-    });
+  getEditor() {
+    if (!this.editor) {
+      this.editor = this.app.$refs.editor;
+    }
+    return this.editor;
   }
 
-  toggleFormat(command) {
-    this.editor.execCommand(command);
-    this.editor.updateButtonStates();
+  toggleBold() {
+    document.execCommand('bold');
+    this.getEditor().focus();
+    this.app.updateEditorState();
+  }
+
+  toggleItalic() {
+    document.execCommand('italic');
+    this.getEditor().focus();
+    this.app.updateEditorState();
+  }
+
+  toggleUnderline() {
+    document.execCommand('underline');
+    this.getEditor().focus();
+    this.app.updateEditorState();
+  }
+
+  toggleStrikethrough() {
+    document.execCommand('strikeThrough');
+    this.getEditor().focus();
+    this.app.updateEditorState();
   }
 }

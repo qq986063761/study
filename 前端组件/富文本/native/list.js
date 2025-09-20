@@ -2,39 +2,29 @@
  * 列表功能模块
  */
 class ListManager {
-  constructor(editor) {
-    this.editor = editor;
-    this.initListFunctions();
+  constructor(vueApp) {
+    this.app = vueApp;
+    this.editor = null;
     this.initKeyboardHandlers();
   }
 
-  initListFunctions() {
-    // 无序列表
-    document.getElementById('unorderedListBtn').addEventListener('click', () => {
-      this.toggleList('insertUnorderedList');
-    });
-
-    // 有序列表
-    document.getElementById('orderedListBtn').addEventListener('click', () => {
-      this.toggleList('insertOrderedList');
-    });
-
-    // 增加缩进
-    document.getElementById('indentBtn').addEventListener('click', () => {
-      this.editor.execCommand('indent');
-    });
-
-    // 减少缩进
-    document.getElementById('outdentBtn').addEventListener('click', () => {
-      this.editor.execCommand('outdent');
-    });
+  getEditor() {
+    if (!this.editor) {
+      this.editor = this.app.$refs.editor;
+    }
+    return this.editor;
   }
 
   initKeyboardHandlers() {
     // 监听键盘事件，处理删除键退出列表的逻辑
-    this.editor.editor.addEventListener('keydown', (e) => {
-      this.handleListKeydown(e);
-    });
+    setTimeout(() => {
+      const editor = this.getEditor();
+      if (editor) {
+        editor.addEventListener('keydown', (e) => {
+          this.handleListKeydown(e);
+        });
+      }
+    }, 100);
   }
 
   handleListKeydown(e) {
@@ -117,6 +107,26 @@ class ListManager {
     }, 0);
   }
 
+  toggleUnorderedList() {
+    this.toggleList('insertUnorderedList');
+  }
+
+  toggleOrderedList() {
+    this.toggleList('insertOrderedList');
+  }
+
+  indent() {
+    document.execCommand('indent');
+    this.getEditor().focus();
+    this.app.updateEditorState();
+  }
+
+  outdent() {
+    document.execCommand('outdent');
+    this.getEditor().focus();
+    this.app.updateEditorState();
+  }
+
   toggleList(command) {
     // 检查当前是否已经在列表中
     const selection = window.getSelection();
@@ -126,11 +136,12 @@ class ListManager {
 
       if (listItem) {
         // 如果在列表中，先退出列表
-        this.editor.execCommand('outdent');
+        document.execCommand('outdent');
       }
     }
 
-    this.editor.execCommand(command);
-    this.editor.updateButtonStates();
+    document.execCommand(command);
+    this.getEditor().focus();
+    this.app.updateEditorState();
   }
 }

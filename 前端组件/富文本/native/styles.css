@@ -116,11 +116,6 @@ body {
   border-radius: 0 0 4px 4px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-  display: none;
-}
-
-.select-options.show {
-  display: block;
 }
 
 .select-option {
@@ -171,13 +166,8 @@ body {
   border-radius: 4px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-  display: none;
   padding: 8px;
   width: 200px;
-}
-
-.color-options.show {
-  display: block;
 }
 
 .color-grid {
@@ -270,4 +260,99 @@ body {
   content: "开始输入内容...";
   color: #999;
   font-style: italic;
+}
+
+/* 自定义字体大小输入框 */
+.font-size-input {
+  width: 80px;
+  padding: 6px 8px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.font-size-input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+/* 全屏样式 */
+.editor-container.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.editor-container.fullscreen .editor-content {
+  height: calc(100vh - 80px);
+  min-height: calc(100vh - 80px);
+}
+
+/* 表格样式 */
+.editor-content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 10px 0;
+}
+
+.editor-content table td,
+.editor-content table th {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.editor-content table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+/* 链接样式 */
+.editor-content a {
+  color: #007bff;
+  text-decoration: underline;
+}
+
+.editor-content a:hover {
+  color: #0056b3;
+}
+
+/* 标题样式 */
+.editor-content h1,
+.editor-content h2,
+.editor-content h3,
+.editor-content h4,
+.editor-content h5,
+.editor-content h6 {
+  margin: 10px 0;
+  font-weight: bold;
+}
+
+.editor-content h1 { font-size: 2em; }
+.editor-content h2 { font-size: 1.5em; }
+.editor-content h3 { font-size: 1.17em; }
+.editor-content h4 { font-size: 1em; }
+.editor-content h5 { font-size: 0.83em; }
+.editor-content h6 { font-size: 0.67em; }
+
+/* 文本对齐样式 */
+.editor-content [style*="text-align: left"] { text-align: left; }
+.editor-content [style*="text-align: center"] { text-align: center; }
+.editor-content [style*="text-align: right"] { text-align: right; }
+.editor-content [style*="text-align: justify"] { text-align: justify; }
+
+/* 下划线和中划线样式 */
+.editor-content u { text-decoration: underline; }
+.editor-content s { text-decoration: line-through; }
+
+/* 背景色样式 */
+.editor-content [style*="background-color"] {
+  padding: 2px 4px;
+  border-radius: 2px;
 }

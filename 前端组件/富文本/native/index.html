@@ -6,102 +6,105 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>富文本编辑器</title>
   <link rel="stylesheet" href="styles.css">
+  <!-- Vue CDN -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 </head>
 
 <body>
-  <div class="editor-container">
-    <div class="toolbar">
-      <!-- 字体大小 -->
-      <div class="toolbar-group">
-        <label>字体大小:</label>
-        <div class="custom-select" id="fontSizeSelect">
-          <div class="select-trigger">
-            <span class="select-text">正常</span>
-            <span class="select-arrow">▼</span>
-          </div>
-          <div class="select-options">
-            <div class="select-option" data-value="12px">12px</div>
-            <div class="select-option selected" data-value="16px">16px</div>
-            <div class="select-option" data-value="20px">20px</div>
-            <div class="select-option" data-value="24px">24px</div>
-            <div class="select-option" data-value="32px">32px</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 字体颜色 -->
-      <div class="toolbar-group">
-        <label>颜色:</label>
-        <div class="custom-color-picker" id="fontColorPicker">
-          <div class="color-trigger" style="background-color: #000000;"></div>
-          <div class="color-options">
-            <div class="color-grid">
-              <div class="color-option selected" data-color="#000000" style="background-color: #000000;"></div>
-              <div class="color-option" data-color="#333333" style="background-color: #333333;"></div>
-              <div class="color-option" data-color="#666666" style="background-color: #666666;"></div>
-              <div class="color-option" data-color="#999999" style="background-color: #999999;"></div>
-              <div class="color-option" data-color="#cccccc" style="background-color: #cccccc;"></div>
-              <div class="color-option" data-color="#ffffff" style="background-color: #ffffff;"></div>
-              <div class="color-option" data-color="#ff0000" style="background-color: #ff0000;"></div>
-              <div class="color-option" data-color="#00ff00" style="background-color: #00ff00;"></div>
-              <div class="color-option" data-color="#0000ff" style="background-color: #0000ff;"></div>
-              <div class="color-option" data-color="#ffff00" style="background-color: #ffff00;"></div>
-              <div class="color-option" data-color="#ff00ff" style="background-color: #ff00ff;"></div>
-              <div class="color-option" data-color="#00ffff" style="background-color: #00ffff;"></div>
-              <div class="color-option" data-color="#ff8000" style="background-color: #ff8000;"></div>
-              <div class="color-option" data-color="#8000ff" style="background-color: #8000ff;"></div>
-              <div class="color-option" data-color="#0080ff" style="background-color: #0080ff;"></div>
-              <div class="color-option" data-color="#ff0080" style="background-color: #ff0080;"></div>
+  <div id="app">
+    <div class="editor-container">
+      <div class="toolbar">
+        <div class="toolbar-group" 
+             v-for="group in toolbarGroups" 
+             :key="group.id">
+          
+          <!-- 标签 -->
+          <label v-if="group.label">{{ group.label }}</label>
+          
+          <!-- 下拉选择器 -->
+          <div v-if="group.type === 'select'" 
+               class="custom-select" 
+               @click="toggleSelect(group.id)">
+            <div class="select-trigger" :class="{ active: group.open }">
+              <span class="select-text">{{ group.currentValue }}</span>
+              <span class="select-arrow">▼</span>
+            </div>
+            <div class="select-options" v-show="group.open">
+              <div class="select-option" 
+                   v-for="option in group.options" 
+                   :key="option.value"
+                   :class="{ selected: group.currentValue === option.text }"
+                   @click="selectOption(group.id, option)">
+                {{ option.text }}
+              </div>
             </div>
           </div>
+          
+          <!-- 颜色选择器 -->
+          <div v-if="group.type === 'color'" 
+               class="custom-color-picker" 
+               @click="toggleColorPicker(group.id)">
+            <div class="color-trigger" :style="{ backgroundColor: group.currentValue }"></div>
+            <div class="color-options" v-show="group.open">
+              <div class="color-grid">
+                <div class="color-option" 
+                     v-for="color in colors" 
+                     :key="color"
+                     :class="{ selected: group.currentValue === color }"
+                     :style="{ backgroundColor: color }"
+                     @click="selectColor(group.id, color)">
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 输入框 -->
+          <input v-if="group.type === 'input'"
+                 :type="group.inputType || 'text'"
+                 v-model="group.value"
+                 @keyup.enter="group.onEnter"
+                 :placeholder="group.placeholder"
+                 :class="group.className"
+                 :min="group.min"
+                 :max="group.max">
+          
+          <!-- 按钮组 -->
+          <template v-if="group.type === 'buttons'">
+            <button v-for="button in group.buttons"
+                    :key="button.id"
+                    class="btn"
+                    :class="{ active: button.active }"
+                    @click="button.action"
+                    :title="button.title">
+              <span v-html="button.content"></span>
+            </button>
+          </template>
         </div>
       </div>
 
-      <!-- 文本格式 -->
-      <div class="toolbar-group">
-        <button class="btn" id="boldBtn" title="粗体">
-          <strong>B</strong>
-        </button>
-        <button class="btn" id="italicBtn" title="斜体">
-          <em>I</em>
-        </button>
-      </div>
-
-      <!-- 列表 -->
-      <div class="toolbar-group">
-        <button class="btn" id="unorderedListBtn" title="无序列表">
-          • 列表
-        </button>
-        <button class="btn" id="orderedListBtn" title="有序列表">
-          1. 列表
-        </button>
-        <button class="btn" id="indentBtn" title="增加缩进">
-          → 缩进
-        </button>
-        <button class="btn" id="outdentBtn" title="减少缩进">
-          ← 减少缩进
-        </button>
-      </div>
-
-      <!-- 其他功能 -->
-      <div class="toolbar-group">
-        <button class="btn" id="clearBtn" title="清除格式">
-          清除格式
-        </button>
-        <button class="btn" id="getHtmlBtn" title="获取HTML">
-          获取HTML
-        </button>
+      <div class="editor-content" 
+           ref="editor" 
+           contenteditable="true"
+           @input="updateEditorState"
+           @mouseup="updateEditorState"
+           @keyup="updateEditorState"
+           @focus="updateEditorState">
       </div>
     </div>
-
-    <div class="editor-content" id="editor" contenteditable="true"></div>
   </div>
 
   <!-- 引入拆分后的JS文件 -->
+  <script src="heading.js"></script>
   <script src="fontSize.js"></script>
-  <script src="fontColor.js"></script>
+  <script src="customFontSize.js"></script>
+  <script src="foreColor.js"></script>
+  <script src="backColor.js"></script>
   <script src="textFormat.js"></script>
+  <script src="alignment.js"></script>
   <script src="list.js"></script>
+  <script src="table.js"></script>
+  <script src="link.js"></script>
+  <script src="fullscreen.js"></script>
   <script src="utils.js"></script>
   <script src="editor.js"></script>
 </body>
