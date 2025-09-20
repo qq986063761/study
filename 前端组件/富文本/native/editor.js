@@ -252,6 +252,9 @@ createApp({
     
     // 添加选区缓存监听
     this.initRangeCache();
+    
+    // 添加内容监听，检测是否只剩一个br标签
+    this.initContentListener();
   },
   
   methods: {
@@ -453,6 +456,43 @@ createApp({
     // 获取缓存的选区
     getCachedRange() {
       return this.cachedRange;
+    },
+    
+    // 初始化内容监听
+    initContentListener() {
+      const editor = this.$refs.editor;
+      if (!editor) return;
+      
+      // 监听输入事件
+      editor.addEventListener('input', this.checkContentAndClear);
+      editor.addEventListener('keyup', this.checkContentAndClear);
+      editor.addEventListener('paste', this.checkContentAndClear);
+    },
+    
+    // 检查内容并清空（如果只剩一个br标签）
+    checkContentAndClear() {
+      const editor = this.$refs.editor;
+      if (!editor) return;
+      
+      // 获取编辑器的HTML内容
+      const htmlContent = editor.innerHTML.trim();
+      
+      // 检查是否只剩一个br标签（包括自闭合和普通br标签）
+      const brOnlyPattern = /^<br\s*\/?>$/i;
+      const emptyPattern = /^$/;
+      
+      if (brOnlyPattern.test(htmlContent) || emptyPattern.test(htmlContent)) {
+        // 清空编辑器内容
+        editor.innerHTML = '';
+        
+        // 确保光标在编辑器内
+        const range = document.createRange();
+        const sel = window.getSelection();
+        range.selectNodeContents(editor);
+        range.collapse(true);
+        sel.removeAllRanges();
+        sel.addRange(range);
+      }
     },
 
     /**
