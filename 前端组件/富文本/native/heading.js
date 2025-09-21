@@ -76,9 +76,14 @@ class HeadingManager {
       } else {
         // 将当前元素转换为目标标题
         const newElement = document.createElement(tag === 'p' ? 'p' : tag);
-        newElement.innerHTML = targetElement.innerHTML || '&nbsp;';
-        
-        targetElement.parentNode.replaceChild(newElement, targetElement);
+        newElement.innerHTML = targetElement.innerHTML || ' &nbsp;';
+
+        // 如果现在 targetElement 是 editor-content，则追加到编辑器中
+        if (targetElement === this.getEditor()) {
+          targetElement.appendChild(newElement);
+        } else {
+          targetElement.parentNode.replaceChild(newElement, targetElement);
+        }
         
         // 将光标移到新元素内
         range.setStart(newElement, 0);
