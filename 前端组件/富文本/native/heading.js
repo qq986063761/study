@@ -26,7 +26,7 @@ class HeadingManager {
     if (!range.collapsed) {
       if (tag === 'p') {
         // 转换为段落
-        const p = document.createElement('p');
+        const p = document.createElement('div');
         try {
           range.surroundContents(p);
         } catch (e) {

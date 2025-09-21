@@ -464,9 +464,7 @@ createApp({
       if (!editor) return;
       
       // 监听输入事件
-      editor.addEventListener('input', this.checkContentAndClear);
-      editor.addEventListener('keyup', this.checkContentAndClear);
-      editor.addEventListener('paste', this.checkContentAndClear);
+      editor.addEventListener('input', this.checkContentAndClear)
     },
     
     // 检查内容并清空（如果只剩一个br标签）
@@ -493,6 +491,29 @@ createApp({
         sel.removeAllRanges();
         sel.addRange(range);
       }
+
+      clearTimeout(this.checkTimer)
+      this.checkTimer = setTimeout(() => {
+        // 如果发现 editor-content 子元素第一行中只有纯文本内容，就给第一行文本包裹一个 div 标签
+        const firstLine = editor.childNodes[0];
+        if (firstLine && firstLine.nodeType === Node.TEXT_NODE) {
+          const div = document.createElement('div');
+          // 先克隆文本节点，避免移动原节点
+          const clonedText = firstLine.cloneNode(true);
+          div.appendChild(clonedText);
+          
+          // 把 firstLine 替换成 div
+          editor.replaceChild(div, firstLine);
+
+          // 光标定位到 div 末尾
+          const range = document.createRange();
+          range.selectNodeContents(div);
+          range.collapse(false);
+          const sel = window.getSelection();
+          sel.removeAllRanges();
+          sel.addRange(range);
+        }
+      }, 150)
     },
 
     /**

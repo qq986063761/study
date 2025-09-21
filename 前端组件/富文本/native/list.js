@@ -214,7 +214,7 @@ class ListManager {
    * 将列表项转换为段落
    */
   convertListItemToParagraph(listItem) {
-    const paragraph = document.createElement('p');
+    const paragraph = document.createElement('div');
     paragraph.innerHTML = listItem.innerHTML;
     
     const parentList = listItem.parentNode;

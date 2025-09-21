@@ -63,7 +63,7 @@ class UtilsManager {
     elementsToProcess.forEach(element => {
       // 如果是标题标签，转换为段落
       if (element.tagName && element.tagName.match(/^H[1-6]$/)) {
-        const p = document.createElement('p');
+        const p = document.createElement('div');
         while (element.firstChild) {
           p.appendChild(element.firstChild);
         }
@@ -94,7 +94,7 @@ class UtilsManager {
     
     // 如果当前元素是标题，转换为段落
     if (element.tagName && element.tagName.match(/^H[1-6]$/)) {
-      const p = document.createElement('p');
+      const p = document.createElement('div');
       p.innerHTML = element.innerHTML;
       element.parentNode.replaceChild(p, element);
       

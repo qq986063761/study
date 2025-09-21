@@ -24,11 +24,10 @@ class AlignmentManager {
     
     // 获取当前选区涉及的所有段落
     const paragraphs = this.getCurrentParagraphs(range);
-    
     if (paragraphs.length === 0) {
       // 如果没有找到段落，获取整行内容并包裹在段落中
       const lineContents = this.getLineContents(range);
-      const paragraph = document.createElement('p');
+      const paragraph = document.createElement('div');
       paragraph.appendChild(lineContents);
       range.insertNode(paragraph);
       paragraph.style.textAlign = alignment;
@@ -183,10 +182,11 @@ class AlignmentManager {
     } else {
       // 如果只是光标位置，获取光标所在行的内容
       const startContainer = range.startContainer;
-      const startOffset = range.startOffset;
-      
+     
       // 如果是文本节点，获取其父元素
-      let container = startContainer.nodeType === Node.TEXT_NODE ? startContainer.parentNode : startContainer;
+      let container = startContainer.nodeType === Node.TEXT_NODE 
+        ? startContainer.parentNode 
+        : startContainer;
       
       // 创建一个新的范围来选中整行
       const lineRange = document.createRange();
