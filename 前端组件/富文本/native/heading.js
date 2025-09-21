@@ -46,14 +46,46 @@ class HeadingManager {
         }
       }
     } else {
-      // 如果没有选择文本，插入一个标题元素
-      const element = document.createElement(tag === 'p' ? 'p' : tag);
-      element.innerHTML = '&nbsp;';
-      range.insertNode(element);
+      // 如果没有选择文本，将当前行变成标题元素
+      const currentElement = range.startContainer;
+      let targetElement = currentElement;
       
-      // 将光标移到元素后面
-      range.setStartAfter(element);
-      range.setEndAfter(element);
+      // 如果当前节点是文本节点，找到其父元素
+      if (currentElement.nodeType === Node.TEXT_NODE) {
+        targetElement = currentElement.parentElement;
+
+        // 如果父元素就是 editor-content，则创建 div 替换文本节点
+        if (targetElement === this.getEditor()) {
+          const div = document.createElement('div');
+          div.appendChild(currentElement.cloneNode(true));
+          targetElement.replaceChild(div, currentElement);
+          targetElement = div
+        }
+      }
+        
+      // 如果当前元素已经是目标标签，则转换为段落
+      if (targetElement.tagName.toLowerCase() === tag.toLowerCase()) {
+        // 转换为段落
+        const p = document.createElement('div');
+        p.innerHTML = targetElement.innerHTML;
+        targetElement.parentNode.replaceChild(p, targetElement);
+        
+        // 将光标移到段落内
+        range.setStart(p, 0);
+        range.setEnd(p, 0);
+      } else {
+        // 将当前元素转换为目标标题
+        const newElement = document.createElement(tag === 'p' ? 'p' : tag);
+        newElement.innerHTML = targetElement.innerHTML || '&nbsp;';
+        
+        targetElement.parentNode.replaceChild(newElement, targetElement);
+        
+        // 将光标移到新元素内
+        range.setStart(newElement, 0);
+        range.setEnd(newElement, 0);
+      }
+
+      const selection = window.getSelection();
       selection.removeAllRanges();
       selection.addRange(range);
     }

@@ -188,6 +188,14 @@ class AlignmentManager {
         ? startContainer.parentNode 
         : startContainer;
       
+      // 如果 container 是 editor-content 自己，说明内容没有被包裹
+      // 则创建一个 div 包裹
+      if (container === this.getEditor()) {
+        const div = document.createElement('div');
+        div.appendChild(startContainer);
+        container = div;
+      }
+      
       // 创建一个新的范围来选中整行
       const lineRange = document.createRange();
       
