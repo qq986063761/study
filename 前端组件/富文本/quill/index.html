@@ -201,6 +201,93 @@
 <body>
   <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
   
+  <!-- 工具栏模板 -->
+  <div id="toolbar">
+    <!-- 文本格式 -->
+    <span class="ql-formats">
+      <select class="ql-header">
+        <option value="1">标题1</option>
+        <option value="2">标题2</option>
+        <option value="3">标题3</option>
+        <option value="4">标题4</option>
+        <option value="5">标题5</option>
+        <option value="6">标题6</option>
+        <option value="">普通文本</option>
+      </select>
+    </span>
+    
+    <span class="ql-formats">
+      <select class="ql-size">
+        <option value="8px">8px</option>
+        <option value="10px">10px</option>
+        <option value="12px">12px</option>
+        <option value="14px">14px</option>
+        <option value="16px">16px</option>
+        <option value="18px">18px</option>
+        <option value="20px">20px</option>
+        <option value="24px">24px</option>
+        <option value="28px">28px</option>
+        <option value="32px">32px</option>
+        <option value="36px">36px</option>
+        <option value="48px">48px</option>
+      </select>
+    </span>
+    
+    <!-- 文本样式 -->
+    <span class="ql-formats">
+      <button class="ql-bold"></button>
+      <button class="ql-italic"></button>
+      <button class="ql-underline"></button>
+      <button class="ql-strike"></button>
+    </span>
+    
+    <span class="ql-formats">
+      <button class="ql-script" value="sub"></button>
+      <button class="ql-script" value="super"></button>
+    </span>
+    
+    <span class="ql-formats">
+      <select class="ql-color"></select>
+      <select class="ql-background"></select>
+    </span>
+    
+    <!-- 对齐和方向 -->
+    <span class="ql-formats">
+      <select class="ql-align"></select>
+      <button class="ql-direction" value="rtl"></button>
+    </span>
+    
+    <!-- 列表 -->
+    <span class="ql-formats">
+      <button class="ql-list" value="ordered"></button>
+      <button class="ql-list" value="bullet"></button>
+      <button class="ql-indent" value="-1"></button>
+      <button class="ql-indent" value="+1"></button>
+    </span>
+    
+    <!-- 其他功能 -->
+    <span class="ql-formats">
+      <button class="ql-blockquote"></button>
+      <button class="ql-code-block"></button>
+    </span>
+    
+    <span class="ql-formats">
+      <button class="ql-link"></button>
+      <button class="ql-image"></button>
+      <button class="ql-video"></button>
+    </span>
+    
+    <span class="ql-formats">
+      <button class="ql-clean"></button>
+    </span>
+    
+    <!-- 自定义按钮 -->
+    <span class="ql-formats">
+      <button class="ql-custom-button" data-value="custom-title">自定义标题</button>
+      <button class="ql-custom-button" data-value="custom-size">自定义size</button>
+    </span>
+  </div>
+  
   <div id="editor">
     <h1>Quill 富文本编辑器完整功能演示</h1>
     <h2>支持的功能包括：</h2>
@@ -240,30 +327,31 @@ function hello() {
     const quill = new Quill('#editor', {
       theme: 'snow',
       modules: {
-        toolbar: [
-          // 文本格式
-          [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-          // [{ 'font': [] }], // 注释掉 font 功能
-          [{ 'size': ['8px', '10px', '12px', '14px', '16px', '18px', '20px', '24px', '28px', '32px', '36px', '48px'] }],
+        toolbar: '#toolbar',  // 使用HTML模板中的工具栏
+        // toolbar: [
+        //   // 文本格式
+        //   [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+        //   // [{ 'font': [] }], // 注释掉 font 功能
+        //   [{ 'size': ['8px', '10px', '12px', '14px', '16px', '18px', '20px', '24px', '28px', '32px', '36px', '48px'] }],
           
-          // 文本样式
-          ['bold', 'italic', 'underline', 'strike'],
-          [{ 'color': [] }, { 'background': [] }],
-          [{ 'script': 'sub'}, { 'script': 'super' }],
+        //   // 文本样式
+        //   ['bold', 'italic', 'underline', 'strike'],
+        //   [{ 'color': [] }, { 'background': [] }],
+        //   [{ 'script': 'sub'}, { 'script': 'super' }],
           
-          // 对齐和方向
-          [{ 'align': [] }],
-          [{ 'direction': 'rtl' }],
+        //   // 对齐和方向
+        //   [{ 'align': [] }],
+        //   [{ 'direction': 'rtl' }],
           
-          // 列表
-          [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-          [{ 'indent': '-1'}, { 'indent': '+1' }],
+        //   // 列表
+        //   [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+        //   [{ 'indent': '-1'}, { 'indent': '+1' }],
           
-          // 其他功能
-          ['blockquote', 'code-block'],
-          ['link', 'image', 'video'],
-          ['clean']
-        ]
+        //   // 其他功能
+        //   ['blockquote', 'code-block'],
+        //   ['link', 'image', 'video'],
+        //   ['clean']
+        // ]
       },
       formats: [
         'header', 'size', 'class',
@@ -407,40 +495,22 @@ function hello() {
       }
     }
 
-    // 创建自定义按钮
-    const createCustomButton = (id, label, handler) => {
-      const button = document.createElement('button');
-      button.setAttribute('data-value', id);
-      button.className = 'ql-custom-button';
-      button.innerHTML = label;
-      button.addEventListener('click', handler);
-      return button;
-    };
-
-    // 创建自定义标题按钮
-    const customTitleButton = createCustomButton('custom-title', '自定义标题', customTitleHandler);
-    const customSizeButton = createCustomButton('custom-size', '自定义size', customSizeHandler);
-
-    // 将按钮添加到工具栏
-    const addButtonsToToolbar = () => {
-      const toolbarContainer = document.querySelector('.ql-toolbar');
-      if (toolbarContainer) {
-        // 查找合适的位置插入按钮
-        const sizeGroup = toolbarContainer.querySelector('.ql-size');
-        if (sizeGroup && sizeGroup.parentNode) {
-          // 在字体大小选择器后插入自定义按钮
-          sizeGroup.parentNode.insertBefore(customTitleButton, sizeGroup.nextSibling);
-          sizeGroup.parentNode.insertBefore(customSizeButton, sizeGroup.nextSibling);
-        } else {
-          // 如果找不到字体大小选择器，添加到工具栏末尾
-          toolbarContainer.appendChild(customTitleButton);
-          toolbarContainer.appendChild(customSizeButton);
-        }
+    // 绑定自定义按钮事件（按钮已在HTML模板中）
+    const bindCustomButtons = () => {
+      const customTitleButton = document.querySelector('[data-value="custom-title"]');
+      const customSizeButton = document.querySelector('[data-value="custom-size"]');
+      
+      if (customTitleButton) {
+        customTitleButton.addEventListener('click', customTitleHandler);
+      }
+      
+      if (customSizeButton) {
+        customSizeButton.addEventListener('click', customSizeHandler);
       }
     };
 
-    // 延迟添加按钮，确保工具栏已渲染
-    setTimeout(addButtonsToToolbar, 100);
+    // 延迟绑定按钮事件，确保DOM已渲染
+    setTimeout(bindCustomButtons, 100);
 
     const str = '<h1>asdfasdfsadf</h1><p>as<span style="font-size: 18px;">fasdf </span></p><p><span style="color: rgb(212, 56, 13); font-size: 18px;">asdfas</span><span style="font-size: 18px;">df </span></p><p><span style="font-size: 18px;">sa</span><span style="background-color: rgb(255, 77, 79); font-size: 18px;">dfasd</span><span style="font-size: 18px;">f </span></p><p><span style="font-size: 18px;">sad</span><span style="font-size: 18px;"><strong>fasdf</strong></span></p><p><span style="font-size: 18px;"><em><strong>asdfasdf</strong></em></span></p><p><span style="font-size: 18px;"><em><strong>sa</strong></em></span><span style="font-size: 18px;"><u><em><strong>dfasdf</strong></em></u></span></p><p><span style="font-size: 18px;"><u><em><strong>sadf</strong></em></u></span><span style="font-size: 18px;"><s><u><em><strong>asdfasdf</strong></em></u></s></span></p><p><span style="font-size: 18px;"><s><u><em><strong>safasdfasdf</strong></em></u></s></span></p><p style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>sa dfasdfasdf</strong></em></u></s></span></p><ul><li style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>sdfasdfasdfsd</strong></em></u></s></span></li><li style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>asdfasdf</strong></em></u></s></span></li><li style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>sadf sdaf</strong></em></u></s></span></li><li style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>sdfa</strong></em></u></s></span></li><ul><li style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>asfasdf</strong></em></u></s></span></li><ul><li style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>asfasd f</strong></em></u></s></span></li><ul><li style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>asfasdfsdf</strong></em></u></s></span></li></ul></ul></ul><li style="text-align: left;"><span style="font-size: 18px;"><s><u><em><strong>asd fasdfasdf</strong></em></u></s></span></li><li style="text-align: left;"><span style="font-size: 18px;"><s><u><em><strong>sadfasfsaf</strong></em></u></s></span></li><ol><li style="text-align: left;"><span style="font-size: 18px;"><s><u><em><strong>asdfasdfs</strong></em></u></s></span></li><li style="text-align: left;"><span style="font-size: 18px;"><s><u><em><strong>safsafsaf</strong></em></u></s></span></li><ol><li style="text-align: left;"><span style="font-size: 18px;"><s><u><em><strong>sdfasfasf</strong></em></u></s></span></li><li style="text-align: left;"><span style="font-size: 18px;"><s><u><em><strong>sfasfasf</strong></em></u></s></span></li><ol><li style="text-align: left;"><span style="font-size: 18px;"><s><u><em><strong>dsfasdf</strong></em></u></s></span></li></ol></ol></ol></ul><p style="text-align: left;"><br></p><table style="width: auto;"><tbody><tr><th colSpan="1" rowSpan="1" width="auto"></th><th colSpan="1" rowSpan="1" width="auto"></th><th colSpan="1" rowSpan="1" width="auto"></th><th colSpan="1" rowSpan="1" width="auto"></th><th colSpan="1" rowSpan="1" width="auto"></th><th colSpan="1" rowSpan="1" width="auto"></th><th colSpan="1" rowSpan="1" width="auto"></th></tr><tr><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto">123</td><td colSpan="1" rowSpan="1" width="auto">231</td><td colSpan="1" rowSpan="1" width="auto">123</td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td></tr><tr><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto">123</td><td colSpan="1" rowSpan="1" width="auto">12313</td><td colSpan="1" rowSpan="1" width="auto">123</td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td></tr><tr><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto">123</td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td></tr><tr><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td></tr></tbody></table><p><br></p><p> <a href="https://www.baidu.com" target="_blank">百度</a> sdfasfas</p><p>sadfasfd</p><p> <a href="https://lanhuapp.com/web/#/item/project/stage?tid=8ad1fe5d-cb8c-43e9-98b6-af31d588b398&pid=b237bd3d-292e-410b-995b-50610a3099d5" target="_blank">https://lanhuapp.com/web/#/item/project/stage?tid=8ad1fe5d-cb8c-43e9-98b6-af31d588b398&pid=b237bd3d-292e-410b-995b-50610a3099d5</a> </p><p><br></p><p>asdfasdf</p><p><img src="https://zxb-online.topscrm.cn/info/68cce57480e0caa57a4cf5d1.jpg" alt="" data-href="https://zxb-online.topscrm.cn/info/68cce57480e0caa57a4cf5d1.jpg" style=""/></p>'
     // 在编辑器初始化完成后，将字符串内容添加到现有内容之后

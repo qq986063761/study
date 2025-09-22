@@ -1,11 +1,125 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>CKEditor 完整功能 Demo</title>
+  <script src="https://cdn.ckeditor.com/ckeditor5/40.2.0/classic/ckeditor.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f5f5f5;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #333;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .editor-container {
+      margin: 20px 0;
+    }
+  </style>
 </head>
 <body>
-  
+  <div class="container">
+    <h1>CKEditor 完整功能演示</h1>
+    
+    <div class="editor-container">
+      <textarea id="editor" name="content">
+        <h1>欢迎使用 CKEditor</h1>
+        <p>这是一个功能完整的富文本编辑器，包含了所有可用的功能。</p>
+        <p><strong>粗体文本</strong> 和 <em>斜体文本</em></p>
+        <blockquote>
+          <p>这是一个引用块，用于突出显示重要内容。</p>
+        </blockquote>
+        <p>你可以插入 <a href="https://www.example.com">链接</a> 和图片。</p>
+        <ul>
+          <li>列表项目 1</li>
+          <li>列表项目 2</li>
+        </ul>
+        <ol>
+          <li>编号列表 1</li>
+          <li>编号列表 2</li>
+        </ol>
+      </textarea>
+    </div>
+  </div>
+
+  <script>
+    // 完整工具栏配置
+    ClassicEditor
+      .create(document.querySelector('#editor'), {
+        toolbar: {
+          items: [
+            'heading', '|',
+            'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
+            'bold', 'italic', 'underline', 'strikethrough', 'subscript', 'superscript', '|',
+            'alignment', '|',
+            'bulletedList', 'numberedList', 'todoList', '|',
+            'outdent', 'indent', '|',
+            'link', 'blockQuote', 'insertTable', 'mediaEmbed', '|',
+            'horizontalLine', 'specialCharacters', '|',
+            'code', 'codeBlock', '|',
+            'findAndReplace', '|',
+            'undo', 'redo', '|',
+            'sourceEditing'
+          ]
+        },
+        heading: {
+          options: [
+            { model: 'paragraph', title: '正文', class: 'ck-heading_paragraph' },
+            { model: 'heading1', view: 'h1', title: '标题 1', class: 'ck-heading_heading1' },
+            { model: 'heading2', view: 'h2', title: '标题 2', class: 'ck-heading_heading2' },
+            { model: 'heading3', view: 'h3', title: '标题 3', class: 'ck-heading_heading3' },
+            { model: 'heading4', view: 'h4', title: '标题 4', class: 'ck-heading_heading4' }
+          ]
+        },
+        fontSize: {
+          options: [
+            9, 11, 13, 'default', 17, 19, 21
+          ],
+          supportAllValues: true
+        },
+        fontFamily: {
+          options: [
+            'default',
+            'Arial, Helvetica, sans-serif',
+            'Courier New, Courier, monospace',
+            'Georgia, serif',
+            'Lucida Sans Unicode, Lucida Grande, sans-serif',
+            'Tahoma, Geneva, sans-serif',
+            'Times New Roman, Times, serif',
+            'Trebuchet MS, Helvetica, sans-serif',
+            'Verdana, Geneva, sans-serif'
+          ],
+          supportAllValues: true
+        },
+        alignment: {
+          options: ['left', 'center', 'right', 'justify']
+        },
+        table: {
+          contentToolbar: [
+            'tableColumn',
+            'tableRow',
+            'mergeTableCells',
+            'tableProperties',
+            'tableCellProperties'
+          ]
+        },
+        language: 'zh-cn'
+      })
+      .catch(error => {
+        console.error('编辑器初始化失败:', error);
+      });
+  </script>
 </body>
 </html>
