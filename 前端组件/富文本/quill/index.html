@@ -41,6 +41,161 @@
       color: #333;
       margin-bottom: 20px;
     }
+
+    /* 自定义字体大小样式 */
+    .ql-editor .ql-size-12px { font-size: 12px; }
+    .ql-editor .ql-size-14px { font-size: 14px; }
+    .ql-editor .ql-size-16px { font-size: 16px; }
+    .ql-editor .ql-size-18px { font-size: 18px; }
+    .ql-editor .ql-size-20px { font-size: 20px; }
+    .ql-editor .ql-size-24px { font-size: 24px; }
+    .ql-editor .ql-size-28px { font-size: 28px; }
+    .ql-editor .ql-size-32px { font-size: 32px; }
+
+    /* 自定义字体大小下拉菜单显示文本 */
+    .ql-snow .ql-picker.ql-size .ql-picker-item[data-value="8px"]::before,
+    .ql-snow .ql-picker.ql-size .ql-picker-label[data-value="8px"]::before {
+      content: '8px';
+    }
+    .ql-snow .ql-picker.ql-size .ql-picker-item[data-value="10px"]::before,
+    .ql-snow .ql-picker.ql-size .ql-picker-label[data-value="10px"]::before {
+      content: '10px';
+    }
+    .ql-snow .ql-picker.ql-size .ql-picker-item[data-value="12px"]::before,
+    .ql-snow .ql-picker.ql-size .ql-picker-label[data-value="12px"]::before {
+      content: '12px';
+    }
+    .ql-snow .ql-picker.ql-size .ql-picker-item[data-value="14px"]::before,
+    .ql-snow .ql-picker.ql-size .ql-picker-label[data-value="14px"]::before {
+      content: '14px';
+    }
+    .ql-snow .ql-picker.ql-size .ql-picker-item[data-value="16px"]::before,
+    .ql-snow .ql-picker.ql-size .ql-picker-label[data-value="16px"]::before {
+      content: '16px';
+    }
+    .ql-snow .ql-picker.ql-size .ql-picker-item[data-value="18px"]::before,
+    .ql-snow .ql-picker.ql-size .ql-picker-label[data-value="18px"]::before {
+      content: '18px';
+    }
+    .ql-snow .ql-picker.ql-size .ql-picker-item[data-value="20px"]::before,
+    .ql-snow .ql-picker.ql-size .ql-picker-label[data-value="20px"]::before {
+      content: '20px';
+    }
+    .ql-snow .ql-picker.ql-size .ql-picker-item[data-value="24px"]::before,
+    .ql-snow .ql-picker.ql-size .ql-picker-label[data-value="24px"]::before {
+      content: '24px';
+    }
+    .ql-snow .ql-picker.ql-size .ql-picker-item[data-value="28px"]::before,
+    .ql-snow .ql-picker.ql-size .ql-picker-label[data-value="28px"]::before {
+      content: '28px';
+    }
+    .ql-snow .ql-picker.ql-size .ql-picker-item[data-value="32px"]::before,
+    .ql-snow .ql-picker.ql-size .ql-picker-label[data-value="32px"]::before {
+      content: '32px';
+    }
+    .ql-snow .ql-picker.ql-size .ql-picker-item[data-value="36px"]::before,
+    .ql-snow .ql-picker.ql-size .ql-picker-label[data-value="36px"]::before {
+      content: '36px';
+    }
+    .ql-snow .ql-picker.ql-size .ql-picker-item[data-value="48px"]::before,
+    .ql-snow .ql-picker.ql-size .ql-picker-label[data-value="48px"]::before {
+      content: '48px';
+    }
+
+    /* 自定义样式菜单样式 */
+    .custom-style-picker {
+      position: relative;
+      display: inline-block;
+      margin: 0 2px;
+    }
+
+    .custom-style-picker button {
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      padding: 5px 8px;
+      cursor: pointer;
+      font-size: 13px;
+      color: #444;
+      transition: all 0.2s ease;
+    }
+
+    .custom-style-picker button:hover {
+      background: #f0f0f0;
+      border-color: #999;
+    }
+
+    .custom-style-picker button:active {
+      background: #e0e0e0;
+    }
+
+    .custom-style-dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      z-index: 1000;
+      min-width: 120px;
+      display: none;
+    }
+
+    .custom-style-dropdown.show {
+      display: block;
+    }
+
+    .custom-style-item {
+      padding: 8px 12px;
+      cursor: pointer;
+      border-bottom: 1px solid #f0f0f0;
+      transition: background-color 0.2s ease;
+    }
+
+    .custom-style-item:last-child {
+      border-bottom: none;
+    }
+
+    .custom-style-item:hover {
+      background-color: #f5f5f5;
+    }
+
+    .custom-style-item.active {
+      background-color: #e3f2fd;
+      color: #1976d2;
+    }
+
+
+    /* 自定义size样式 - 扩展更多字体大小选项 */
+    .ql-editor .ql-size-8px { font-size: 8px; }
+    .ql-editor .ql-size-10px { font-size: 10px; }
+    .ql-editor .ql-size-36px { font-size: 36px; }
+    .ql-editor .ql-size-48px { font-size: 48px; }
+
+    /* 自定义按钮样式 */
+    .ql-custom-button {
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      padding: 5px 8px;
+      margin: 0 2px;
+      cursor: pointer;
+      font-size: 13px;
+      color: #444;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      width: unset !important;
+    }
+
+    .ql-custom-button:hover {
+      background: #f0f0f0;
+      border-color: #999;
+    }
+
+    .ql-custom-button:active {
+      background: #e0e0e0;
+    }
   </style>
 </head>
 <body>
@@ -68,14 +223,28 @@ function hello() {
   </div>
 
   <script>
+    console.log('Quill', Quill.imports, Quill);
+
+    // 注册自定义字体大小格式
+    const SizeClass = Quill.import('attributors/class/size');
+    const SizeStyle = Quill.import('attributors/style/size');
+    
+    // 定义自定义字体大小范围
+    SizeClass.whitelist = ['8px', '10px', '12px', '14px', '16px', '18px', '20px', '24px', '28px', '32px', '36px', '48px'];
+    SizeStyle.whitelist = ['8px', '10px', '12px', '14px', '16px', '18px', '20px', '24px', '28px', '32px', '36px', '48px'];
+    
+    // 注册自定义格式
+    Quill.register(SizeClass, true);
+    Quill.register(SizeStyle, true);
+
     const quill = new Quill('#editor', {
       theme: 'snow',
       modules: {
         toolbar: [
           // 文本格式
           [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-          [{ 'font': [] }],
-          [{ 'size': ['small', false, 'large', 'huge'] }],
+          // [{ 'font': [] }], // 注释掉 font 功能
+          [{ 'size': ['8px', '10px', '12px', '14px', '16px', '18px', '20px', '24px', '28px', '32px', '36px', '48px'] }],
           
           // 文本样式
           ['bold', 'italic', 'underline', 'strike'],
@@ -93,18 +262,15 @@ function hello() {
           // 其他功能
           ['blockquote', 'code-block'],
           ['link', 'image', 'video'],
-          ['clean'],
-          
-          // 自定义按钮
-          ['custom-button']
+          ['clean']
         ]
       },
       formats: [
-        'header', 'font', 'size',
+        'header', 'size', 'class',
         'bold', 'italic', 'underline', 'strike',
         'color', 'background', 'script',
         'align', 'direction',
-        'list', 'bullet', 'indent',
+        'list', 'indent',
         'blockquote', 'code-block',
         'link', 'image', 'video'
       ]
@@ -112,12 +278,10 @@ function hello() {
 
     // 自定义按钮功能
     const toolbar = quill.getModule('toolbar');
-    toolbar.addHandler('custom-button', function() {
-      alert('自定义按钮被点击！');
-    });
 
     // 图片上传处理
     const imageHandler = function() {
+      console.log('imageHandler');
       const input = document.createElement('input');
       input.setAttribute('type', 'file');
       input.setAttribute('accept', 'image/*');
@@ -138,6 +302,155 @@ function hello() {
 
     // 绑定图片上传到工具栏
     toolbar.addHandler('image', imageHandler);
+
+    // 自定义标题菜单
+    const customTitleHandler = function() {
+      const range = quill.getSelection();
+      if (range) {
+        const titleOptions = [
+          { label: '标题1 (H1)', value: 1 },
+          { label: '标题2 (H2)', value: 2 },
+          { label: '标题3 (H3)', value: 3 },
+          { label: '标题4 (H4)', value: 4 },
+          { label: '标题5 (H5)', value: 5 },
+          { label: '标题6 (H6)', value: 6 },
+          { label: '普通文本', value: false }
+        ];
+        
+        showCustomDropdown('custom-title', titleOptions, (value) => {
+          quill.format('header', value);
+        });
+      } else {
+        // 如果没有选中文本，提示用户
+        alert('请先选择要设置标题的文本');
+      }
+    };
+
+    // 自定义size菜单
+    const customSizeHandler = function() {
+      const range = quill.getSelection();
+      if (range) {
+        const sizeOptions = [
+          { label: '8px', value: '8px' },
+          { label: '10px', value: '10px' },
+          { label: '12px', value: '12px' },
+          { label: '14px', value: '14px' },
+          { label: '16px', value: '16px' },
+          { label: '18px', value: '18px' },
+          { label: '20px', value: '20px' },
+          { label: '24px', value: '24px' },
+          { label: '28px', value: '28px' },
+          { label: '32px', value: '32px' },
+          { label: '36px', value: '36px' },
+          { label: '48px', value: '48px' },
+          { label: '默认大小', value: 'normal' }
+        ];
+        
+        showCustomDropdown('custom-size', sizeOptions, (value) => {
+          if (value === 'normal') {
+            quill.format('size', false);
+          } else {
+            quill.format('size', value);
+          }
+        });
+      } else {
+        // 如果没有选中文本，提示用户
+        alert('请先选择要设置大小的文本');
+      }
+    };
+
+    // 显示自定义下拉菜单
+    function showCustomDropdown(buttonId, options, callback) {
+      // 移除已存在的下拉菜单
+      const existingDropdown = document.querySelector('.custom-style-dropdown');
+      if (existingDropdown) {
+        existingDropdown.remove();
+      }
+
+      // 创建下拉菜单
+      const dropdown = document.createElement('div');
+      dropdown.className = 'custom-style-dropdown show';
+      
+      options.forEach(option => {
+        const item = document.createElement('div');
+        item.className = 'custom-style-item';
+        item.textContent = option.label;
+        item.dataset.value = option.value;
+        
+        item.addEventListener('click', () => {
+          callback(option.value);
+          dropdown.remove();
+        });
+        
+        dropdown.appendChild(item);
+      });
+
+      // 获取按钮位置
+      const button = document.querySelector(`[data-value="${buttonId}"]`) || 
+                   document.querySelector(`.ql-${buttonId}`);
+      
+      if (button) {
+        const rect = button.getBoundingClientRect();
+        dropdown.style.position = 'fixed';
+        dropdown.style.top = (rect.bottom + window.scrollY) + 'px';
+        dropdown.style.left = rect.left + 'px';
+        document.body.appendChild(dropdown);
+        
+        // 点击外部关闭菜单
+        const closeHandler = (e) => {
+          if (!dropdown.contains(e.target) && !button.contains(e.target)) {
+            dropdown.remove();
+            document.removeEventListener('click', closeHandler);
+          }
+        };
+        setTimeout(() => document.addEventListener('click', closeHandler), 100);
+      }
+    }
+
+    // 创建自定义按钮
+    const createCustomButton = (id, label, handler) => {
+      const button = document.createElement('button');
+      button.setAttribute('data-value', id);
+      button.className = 'ql-custom-button';
+      button.innerHTML = label;
+      button.addEventListener('click', handler);
+      return button;
+    };
+
+    // 创建自定义标题按钮
+    const customTitleButton = createCustomButton('custom-title', '自定义标题', customTitleHandler);
+    const customSizeButton = createCustomButton('custom-size', '自定义size', customSizeHandler);
+
+    // 将按钮添加到工具栏
+    const addButtonsToToolbar = () => {
+      const toolbarContainer = document.querySelector('.ql-toolbar');
+      if (toolbarContainer) {
+        // 查找合适的位置插入按钮
+        const sizeGroup = toolbarContainer.querySelector('.ql-size');
+        if (sizeGroup && sizeGroup.parentNode) {
+          // 在字体大小选择器后插入自定义按钮
+          sizeGroup.parentNode.insertBefore(customTitleButton, sizeGroup.nextSibling);
+          sizeGroup.parentNode.insertBefore(customSizeButton, sizeGroup.nextSibling);
+        } else {
+          // 如果找不到字体大小选择器，添加到工具栏末尾
+          toolbarContainer.appendChild(customTitleButton);
+          toolbarContainer.appendChild(customSizeButton);
+        }
+      }
+    };
+
+    // 延迟添加按钮，确保工具栏已渲染
+    setTimeout(addButtonsToToolbar, 100);
+
+    const str = '<h1>asdfasdfsadf</h1><p>as<span style="font-size: 18px;">fasdf </span></p><p><span style="color: rgb(212, 56, 13); font-size: 18px;">asdfas</span><span style="font-size: 18px;">df </span></p><p><span style="font-size: 18px;">sa</span><span style="background-color: rgb(255, 77, 79); font-size: 18px;">dfasd</span><span style="font-size: 18px;">f </span></p><p><span style="font-size: 18px;">sad</span><span style="font-size: 18px;"><strong>fasdf</strong></span></p><p><span style="font-size: 18px;"><em><strong>asdfasdf</strong></em></span></p><p><span style="font-size: 18px;"><em><strong>sa</strong></em></span><span style="font-size: 18px;"><u><em><strong>dfasdf</strong></em></u></span></p><p><span style="font-size: 18px;"><u><em><strong>sadf</strong></em></u></span><span style="font-size: 18px;"><s><u><em><strong>asdfasdf</strong></em></u></s></span></p><p><span style="font-size: 18px;"><s><u><em><strong>safasdfasdf</strong></em></u></s></span></p><p style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>sa dfasdfasdf</strong></em></u></s></span></p><ul><li style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>sdfasdfasdfsd</strong></em></u></s></span></li><li style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>asdfasdf</strong></em></u></s></span></li><li style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>sadf sdaf</strong></em></u></s></span></li><li style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>sdfa</strong></em></u></s></span></li><ul><li style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>asfasdf</strong></em></u></s></span></li><ul><li style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>asfasd f</strong></em></u></s></span></li><ul><li style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>asfasdfsdf</strong></em></u></s></span></li></ul></ul></ul><li style="text-align: left;"><span style="font-size: 18px;"><s><u><em><strong>asd fasdfasdf</strong></em></u></s></span></li><li style="text-align: left;"><span style="font-size: 18px;"><s><u><em><strong>sadfasfsaf</strong></em></u></s></span></li><ol><li style="text-align: left;"><span style="font-size: 18px;"><s><u><em><strong>asdfasdfs</strong></em></u></s></span></li><li style="text-align: left;"><span style="font-size: 18px;"><s><u><em><strong>safsafsaf</strong></em></u></s></span></li><ol><li style="text-align: left;"><span style="font-size: 18px;"><s><u><em><strong>sdfasfasf</strong></em></u></s></span></li><li style="text-align: left;"><span style="font-size: 18px;"><s><u><em><strong>sfasfasf</strong></em></u></s></span></li><ol><li style="text-align: left;"><span style="font-size: 18px;"><s><u><em><strong>dsfasdf</strong></em></u></s></span></li></ol></ol></ol></ul><p style="text-align: left;"><br></p><table style="width: auto;"><tbody><tr><th colSpan="1" rowSpan="1" width="auto"></th><th colSpan="1" rowSpan="1" width="auto"></th><th colSpan="1" rowSpan="1" width="auto"></th><th colSpan="1" rowSpan="1" width="auto"></th><th colSpan="1" rowSpan="1" width="auto"></th><th colSpan="1" rowSpan="1" width="auto"></th><th colSpan="1" rowSpan="1" width="auto"></th></tr><tr><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto">123</td><td colSpan="1" rowSpan="1" width="auto">231</td><td colSpan="1" rowSpan="1" width="auto">123</td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td></tr><tr><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto">123</td><td colSpan="1" rowSpan="1" width="auto">12313</td><td colSpan="1" rowSpan="1" width="auto">123</td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td></tr><tr><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto">123</td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td></tr><tr><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td></tr></tbody></table><p><br></p><p> <a href="https://www.baidu.com" target="_blank">百度</a> sdfasfas</p><p>sadfasfd</p><p> <a href="https://lanhuapp.com/web/#/item/project/stage?tid=8ad1fe5d-cb8c-43e9-98b6-af31d588b398&pid=b237bd3d-292e-410b-995b-50610a3099d5" target="_blank">https://lanhuapp.com/web/#/item/project/stage?tid=8ad1fe5d-cb8c-43e9-98b6-af31d588b398&pid=b237bd3d-292e-410b-995b-50610a3099d5</a> </p><p><br></p><p>asdfasdf</p><p><img src="https://zxb-online.topscrm.cn/info/68cce57480e0caa57a4cf5d1.jpg" alt="" data-href="https://zxb-online.topscrm.cn/info/68cce57480e0caa57a4cf5d1.jpg" style=""/></p>'
+    // 在编辑器初始化完成后，将字符串内容添加到现有内容之后
+    setTimeout(() => {
+      // 获取当前内容的长度
+      const currentLength = quill.getLength();
+      
+      // 将 HTML 字符串插入到编辑器末尾
+      quill.clipboard.dangerouslyPasteHTML(currentLength - 1, str);
+    }, 100);
   </script>
 </body>
 </html>
