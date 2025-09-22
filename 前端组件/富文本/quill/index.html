@@ -173,119 +173,335 @@
     .ql-editor .ql-size-36px { font-size: 36px; }
     .ql-editor .ql-size-48px { font-size: 48px; }
 
-    /* 自定义按钮样式 */
-    .ql-custom-button {
+    /* 完全自定义工具栏样式 */
+    #custom-toolbar {
       background: #fff;
       border: 1px solid #ccc;
-      border-radius: 3px;
-      padding: 5px 8px;
-      margin: 0 2px;
+      border-radius: 8px 8px 0 0;
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 4px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .toolbar-group {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .toolbar-separator {
+      width: 1px;
+      height: 24px;
+      background: #ddd;
+      margin: 0 4px;
+    }
+
+    .toolbar-button {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 6px 8px;
       cursor: pointer;
       font-size: 13px;
       color: #444;
       transition: all 0.2s ease;
-      white-space: nowrap;
-      width: unset !important;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      min-width: 32px;
+      justify-content: center;
     }
 
-    .ql-custom-button:hover {
-      background: #f0f0f0;
+    .toolbar-button:hover {
+      background: #f5f5f5;
       border-color: #999;
     }
 
-    .ql-custom-button:active {
+    .toolbar-button:active {
       background: #e0e0e0;
+    }
+
+    .toolbar-button.active {
+      background: #e3f2fd;
+      border-color: #1976d2;
+      color: #1976d2;
+    }
+
+    .button-icon {
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .button-text {
+      font-size: 12px;
+    }
+
+    .dropdown-arrow {
+      font-size: 10px;
+      color: #666;
+    }
+
+    /* 下拉菜单样式 */
+    .toolbar-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      z-index: 1000;
+      min-width: 120px;
+      display: none;
+      margin-top: 2px;
+    }
+
+    .dropdown-menu.show {
+      display: block;
+    }
+
+    .dropdown-item {
+      padding: 8px 12px;
+      cursor: pointer;
+      border-bottom: 1px solid #f0f0f0;
+      transition: background-color 0.2s ease;
+      font-size: 13px;
+    }
+
+    .dropdown-item:last-child {
+      border-bottom: none;
+    }
+
+    .dropdown-item:hover {
+      background-color: #f5f5f5;
+    }
+
+    .dropdown-item.active {
+      background-color: #e3f2fd;
+      color: #1976d2;
+    }
+
+    /* 颜色选择器样式 */
+    .color-palette {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2px;
+      padding: 8px;
+      min-width: 160px;
+    }
+
+    .color-item {
+      width: 24px;
+      height: 24px;
+      border-radius: 3px;
+      cursor: pointer;
+      border: 1px solid #ddd;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: #666;
+      flex-shrink: 0;
+    }
+
+    .color-item:hover {
+      transform: scale(1.1);
+      border-color: #999;
+    }
+
+    .color-preview {
+      width: 12px;
+      height: 12px;
+      border-radius: 2px;
+      border: 1px solid #ddd;
     }
   </style>
 </head>
 <body>
   <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
   
-  <!-- 工具栏模板 -->
-  <div id="toolbar">
-    <!-- 文本格式 -->
-    <span class="ql-formats">
-      <select class="ql-header">
-        <option value="1">标题1</option>
-        <option value="2">标题2</option>
-        <option value="3">标题3</option>
-        <option value="4">标题4</option>
-        <option value="5">标题5</option>
-        <option value="6">标题6</option>
-        <option value="">普通文本</option>
-      </select>
-    </span>
+  <!-- 完全自定义工具栏 -->
+  <div id="custom-toolbar">
+    <!-- 文本格式组 -->
+    <div class="toolbar-group">
+      <div class="toolbar-dropdown" >
+        <button class="toolbar-button dropdown-trigger" data-action="header">
+          <span class="button-text">标题</span>
+          <span class="dropdown-arrow">▼</span>
+        </button>
+        <div class="dropdown-menu">
+          <div class="dropdown-item" data-value="">普通文本</div>
+          <div class="dropdown-item" data-value="1">标题1</div>
+          <div class="dropdown-item" data-value="2">标题2</div>
+          <div class="dropdown-item" data-value="3">标题3</div>
+          <div class="dropdown-item" data-value="4">标题4</div>
+          <div class="dropdown-item" data-value="5">标题5</div>
+          <div class="dropdown-item" data-value="6">标题6</div>
+        </div>
+      </div>
+      
+      <div class="toolbar-dropdown" >
+        <button class="toolbar-button dropdown-trigger" data-action="size">
+          <span class="button-text">字号</span>
+          <span class="dropdown-arrow">▼</span>
+        </button>
+        <div class="dropdown-menu">
+          <div class="dropdown-item" data-value="8px">8px</div>
+          <div class="dropdown-item" data-value="10px">10px</div>
+          <div class="dropdown-item" data-value="12px">12px</div>
+          <div class="dropdown-item" data-value="14px">14px</div>
+          <div class="dropdown-item" data-value="16px">16px</div>
+          <div class="dropdown-item" data-value="18px">18px</div>
+          <div class="dropdown-item" data-value="20px">20px</div>
+          <div class="dropdown-item" data-value="24px">24px</div>
+          <div class="dropdown-item" data-value="28px">28px</div>
+          <div class="dropdown-item" data-value="32px">32px</div>
+          <div class="dropdown-item" data-value="36px">36px</div>
+          <div class="dropdown-item" data-value="48px">48px</div>
+        </div>
+      </div>
+    </div>
     
-    <span class="ql-formats">
-      <select class="ql-size">
-        <option value="8px">8px</option>
-        <option value="10px">10px</option>
-        <option value="12px">12px</option>
-        <option value="14px">14px</option>
-        <option value="16px">16px</option>
-        <option value="18px">18px</option>
-        <option value="20px">20px</option>
-        <option value="24px">24px</option>
-        <option value="28px">28px</option>
-        <option value="32px">32px</option>
-        <option value="36px">36px</option>
-        <option value="48px">48px</option>
-      </select>
-    </span>
+    <!-- 分隔线 -->
+    <div class="toolbar-separator"></div>
     
-    <!-- 文本样式 -->
-    <span class="ql-formats">
-      <button class="ql-bold"></button>
-      <button class="ql-italic"></button>
-      <button class="ql-underline"></button>
-      <button class="ql-strike"></button>
-    </span>
+    <!-- 文本样式组 -->
+    <div class="toolbar-group">
+      <button class="toolbar-button" data-action="bold" title="粗体">
+        <span class="button-icon">B</span>
+      </button>
+      <button class="toolbar-button" data-action="italic" title="斜体">
+        <span class="button-icon">I</span>
+      </button>
+      <button class="toolbar-button" data-action="underline" title="下划线">
+        <span class="button-icon">U</span>
+      </button>
+      <button class="toolbar-button" data-action="strike" title="删除线">
+        <span class="button-icon">S</span>
+      </button>
+    </div>
     
-    <span class="ql-formats">
-      <button class="ql-script" value="sub"></button>
-      <button class="ql-script" value="super"></button>
-    </span>
+    <!-- 分隔线 -->
+    <div class="toolbar-separator"></div>
     
-    <span class="ql-formats">
-      <select class="ql-color"></select>
-      <select class="ql-background"></select>
-    </span>
+    <!-- 颜色组 -->
+    <div class="toolbar-group">
+      <div class="toolbar-dropdown" >
+        <button class="toolbar-button dropdown-trigger" data-action="color">
+          <span class="color-preview" style="background-color: #000;"></span>
+          <span class="button-text">文字</span>
+          <span class="dropdown-arrow">▼</span>
+        </button>
+        <div class="dropdown-menu color-palette">
+          <div class="color-item" data-value="#000000" style="background-color: #000000;"></div>
+          <div class="color-item" data-value="#333333" style="background-color: #333333;"></div>
+          <div class="color-item" data-value="#666666" style="background-color: #666666;"></div>
+          <div class="color-item" data-value="#999999" style="background-color: #999999;"></div>
+          <div class="color-item" data-value="#cccccc" style="background-color: #cccccc;"></div>
+          <div class="color-item" data-value="#ff0000" style="background-color: #ff0000;"></div>
+          <div class="color-item" data-value="#00ff00" style="background-color: #00ff00;"></div>
+          <div class="color-item" data-value="#0000ff" style="background-color: #0000ff;"></div>
+          <div class="color-item" data-value="#ffff00" style="background-color: #ffff00;"></div>
+          <div class="color-item" data-value="#ff00ff" style="background-color: #ff00ff;"></div>
+          <div class="color-item" data-value="#00ffff" style="background-color: #00ffff;"></div>
+          <div class="color-item" data-value="#ffa500" style="background-color: #ffa500;"></div>
+        </div>
+      </div>
+      
+      <div class="toolbar-dropdown" >
+        <button class="toolbar-button dropdown-trigger" data-action="background">
+          <span class="color-preview" style="background-color: #ffff00;"></span>
+          <span class="button-text">背景</span>
+          <span class="dropdown-arrow">▼</span>
+        </button>
+        <div class="dropdown-menu color-palette">
+          <div class="color-item" data-value="transparent" style="background-color: transparent; border: 1px solid #ccc;">无</div>
+          <div class="color-item" data-value="#ffff00" style="background-color: #ffff00;"></div>
+          <div class="color-item" data-value="#ffcccc" style="background-color: #ffcccc;"></div>
+          <div class="color-item" data-value="#ccffcc" style="background-color: #ccffcc;"></div>
+          <div class="color-item" data-value="#ccccff" style="background-color: #ccccff;"></div>
+          <div class="color-item" data-value="#ffffcc" style="background-color: #ffffcc;"></div>
+          <div class="color-item" data-value="#ffccff" style="background-color: #ffccff;"></div>
+          <div class="color-item" data-value="#ccffff" style="background-color: #ccffff;"></div>
+        </div>
+      </div>
+    </div>
     
-    <!-- 对齐和方向 -->
-    <span class="ql-formats">
-      <select class="ql-align"></select>
-      <button class="ql-direction" value="rtl"></button>
-    </span>
+    <!-- 分隔线 -->
+    <div class="toolbar-separator"></div>
     
-    <!-- 列表 -->
-    <span class="ql-formats">
-      <button class="ql-list" value="ordered"></button>
-      <button class="ql-list" value="bullet"></button>
-      <button class="ql-indent" value="-1"></button>
-      <button class="ql-indent" value="+1"></button>
-    </span>
+    <!-- 对齐组 -->
+    <div class="toolbar-group">
+      <div class="toolbar-dropdown" >
+        <button class="toolbar-button dropdown-trigger" data-action="align">
+          <span class="button-text">对齐</span>
+          <span class="dropdown-arrow">▼</span>
+        </button>
+        <div class="dropdown-menu">
+          <div class="dropdown-item" data-value="">左对齐</div>
+          <div class="dropdown-item" data-value="center">居中</div>
+          <div class="dropdown-item" data-value="right">右对齐</div>
+          <div class="dropdown-item" data-value="justify">两端对齐</div>
+        </div>
+      </div>
+    </div>
     
-    <!-- 其他功能 -->
-    <span class="ql-formats">
-      <button class="ql-blockquote"></button>
-      <button class="ql-code-block"></button>
-    </span>
+    <!-- 分隔线 -->
+    <div class="toolbar-separator"></div>
     
-    <span class="ql-formats">
-      <button class="ql-link"></button>
-      <button class="ql-image"></button>
-      <button class="ql-video"></button>
-    </span>
+    <!-- 列表组 -->
+    <div class="toolbar-group">
+      <button class="toolbar-button" data-action="list" data-value="ordered" title="有序列表">
+        <span class="button-icon">1.</span>
+      </button>
+      <button class="toolbar-button" data-action="list" data-value="bullet" title="无序列表">
+        <span class="button-icon">•</span>
+      </button>
+      <button class="toolbar-button" data-action="indent" data-value="-1" title="减少缩进">
+        <span class="button-icon">←</span>
+      </button>
+      <button class="toolbar-button" data-action="indent" data-value="+1" title="增加缩进">
+        <span class="button-icon">→</span>
+      </button>
+    </div>
     
-    <span class="ql-formats">
-      <button class="ql-clean"></button>
-    </span>
+    <!-- 分隔线 -->
+    <div class="toolbar-separator"></div>
     
-    <!-- 自定义按钮 -->
-    <span class="ql-formats">
-      <button class="ql-custom-button" data-value="custom-title">自定义标题</button>
-      <button class="ql-custom-button" data-value="custom-size">自定义size</button>
-    </span>
+    <!-- 其他功能组 -->
+    <div class="toolbar-group">
+      <button class="toolbar-button" data-action="blockquote" title="引用">
+        <span class="button-icon">"</span>
+      </button>
+      <button class="toolbar-button" data-action="code-block" title="代码块">
+        <span class="button-icon">&lt;/&gt;</span>
+      </button>
+      <button class="toolbar-button" data-action="link" title="链接">
+        <span class="button-icon">🔗</span>
+      </button>
+      <button class="toolbar-button" data-action="image" title="图片">
+        <span class="button-icon">🖼</span>
+      </button>
+    </div>
+    
+    <!-- 分隔线 -->
+    <div class="toolbar-separator"></div>
+    
+    <!-- 清理组 -->
+    <div class="toolbar-group">
+      <button class="toolbar-button" data-action="clean" title="清除格式">
+        <span class="button-icon">🧹</span>
+      </button>
+    </div>
   </div>
   
   <div id="editor">
@@ -327,34 +543,10 @@ function hello() {
     const quill = new Quill('#editor', {
       theme: 'snow',
       modules: {
-        toolbar: '#toolbar',  // 使用HTML模板中的工具栏
-        // toolbar: [
-        //   // 文本格式
-        //   [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-        //   // [{ 'font': [] }], // 注释掉 font 功能
-        //   [{ 'size': ['8px', '10px', '12px', '14px', '16px', '18px', '20px', '24px', '28px', '32px', '36px', '48px'] }],
-          
-        //   // 文本样式
-        //   ['bold', 'italic', 'underline', 'strike'],
-        //   [{ 'color': [] }, { 'background': [] }],
-        //   [{ 'script': 'sub'}, { 'script': 'super' }],
-          
-        //   // 对齐和方向
-        //   [{ 'align': [] }],
-        //   [{ 'direction': 'rtl' }],
-          
-        //   // 列表
-        //   [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-        //   [{ 'indent': '-1'}, { 'indent': '+1' }],
-          
-        //   // 其他功能
-        //   ['blockquote', 'code-block'],
-        //   ['link', 'image', 'video'],
-        //   ['clean']
-        // ]
+        toolbar: false  // 完全禁用内置工具栏
       },
       formats: [
-        'header', 'size', 'class',
+        'header', 'size',
         'bold', 'italic', 'underline', 'strike',
         'color', 'background', 'script',
         'align', 'direction',
@@ -364,155 +556,252 @@ function hello() {
       ]
     });
 
-    // 自定义按钮功能
-    const toolbar = quill.getModule('toolbar');
-
-    // 图片上传处理
-    const imageHandler = function() {
-      console.log('imageHandler');
-      const input = document.createElement('input');
-      input.setAttribute('type', 'file');
-      input.setAttribute('accept', 'image/*');
-      input.click();
-
-      input.onchange = function() {
-        const file = input.files[0];
-        if (file) {
-          const reader = new FileReader();
-          reader.onload = function() {
-            const range = quill.getSelection();
-            quill.insertEmbed(range.index, 'image', reader.result);
-          };
-          reader.readAsDataURL(file);
-        }
-      };
-    };
-
-    // 绑定图片上传到工具栏
-    toolbar.addHandler('image', imageHandler);
-
-    // 自定义标题菜单
-    const customTitleHandler = function() {
-      const range = quill.getSelection();
-      if (range) {
-        const titleOptions = [
-          { label: '标题1 (H1)', value: 1 },
-          { label: '标题2 (H2)', value: 2 },
-          { label: '标题3 (H3)', value: 3 },
-          { label: '标题4 (H4)', value: 4 },
-          { label: '标题5 (H5)', value: 5 },
-          { label: '标题6 (H6)', value: 6 },
-          { label: '普通文本', value: false }
-        ];
-        
-        showCustomDropdown('custom-title', titleOptions, (value) => {
-          quill.format('header', value);
-        });
-      } else {
-        // 如果没有选中文本，提示用户
-        alert('请先选择要设置标题的文本');
+    // 完全自定义工具栏交互逻辑
+    class CustomToolbar {
+      constructor(quill) {
+        this.quill = quill;
+        this.activeDropdown = null;
+        this.init();
       }
-    };
 
-    // 自定义size菜单
-    const customSizeHandler = function() {
-      const range = quill.getSelection();
-      if (range) {
-        const sizeOptions = [
-          { label: '8px', value: '8px' },
-          { label: '10px', value: '10px' },
-          { label: '12px', value: '12px' },
-          { label: '14px', value: '14px' },
-          { label: '16px', value: '16px' },
-          { label: '18px', value: '18px' },
-          { label: '20px', value: '20px' },
-          { label: '24px', value: '24px' },
-          { label: '28px', value: '28px' },
-          { label: '32px', value: '32px' },
-          { label: '36px', value: '36px' },
-          { label: '48px', value: '48px' },
-          { label: '默认大小', value: 'normal' }
-        ];
+      init() {
+        this.bindEvents();
+        this.updateButtonStates();
         
-        showCustomDropdown('custom-size', sizeOptions, (value) => {
-          if (value === 'normal') {
-            quill.format('size', false);
+        // 监听编辑器选择变化，更新按钮状态
+        this.quill.on('selection-change', (range) => {
+          this.updateButtonStates();
+        });
+      }
+
+      bindEvents() {
+        const toolbar = document.getElementById('custom-toolbar');
+        
+        // 绑定所有按钮点击事件
+        toolbar.addEventListener('click', (e) => {
+          const button = e.target.closest('.toolbar-button');
+          if (!button) return;
+          
+          const action = button.dataset.action;
+          const value = button.dataset.value;
+
+          if (['header', 'size', 'align', 'color', 'background'].includes(action)) {
+            this.toggleDropdown(button);
           } else {
-            quill.format('size', value);
+            this.executeAction(action, value);
           }
         });
-      } else {
-        // 如果没有选中文本，提示用户
-        alert('请先选择要设置大小的文本');
-      }
-    };
 
-    // 显示自定义下拉菜单
-    function showCustomDropdown(buttonId, options, callback) {
-      // 移除已存在的下拉菜单
-      const existingDropdown = document.querySelector('.custom-style-dropdown');
-      if (existingDropdown) {
-        existingDropdown.remove();
-      }
+        // 绑定下拉菜单项点击事件
+        toolbar.addEventListener('click', (e) => {
+          const item = e.target.closest('.dropdown-item, .color-item');
+          if (!item) return;
 
-      // 创建下拉菜单
-      const dropdown = document.createElement('div');
-      dropdown.className = 'custom-style-dropdown show';
-      
-      options.forEach(option => {
-        const item = document.createElement('div');
-        item.className = 'custom-style-item';
-        item.textContent = option.label;
-        item.dataset.value = option.value;
-        
-        item.addEventListener('click', () => {
-          callback(option.value);
-          dropdown.remove();
+          const dropdown = item.closest('.dropdown-menu');
+          const button = dropdown.previousElementSibling;
+          const action = button.dataset.action;
+          const value = item.dataset.value;
+
+          this.executeAction(action, value);
+          this.closeDropdown();
         });
-        
-        dropdown.appendChild(item);
-      });
 
-      // 获取按钮位置
-      const button = document.querySelector(`[data-value="${buttonId}"]`) || 
-                   document.querySelector(`.ql-${buttonId}`);
-      
-      if (button) {
-        const rect = button.getBoundingClientRect();
-        dropdown.style.position = 'fixed';
-        dropdown.style.top = (rect.bottom + window.scrollY) + 'px';
-        dropdown.style.left = rect.left + 'px';
-        document.body.appendChild(dropdown);
+        // 点击外部关闭下拉菜单
+        document.addEventListener('click', (e) => {
+          if (!e.target.closest('.toolbar-dropdown')) {
+            this.closeDropdown();
+          }
+        });
+      }
+
+      toggleDropdown(button) {
+        const dropdown = button.nextElementSibling;
         
-        // 点击外部关闭菜单
-        const closeHandler = (e) => {
-          if (!dropdown.contains(e.target) && !button.contains(e.target)) {
-            dropdown.remove();
-            document.removeEventListener('click', closeHandler);
+        if (this.activeDropdown === dropdown) {
+          this.closeDropdown();
+        } else {
+          this.closeDropdown();
+          this.activeDropdown = dropdown;
+          dropdown.classList.add('show');
+        }
+      }
+
+      closeDropdown() {
+        if (this.activeDropdown) {
+          this.activeDropdown.classList.remove('show');
+          this.activeDropdown = null;
+        }
+      }
+
+      executeAction(action, value) {
+        const range = this.quill.getSelection();
+        
+        switch (action) {
+          case 'header':
+            this.quill.format('header', value || false);
+            break;
+          case 'size':
+            this.quill.format('size', value || false);
+            break;
+          case 'bold':
+            this.quill.format('bold', !this.quill.getFormat().bold);
+            break;
+          case 'italic':
+            this.quill.format('italic', !this.quill.getFormat().italic);
+            break;
+          case 'underline':
+            this.quill.format('underline', !this.quill.getFormat().underline);
+            break;
+          case 'strike':
+            this.quill.format('strike', !this.quill.getFormat().strike);
+            break;
+          case 'color':
+            this.quill.format('color', value);
+            break;
+          case 'background':
+            this.quill.format('background', value);
+            break;
+          case 'align':
+            this.quill.format('align', value || false);
+            break;
+          case 'list':
+            this.quill.format('list', value);
+            break;
+          case 'indent':
+            const currentIndent = this.quill.getFormat().indent || 0;
+            const newIndent = Math.max(0, currentIndent + parseInt(value));
+            this.quill.format('indent', newIndent);
+            break;
+          case 'blockquote':
+            this.quill.format('blockquote', !this.quill.getFormat().blockquote);
+            break;
+          case 'code-block':
+            this.quill.format('code-block', !this.quill.getFormat()['code-block']);
+            break;
+          case 'link':
+            this.insertLink();
+            break;
+          case 'image':
+            this.insertImage();
+            break;
+          case 'clean':
+            this.quill.removeFormat();
+            break;
+        }
+        
+        this.updateButtonStates();
+      }
+
+      insertLink() {
+        const url = prompt('请输入链接地址:');
+        if (url) {
+          const range = this.quill.getSelection();
+          if (range) {
+            this.quill.formatText(range.index, range.length, 'link', url);
+          }
+        }
+      }
+
+      insertImage() {
+        const input = document.createElement('input');
+        input.setAttribute('type', 'file');
+        input.setAttribute('accept', 'image/*');
+        input.click();
+
+        input.onchange = () => {
+          const file = input.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = () => {
+              const range = this.quill.getSelection();
+              this.quill.insertEmbed(range.index, 'image', reader.result);
+            };
+            reader.readAsDataURL(file);
           }
         };
-        setTimeout(() => document.addEventListener('click', closeHandler), 100);
+      }
+
+      updateButtonStates() {
+        const format = this.quill.getFormat();
+        
+        // 更新按钮激活状态
+        document.querySelectorAll('.toolbar-button').forEach(button => {
+          const action = button.dataset.action;
+          let isActive = false;
+
+          switch (action) {
+            case 'bold':
+              isActive = format.bold;
+              break;
+            case 'italic':
+              isActive = format.italic;
+              break;
+            case 'underline':
+              isActive = format.underline;
+              break;
+            case 'strike':
+              isActive = format.strike;
+              break;
+            case 'blockquote':
+              isActive = format.blockquote;
+              break;
+            case 'code-block':
+              isActive = format['code-block'];
+              break;
+          }
+
+          button.classList.toggle('active', isActive);
+        });
+
+        // 更新下拉菜单显示文本
+        this.updateDropdownTexts(format);
+      }
+
+      updateDropdownTexts(format) {
+        // 更新标题显示
+        const headerButton = document.querySelector('[data-action="header"] .button-text');
+        if (headerButton) {
+          const headerValue = format.header;
+          headerButton.textContent = headerValue ? `标题${headerValue}` : '标题';
+        }
+
+        // 更新字号显示
+        const sizeButton = document.querySelector('[data-action="size"] .button-text');
+        if (sizeButton) {
+          const sizeValue = format.size;
+          sizeButton.textContent = sizeValue || '字号';
+        }
+
+        // 更新对齐显示
+        const alignButton = document.querySelector('[data-action="align"] .button-text');
+        if (alignButton) {
+          const alignValue = format.align;
+          const alignTexts = {
+            '': '左对齐',
+            'center': '居中',
+            'right': '右对齐',
+            'justify': '两端对齐'
+          };
+          alignButton.textContent = alignTexts[alignValue] || '对齐';
+        }
+
+        // 更新颜色预览
+        const colorPreview = document.querySelector('[data-action="color"] .color-preview');
+        if (colorPreview && format.color) {
+          colorPreview.style.backgroundColor = format.color;
+        }
+
+        const bgPreview = document.querySelector('[data-action="background"] .color-preview');
+        if (bgPreview && format.background) {
+          bgPreview.style.backgroundColor = format.background;
+        }
       }
     }
 
-    // 绑定自定义按钮事件（按钮已在HTML模板中）
-    const bindCustomButtons = () => {
-      const customTitleButton = document.querySelector('[data-value="custom-title"]');
-      const customSizeButton = document.querySelector('[data-value="custom-size"]');
-      
-      if (customTitleButton) {
-        customTitleButton.addEventListener('click', customTitleHandler);
-      }
-      
-      if (customSizeButton) {
-        customSizeButton.addEventListener('click', customSizeHandler);
-      }
-    };
+    // 初始化自定义工具栏
+    const customToolbar = new CustomToolbar(quill);
 
-    // 延迟绑定按钮事件，确保DOM已渲染
-    setTimeout(bindCustomButtons, 100);
-
-    const str = '<h1>asdfasdfsadf</h1><p>as<span style="font-size: 18px;">fasdf </span></p><p><span style="color: rgb(212, 56, 13); font-size: 18px;">asdfas</span><span style="font-size: 18px;">df </span></p><p><span style="font-size: 18px;">sa</span><span style="background-color: rgb(255, 77, 79); font-size: 18px;">dfasd</span><span style="font-size: 18px;">f </span></p><p><span style="font-size: 18px;">sad</span><span style="font-size: 18px;"><strong>fasdf</strong></span></p><p><span style="font-size: 18px;"><em><strong>asdfasdf</strong></em></span></p><p><span style="font-size: 18px;"><em><strong>sa</strong></em></span><span style="font-size: 18px;"><u><em><strong>dfasdf</strong></em></u></span></p><p><span style="font-size: 18px;"><u><em><strong>sadf</strong></em></u></span><span style="font-size: 18px;"><s><u><em><strong>asdfasdf</strong></em></u></s></span></p><p><span style="font-size: 18px;"><s><u><em><strong>safasdfasdf</strong></em></u></s></span></p><p style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>sa dfasdfasdf</strong></em></u></s></span></p><ul><li style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>sdfasdfasdfsd</strong></em></u></s></span></li><li style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>asdfasdf</strong></em></u></s></span></li><li style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>sadf sdaf</strong></em></u></s></span></li><li style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>sdfa</strong></em></u></s></span></li><ul><li style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>asfasdf</strong></em></u></s></span></li><ul><li style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>asfasd f</strong></em></u></s></span></li><ul><li style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>asfasdfsdf</strong></em></u></s></span></li></ul></ul></ul><li style="text-align: left;"><span style="font-size: 18px;"><s><u><em><strong>asd fasdfasdf</strong></em></u></s></span></li><li style="text-align: left;"><span style="font-size: 18px;"><s><u><em><strong>sadfasfsaf</strong></em></u></s></span></li><ol><li style="text-align: left;"><span style="font-size: 18px;"><s><u><em><strong>asdfasdfs</strong></em></u></s></span></li><li style="text-align: left;"><span style="font-size: 18px;"><s><u><em><strong>safsafsaf</strong></em></u></s></span></li><ol><li style="text-align: left;"><span style="font-size: 18px;"><s><u><em><strong>sdfasfasf</strong></em></u></s></span></li><li style="text-align: left;"><span style="font-size: 18px;"><s><u><em><strong>sfasfasf</strong></em></u></s></span></li><ol><li style="text-align: left;"><span style="font-size: 18px;"><s><u><em><strong>dsfasdf</strong></em></u></s></span></li></ol></ol></ol></ul><p style="text-align: left;"><br></p><table style="width: auto;"><tbody><tr><th colSpan="1" rowSpan="1" width="auto"></th><th colSpan="1" rowSpan="1" width="auto"></th><th colSpan="1" rowSpan="1" width="auto"></th><th colSpan="1" rowSpan="1" width="auto"></th><th colSpan="1" rowSpan="1" width="auto"></th><th colSpan="1" rowSpan="1" width="auto"></th><th colSpan="1" rowSpan="1" width="auto"></th></tr><tr><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto">123</td><td colSpan="1" rowSpan="1" width="auto">231</td><td colSpan="1" rowSpan="1" width="auto">123</td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td></tr><tr><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto">123</td><td colSpan="1" rowSpan="1" width="auto">12313</td><td colSpan="1" rowSpan="1" width="auto">123</td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td></tr><tr><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto">123</td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td></tr><tr><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td></tr></tbody></table><p><br></p><p> <a href="https://www.baidu.com" target="_blank">百度</a> sdfasfas</p><p>sadfasfd</p><p> <a href="https://lanhuapp.com/web/#/item/project/stage?tid=8ad1fe5d-cb8c-43e9-98b6-af31d588b398&pid=b237bd3d-292e-410b-995b-50610a3099d5" target="_blank">https://lanhuapp.com/web/#/item/project/stage?tid=8ad1fe5d-cb8c-43e9-98b6-af31d588b398&pid=b237bd3d-292e-410b-995b-50610a3099d5</a> </p><p><br></p><p>asdfasdf</p><p><img src="https://zxb-online.topscrm.cn/info/68cce57480e0caa57a4cf5d1.jpg" alt="" data-href="https://zxb-online.topscrm.cn/info/68cce57480e0caa57a4cf5d1.jpg" style=""/></p>'
+    const str = '<h1>asdfasdfsadf</h1><p style="line-height: 30px;">as<span style="font-size: 18px;">fasdf </span></p><p><span style="color: rgb(212, 56, 13); font-size: 18px;">asdfas</span><span style="font-size: 18px;">df </span></p><p><span style="font-size: 18px;">sa</span><span style="background-color: rgb(255, 77, 79); font-size: 18px;">dfasd</span><span style="font-size: 18px;">f </span></p><p><span style="font-size: 18px;">sad</span><span style="font-size: 18px;"><strong>fasdf</strong></span></p><p><span style="font-size: 18px;"><em><strong>asdfasdf</strong></em></span></p><p><span style="font-size: 18px;"><em><strong>sa</strong></em></span><span style="font-size: 18px;"><u><em><strong>dfasdf</strong></em></u></span></p><p><span style="font-size: 18px;"><u><em><strong>sadf</strong></em></u></span><span style="font-size: 18px;"><s><u><em><strong>asdfasdf</strong></em></u></s></span></p><p><span style="font-size: 18px;"><s><u><em><strong>safasdfasdf</strong></em></u></s></span></p><p style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>sa dfasdfasdf</strong></em></u></s></span></p><ul><li style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>sdfasdfasdfsd</strong></em></u></s></span></li><li style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>asdfasdf</strong></em></u></s></span></li><li style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>sadf sdaf</strong></em></u></s></span></li><li style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>sdfa</strong></em></u></s></span></li><ul><li style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>asfasdf</strong></em></u></s></span></li><ul><li style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>asfasd f</strong></em></u></s></span></li><ul><li style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>asfasdfsdf</strong></em></u></s></span></li></ul></ul></ul><li style="text-align: left;"><span style="font-size: 18px;"><s><u><em><strong>asd fasdfasdf</strong></em></u></s></span></li><li style="text-align: left;"><span style="font-size: 18px;"><s><u><em><strong>sadfasfsaf</strong></em></u></s></span></li><ol><li style="text-align: left;"><span style="font-size: 18px;"><s><u><em><strong>asdfasdfs</strong></em></u></s></span></li><li style="text-align: left;"><span style="font-size: 18px;"><s><u><em><strong>safsafsaf</strong></em></u></s></span></li><ol><li style="text-align: left;"><span style="font-size: 18px;"><s><u><em><strong>sdfasfasf</strong></em></u></s></span></li><li style="text-align: left;"><span style="font-size: 18px;"><s><u><em><strong>sfasfasf</strong></em></u></s></span></li><ol><li style="text-align: left;"><span style="font-size: 18px;"><s><u><em><strong>dsfasdf</strong></em></u></s></span></li></ol></ol></ol></ul><p style="text-align: left;"><br></p><table style="width: auto;"><tbody><tr><th colSpan="1" rowSpan="1" width="auto"></th><th colSpan="1" rowSpan="1" width="auto"></th><th colSpan="1" rowSpan="1" width="auto"></th><th colSpan="1" rowSpan="1" width="auto"></th><th colSpan="1" rowSpan="1" width="auto"></th><th colSpan="1" rowSpan="1" width="auto"></th><th colSpan="1" rowSpan="1" width="auto"></th></tr><tr><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto">123</td><td colSpan="1" rowSpan="1" width="auto">231</td><td colSpan="1" rowSpan="1" width="auto">123</td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td></tr><tr><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto">123</td><td colSpan="1" rowSpan="1" width="auto">12313</td><td colSpan="1" rowSpan="1" width="auto">123</td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td></tr><tr><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto">123</td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td></tr><tr><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td></tr></tbody></table><p><br></p><p> <a href="https://www.baidu.com" target="_blank">百度</a> sdfasfas</p><p>sadfasfd</p><p> <a href="https://lanhuapp.com/web/#/item/project/stage?tid=8ad1fe5d-cb8c-43e9-98b6-af31d588b398&pid=b237bd3d-292e-410b-995b-50610a3099d5" target="_blank">https://lanhuapp.com/web/#/item/project/stage?tid=8ad1fe5d-cb8c-43e9-98b6-af31d588b398&pid=b237bd3d-292e-410b-995b-50610a3099d5</a> </p><p><br></p><p>asdfasdf</p><p><img src="https://zxb-online.topscrm.cn/info/68cce57480e0caa57a4cf5d1.jpg" alt="" data-href="https://zxb-online.topscrm.cn/info/68cce57480e0caa57a4cf5d1.jpg" style=""/></p>'
     // 在编辑器初始化完成后，将字符串内容添加到现有内容之后
     setTimeout(() => {
       // 获取当前内容的长度
