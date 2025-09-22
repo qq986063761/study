@@ -1,363 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <link href="https://at.alicdn.com/t/c/font_3536606_vty3twinj1.css" rel="stylesheet">
+  <title>Quill 富文本编辑器完整功能演示</title>
   <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
-
   <style>
-    .editor-wrap .ql-toolbar,
-    .editor-wrap .ql-container {
-      background-color: #fff;
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f5f5f5;
     }
-
-    .editor-wrap .ql-toolbar button {
-      width: unset;
+    
+    #editor {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      min-height: 400px;
     }
-
-    .editor-wrap.max {
-      position: fixed;
-      z-index: 9999;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
+    
+    .ql-editor {
+      min-height: 400px;
+      font-size: 16px;
+      line-height: 1.6;
     }
-
-    .editor-wrap.max .ql-toolbar {
-      flex-shrink: 0;
+    
+    .ql-toolbar {
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
     }
-
-    .editor-wrap.max .ql-container {
-      flex: 1;
-      overflow: hidden;
+    
+    .ql-container {
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
     }
-
-    [data-list-custom="rocket"] .ql-ui:before {
-      content: '🚀';
-    }
-
-    .editor-at {
-      color: blue;
-    }
-
-    .footer {
-      margin-top: 10px;
+    
+    h1 {
+      color: #333;
+      margin-bottom: 20px;
     }
   </style>
 </head>
-
 <body>
-  <div class="editor-wrap">
-    <div class="editor">初始化内容</div>
-    <input type="file" id="fileInput" accept="image/*" style="display: none;">
-  </div>
-  <div class="footer">
-    <button id="getHtmlBtn">获取Html</button>
-    <button id="getTextBtn">获取文本</button>
-    <button id="setHtmlBtn">插入一些 html</button>
-  </div>
-
   <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+  
+  <div id="editor">
+    <h1>Quill 富文本编辑器完整功能演示</h1>
+    <h2>支持的功能包括：</h2>
+    <ul>
+      <li><strong>文本格式</strong>：标题、字体、字号</li>
+      <li><strong>文本样式</strong>：粗体、斜体、下划线、删除线</li>
+      <li><strong>颜色</strong>：文字颜色、背景色</li>
+      <li><strong>对齐</strong>：左对齐、居中、右对齐、两端对齐</li>
+      <li><strong>列表</strong>：有序列表、无序列表、缩进</li>
+      <li><strong>其他</strong>：引用、代码块、链接、图片、视频</li>
+    </ul>
+    <blockquote>
+      <p>这是一个引用块，展示引用功能。</p>
+    </blockquote>
+    <pre><code>// 这是代码块
+function hello() {
+  console.log('Hello Quill!');
+}</code></pre>
+    <p>试试插入 <a href="https://quilljs.com">链接</a> 和图片！</p>
+  </div>
+
   <script>
-    const Inline = Quill.import('blots/inline')
-    const Container = Quill.import('blots/container')
-    const Block = Quill.import('blots/block')
-  </script>
-  <script src="./at.js"></script>
-  <script src="./fontSize.js"></script>
-  <script src="./customList.js"></script>
-  <!-- <script src="./table.js"></script> -->
-  <script>
-    // 初始化
-    var quill = new Quill(document.querySelector('.editor'), {
+    const quill = new Quill('#editor', {
+      theme: 'snow',
       modules: {
-        clipboard: {
-          // 支持插入的表格元素格式兼容
-          matchers: [
-            // 为 <th> 元素定义自定义处理规则
-            ['th', (node, delta) => {
-              delta.ops[0].insert += '\n'
-              // delta.ops[0].attributes = { 
-              //   color: 'blue'
-              // }
-              console.log('th', node, delta)
-
-              // 自定义处理 <th> 标签，保留它或做进一步处理
-              return delta;
-            }]
-          ]
-        },
-        toolbar: {
-          container: [
-            // 分组
-            [
-              { 'font': [] }, // 字体风格
-              { header: [] }, // 标题大小
-              { 'size': [] }, // 字体大小
-            ],
-            [
-              { 'color': [] }, // 前景色
-              { 'background': [] }, // 背景色
-            ],
-            ['bold', 'italic', 'underline', 'strike'], // 文字装饰 
-            [ 
-              { 'align': [] }, // 对齐
-              { 'list': 'ordered'}, { 'list': 'bullet' } // 列表
-            ],
-            ['blockquote', 'code-block'], // 代码格式
-            ['link', 'image', 'video', 'formula'], // 媒体
-            [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
-            [{ 'indent': '-1'}, { 'indent': '+1' }], // 缩进
-            ['clean'], // 清除格式
-            ['imageBtn', 'tableBtn', 'atBtn', 'maxBtn', 'fontSizeBtn', 'fontColorBtn', 'listBtn'] // 自定义按钮
-          ],
-          handlers: {
-            // 自定义列表
-            listBtn: () => {
-              const range = quill.getSelection();
-              if (range) {
-                // 获取格式
-                let data = quill.getFormat(range.index, range.length)
-                // console.log('getFormat', data)
-                
-                // 移除格式
-                if (data.customList) {
-                  quill.removeFormat(range.index, range.length)
-                } else {
-                  quill.formatLine(range.index, range.length, 'customList', 'rocket')
-                }
-              }
-            },
-            // 字体大小
-            fontSizeBtn: () => {
-              const range = quill.getSelection();
-              if (range) {
-                // 获取格式
-                let data = quill.getFormat(range.index, range.length)
-                // console.log('getFormat', data)
-
-                // 这里 '16px' 是你想设置的字体大小，可以根据需要进行更改
-                quill.formatText(range.index, range.length, 'fontSize', data.fontSize === '32px' ? '26px' : '32px');
-              }
-            },
-            // 字体颜色
-            fontColorBtn: () => {
-              const range = quill.getSelection();
-              if (range) {
-                // 这里 '16px' 是你想设置的字体大小，可以根据需要进行更改
-                quill.formatText(range.index, range.length, 'color', 'rgb(153, 51, 255)');
-              }
-            },
-            // at
-            atBtn: () => {
-              let htmlContent = '@人员'
-              // const html = `<span class="editor-at" data-usrid="123">${htmlContent}</span>`
-              const range = quill.getSelection()
-              if (range) {
-                // 用数据插入
-                quill.insertEmbed(range.index, 'atBtn', {
-                  label: htmlContent.replace('@', ''),
-                  usrId: '123'
-                })
-
-                // 用 html 插入，好像有的属性上不去，还是用上面的 insertEmbed 吧
-                // quill.clipboard.dangerouslyPasteHTML(range.index, html)
-                // console.log('quill.getContents', quill.getContents())
-
-                // 反向添加空格，因为 range.index 没变
-                quill.insertText(range.index + htmlContent.length, '\u200B') // 空格
-
-                // 光标
-                // quill.focus({ preventScroll: true })
-                quill.setSelection(range.index + htmlContent.length + 1)
-              }
-            },
-            // 表格
-            tableBtn: () => {
-              const html = `
-                <p></p>
-                <table border="1">
-                  <tr>
-                    <td>表头1</td>
-                    <td>表头2</td>
-                  </tr>
-                  <tr>
-                    <td>Cell 1</td>
-                    <td>Cell 2</td>
-                  </tr>
-                </table>
-                <p></p>
-              `
-              const range = quill.getSelection()
-              if (range) {
-                quill.clipboard.dangerouslyPasteHTML(range.index, html)
-              }
-            },
-            // 图片
-            imageBtn: () => {
-              // console.log('imageBtn')
-              fileInput.click()
-            },
-            // 最大化
-            maxBtn: () => {
-              let el = document.querySelector('.editor-wrap')
-              if (el.className.includes(' max')) {
-                el.className = el.className.replace(' max', '')
-              } else {
-                el.className += ' max'
-              }
-            }
-          }
-        }
+        toolbar: [
+          // 文本格式
+          [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+          [{ 'font': [] }],
+          [{ 'size': ['small', false, 'large', 'huge'] }],
+          
+          // 文本样式
+          ['bold', 'italic', 'underline', 'strike'],
+          [{ 'color': [] }, { 'background': [] }],
+          [{ 'script': 'sub'}, { 'script': 'super' }],
+          
+          // 对齐和方向
+          [{ 'align': [] }],
+          [{ 'direction': 'rtl' }],
+          
+          // 列表
+          [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+          [{ 'indent': '-1'}, { 'indent': '+1' }],
+          
+          // 其他功能
+          ['blockquote', 'code-block'],
+          ['link', 'image', 'video'],
+          ['clean'],
+          
+          // 自定义按钮
+          ['custom-button']
+        ]
       },
-      placeholder: '请输入',
-      // readOnly: true, // 只读
-      theme: 'snow' // 主题
-    })
+      formats: [
+        'header', 'font', 'size',
+        'bold', 'italic', 'underline', 'strike',
+        'color', 'background', 'script',
+        'align', 'direction',
+        'list', 'bullet', 'indent',
+        'blockquote', 'code-block',
+        'link', 'image', 'video'
+      ]
+    });
 
-    // var quill = new Quill(document.querySelector('.editor'), {
-    //   modules: {
-    //     toolbar: [['bold', 'italic'], ['underline', 'strike']]
-    //   },
-    //   theme: 'snow'
-    // })
-    console.log('初始化完成', quill)
+    // 自定义按钮功能
+    const toolbar = quill.getModule('toolbar');
+    toolbar.addHandler('custom-button', function() {
+      alert('自定义按钮被点击！');
+    });
 
-    // 补充自定义按钮的功能
-    let btn = document.querySelector('.editor-wrap .ql-imageBtn')
-    btn.innerHTML = '<span class="iconfont icon-image"></span>'
-    
-    btn = document.querySelector('.editor-wrap .ql-maxBtn')
-    btn.innerHTML = '<span class="iconfont icon-max"></span>'
+    // 图片上传处理
+    const imageHandler = function() {
+      const input = document.createElement('input');
+      input.setAttribute('type', 'file');
+      input.setAttribute('accept', 'image/*');
+      input.click();
 
-    btn = document.querySelector('.editor-wrap .ql-tableBtn')
-    btn.innerHTML = '<span class="iconfont icon-biaoge1"></span>'
-
-    btn = document.querySelector('.editor-wrap .ql-atBtn')
-    btn.innerHTML = '<span class="iconfont icon-at"></span>'
-
-    btn = document.querySelector('.editor-wrap .ql-fontSizeBtn')
-    btn.innerHTML = '改文字大小'
-
-    btn = document.querySelector('.editor-wrap .ql-fontColorBtn')
-    btn.innerHTML = '改文字颜色'
-
-    btn = document.querySelector('.editor-wrap .ql-listBtn')
-    btn.innerHTML = '自定义列表'
-
-    // 监听文件选择，处理文件上传
-    fileInput.addEventListener('change', (event) => {
-      var file = event.target.files[0];
-      if (file) {
-        var reader = new FileReader()
-        reader.onload = function(e) {
-          var base64String = e.target.result;
-          var range = quill.getSelection()
-          quill.insertEmbed(range.index, 'image', base64String)
+      input.onchange = function() {
+        const file = input.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function() {
+            const range = quill.getSelection();
+            quill.insertEmbed(range.index, 'image', reader.result);
+          };
+          reader.readAsDataURL(file);
         }
-        reader.readAsDataURL(file)
-      }
-      fileInput.value = ''
-    })
-    
-    // 监听文本变化事件
-    quill.on('text-change', (delta, oldDelta, source) => {
-      // console.log('text-change', delta, oldDelta, source)
-      
-      // 只处理来自用户触发的变化
-      if (source === 'user') {
-        let index = 0; // 维护当前操作影响的文档位置
+      };
+    };
 
-        // 遍历 Delta 对象的操作
-        delta.ops.forEach(op => {
-          if (op.insert) {
-            // 如果插入是普通文本，更新索引
-            if (typeof op.insert === 'string') {
-              index += op.insert.length;
-            } else if (op.insert.image) {
-              // 在发现图像插入时进行处理
-              const originalUrl = op.insert.image;
-              const newUrl = 'https://zxb-online.oss-cn-beijing.aliyuncs.com/web/static/img/logo_white.svg'
-
-              // 使用 delete 和 insert 以替换 URL
-              quill.deleteText(index, 1); // 删除原图像
-              quill.insertEmbed(index, 'image', newUrl); // 插入新的图像
-
-              index += 1; // 增加位置指针
-            }
-          }
-          // 处理保留和属性
-          if (op.retain) {
-            index += op.retain;
-          }
-        })
-      }
-    })
-
-    // 监听编辑器事件
-    let lastIsCustomListIcon = false
-    quill.root.addEventListener('keydown', function(event) {
-      if (event.key === 'Backspace') {
-        const range = quill.getSelection();
-
-        // console.log('Backspace range', range)
-        if (!range || range.index === 0) {
-          // 删除到第一行的自定义列表，就手动清除
-          let data = quill.getFormat(range.index, range.length)
-          // console.log('getFormat', data)
-          quill.removeFormat(range.index, range.length)
-          return
-        }
-
-        // 获取光标之前的内容
-        const beforeCursorContent = quill.getContents(0, range.index)
-        const afterCursorContent = quill.getContents(range.index + 1)
-        let ops = beforeCursorContent.ops;
-        let lastOp = ops[ops.length - 1]
-        let afterOpts = afterCursorContent.ops
-        // console.log('ops', ops, lastOp, afterOpts, lastIsCustomListIcon)
-
-        // 删除了自定义列表行头部的图标后，则插入新行
-        if (lastIsCustomListIcon) {
-          // console.log('lastIsCustomListIcon opts', ops, lastOp, afterOpts)
-          quill.insertEmbed(range.index + 1, 'block', true)
-          quill.setSelection(range.index + 1)
-        }
-        lastIsCustomListIcon = lastOp.attributes && lastOp.attributes.customList === 'rocket'
-        
-        // 删除@
-        if (lastOp.attributes && lastOp.attributes.atBtn) {  
-          quill.deleteText(range.index - lastOp.insert.length, lastOp.insert.length);
-          event.preventDefault()
-        }
-      }
-    })
-
-    // 获取文本格式内容
-    getTextBtn.onclick = () => {
-      console.log('获取文本', quill.getText())
-    }
-
-    // 获取 html 格式内容
-    getHtmlBtn.onclick = () => {
-      console.log('获取html', quill.root.innerHTML)
-    }
-
-    // 插入 html
-    setHtmlBtn.onclick = () => {
-      let html = '<h1>H1标题</h1><p><span class="editor-at" contenteditable="false" data-usrid="123">@人员&ZeroWidthSpace;</span><span style="font-size: 24px;">24px的字号</span></p><p><span style="color: rgb(106, 57, 201); font-size: 24px;">文字颜色紫色</span></p><p><span style="background-color: rgb(130, 0, 20);">背景色棕色</span></p><p><strong>加粗样式</strong></p><p><em>斜体样式</em></p><p><u>下划线样式</u></p><p><s>划线样式</s></p><p style="text-align: right;">右对齐</p><ul><li style="text-align: left;">无序列表1</li><li style="text-align: left;">无序列表2</li><li style="text-align: left;">无需列表3</li></ul><ol><li style="text-align: left;">有序列表1</li><li style="text-align: left;">有序列表2</li><li style="text-align: left;">有序列表3</li></ol><table style="width: auto;"><tbody><tr><th colSpan="1" rowSpan="1" width="auto">表格</th><th colSpan="1" rowSpan="1" width="auto">1</th><th colSpan="1" rowSpan="1" width="auto">2</th></tr><tr><td colSpan="1" rowSpan="1" width="auto">表格</td><td colSpan="1" rowSpan="1" width="auto">1</td><td colSpan="1" rowSpan="1" width="auto">2</td></tr><tr><td colSpan="1" rowSpan="1" width="auto">表格</td><td colSpan="1" rowSpan="1" width="auto">1</td><td colSpan="1" rowSpan="1" width="auto">2</td></tr></tbody></table><p> <a href="http://www.baidu.com" target="_blank">插入链接</a> </p><p><img src="https://zxb-online.topscrm.cn//info/Ty64X8J5Rk.png" alt="" data-href="https://zxb-online.topscrm.cn//info/Ty64X8J5Rk.png" style=""/></p>'
-      quill.setText('')
-      quill.clipboard.dangerouslyPasteHTML(0, html)
-      quill.focus()
-    }
+    // 绑定图片上传到工具栏
+    toolbar.addHandler('image', imageHandler);
   </script>
 </body>
-
 </html>
