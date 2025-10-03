@@ -17,7 +17,6 @@ win+r gpedit.msc 打开策略
 		旧策略-不要在“关闭windows”对话框显示“安装更新并关闭”-启用
 		旧策略-不允许更新延期策略对windows更新执行扫描-启用
 
-		
 开始-搜索-注册表编辑器
 	计算机\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings
 		新建 DWORD（32位）值 FlightSettingsMaxPauseDays 设置 10进制 36500 100年；重启后选择暂停更新100年
