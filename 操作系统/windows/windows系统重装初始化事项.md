@@ -42,7 +42,7 @@ win+r services.msc 打开服务
 如果 win+r mrt 不存在，就手动下载 https://www.microsoft.com/zh-CN/download/details.aspx?id=9905
 
 # windows 安全中心不是中文
-
+- Microsoft Store 
 
 # 软件下载
 压缩软件 7zip 360压缩
