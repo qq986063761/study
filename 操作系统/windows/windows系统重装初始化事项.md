@@ -20,7 +20,7 @@ win+r gpedit.msc 打开策略
 	计算机\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings
 		新建 DWORD（32位）值 FlightSettingsMaxPauseDays 设置 10进制 36500 100年；重启后选择暂停更新100年
 win+r services.msc 打开服务
-	windows更新服务（wuauserv）禁用
+	windows更新服务（wuauserv）禁用、停止
 	
 # 改存储位置
 系统-存储-高级存储设置-保存新内容的地方
