@@ -45,7 +45,7 @@ win+r services.msc 打开服务
 
 
 # 软件下载
-压缩软件 7zip 360压缩 winrar
+压缩软件 7zip 360压缩
 谷歌浏览器
 
 
