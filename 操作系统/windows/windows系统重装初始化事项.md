@@ -14,8 +14,10 @@ windows更新
 win+r gpedit.msc 打开策略
 	计算机配置-管理模板-windows组件-windows更新
 		管理最终用户体验-配置自动更新-禁用
-		管理 windows server update service 提供的更新-自动更新检测频率-禁用
 		旧策略-不要在“关闭windows”对话框显示“安装更新并关闭”-启用
+		旧策略-不允许更新延期策略对windows更新执行扫描-启用
+
+		
 开始-搜索-注册表编辑器
 	计算机\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings
 		新建 DWORD（32位）值 FlightSettingsMaxPauseDays 设置 10进制 36500 100年；重启后选择暂停更新100年
@@ -42,7 +44,7 @@ win+r services.msc 打开服务
 如果 win+r mrt 不存在，就手动下载 https://www.microsoft.com/zh-CN/download/details.aspx?id=9905
 
 # windows 安全中心不是中文
-- Microsoft Store 
+Microsoft Store 试试中文包更新
 
 # 软件下载
 压缩软件 7zip 360压缩
