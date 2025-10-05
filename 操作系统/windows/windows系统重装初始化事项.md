@@ -11,7 +11,7 @@ Shift+F10 调出【命令提示符窗口】
 # 关更新
 windows更新
 	高级选项-传递优化-关闭
-win+r gpedit.msc 打开策略
+开始-搜索-编辑组策略
 	计算机配置-管理模板-windows组件-windows更新
 		管理最终用户体验-配置自动更新-禁用
 		旧策略-不要在“关闭windows”对话框显示“安装更新并关闭”-启用
@@ -19,7 +19,7 @@ win+r gpedit.msc 打开策略
 开始-搜索-注册表编辑器
 	计算机\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings
 		新建 DWORD（32位）值 FlightSettingsMaxPauseDays 设置 10进制 36500 100年；重启后选择暂停更新100年
-win+r services.msc 打开服务
+开始-搜索-服务
 	windows更新服务（wuauserv）禁用、停止
 	
 # 改存储位置
