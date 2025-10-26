@@ -25,9 +25,12 @@
 - ngrok 直接提供外网访问
 
 # 学习
-微前端（样式隔离、通信传方法作参数、跨应用调组件、路由跳转、Monorepo+） 
-Next.js react 单元测试 nestjs ai agent智能体 vue nuxt
-组件库、错误监控
+C语言基础，帮助更好理解程序执行过程中的变量流向
+基础 html、css、javascript 语法基础，使用基础写出网页内容
+以前的流行库：jquery、boostrap、layui 等编写 jquery 下的各种网页内容
+MVVM库出现后：vue2全家桶(vue2、vue-router vuex)；vue3全家桶（vue3、Pinia、vue-router）；nuxtjs
+工程化构建工具：webpack、vite、rollup
+AI编程工具：cursor
 
 - [电影](https://github.com/88ys/website)
 止咳：复方岩白菜素片
