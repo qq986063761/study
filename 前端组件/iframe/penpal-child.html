@@ -46,7 +46,7 @@
 
     connection.promise.then(remote => {
       // 子调父方法
-      remote.add(2, 6).then(rs => {
+      remote.add(2, 6, rs => {
         console.log('子接收到父 add 的结果', rs)
       })
     })

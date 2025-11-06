@@ -21,8 +21,8 @@
     const connection = connect({
       messenger: messenger,
       methods: {
-        add(num1, num2) {
-          return num1 + num2;
+        add(num1, num2, cb) {
+          cb(num1 + num2)
         }
       }
     })
