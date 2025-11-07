@@ -115,7 +115,7 @@ nvm proxy http://127.0.0.1:7890 https://127.0.0.1:7890
 # 取消代理
 nvm proxy none
 
-# 安装 nodejs 并且临时使用指定版本 node，windows 上不带 v 字母
+# 安装 nodejs 并且临时使用指定版本 node 常用老版本 14.21.3
 nvm install v22.19.0 && nvm use v22.19.0
 # 全局使用默认版本,好像只在mac有效
 nvm alias default v22.19.0
