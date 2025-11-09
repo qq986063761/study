@@ -17,8 +17,8 @@
 # 配置
 - 配置用户名：git config --global user.name "WanPeng"
 - 配置邮箱：git config --global user.email "986063761@qq.com"
-- 配置代理：git config --global http.proxy 127.0.0.1:7890
-- 配置代理：git config --global https.proxy 127.0.0.1:7890
+- 配置代理：git config --global http.proxy 127.0.0.1:17890
+- 配置代理：git config --global https.proxy 127.0.0.1:17890
 - 取消配置代理：git config --global --unset http.proxy
 - 取消配置代理：git config --global --unset https.proxy
 
