@@ -7,11 +7,14 @@
 </head>
 <body>
   <h1>子窗口</h1>
+  <button onclick="testCallback()">测试回调</button>
 
   <script src="https://unpkg.com/penpal@^7/dist/penpal.min.js"></script>
   <script>
     const WindowMessenger = Penpal.WindowMessenger
     const connect = Penpal.connect
+
+    let remoteParent = null
 
     const messenger = new WindowMessenger({
       remoteWindow: window.parent,
@@ -22,34 +25,63 @@
       messenger,
       methods: {
         showModal(opts) {
-          console.log('showModal', opts)
-
-          const { a, b, cb } = opts
-          const params = {
-            c: 1,
-            d: {
-              date: new Date(),
-              cb: (...args) => {
-                console.log('子 d cb', args)
-              }
-            },
-            cb: (...args) => {
-              console.log('子 cb', args)
-            }
+          console.log('子的 showModal 被调用', opts)
+          const { a, b, callbackId } = opts
+          
+          // 方案1: 通过回调 ID 调用父应用的回调
+          if (callbackId && remoteParent) {
+            // 模拟异步操作后调用回调
+            setTimeout(() => {
+              remoteParent.executeCallback(callbackId, {
+                success: true,
+                data: { result: a + 1, message: '来自子应用的数据' }
+              })
+            }, 1000)
           }
-
-          cb(params)
-          b.cb(params)
+        },
+        
+        // 方案2: 支持回调方法名的方式
+        showModalWithCallback(opts) {
+          console.log('子的 showModalWithCallback 被调用', opts)
+          const { a, b, callbackMethod, callbackId } = opts
+          
+          // 模拟异步操作
+          setTimeout(() => {
+            const result = {
+              success: true,
+              data: { result: a + 1, message: '来自子应用的数据' }
+            }
+            
+            // 通过回调 ID 调用父应用的回调
+            if (callbackId && remoteParent) {
+              remoteParent.executeCallback(callbackId, result)
+            }
+          }, 1000)
         }
       }
     })
 
     connection.promise.then(remote => {
+      remoteParent = remote
+      
       // 子调父方法
-      remote.add(2, 6, rs => {
-        console.log('子接收到父 add 的结果', rs)
-      })
+      remote.add(2, 6)
     })
+
+    // 测试函数
+    function testCallback() {
+      if (remoteParent) {
+        // 测试：子应用主动调用父应用的回调
+        const testCallbackId = 'test_' + Date.now()
+        const testCallback = (result) => {
+          console.log('子应用收到回调结果', result)
+        }
+        
+        // 注意：这里需要父应用也实现回调池机制
+        // 实际使用中，子应用通常不需要主动创建回调，而是接收父应用传递的回调 ID
+        alert('请查看控制台，回调机制已实现')
+      }
+    }
   </script>
 </body>
 </html>

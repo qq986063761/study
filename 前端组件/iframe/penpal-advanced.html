@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Penpal 方法传递 - 完整示例</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    .section {
+      margin: 20px 0;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    button {
+      margin: 5px;
+      padding: 8px 15px;
+      cursor: pointer;
+    }
+    iframe {
+      border: 2px solid #333;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Penpal 跨 iframe 方法传递方案</h1>
+  
+  <div class="section">
+    <h2>方案1: 回调 ID 机制（推荐）</h2>
+    <button onclick="testCallbackId()">测试回调 ID</button>
+    <p>将回调函数存储在池中，传递 ID，对方通过 ID 调用</p>
+  </div>
+
+  <div class="section">
+    <h2>方案2: 方法注册机制</h2>
+    <button onclick="testMethodRegister()">测试方法注册</button>
+    <p>将回调作为方法注册到 Penpal，让对方直接调用</p>
+  </div>
+
+  <div class="section">
+    <h2>方案3: Promise 包装</h2>
+    <button onclick="testPromise()">测试 Promise</button>
+    <p>使用 Promise 包装异步操作，返回 Promise 给调用方</p>
+  </div>
+
+  <iframe id="iframe" src="./penpal-child-advanced.html" style="width: 100%;height:400px;"></iframe>
+
+  <script src="https://unpkg.com/penpal@^7/dist/penpal.min.js"></script>
+  <script>
+    const WindowMessenger = Penpal.WindowMessenger
+    const connect = Penpal.connect
+
+    // ========== 方案1: 回调 ID 机制 ==========
+    const callbackPool = new Map()
+    let callbackIdCounter = 0
+
+    function generateCallbackId() {
+      return `cb_${++callbackIdCounter}_${Date.now()}`
+    }
+
+    function registerCallback(callback) {
+      const id = generateCallbackId()
+      callbackPool.set(id, callback)
+      return id
+    }
+
+    function executeCallback(callbackId, ...args) {
+      const callback = callbackPool.get(callbackId)
+      if (callback) {
+        const result = callback(...args)
+        // 可选：执行后删除（单次回调）或保留（多次回调）
+        // callbackPool.delete(callbackId)
+        return result
+      } else {
+        console.warn('回调函数不存在:', callbackId)
+        return null
+      }
+    }
+
+    // ========== 初始化 Penpal ==========
+    const messenger = new WindowMessenger({
+      remoteWindow: iframe.contentWindow,
+      allowedOrigins: ['*'],
+    })
+
+    let remoteChild = null
+
+    const connection = connect({
+      messenger: messenger,
+      methods: {
+        add(num1, num2) {
+          console.log('父的 add 被调用', num1, num2)
+          return num1 + num2
+        },
+        
+        // 执行回调函数
+        executeCallback(callbackId, ...args) {
+          return executeCallback(callbackId, ...args)
+        }
+      }
+    })
+
+    connection.promise.then(remote => {
+      remoteChild = remote
+      console.log('连接建立成功')
+    })
+
+    // ========== 方案1: 回调 ID 测试 ==========
+    async function testCallbackId() {
+      if (!remoteChild) {
+        alert('连接未建立，请稍候')
+        return
+      }
+
+      const callbackId = registerCallback((result) => {
+        console.log('✅ 回调 ID 方案 - 父的回调被调用', result)
+        alert(`回调成功: ${JSON.stringify(result)}`)
+      })
+
+      console.log('发送请求，回调 ID:', callbackId)
+      
+      await remoteChild.showModalWithCallbackId({
+        title: '测试弹窗',
+        message: '这是一个测试',
+        callbackId: callbackId
+      })
+    }
+
+    // ========== 方案2: 方法注册机制 ==========
+    let modalResultCallback = null
+
+    async function testMethodRegister() {
+      if (!remoteChild) {
+        alert('连接未建立，请稍候')
+        return
+      }
+
+      // 动态注册回调方法
+      const callbackMethodName = `onModalResult_${Date.now()}`
+      
+      // 注意：Penpal 不支持动态添加方法，所以我们需要预先注册
+      // 或者使用回调 ID 机制
+      
+      // 这里演示：通过回调 ID 实现类似效果
+      const callbackId = registerCallback((result) => {
+        console.log('✅ 方法注册方案 - 父的回调被调用', result)
+        alert(`方法注册回调成功: ${JSON.stringify(result)}`)
+      })
+
+      await remoteChild.showModalWithMethod({
+        title: '方法注册测试',
+        message: '通过方法名调用',
+        callbackMethod: 'executeCallback',
+        callbackId: callbackId
+      })
+    }
+
+    // ========== 方案3: Promise 包装 ==========
+    async function testPromise() {
+      if (!remoteChild) {
+        alert('连接未建立，请稍候')
+        return
+      }
+
+      try {
+        console.log('发送 Promise 请求...')
+        const result = await remoteChild.showModalWithPromise({
+          title: 'Promise 测试',
+          message: '返回 Promise'
+        })
+        
+        console.log('✅ Promise 方案 - 收到结果', result)
+        alert(`Promise 成功: ${JSON.stringify(result)}`)
+      } catch (error) {
+        console.error('Promise 失败', error)
+        alert(`Promise 失败: ${error.message}`)
+      }
+    }
+
+    // 暴露给全局，方便测试
+    window.testCallbackId = testCallbackId
+    window.testMethodRegister = testMethodRegister
+    window.testPromise = testPromise
+  </script>
+</body>
+</html>
