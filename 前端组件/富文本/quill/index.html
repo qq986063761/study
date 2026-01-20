@@ -290,7 +290,7 @@
     }
 
     /* 颜色选择器样式 */
-    .color-palette {
+    .color-palette.show {
       display: flex;
       flex-wrap: wrap;
       gap: 2px;
@@ -731,22 +731,22 @@ function hello() {
 
           switch (action) {
             case 'bold':
-              isActive = format.bold;
+              isActive = !!format.bold;
               break;
             case 'italic':
-              isActive = format.italic;
+              isActive = !!format.italic;
               break;
             case 'underline':
-              isActive = format.underline;
+              isActive = !!format.underline;
               break;
             case 'strike':
-              isActive = format.strike;
+              isActive = !!format.strike;
               break;
             case 'blockquote':
-              isActive = format.blockquote;
+              isActive = !!format.blockquote;
               break;
             case 'code-block':
-              isActive = format['code-block'];
+              isActive = !!format['code-block'];
               break;
           }
 
@@ -801,14 +801,18 @@ function hello() {
     // 初始化自定义工具栏
     const customToolbar = new CustomToolbar(quill);
 
-    const str = '<h1>asdfasdfsadf</h1><p style="line-height: 30px;">as<span style="font-size: 18px;">fasdf </span></p><p><span style="color: rgb(212, 56, 13); font-size: 18px;">asdfas</span><span style="font-size: 18px;">df </span></p><p><span style="font-size: 18px;">sa</span><span style="background-color: rgb(255, 77, 79); font-size: 18px;">dfasd</span><span style="font-size: 18px;">f </span></p><p><span style="font-size: 18px;">sad</span><span style="font-size: 18px;"><strong>fasdf</strong></span></p><p><span style="font-size: 18px;"><em><strong>asdfasdf</strong></em></span></p><p><span style="font-size: 18px;"><em><strong>sa</strong></em></span><span style="font-size: 18px;"><u><em><strong>dfasdf</strong></em></u></span></p><p><span style="font-size: 18px;"><u><em><strong>sadf</strong></em></u></span><span style="font-size: 18px;"><s><u><em><strong>asdfasdf</strong></em></u></s></span></p><p><span style="font-size: 18px;"><s><u><em><strong>safasdfasdf</strong></em></u></s></span></p><p style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>sa dfasdfasdf</strong></em></u></s></span></p><ul><li style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>sdfasdfasdfsd</strong></em></u></s></span></li><li style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>asdfasdf</strong></em></u></s></span></li><li style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>sadf sdaf</strong></em></u></s></span></li><li style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>sdfa</strong></em></u></s></span></li><ul><li style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>asfasdf</strong></em></u></s></span></li><ul><li style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>asfasd f</strong></em></u></s></span></li><ul><li style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>asfasdfsdf</strong></em></u></s></span></li></ul></ul></ul><li style="text-align: left;"><span style="font-size: 18px;"><s><u><em><strong>asd fasdfasdf</strong></em></u></s></span></li><li style="text-align: left;"><span style="font-size: 18px;"><s><u><em><strong>sadfasfsaf</strong></em></u></s></span></li><ol><li style="text-align: left;"><span style="font-size: 18px;"><s><u><em><strong>asdfasdfs</strong></em></u></s></span></li><li style="text-align: left;"><span style="font-size: 18px;"><s><u><em><strong>safsafsaf</strong></em></u></s></span></li><ol><li style="text-align: left;"><span style="font-size: 18px;"><s><u><em><strong>sdfasfasf</strong></em></u></s></span></li><li style="text-align: left;"><span style="font-size: 18px;"><s><u><em><strong>sfasfasf</strong></em></u></s></span></li><ol><li style="text-align: left;"><span style="font-size: 18px;"><s><u><em><strong>dsfasdf</strong></em></u></s></span></li></ol></ol></ol></ul><p style="text-align: left;"><br></p><table style="width: auto;"><tbody><tr><th colSpan="1" rowSpan="1" width="auto"></th><th colSpan="1" rowSpan="1" width="auto"></th><th colSpan="1" rowSpan="1" width="auto"></th><th colSpan="1" rowSpan="1" width="auto"></th><th colSpan="1" rowSpan="1" width="auto"></th><th colSpan="1" rowSpan="1" width="auto"></th><th colSpan="1" rowSpan="1" width="auto"></th></tr><tr><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto">123</td><td colSpan="1" rowSpan="1" width="auto">231</td><td colSpan="1" rowSpan="1" width="auto">123</td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td></tr><tr><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto">123</td><td colSpan="1" rowSpan="1" width="auto">12313</td><td colSpan="1" rowSpan="1" width="auto">123</td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td></tr><tr><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto">123</td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td></tr><tr><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td></tr></tbody></table><p><br></p><p> <a href="https://www.baidu.com" target="_blank">百度</a> sdfasfas</p><p>sadfasfd</p><p> <a href="https://lanhuapp.com/web/#/item/project/stage?tid=8ad1fe5d-cb8c-43e9-98b6-af31d588b398&pid=b237bd3d-292e-410b-995b-50610a3099d5" target="_blank">https://lanhuapp.com/web/#/item/project/stage?tid=8ad1fe5d-cb8c-43e9-98b6-af31d588b398&pid=b237bd3d-292e-410b-995b-50610a3099d5</a> </p><p><br></p><p>asdfasdf</p><p><img src="https://zxb-online.topscrm.cn/info/68cce57480e0caa57a4cf5d1.jpg" alt="" data-href="https://zxb-online.topscrm.cn/info/68cce57480e0caa57a4cf5d1.jpg" style=""/></p>'
+    const str = '<h1>新增内容</h1>'
     // 在编辑器初始化完成后，将字符串内容添加到现有内容之后
     setTimeout(() => {
       // 获取当前内容的长度
       const currentLength = quill.getLength();
       
       // 将 HTML 字符串插入到编辑器末尾
-      quill.clipboard.dangerouslyPasteHTML(currentLength - 1, str);
+      // quill.clipboard.dangerouslyPasteHTML(currentLength - 1, str);
+
+      // 换行插入
+      quill.insertText(currentLength - 1, '\n');
+      quill.clipboard.dangerouslyPasteHTML(currentLength, str);
     }, 100);
   </script>
 </body>
