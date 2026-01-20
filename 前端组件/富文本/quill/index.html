@@ -685,8 +685,25 @@ function hello() {
             this.insertImage();
             break;
           case 'clean':
-            console.log('clean', this.quill)
-            this.quill.removeFormat();
+            // 获取当前选择范围，如果没有选中则使用光标位置
+            const cleanRange = range || this.quill.getSelection();
+            if (cleanRange) {
+              // 如果有选中文本，清除选中范围的格式
+              if (cleanRange.length > 0) {
+                this.quill.removeFormat(cleanRange.index, cleanRange.length);
+              } else {
+                // 如果没有选中文本，清除光标所在位置的格式
+                const currentFormat = this.quill.getFormat(cleanRange.index);
+                // 清除所有格式
+                Object.keys(currentFormat).forEach(format => {
+                  if (format !== 'align' && format !== 'direction') {
+                    this.quill.format(format, false);
+                  }
+                });
+                // 清除对齐格式
+                this.quill.format('align', false);
+              }
+            }
             break;
         }
         
