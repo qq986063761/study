@@ -334,7 +334,7 @@
     <!-- 文本格式组 -->
     <div class="toolbar-group">
       <div class="toolbar-dropdown" >
-        <button class="toolbar-button dropdown-trigger" data-action="header">
+        <button class="toolbar-button dropdown-trigger" data-action="header" title="标题">
           <span class="button-text">标题</span>
           <span class="dropdown-arrow">▼</span>
         </button>
@@ -350,7 +350,7 @@
       </div>
       
       <div class="toolbar-dropdown" >
-        <button class="toolbar-button dropdown-trigger" data-action="size">
+        <button class="toolbar-button dropdown-trigger" data-action="size" title="字号">
           <span class="button-text">字号</span>
           <span class="dropdown-arrow">▼</span>
         </button>
@@ -396,7 +396,7 @@
     <!-- 颜色组 -->
     <div class="toolbar-group">
       <div class="toolbar-dropdown" >
-        <button class="toolbar-button dropdown-trigger" data-action="color">
+        <button class="toolbar-button dropdown-trigger" data-action="color" title="文字颜色">
           <span class="color-preview" style="background-color: #000;"></span>
           <span class="button-text">文字</span>
           <span class="dropdown-arrow">▼</span>
@@ -418,7 +418,7 @@
       </div>
       
       <div class="toolbar-dropdown" >
-        <button class="toolbar-button dropdown-trigger" data-action="background">
+        <button class="toolbar-button dropdown-trigger" data-action="background" title="背景颜色">
           <span class="color-preview" style="background-color: #ffff00;"></span>
           <span class="button-text">背景</span>
           <span class="dropdown-arrow">▼</span>
@@ -442,7 +442,7 @@
     <!-- 对齐组 -->
     <div class="toolbar-group">
       <div class="toolbar-dropdown" >
-        <button class="toolbar-button dropdown-trigger" data-action="align">
+        <button class="toolbar-button dropdown-trigger" data-action="align" title="文本对齐">
           <span class="button-text">对齐</span>
           <span class="dropdown-arrow">▼</span>
         </button>
@@ -685,6 +685,7 @@ function hello() {
             this.insertImage();
             break;
           case 'clean':
+            console.log('clean', this.quill)
             this.quill.removeFormat();
             break;
         }
