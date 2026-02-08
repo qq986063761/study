@@ -32,7 +32,7 @@
 - 工程化构建工具：webpack、vite、rollup、微前端、组件库
 - AI编程工具：cursor
 
-# 其他
+# 其他 
 - [电影](https://github.com/88ys/website)
 - 止咳：复方岩白菜素片
 - 清火：黄莲上清片
