@@ -26,6 +26,9 @@
   - 如果上一步是 Stopped 执行：Start-Service ssh-agent
   - 然后执行：Set-Service -Name ssh-agent -StartupType Automatic
 - 拉代码 git clone git@github.com:qq986063761/study.git
+  - 
+- 只清除当前秘钥 ssh-add -d $env:USERPROFILE\.ssh\id_rsa
+- 清除所有秘钥 ssh-add -D
 
 ## mac
 - ssh-keygen -t rsa -b 4096 -C "986063761@qq.com"
