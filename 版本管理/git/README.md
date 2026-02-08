@@ -16,7 +16,7 @@
 
 # ssh 拉代码
 
-## windows
+## windows 
 - ssh-keygen -t rsa -b 4096 -C "986063761@qq.com" 会给你默认到  C:\Users\wanpeng\.ssh 下
 - 打开之前添加目录下的公钥 id_rsa.pub，复制内容到 GitHub 账户设置中的 SSH keys 部分
 - 登记私钥 ssh-add $env:USERPROFILE\.ssh\id_rsa 就不用每次输入密码了
