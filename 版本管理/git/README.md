@@ -15,12 +15,11 @@
   - 混合合并|软合并：保留此分支提交内容，之后的提交会保留到暂存区，丢弃后会产生新的拉取，重新拉取后所有之后的提交会还原；
 
 # ssh 拉代码
-- ssh-keygen -t rsa -b 4096 -C "986063761@qq.com"
-- windows 执行后会给你默认到 C:\Users\wanpeng\.ssh 下
-<!-- - eval "$(ssh-agent -s)"
-- ssh-add ~/.ssh/id_rsa -->
+- ssh-keygen -t rsa -b 4096 -C "986063761@qq.com" windows 执行后会给你默认到 C:\Users\wanpeng\.ssh 下
 - 打开之前添加目录下的公钥 id_rsa.pub，复制内容到 GitHub 账户设置中的 SSH keys 部分
-- 然后 git clone git@github.com:qq986063761/study.git
+<!-- - eval "$(ssh-agent -s)" -->
+- 登记私钥 ssh-add ~/.ssh/id_rsa 就不用每次输入密码了
+- 拉代码 git clone git@github.com:qq986063761/study.git
 
 # 配置
 - 配置用户名：git config --global user.name "WanPeng"
