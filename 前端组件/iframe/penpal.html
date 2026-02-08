@@ -13,6 +13,10 @@
     const WindowMessenger = Penpal.WindowMessenger
     const connect = Penpal.connect
 
+    // 方案1: 回调 ID 机制 - 回调函数池
+    const callbackPool = new Map()
+    let callbackIdCounter = 0
+
     const messenger = new WindowMessenger({
       remoteWindow: iframe.contentWindow,
       allowedOrigins: ['*'],
@@ -21,26 +25,58 @@
     const connection = connect({
       messenger: messenger,
       methods: {
-        add(num1, num2, cb) {
-          cb(num1 + num2)
+        add(num1, num2) {
+          console.log('父的 add 被调用', num1, num2)
+        },
+        // 方案1: 执行回调函数
+        executeCallback(callbackId, ...args) {
+          const callback = callbackPool.get(callbackId)
+          if (callback) {
+            callback(...args)
+            // 执行后可以删除，或者保留用于多次调用
+            // callbackPool.delete(callbackId)
+          } else {
+            console.warn('回调函数不存在:', callbackId)
+          }
         }
       }
     })
 
     connection.promise.then(remote => {
-      // 父调子方法
+      // 方案1: 使用回调 ID 传递方法
+      const callbackId = `cb_${++callbackIdCounter}`
+      const callback = (opts) => {
+        console.log('父的回调被调用', opts)
+      }
+      
+      // 将回调函数存储到池中
+      callbackPool.set(callbackId, callback)
+
+      // 传递回调 ID 而不是函数
       remote.showModal({
         a: 1,
         b: {
-          date: new Date(),
-          cb: (...args) => {
-            console.log('b cb', args)
-          }
+          date: new Date()
         },
-        cb: (...args) => {
-          console.log('cb', args)
-        }
+        callbackId: callbackId  // 传递 ID
       })
+
+      // 方案2: 使用 Penpal 的方法注册机制（推荐）
+      // 将回调作为方法注册，让子应用调用
+      setTimeout(() => {
+        const modalCallbackId = `modal_cb_${Date.now()}`
+        const modalCallback = (result) => {
+          console.log('父的 modal 回调被调用', result)
+        }
+        callbackPool.set(modalCallbackId, modalCallback)
+
+        remote.showModalWithCallback({
+          a: 1,
+          b: { date: new Date() },
+          callbackMethod: 'onModalResult',  // 告诉子应用调用哪个方法
+          callbackId: modalCallbackId
+        })
+      }, 1000)
     })
   </script>
 </body>

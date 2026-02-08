@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>子窗口 - 高级示例</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+    .modal.show {
+      display: block;
+    }
+    button {
+      margin: 5px;
+      padding: 8px 15px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>子窗口 - 方法传递测试</h1>
+  
+  <div id="modal" class="modal">
+    <h3 id="modalTitle"></h3>
+    <p id="modalMessage"></p>
+    <button onclick="handleConfirm()">确认</button>
+    <button onclick="handleCancel()">取消</button>
+  </div>
+
+  <script src="https://unpkg.com/penpal@^7/dist/penpal.min.js"></script>
+  <script>
+    const WindowMessenger = Penpal.WindowMessenger
+    const connect = Penpal.connect
+
+    let remoteParent = null
+    let currentCallbackId = null
+    let currentCallbackMethod = null
+    let currentPromiseResolve = null
+    let currentPromiseReject = null
+
+    const messenger = new WindowMessenger({
+      remoteWindow: window.parent,
+      allowedOrigins: ['*'],
+    })
+
+    const connection = connect({
+      messenger,
+      methods: {
+        // 方案1: 回调 ID 机制
+        showModalWithCallbackId(opts) {
+          console.log('子应用收到 showModalWithCallbackId', opts)
+          const { title, message, callbackId } = opts
+          
+          currentCallbackId = callbackId
+          showModal(title, message)
+          
+          // 返回表示已接收
+          return { success: true, message: '弹窗已显示' }
+        },
+
+        // 方案2: 方法注册机制（实际也是用回调 ID）
+        showModalWithMethod(opts) {
+          console.log('子应用收到 showModalWithMethod', opts)
+          const { title, message, callbackMethod, callbackId } = opts
+          
+          currentCallbackId = callbackId
+          currentCallbackMethod = callbackMethod
+          showModal(title, message)
+          
+          return { success: true, message: '弹窗已显示' }
+        },
+
+        // 方案3: Promise 包装
+        showModalWithPromise(opts) {
+          console.log('子应用收到 showModalWithPromise', opts)
+          const { title, message } = opts
+          
+          showModal(title, message)
+          
+          // 返回 Promise
+          return new Promise((resolve, reject) => {
+            currentPromiseResolve = resolve
+            currentPromiseReject = reject
+            
+            // 设置超时
+            setTimeout(() => {
+              if (currentPromiseResolve) {
+                reject(new Error('操作超时'))
+                currentPromiseResolve = null
+                currentPromiseReject = null
+                hideModal()
+              }
+            }, 30000) // 30秒超时
+          })
+        }
+      }
+    })
+
+    connection.promise.then(remote => {
+      remoteParent = remote
+      console.log('子应用连接建立成功')
+    })
+
+    function showModal(title, message) {
+      document.getElementById('modalTitle').textContent = title
+      document.getElementById('modalMessage').textContent = message
+      document.getElementById('modal').classList.add('show')
+    }
+
+    function hideModal() {
+      document.getElementById('modal').classList.remove('show')
+      currentCallbackId = null
+      currentCallbackMethod = null
+    }
+
+    function handleConfirm() {
+      const result = {
+        success: true,
+        action: 'confirm',
+        data: { message: '用户点击了确认' }
+      }
+
+      // 方案1: 通过回调 ID 调用
+      if (currentCallbackId && remoteParent) {
+        remoteParent.executeCallback(currentCallbackId, result)
+        console.log('通过回调 ID 调用父应用回调', currentCallbackId)
+      }
+
+      // 方案3: 通过 Promise resolve
+      if (currentPromiseResolve) {
+        currentPromiseResolve(result)
+        currentPromiseResolve = null
+        currentPromiseReject = null
+        console.log('通过 Promise resolve 返回结果')
+      }
+
+      hideModal()
+    }
+
+    function handleCancel() {
+      const result = {
+        success: false,
+        action: 'cancel',
+        data: { message: '用户点击了取消' }
+      }
+
+      // 方案1: 通过回调 ID 调用
+      if (currentCallbackId && remoteParent) {
+        remoteParent.executeCallback(currentCallbackId, result)
+        console.log('通过回调 ID 调用父应用回调（取消）', currentCallbackId)
+      }
+
+      // 方案3: 通过 Promise reject
+      if (currentPromiseReject) {
+        currentPromiseReject(new Error('用户取消操作'))
+        currentPromiseResolve = null
+        currentPromiseReject = null
+        console.log('通过 Promise reject 返回错误')
+      }
+
+      hideModal()
+    }
+  </script>
+</body>
+</html>

@@ -290,7 +290,7 @@
     }
 
     /* 颜色选择器样式 */
-    .color-palette {
+    .color-palette.show {
       display: flex;
       flex-wrap: wrap;
       gap: 2px;
@@ -324,6 +324,82 @@
       border-radius: 2px;
       border: 1px solid #ddd;
     }
+
+    /* @ 提及样式 */
+    .ql-editor .mention {
+      background-color: #e3f2fd;
+      color: #1976d2;
+      padding: 2px 4px;
+      border-radius: 3px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .ql-editor .mention:hover {
+      background-color: #bbdefb;
+    }
+
+    /* 用户选择下拉菜单样式 */
+    .mention-dropdown {
+      position: absolute;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      z-index: 2000;
+      max-height: 200px;
+      overflow-y: auto;
+      min-width: 200px;
+      display: none;
+    }
+
+    .mention-dropdown.show {
+      display: block;
+    }
+
+    .mention-item {
+      padding: 8px 12px;
+      cursor: pointer;
+      border-bottom: 1px solid #f0f0f0;
+      transition: background-color 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mention-item:last-child {
+      border-bottom: none;
+    }
+
+    .mention-item:hover,
+    .mention-item.highlighted {
+      background-color: #e3f2fd;
+    }
+
+    .mention-item .avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 12px;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+
+    .mention-item .name {
+      flex: 1;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .mention-item .dept {
+      font-size: 12px;
+      color: #999;
+    }
   </style>
 </head>
 <body>
@@ -334,7 +410,7 @@
     <!-- 文本格式组 -->
     <div class="toolbar-group">
       <div class="toolbar-dropdown" >
-        <button class="toolbar-button dropdown-trigger" data-action="header">
+        <button class="toolbar-button dropdown-trigger" data-action="header" title="标题">
           <span class="button-text">标题</span>
           <span class="dropdown-arrow">▼</span>
         </button>
@@ -350,7 +426,7 @@
       </div>
       
       <div class="toolbar-dropdown" >
-        <button class="toolbar-button dropdown-trigger" data-action="size">
+        <button class="toolbar-button dropdown-trigger" data-action="size" title="字号">
           <span class="button-text">字号</span>
           <span class="dropdown-arrow">▼</span>
         </button>
@@ -396,7 +472,7 @@
     <!-- 颜色组 -->
     <div class="toolbar-group">
       <div class="toolbar-dropdown" >
-        <button class="toolbar-button dropdown-trigger" data-action="color">
+        <button class="toolbar-button dropdown-trigger" data-action="color" title="文字颜色">
           <span class="color-preview" style="background-color: #000;"></span>
           <span class="button-text">文字</span>
           <span class="dropdown-arrow">▼</span>
@@ -418,7 +494,7 @@
       </div>
       
       <div class="toolbar-dropdown" >
-        <button class="toolbar-button dropdown-trigger" data-action="background">
+        <button class="toolbar-button dropdown-trigger" data-action="background" title="背景颜色">
           <span class="color-preview" style="background-color: #ffff00;"></span>
           <span class="button-text">背景</span>
           <span class="dropdown-arrow">▼</span>
@@ -442,7 +518,7 @@
     <!-- 对齐组 -->
     <div class="toolbar-group">
       <div class="toolbar-dropdown" >
-        <button class="toolbar-button dropdown-trigger" data-action="align">
+        <button class="toolbar-button dropdown-trigger" data-action="align" title="文本对齐">
           <span class="button-text">对齐</span>
           <span class="dropdown-arrow">▼</span>
         </button>
@@ -514,6 +590,7 @@
       <li><strong>对齐</strong>：左对齐、居中、右对齐、两端对齐</li>
       <li><strong>列表</strong>：有序列表、无序列表、缩进</li>
       <li><strong>其他</strong>：引用、代码块、链接、图片、视频</li>
+      <li><strong>@ 提及</strong>：输入 @ 符号可以选人，试试输入 @ 看看效果！</li>
     </ul>
     <blockquote>
       <p>这是一个引用块，展示引用功能。</p>
@@ -524,6 +601,9 @@ function hello() {
 }</code></pre>
     <p>试试插入 <a href="https://quilljs.com">链接</a> 和图片！</p>
   </div>
+
+  <!-- 用户选择下拉菜单 -->
+  <div id="mention-dropdown" class="mention-dropdown"></div>
 
   <script>
     console.log('Quill', Quill.imports, Quill);
@@ -540,6 +620,41 @@ function hello() {
     Quill.register(SizeClass, true);
     Quill.register(SizeStyle, true);
 
+    // 创建自定义 Mention Blot
+    const Inline = Quill.import('blots/inline');
+    
+    class MentionBlot extends Inline {
+      static create(value) {
+        const node = super.create();
+        node.setAttribute('data-id', value.id);
+        node.setAttribute('data-name', value.name);
+        node.setAttribute('data-dept', value.dept || '');
+        node.classList.add('mention');
+        node.textContent = `@${value.name}`;
+        return node;
+      }
+
+      static value(node) {
+        return {
+          id: node.getAttribute('data-id'),
+          name: node.getAttribute('data-name'),
+          dept: node.getAttribute('data-dept') || ''
+        };
+      }
+
+      static formats(node) {
+        return {
+          id: node.getAttribute('data-id'),
+          name: node.getAttribute('data-name'),
+          dept: node.getAttribute('data-dept') || ''
+        };
+      }
+    }
+    
+    MentionBlot.blotName = 'mention';
+    MentionBlot.tagName = 'span';
+    Quill.register(MentionBlot);
+
     const quill = new Quill('#editor', {
       theme: 'snow',
       modules: {
@@ -552,7 +667,8 @@ function hello() {
         'align', 'direction',
         'list', 'indent',
         'blockquote', 'code-block',
-        'link', 'image', 'video'
+        'link', 'image', 'video',
+        'mention'
       ]
     });
 
@@ -685,7 +801,25 @@ function hello() {
             this.insertImage();
             break;
           case 'clean':
-            this.quill.removeFormat();
+            // 获取当前选择范围，如果没有选中则使用光标位置
+            const cleanRange = range || this.quill.getSelection();
+            if (cleanRange) {
+              // 如果有选中文本，清除选中范围的格式
+              if (cleanRange.length > 0) {
+                this.quill.removeFormat(cleanRange.index, cleanRange.length);
+              } else {
+                // 如果没有选中文本，清除光标所在位置的格式
+                const currentFormat = this.quill.getFormat(cleanRange.index);
+                // 清除所有格式
+                Object.keys(currentFormat).forEach(format => {
+                  if (format !== 'align' && format !== 'direction') {
+                    this.quill.format(format, false);
+                  }
+                });
+                // 清除对齐格式
+                this.quill.format('align', false);
+              }
+            }
             break;
         }
         
@@ -731,22 +865,22 @@ function hello() {
 
           switch (action) {
             case 'bold':
-              isActive = format.bold;
+              isActive = !!format.bold;
               break;
             case 'italic':
-              isActive = format.italic;
+              isActive = !!format.italic;
               break;
             case 'underline':
-              isActive = format.underline;
+              isActive = !!format.underline;
               break;
             case 'strike':
-              isActive = format.strike;
+              isActive = !!format.strike;
               break;
             case 'blockquote':
-              isActive = format.blockquote;
+              isActive = !!format.blockquote;
               break;
             case 'code-block':
-              isActive = format['code-block'];
+              isActive = !!format['code-block'];
               break;
           }
 
@@ -801,14 +935,214 @@ function hello() {
     // 初始化自定义工具栏
     const customToolbar = new CustomToolbar(quill);
 
-    const str = '<h1>asdfasdfsadf</h1><p style="line-height: 30px;">as<span style="font-size: 18px;">fasdf </span></p><p><span style="color: rgb(212, 56, 13); font-size: 18px;">asdfas</span><span style="font-size: 18px;">df </span></p><p><span style="font-size: 18px;">sa</span><span style="background-color: rgb(255, 77, 79); font-size: 18px;">dfasd</span><span style="font-size: 18px;">f </span></p><p><span style="font-size: 18px;">sad</span><span style="font-size: 18px;"><strong>fasdf</strong></span></p><p><span style="font-size: 18px;"><em><strong>asdfasdf</strong></em></span></p><p><span style="font-size: 18px;"><em><strong>sa</strong></em></span><span style="font-size: 18px;"><u><em><strong>dfasdf</strong></em></u></span></p><p><span style="font-size: 18px;"><u><em><strong>sadf</strong></em></u></span><span style="font-size: 18px;"><s><u><em><strong>asdfasdf</strong></em></u></s></span></p><p><span style="font-size: 18px;"><s><u><em><strong>safasdfasdf</strong></em></u></s></span></p><p style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>sa dfasdfasdf</strong></em></u></s></span></p><ul><li style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>sdfasdfasdfsd</strong></em></u></s></span></li><li style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>asdfasdf</strong></em></u></s></span></li><li style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>sadf sdaf</strong></em></u></s></span></li><li style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>sdfa</strong></em></u></s></span></li><ul><li style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>asfasdf</strong></em></u></s></span></li><ul><li style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>asfasd f</strong></em></u></s></span></li><ul><li style="text-align: center;"><span style="font-size: 18px;"><s><u><em><strong>asfasdfsdf</strong></em></u></s></span></li></ul></ul></ul><li style="text-align: left;"><span style="font-size: 18px;"><s><u><em><strong>asd fasdfasdf</strong></em></u></s></span></li><li style="text-align: left;"><span style="font-size: 18px;"><s><u><em><strong>sadfasfsaf</strong></em></u></s></span></li><ol><li style="text-align: left;"><span style="font-size: 18px;"><s><u><em><strong>asdfasdfs</strong></em></u></s></span></li><li style="text-align: left;"><span style="font-size: 18px;"><s><u><em><strong>safsafsaf</strong></em></u></s></span></li><ol><li style="text-align: left;"><span style="font-size: 18px;"><s><u><em><strong>sdfasfasf</strong></em></u></s></span></li><li style="text-align: left;"><span style="font-size: 18px;"><s><u><em><strong>sfasfasf</strong></em></u></s></span></li><ol><li style="text-align: left;"><span style="font-size: 18px;"><s><u><em><strong>dsfasdf</strong></em></u></s></span></li></ol></ol></ol></ul><p style="text-align: left;"><br></p><table style="width: auto;"><tbody><tr><th colSpan="1" rowSpan="1" width="auto"></th><th colSpan="1" rowSpan="1" width="auto"></th><th colSpan="1" rowSpan="1" width="auto"></th><th colSpan="1" rowSpan="1" width="auto"></th><th colSpan="1" rowSpan="1" width="auto"></th><th colSpan="1" rowSpan="1" width="auto"></th><th colSpan="1" rowSpan="1" width="auto"></th></tr><tr><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto">123</td><td colSpan="1" rowSpan="1" width="auto">231</td><td colSpan="1" rowSpan="1" width="auto">123</td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td></tr><tr><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto">123</td><td colSpan="1" rowSpan="1" width="auto">12313</td><td colSpan="1" rowSpan="1" width="auto">123</td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td></tr><tr><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto">123</td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td></tr><tr><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td></tr></tbody></table><p><br></p><p> <a href="https://www.baidu.com" target="_blank">百度</a> sdfasfas</p><p>sadfasfd</p><p> <a href="https://lanhuapp.com/web/#/item/project/stage?tid=8ad1fe5d-cb8c-43e9-98b6-af31d588b398&pid=b237bd3d-292e-410b-995b-50610a3099d5" target="_blank">https://lanhuapp.com/web/#/item/project/stage?tid=8ad1fe5d-cb8c-43e9-98b6-af31d588b398&pid=b237bd3d-292e-410b-995b-50610a3099d5</a> </p><p><br></p><p>asdfasdf</p><p><img src="https://zxb-online.topscrm.cn/info/68cce57480e0caa57a4cf5d1.jpg" alt="" data-href="https://zxb-online.topscrm.cn/info/68cce57480e0caa57a4cf5d1.jpg" style=""/></p>'
+    // @ 提及功能
+    class MentionHandler {
+      constructor(quill) {
+        this.quill = quill;
+        this.mentionDropdown = document.getElementById('mention-dropdown');
+        this.mentionStartIndex = null;
+        this.searchText = '';
+        this.selectedIndex = 0;
+        this.userList = [
+          { id: '1', name: '张三', dept: '技术部' },
+          { id: '2', name: '李四', dept: '产品部' },
+          { id: '3', name: '王五', dept: '设计部' },
+          { id: '4', name: '赵六', dept: '运营部' },
+          { id: '5', name: '钱七', dept: '技术部' },
+          { id: '6', name: '孙八', dept: '产品部' },
+          { id: '7', name: '周九', dept: '设计部' },
+          { id: '8', name: '吴十', dept: '运营部' }
+        ];
+        this.filteredUsers = [];
+        this.init();
+      }
+
+      init() {
+        // 监听文本变化
+        this.quill.on('text-change', (delta, oldDelta, source) => {
+          if (source === 'user') {
+            this.handleTextChange();
+          }
+        });
+
+        // 监听选择变化
+        this.quill.on('selection-change', (range) => {
+          if (!range) {
+            this.hideDropdown();
+            return;
+          }
+          this.handleTextChange();
+        });
+
+        // 键盘事件
+        this.quill.root.addEventListener('keydown', (e) => {
+          if (this.mentionDropdown.classList.contains('show')) {
+            if (e.key === 'ArrowDown') {
+              e.preventDefault();
+              this.selectedIndex = Math.min(this.selectedIndex + 1, this.filteredUsers.length - 1);
+              this.updateDropdown();
+            } else if (e.key === 'ArrowUp') {
+              e.preventDefault();
+              this.selectedIndex = Math.max(this.selectedIndex - 1, 0);
+              this.updateDropdown();
+            } else if (e.key === 'Enter' || e.key === 'Tab') {
+              e.preventDefault();
+              this.selectUser(this.filteredUsers[this.selectedIndex]);
+            } else if (e.key === 'Escape') {
+              e.preventDefault();
+              this.hideDropdown();
+            }
+          }
+        });
+
+        // 点击外部关闭下拉菜单
+        document.addEventListener('click', (e) => {
+          if (!e.target.closest('#mention-dropdown') && !e.target.closest('.ql-editor')) {
+            this.hideDropdown();
+          }
+        });
+
+        // 使用事件委托处理下拉菜单项的点击
+        this.mentionDropdown.addEventListener('click', (e) => {
+          const item = e.target.closest('.mention-item');
+          if (item) {
+            e.stopPropagation(); // 阻止事件冒泡，防止触发 document 的 click 事件
+            const index = Array.from(this.mentionDropdown.children).indexOf(item);
+            if (index >= 0 && index < this.filteredUsers.length) {
+              console.log('click', this.filteredUsers[index], item);
+              this.selectUser(this.filteredUsers[index]);
+            }
+          }
+        });
+      }
+
+      handleTextChange() {
+        const range = this.quill.getSelection();
+        if (!range) return;
+
+        const text = this.quill.getText(0, range.index);
+        // 支持中文和英文的匹配
+        const match = text.match(/@([^\s@]*)$/);
+
+        if (match) {
+          this.mentionStartIndex = range.index - match[0].length;
+          this.searchText = match[1];
+          this.filterUsers();
+          this.showDropdown();
+        } else {
+          this.hideDropdown();
+        }
+      }
+
+      filterUsers() {
+        if (!this.searchText) {
+          this.filteredUsers = this.userList;
+        } else {
+          const searchLower = this.searchText.toLowerCase();
+          this.filteredUsers = this.userList.filter(user => 
+            user.name.toLowerCase().includes(searchLower) ||
+            (user.dept && user.dept.toLowerCase().includes(searchLower))
+          );
+        }
+        this.selectedIndex = 0;
+        this.updateDropdown();
+      }
+
+      showDropdown() {
+        if (this.filteredUsers.length === 0) {
+          this.hideDropdown();
+          return;
+        }
+
+        const range = this.quill.getSelection();
+        if (!range) return;
+
+        // 获取光标位置
+        const bounds = this.quill.getBounds(range.index);
+        const editorBounds = this.quill.container.getBoundingClientRect();
+        
+        this.mentionDropdown.style.top = (editorBounds.top + bounds.top + bounds.height + window.scrollY) + 'px';
+        this.mentionDropdown.style.left = (editorBounds.left + bounds.left + window.scrollX) + 'px';
+        this.mentionDropdown.classList.add('show');
+      }
+
+      hideDropdown() {
+        this.mentionDropdown.classList.remove('show');
+        this.mentionStartIndex = null;
+        this.searchText = '';
+        this.selectedIndex = 0;
+      }
+
+      updateDropdown() {
+        this.mentionDropdown.innerHTML = '';
+        
+        this.filteredUsers.forEach((user, index) => {
+          const item = document.createElement('div');
+          item.className = 'mention-item' + (index === this.selectedIndex ? ' highlighted' : '');
+          item.innerHTML = `
+            <div class="avatar">${user.name.charAt(0)}</div>
+            <div style="flex: 1;">
+              <div class="name">${this.highlightText(user.name, this.searchText)}</div>
+              ${user.dept ? `<div class="dept">${user.dept}</div>` : ''}
+            </div>
+          `;
+          this.mentionDropdown.appendChild(item);
+        });
+
+        // 滚动到选中项
+        const highlightedItem = this.mentionDropdown.querySelector('.highlighted');
+        if (highlightedItem) {
+          highlightedItem.scrollIntoView({ block: 'nearest' });
+        }
+      }
+
+      highlightText(text, search) {
+        if (!search) return text;
+        // 转义特殊字符，支持中文高亮
+        const escapedSearch = search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const regex = new RegExp(`(${escapedSearch})`, 'gi');
+        return text.replace(regex, '<strong>$1</strong>');
+      }
+
+      selectUser(user) {
+        if (!user || !this.mentionStartIndex) return;
+
+        const range = this.quill.getSelection();
+        if (!range) return;
+
+        // 删除 @ 和搜索文本
+        const deleteLength = range.index - this.mentionStartIndex;
+        this.quill.deleteText(this.mentionStartIndex, deleteLength);
+
+        // 插入提及
+        this.quill.insertText(this.mentionStartIndex, `@${user.name}`, 'mention', {
+          id: user.id,
+          name: user.name,
+          dept: user.dept || ''
+        });
+
+        // 移动光标到提及之后
+        this.quill.setSelection(this.mentionStartIndex + user.name.length + 1);
+
+        this.hideDropdown();
+      }
+    }
+
+    // 初始化 @ 提及功能
+    const mentionHandler = new MentionHandler(quill);
+
+    const str = '<h1>新增内容</h1>'
     // 在编辑器初始化完成后，将字符串内容添加到现有内容之后
     setTimeout(() => {
       // 获取当前内容的长度
       const currentLength = quill.getLength();
       
       // 将 HTML 字符串插入到编辑器末尾
-      quill.clipboard.dangerouslyPasteHTML(currentLength - 1, str);
+      // quill.clipboard.dangerouslyPasteHTML(currentLength - 1, str);
+
+      // 换行插入
+      quill.insertText(currentLength - 1, '\n');
+      quill.clipboard.dangerouslyPasteHTML(currentLength, str);
     }, 100);
   </script>
 </body>
