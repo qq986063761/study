@@ -1,4 +1,4 @@
-﻿- [上网 github](https://github.com/Alvin9999/new-pac/wiki)(https://dgithub.xyz/Alvin9999/new-pac/wiki)
+- [上网 github](https://github.com/Alvin9999/new-pac/wiki)(https://dgithub.xyz/Alvin9999/new-pac/wiki)
 - [上网 追风岛](https://zfd.369.cyou)(https://gozhuifeng.club/)(https://www.gozhuifeng.club/)
 - [NCloud](https://xn--cloud-cl5i.net/)
 - [买 openAI](https://eylink.cn/)
@@ -25,26 +25,27 @@
 - ngrok 直接提供外网访问
 
 # 学习
-C语言基础，帮助更好理解程序执行过程中的变量流向
-基础 html、css、javascript 语法基础，使用基础写出网页内容
-以前的流行库：jquery、boostrap、layui 等编写 jquery 下的各种网页内容
-MVVM库出现后：vue2全家桶(vue2、vue-router vuex)；vue3全家桶（vue3、Pinia、vue-router）；nuxtjs
-工程化构建工具：webpack、vite、rollup、微前端、组件库
-AI编程工具：cursor
+- C语言基础，帮助更好理解程序执行过程中的变量流向
+-基础 html、css、javascript 语法基础，使用基础写出网页内容
+-以前的流行库：jquery、boostrap、layui 等编写 jquery 下的各种网页内容
+-MVVM库出现后：vue2全家桶(vue2、vue-router vuex)；vue3全家桶（vue3、Pinia、vue-router）；nuxtjs
+-工程化构建工具：webpack、vite、rollup、微前端、组件库
+-AI编程工具：cursor
 
+# 其他
 - [电影](https://github.com/88ys/website)
-止咳：复方岩白菜素片
-清火：黄莲上清片
-抗过敏：扑尔敏（瓶）
-抵抗力：维生素c片
-解表散热、疏肝和胃：小柴胡颗粒（白云山）
-胃药：威地美铝碳酸镁片（达喜）
-外部消炎：金霉素眼膏
-细菌感染：四环素软膏
-真菌皮炎：无极膏
-过敏皮炎：氟轻松软膏
-皮肤角化：尿素软膏
-咽喉、肺：华素片、急支糖浆、川贝枇杷膏、草珊瑚含片、草珊瑚含片、养阴清肺口服液
-咽喉、肺、增强抵抗力：胖大海、罗汉果、甘草、陈皮、百合、山楂、桔梗、梨子、橙子、红糖、花椒
-抗病毒：四季抗病毒合剂、抗病毒口服液
-退烧：布洛芬、双氯芬酸钠缓释片
+- 止咳：复方岩白菜素片
+- 清火：黄莲上清片
+- 抗过敏：扑尔敏（瓶）
+- 抵抗力：维生素c片
+- 解表散热、疏肝和胃：小柴胡颗粒（白云山）
+- 胃药：威地美铝碳酸镁片（达喜）
+- 外部消炎：金霉素眼膏
+- 细菌感染：四环素软膏
+- 真菌皮炎：无极膏
+- 过敏皮炎：氟轻松软膏
+- 皮肤角化：尿素软膏
+- 咽喉、肺：华素片、急支糖浆、川贝枇杷膏、草珊瑚含片、草珊瑚含片、养阴清肺口服液
+- 咽喉、肺、增强抵抗力：胖大海、罗汉果、甘草、陈皮、百合、山楂、桔梗、梨子、橙子、红糖、花椒
+- 抗病毒：四季抗病毒合剂、抗病毒口服液
+- 退烧：布洛芬、双氯芬酸钠缓释片
