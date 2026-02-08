@@ -14,6 +14,14 @@
   - 强行合并：只保留此分支提交内容，之后的提交完全丢弃；
   - 混合合并|软合并：保留此分支提交内容，之后的提交会保留到暂存区，丢弃后会产生新的拉取，重新拉取后所有之后的提交会还原；
 
+# ssh 拉代码
+- ssh-keygen -t rsa -b 4096 -C "986063761@qq.com"
+- windows 执行后会给你默认到 C:\Users\wanpeng\.ssh 下
+<!-- - eval "$(ssh-agent -s)"
+- ssh-add ~/.ssh/id_rsa -->
+- 打开之前添加目录下的公钥 id_rsa.pub，复制内容到 GitHub 账户设置中的 SSH keys 部分
+- 然后 git clone git@github.com:qq986063761/study.git
+
 # 配置
 - 配置用户名：git config --global user.name "WanPeng"
 - 配置邮箱：git config --global user.email "986063761@qq.com"
@@ -87,8 +95,8 @@ git log feature/20241230-okr6.13..feature/20250211-okr6.14 --author="wanpeng" --
 ## 拉代码安全报错 fatal: unable to access 'https://github.com/qq986063761/study.git/': Recv failure: Connection was reset
 - 是不是开了 vpn，用 git 命令配置代理
 
-## fatal: unable to access 'https://github.com/qq986063761/study.git/': TLS connect error: error:0A000126:SSL routines::unexpected eof while reading
-- 
+## 拉代码安全报错 fatal: unable to access 'https://github.com/qq986063761/study.git/': TLS connect error: error:0A000126:SSL routines::unexpected eof while reading
+- 开了代理后报错这个就再取消代理
 
 
 # tortoiseGit
