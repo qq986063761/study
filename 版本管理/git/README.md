@@ -77,8 +77,16 @@ git log feature/20241230-okr6.13..feature/20250211-okr6.14 --author="wanpeng" --
 
 # bug
 
-# gitignore无效
+## gitignore无效
 - 执行 git rm -r --cached . 清除缓存
+
+## 拉代码安全报错 fatal: unable to access 'https://github.com/qq986063761/study.git/': schannel: SEC_E_UNTRUSTED_ROOT (0x80090325)
+- git config --system http.sslbackend openssl
+- git config --global http.sslVerify "false"
+
+## 拉代码安全报错 fatal: unable to access 'https://github.com/qq986063761/study.git/': Recv failure: Connection was reset
+- 是不是开了 vpn，用 git 命令配置代理
+
 
 # tortoiseGit
 
