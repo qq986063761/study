@@ -60,18 +60,18 @@ git log feature/20241230-okr6.13..feature/20250211-okr6.14 --author="wanpeng" --
 
 # sourcetree
 
-# 强制回滚代码
+## 强制回滚代码
 - 直接选中要回滚的那次提交，然后选择回滚提交，会强行把这一次提交的改动全部回滚，直接生成新推送
 
-# 安全回滚代码
+## 安全回滚代码
 - 当前在最新节点，选中历史节点右键，选择“将分支重置到这次提交”，选择“强行合并”（这一个历史节点改动不会被还原）；
 - 然后现在已经在历史节点了，再右键选中当前最新节点，选择“将分支重置到这次提交”，选择“软合并”（这时候历史节点后所有提交都已经还原了）；
 - 如果有代码改动，需要对比一下是否需要保留还是丢弃
 
-# 将推送错分支的某次提交提交到正确分支（仅适合同一个版本的项目，加入有完全的两个不同版本的项目就不适合了）
+## 将推送错分支的某次提交提交到正确分支（仅适合同一个版本的项目，加入有完全的两个不同版本的项目就不适合了）
 - 假如：master 分支上推送了代码，但是我本来要提交到 test 分支的，则切换到 test 分支，选中 master 分支上的那次提交，然后选择变基
 
-# 将推送错分支的某次提交提交到正确分支
+## 将推送错分支的某次提交提交到正确分支
 - 选中某次提交，右键-遴选，然后确定后就会将这次提交的改动变到当前我所在的分支
 
 
@@ -86,6 +86,9 @@ git log feature/20241230-okr6.13..feature/20250211-okr6.14 --author="wanpeng" --
 
 ## 拉代码安全报错 fatal: unable to access 'https://github.com/qq986063761/study.git/': Recv failure: Connection was reset
 - 是不是开了 vpn，用 git 命令配置代理
+
+## fatal: unable to access 'https://github.com/qq986063761/study.git/': TLS connect error: error:0A000126:SSL routines::unexpected eof while reading
+- 
 
 
 # tortoiseGit
