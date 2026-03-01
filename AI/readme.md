@@ -1,5 +1,8 @@
-# ai 编程工具
-- cursor codex，咸鱼买
+# ai 编程历史
+- vscode + ai插件
+- cursor 
+- 不要代码区直接命令行 calude code、codex（咸鱼买号）
+- openclaw
 
 # ai 优点
 - 代码结构，逻辑布局上很强，适合利用它做组件的代码布局，功能实现
