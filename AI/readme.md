@@ -1,7 +1,7 @@
 # ai 编程历史
 - vscode + ai插件
 - cursor 
-- 不要代码区直接命令行 calude code、codex（咸鱼买号）
+- 不要代码区直接命令行claude code、codex（咸鱼买号）
 - openclaw
 
 # ai 优点
