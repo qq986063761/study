@@ -1,5 +1,5 @@
 # 资源
-- [ai中转](https://www.helpaio.com/transit)
+- [ai中转平台](https://www.helpaio.com/transit)
 
 # ai 编程历史
 - vscode + ai插件

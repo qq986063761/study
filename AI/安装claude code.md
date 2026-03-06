@@ -3,7 +3,7 @@
 ## 用Homebrew安装 
 - brew install --cask claude-code
 
-## 永久设置 apikey，这里是设置的中转的 key，不是官方key
+## 永久设置 apikey（这里是ai中转平台的方案 https://www.helpaio.com/transit）
 - 用zsh终端
 echo 'export ANTHROPIC_BASE_URL="https://b.onerouter.com/api"' >> ~/.zshrc
 echo 'export ANTHROPIC_AUTH_TOKEN="你的API密钥"' >> ~/.zshrc
@@ -29,10 +29,10 @@ source ~/.bash_profil
 - 用cmd安装：curl -fsSL https://claude.ai/install.cmd -o install.cmd && install.cmd && del install.cmd
 - winget install Anthropic.ClaudeCode
 
-## 永久设置apikey
+## 永久设置apikey（这里是ai中转平台的方案 https://www.helpaio.com/transit）
 - 设置
 [System.Environment]::SetEnvironmentVariable("ANTHROPIC_BASE_URL", "https://b.onerouter.com/api", [System.EnvironmentVariableTarget]::User)
-[System.Environment]::SetEnvironmentVariable("ANTHROPIC_AUTH_TOKEN", "or_a97860698c529cae68e7b09b407eb32c9bfe686e4ac2710631be103be9667864", [System.EnvironmentVariableTarget]::User)
+[System.Environment]::SetEnvironmentVariable("ANTHROPIC_AUTH_TOKEN", "你的平台秘钥", [System.EnvironmentVariableTarget]::User)
 - 查看
 [System.Environment]::GetEnvironmentVariable("ANTHROPIC_BASE_URL", [System.EnvironmentVariableTarget]::User)
 [System.Environment]::GetEnvironmentVariable("ANTHROPIC_AUTH_TOKEN", [System.EnvironmentVariableTarget]::User)
