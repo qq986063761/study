@@ -21,6 +21,9 @@ source ~/.bash_profil
 ## 用 node 安装，node 要切换到 16 版本以上再装，但只能在你安装的版本下使用
 - npm install -g @anthropic-ai/claude-code
 
+## 在 ide vscode 中装插件
+- Claude Code for VS Code
+
 ## 直接安装好像报错，暂时记录一下
 - 用powershell：irm https://claude.ai/install.ps1 | iex
 - 用cmd安装：curl -fsSL https://claude.ai/install.cmd -o install.cmd && install.cmd && del install.cmd
@@ -35,6 +38,7 @@ source ~/.bash_profil
 [System.Environment]::GetEnvironmentVariable("ANTHROPIC_AUTH_TOKEN", [System.EnvironmentVariableTarget]::User)
 
 ## 重新打开终端后验证是否成功
-- claude --version
+- 如果是vscode插件，直接插件或F1搜claude相关命令打开就行
+- 其他方式安装 claude --version
 
 
