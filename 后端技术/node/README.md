@@ -160,8 +160,5 @@ vscode 插件 Node Visual Manager、vscode-nvm
 最后把 npm 的配置指向 python 安装的版本，npm config set python python2.7.9
 配置环境变量：vim 打开根目录下的 bash_profile 文件，加一行：export PATH="/usr/local/python-2.7.9/bin:$PATH"
 
-# mac brew 
-```bash
-# 官网安装 brew
+# mac 安装 homebrew 
 - [Homebrew](https://brew.sh/)
-```

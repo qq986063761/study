@@ -1,0 +1,35 @@
+# mac 安装
+
+## 用Homebrew安装 
+- brew install --cask claude-code
+
+## 永久设置 apikey，这里是设置的中转的 key，不是官方key
+- 用zsh终端
+echo 'export ANTHROPIC_BASE_URL="https://b.onerouter.com/api"' >> ~/.zshrc
+echo 'export ANTHROPIC_AUTH_TOKEN="你的API密钥"' >> ~/.zshrc
+source ~/.zshrc
+- 用 bash 终端
+echo 'export ANTHROPIC_BASE_URL="https://b.onerouter.com/api"' >> ~/.bash_profile
+echo 'export ANTHROPIC_AUTH_TOKEN="你的API密钥"' >> ~/.bash_profile
+source ~/.bash_profil
+
+## 重新打开终端后验证是否成功
+- claude --version
+
+# windows 安装
+
+## 用 node 安装，node 要切换到 16 版本以上再装
+npm install -g @anthropic-ai/claude-code
+
+## 永久设置apikey
+- 设置
+[System.Environment]::SetEnvironmentVariable("ANTHROPIC_BASE_URL", "https://b.onerouter.com/api", [System.EnvironmentVariableTarget]::User)
+[System.Environment]::SetEnvironmentVariable("ANTHROPIC_AUTH_TOKEN", "or_a97860698c529cae68e7b09b407eb32c9bfe686e4ac2710631be103be9667864", [System.EnvironmentVariableTarget]::User)
+- 查看
+[System.Environment]::GetEnvironmentVariable("ANTHROPIC_BASE_URL", [System.EnvironmentVariableTarget]::User)
+[System.Environment]::GetEnvironmentVariable("ANTHROPIC_AUTH_TOKEN", [System.EnvironmentVariableTarget]::User)
+
+## 重新打开终端后验证是否成功
+- claude --version
+
+
