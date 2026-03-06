@@ -35,17 +35,19 @@
 <!-- - eval "$(ssh-agent -s)" -->
 - 登记私钥 ssh-add ~/.ssh/id_rsa
 
-# 配置
-- 配置用户名：git config --global user.name "WanPeng"
-- 配置邮箱：git config --global user.email "986063761@qq.com"
-- 配置代理：git config --global http.proxy 127.0.0.1:17890
-- 配置代理：git config --global https.proxy 127.0.0.1:17890
-- 取消配置代理：git config --global --unset http.proxy
-- 取消配置代理：git config --global --unset https.proxy
-
-# 获取代码
-- git clone STORE_NAME：初始化获取远端仓库代码到本地
-- git pull [origin BRANCH_NAME]：从远端仓库拉取最新代码到本地，可能会出现冲突代码
+# 命令
+- 配用户名：git config --global user.name "WanPeng"
+- 配邮箱：git config --global user.email "986063761@qq.com"
+- 配代理：git config --global http.proxy 127.0.0.1:17890
+- 配代理：git config --global https.proxy 127.0.0.1:17890
+- 取消代理：git config --global --unset http.proxy
+- 取消代理：git config --global --unset https.proxy
+- 取消ssl检查 git config --global http.sslVerify false
+- 开启ssl检查 git config --global http.sslVerify true
+- 设置缓冲区 git config --global http.postBuffer 524288000   
+- 清除缓冲区 git config --global --unset http.postbuffer
+- 克隆仓库 git clone 仓库url
+- 拉代码 git pull 仓库url
 
 # 获取两个分支之间的代码行数变化
 git log feature/20241230-okr6.13..feature/20250211-okr6.14 --author="wanpeng" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf "新增行数: %s\n删除行数: %s\n净增行数: %s\n", add, subs, loc }'
@@ -95,7 +97,6 @@ git log feature/20241230-okr6.13..feature/20250211-okr6.14 --author="wanpeng" --
 ## 将推送错分支的某次提交提交到正确分支
 - 选中某次提交，右键-遴选，然后确定后就会将这次提交的改动变到当前我所在的分支
 
-
 # bug
 
 ## gitignore无效
@@ -110,9 +111,3 @@ git log feature/20241230-okr6.13..feature/20250211-okr6.14 --author="wanpeng" --
 
 ## 拉代码安全报错 fatal: unable to access 'https://github.com/qq986063761/study.git/': TLS connect error: error:0A000126:SSL routines::unexpected eof while reading
 - 开了代理后报错这个就再取消代理
-
-
-# tortoiseGit
-
-
-测试
