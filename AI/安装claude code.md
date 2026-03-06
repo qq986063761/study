@@ -18,8 +18,13 @@ source ~/.bash_profil
 
 # windows 安装
 
-## 用 node 安装，node 要切换到 16 版本以上再装
-npm install -g @anthropic-ai/claude-code
+## 用 node 安装，node 要切换到 16 版本以上再装，但只能在你安装的版本下使用
+- npm install -g @anthropic-ai/claude-code
+
+## 直接安装好像报错，暂时记录一下
+- 用powershell：irm https://claude.ai/install.ps1 | iex
+- 用cmd安装：curl -fsSL https://claude.ai/install.cmd -o install.cmd && install.cmd && del install.cmd
+- winget install Anthropic.ClaudeCode
 
 ## 永久设置apikey
 - 设置
