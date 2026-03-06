@@ -11,7 +11,7 @@ source ~/.zshrc
 - 用 bash 终端
 echo 'export ANTHROPIC_BASE_URL="https://b.onerouter.com/api"' >> ~/.bash_profile
 echo 'export ANTHROPIC_AUTH_TOKEN="你的API密钥"' >> ~/.bash_profile
-source ~/.bash_profil
+source ~/.bash_profile
 
 ## 重新打开终端后验证是否成功
 - claude --version
