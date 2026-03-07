@@ -47,9 +47,11 @@
 - 设置缓冲区 git config --global http.postBuffer 524288000   
 - 清除缓冲区 git config --global --unset http.postbuffer
 - 克隆仓库：git clone 仓库url
+- 查询远程仓库列表 git remote -v
+- 查询当前远程仓库的情况 git remote show origin
 - 增加一个远程仓库别名 git remote add github https://github.com/qq986063761/study.git
 - 指定别名推送 git push github master --force
-- 增加一个push时需要同步的其他远程仓库 git remote set-url --add --push origin https://github.com/qq986063761/study.git
+- 增加一个push时需要同步的其他远程仓库 git remote set-url --add --push origin https://gitee.com/wanpeng666/study.git
 - 删除一个push时需要同步的其他远程仓库 git remote set-url --delete --push origin https://github.com/qq986063761/study.git
 - 拉代码：git pull 仓库url
 - 查看分支：git branch
