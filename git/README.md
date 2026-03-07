@@ -46,33 +46,33 @@
 - 开启ssl检查 git config --global http.sslVerify true
 - 设置缓冲区 git config --global http.postBuffer 524288000   
 - 清除缓冲区 git config --global --unset http.postbuffer
-- 克隆仓库 git clone 仓库url
-- 拉代码 git pull 仓库url
+- 克隆仓库：git clone 仓库url
+- 增加一个远程仓库别名 git remote add github https://github.com/qq986063761/study.git
+- 指定别名推送 git push github master --force
+- 增加一个push时需要同步的其他远程仓库 git remote set-url --add --push origin https://github.com/qq986063761/study.git
+- 删除一个push时需要同步的其他远程仓库 git remote set-url --delete --push origin https://github.com/qq986063761/study.git
+- 拉代码：git pull 仓库url
+- 查看分支：git branch
+- 查看远端所有分支：git branch -a
+- 删除分支：git branch -d BRANCH_NAME
+- 切换分支：git checkout BRANCH_NAME
+- 创建新分支并切换：git checkout -b BRANCH_NAME
+- 丢弃当前所有更改：git checkout .
+- 暂存指定文件的更改：git add FILE_NAME
+- 暂存指定扩展名的文件的更改：git add *.EXT_NAME
+- 暂存所有更改：git add .
+- 提交暂存区的更改到本地仓库：git commit -m 'INFO'
+- 回退当前暂存区更改到工作区：git reset .
+- 推送提交的更改到指定分支：git push [origin BRANCH_NAME]
+- 将指定分支合并到当前所在分支：git merge BRANCH_NAME
+- 查看分支和分支的不同：git diff SOURCE_BRANCH_NAME TARGET_BRANCH_NAME
+- 查看当前 git 状态：git status
+- 查看提交日志：git log [--pretty=oneline FILE_NAME]
+- 查看改动历史：git show 【提交 hash 码】
 
 # 获取两个分支之间的代码行数变化
 git log feature/20241230-okr6.13..feature/20250211-okr6.14 --author="wanpeng" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf "新增行数: %s\n删除行数: %s\n净增行数: %s\n", add, subs, loc }'
 
-# 分支
-- git branch 
-  - -a：查看远端所有分支
-  - -d BRANCH_NAME：删除分支
-- git checkout BRANCH_NAME：切换分支
-  - -b BRANCH_NAME：创建新分支，并切换到新分支
-  - .：丢弃当前所有更改
-- git add FILE_NAME：暂存指定文件的更改
-  - *.EXT_NAME：暂存指定扩展名的文件的更改
-  - .：暂存所有更改
-- git commit
-  - -m 'INFO'：提交暂存区的更改到本地仓库
-- git reset .：回退当前暂存区更改到工作区
-- git push [origin BRANCH_NAME]：推送提交的更改到指定分支
-- git merge BRANCH_NAME：将指定分支合并到当前所在分支
-- git diff SOURCE_BRANCH_NAME TARGET_BRANCH_NAME：查看分支和分支的不同
-
-# 日志
-- git status：查看当前 git 状态（所在分支等等）
-- git log [--pretty=oneline FILE_NAME]：查看提交日志
-- git show 【提交 hash 码】：查看改动历史
 
 # 分支规范
 - 开发分支：develop/child
