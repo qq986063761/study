@@ -24,6 +24,10 @@
 学习网站：技术文档的官网、掘金（https://juejin.cn/）、慕课网（https://www.imooc.com/）、拉钩教育（https://kaiwu.lagou.com/）
 - ngrok 直接提供外网访问
 
+# 推给我的github
+- git remote add github https://github.com/qq986063761/study.git
+- git push github master --force
+
 # 学习
 - C语言基础，帮助更好理解程序执行过程中的变量流向
 - 基础 html、css、javascript 语法基础，使用基础写出网页内容
