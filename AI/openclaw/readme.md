@@ -7,7 +7,11 @@
 - windows cmd安装：curl -fsSL https://openclaw.ai/install.cmd -o install.cmd && install.cmd && del install.cmd
 - mac安装：curl -fsSL https://openclaw.ai/install.sh | bash
 
-# 配置
+# 安装完检查版本
+- openclaw --version
+- openclaw -v
+
+# 开始配置
 - openclaw onboard --install-daemon
 - --install-daemon 参数会将 Gateway 安装为后台服务，实现开机自启
 
@@ -15,6 +19,7 @@
 - 检查状态 openclaw gateway status
 - 启动服务 openclaw gateway start
 - 重启服务 openclaw gateway restart
+- 停止服务 openclaw gateway stop
 
 # 打开网页控制台
 - openclaw dashboard
