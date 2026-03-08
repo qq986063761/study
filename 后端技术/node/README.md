@@ -110,7 +110,7 @@ windows 的 nvm 装 1.1.12 版本，最新版本好像有报错
 # windows 上安装前配置下载源
 nvm node_mirror https://npmmirror.com/mirrors/node/
 nvm npm_mirror https://npmmirror.com/mirrors/npm/
-# 如果开了 vpn 设置 nvm 代理
+# 如果开了 vpn 可以设置 nvm 代理
 nvm proxy http://127.0.0.1:7890 https://127.0.0.1:7890
 # 取消代理
 nvm proxy none
