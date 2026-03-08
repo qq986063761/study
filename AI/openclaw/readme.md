@@ -21,5 +21,6 @@
 - 重启服务 openclaw gateway restart
 - 停止服务 openclaw gateway stop
 
-# 打开网页控制台
-- openclaw dashboard
+# 打开 openclaw 聊天
+- 终端打开 openclaw tui
+- 网页打开 openclaw dashboard
