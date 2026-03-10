@@ -42,6 +42,7 @@
 - 配代理：git config --global https.proxy 127.0.0.1:17890
 - 取消代理：git config --global --unset http.proxy
 - 取消代理：git config --global --unset https.proxy
+- 设置http版本：git config --global http.version HTTP/1.1
 - 取消ssl检查 git config --global http.sslVerify false
 - 开启ssl检查 git config --global http.sslVerify true
 - 设置缓冲区 git config --global http.postBuffer 524288000   
