@@ -20,6 +20,8 @@
 - 启动服务 openclaw gateway start
 - 重启服务 openclaw gateway restart
 - 停止服务 openclaw gateway stop
+- 安装服务 openclaw gateway install
+- 卸载服务 openclaw gateway uninstall
 
 # 打开 openclaw 聊天
 - 终端打开 openclaw tui
