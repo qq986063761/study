@@ -97,7 +97,7 @@
 - 查看版本：fnm --version
 - 列出node版本：fnm ls
 - 列出远程可安装node版本：fnm list-remote
-- 安装node版本：fnm install 14.21.3
+- 安装node版本：fnm install 14.21.3 24.14.0
 - 切换node版本：fnm use 14.21.3
 - 全局使用默认版本：fnm default 14.21.3
 - 卸载node版本：fnm uninstall 14.21.3
@@ -105,10 +105,11 @@
 # nvm（node 版本管理工具）
 ```bash
 # mac
-如果没安装，则安装完 nvm 后会报错，需要先安装 xcode-select --install
+如果没安装，则安装完 nvm 后会报错，需要先安装 xcode-select --install；mac 装 xcode 后自带这个
 
 # mac 安装 nvm，后面的 bash 是安装的对应终端环境，windows 上别装到系统默认文件夹中，直接装d盘根目录否则可能后续安装node会出问题
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash
+wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash
 # 如果上面命令失败了443，则直接浏览器下载上面的脚本文件，然后用 bash ./install.sh 本地执行下载
 # 配置环境文件如下，让终端能使用 nvm：
 # 先给 bash 终端加 nvm 配置，在 ~ 目录下，用 vim .bash_profile 最后一行加下面内容
