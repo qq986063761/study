@@ -2,6 +2,7 @@
 
 ## 用Homebrew安装 
 - brew install --cask claude-code
+- 或者 node18 以上 npm install -g @anthropic-ai/claude-code 安装 
 
 ## 永久设置 apikey（这里是ai中转平台的方案 https://www.helpaio.com/transit）
 - 用zsh终端
