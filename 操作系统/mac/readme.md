@@ -11,3 +11,6 @@
 # 安装 axe.store 包管理工具
 - axe.store源 curl -fsSL https://axel.vercel.app/install | bash
 - axe.store国内源 curl -fsSL https://gitee.com/kuaibiancheng/store/raw/master/install.sh | bash
+
+# 连服务器
+- mac直接连服务器 ssh root@114.55.102.39
