@@ -1,6 +1,7 @@
 - [上网 github](https://github.com/Alvin9999/new-pac/wiki)(https://dgithub.xyz/Alvin9999/new-pac/wiki)
 - [上网 追风岛](https://zfd.369.cyou)(https://gozhuifeng.club/)(https://www.gozhuifeng.club/)
 - [NCloud](https://xn--cloud-cl5i.net/)
+- [ikuuu](https://ikuuu.nl/user)
 - [买 openAI](https://eylink.cn/)
 - [买 chatgpt](http://www.thetimework.com/links/7852BB87249C7F7A)(http://u9v.cn/6p592r)
 - [买 chatgpt](http://shop.isving.cn/)
