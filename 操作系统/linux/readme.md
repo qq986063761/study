@@ -13,6 +13,14 @@
 - 基于linux的企业服务器；
 - 嵌入式应用（安卓系统等等）；
 
+# 连服务器工具
+- windterm
+- FinalShell
+- Xshell
+- MobaXterm
+- Tabby
+- Electerm
+
 # Linux 和 Windows
 - Linux严格区分大小写；
 - Linux中所有内容以文件形式保存，包括硬件；
