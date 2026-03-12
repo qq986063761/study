@@ -14,3 +14,8 @@
 
 # 连服务器
 - mac直接连服务器 ssh root@114.55.102.39
+
+# windterm 连服务器问题
+- kex error : no match for method encryption client->server: server [aes128-ctr,aes192-ctr,aes256-ctr], client [aes256-gcm@openssh.com]
+会话已断开连接，按回车重新连接。
+- 
