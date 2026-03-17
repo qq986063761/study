@@ -11,6 +11,17 @@
 - openclaw --version
 - openclaw -v
 
+# 卸载 
+- openclaw uninstall --all --yes --non-interactive
+- npm uninstall -g openclaw
+- 移除残留
+```bash
+Remove-Item -Recurse -Force "$env:USERPROFILE\.openclaw"
+Remove-Item -Recurse -Force "$env:USERPROFILE\.clawdbot"
+Remove-Item -Recurse -Force "$env:USERPROFILE\.moltbot"
+```
+- 删除任务计划 schtasks /Delete /F /TN "OpenClaw Gateway"
+
 # 开始配置
 - openclaw onboard --install-daemon
 - --install-daemon 参数会将 Gateway 安装为后台服务，实现开机自启
