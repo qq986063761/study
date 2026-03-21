@@ -6,11 +6,11 @@
 
 ## 永久设置 apikey（这里是ai中转平台的方案 https://www.helpaio.com/transit）
 - 用zsh终端
-echo 'export ANTHROPIC_BASE_URL="https://b.onerouter.com/api"' >> ~/.zshrc
+echo 'export ANTHROPIC_BASE_URL="你的中转url平台地址"' >> ~/.zshrc
 echo 'export ANTHROPIC_AUTH_TOKEN="你的API密钥"' >> ~/.zshrc
 source ~/.zshrc
 - 用 bash 终端
-echo 'export ANTHROPIC_BASE_URL="https://b.onerouter.com/api"' >> ~/.bash_profile
+echo 'export ANTHROPIC_BASE_URL="你的中转url平台地址"' >> ~/.bash_profile
 echo 'export ANTHROPIC_AUTH_TOKEN="你的API密钥"' >> ~/.bash_profile
 source ~/.bash_profile
 
