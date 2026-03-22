@@ -39,6 +39,56 @@
       line-height: 1.6;
     }
 
+    /*
+     * 官方无单独 API 修改 picker 按钮文案；Snow 用 .ql-picker-label::before / .ql-picker-item::before。
+     * 在本页 quill.snow.css 之后写覆盖样式即可（与 custom.html 里改字号展示同理）。
+     */
+    /* 标题：工具条上当前选中（默认 = 正文段落 → 显示「标题」；选中 Hn → Hn） */
+    .ql-snow .ql-picker.ql-header .ql-picker-label::before {
+      content: '标题';
+      font-weight: 600;
+    }
+    .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="false"]::before,
+    .ql-snow .ql-picker.ql-header .ql-picker-label[data-value=""]::before {
+      content: '标题';
+      font-weight: 600;
+    }
+    .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="1"]::before { content: 'H1'; font-weight: 700; }
+    .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="2"]::before { content: 'H2'; font-weight: 700; }
+    .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="3"]::before { content: 'H3'; font-weight: 700; }
+    .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="4"]::before { content: 'H4'; font-weight: 700; }
+    .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="5"]::before { content: 'H5'; font-weight: 700; }
+    .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="6"]::before { content: 'H6'; font-weight: 700; }
+    /* 标题：下拉项（第一项正文，其余 H1–H6） */
+    .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="false"]::before,
+    .ql-snow .ql-picker.ql-header .ql-picker-item[data-value=""]::before {
+      content: '正文';
+    }
+    .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="1"]::before { content: 'H1'; }
+    .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="2"]::before { content: 'H2'; }
+    .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="3"]::before { content: 'H3'; }
+    .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="4"]::before { content: 'H4'; }
+    .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="5"]::before { content: 'H5'; }
+    .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="6"]::before { content: 'H6'; }
+
+    /* 字号：工具条当前选中（默认字号 →「正文」；具体 px 由下方 [data-value="Npx"] 覆盖） */
+    .ql-snow .ql-picker.ql-size .ql-picker-label::before {
+      content: '正文';
+    }
+    .ql-snow .ql-picker.ql-size .ql-picker-label[data-value="false"]::before,
+    .ql-snow .ql-picker.ql-size .ql-picker-label[data-value=""]::before {
+      content: '正文';
+    }
+    .ql-snow .ql-picker.ql-size .ql-picker-item[data-value="false"]::before,
+    .ql-snow .ql-picker.ql-size .ql-picker-item[data-value=""]::before {
+      content: '正文';
+    }
+
+    .ql-toolbar.ql-snow .ql-picker.ql-header .ql-picker-label,
+    .ql-toolbar.ql-snow .ql-picker.ql-size .ql-picker-label {
+      min-width: 4.25em;
+    }
+
     /* 与 custom.html 一致：字号下拉展示文案（Snow 默认不认识 8px 等自定义值） */
     .ql-snow .ql-picker.ql-size .ql-picker-item[data-value="8px"]::before,
     .ql-snow .ql-picker.ql-size .ql-picker-label[data-value="8px"]::before { content: '8px'; }
