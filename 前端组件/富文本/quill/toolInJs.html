@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quill 官方 Toolbar — 全量菜单 + 自定义标题/字号/颜色</title>
+  <title>Quill 官方 Toolbar — 全量菜单 + 自定义标题/字号/颜色 + quill-better-table</title>
   <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/quill-better-table@1.2.10/dist/quill-better-table.css" rel="stylesheet">
   <style>
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -114,17 +115,37 @@
     .ql-snow .ql-picker.ql-size .ql-picker-label[data-value="36px"]::before { content: '36px'; }
     .ql-snow .ql-picker.ql-size .ql-picker-item[data-value="48px"]::before,
     .ql-snow .ql-picker.ql-size .ql-picker-label[data-value="48px"]::before { content: '48px'; }
+
+    /*
+     * 工具栏是 <div class="ql-toolbar ql-snow">（两 class 在同一节点）。
+     * .ql-snow .ql-toolbar 要求 toolbar 是 ql-snow 的后代，永远匹配不到，故 ::before 不生效。
+     */
+    .ql-toolbar.ql-snow button.ql-insertTable {
+      width: auto !important;
+      min-width: 2.5em;
+      padding: 0 6px;
+      overflow: visible;
+    }
+    .ql-toolbar.ql-snow button.ql-insertTable::before {
+      content: '表格';
+      display: inline-block;
+      font-size: 12px !important;
+      line-height: 22px;
+      color: #444;
+      vertical-align: middle;
+    }
   </style>
 </head>
 <body>
-  <h1 class="page-title">官方 <code>modules.toolbar</code>：Snow 支持的全量按钮 + 你的自定义标题/字号/前景色/背景色白名单</h1>
+  <h1 class="page-title">官方 <code>modules.toolbar</code>：Snow 全量按钮 + 自定义标题/字号/颜色 + <code>quill-better-table</code>（插入表格、右键菜单行列/合并等）</h1>
 
   <div id="editor">
-    <p>标题、字号、颜色、背景与 <code>custom.html</code> 选项一致；其余为 Quill 文档中的常规工具栏项（链接/图片/视频等需自行处理 URL 或上传）。</p>
+    <p>标题、字号、颜色、背景与 <code>custom.html</code> 选项一致；已接入 <code>quill-better-table</code>，点击工具栏「表格」插入 3×3，在表格上右键可增删行列、合并单元格等。</p>
     <p><br></p>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/quill-better-table@1.2.10/dist/quill-better-table.js"></script>
   <script>
     (function () {
       // —— 与 custom.html 相同的可选值 ——
@@ -153,6 +174,13 @@
 
       var Delta = Quill.import('delta');
 
+      // quill-better-table：注册模块（须关闭 Quill 内置 table，避免冲突）
+      Quill.register(
+        { 'modules/better-table': quillBetterTable },
+        true
+      );
+      quillBetterTable.register();
+
       // 官方 Toolbar：数组即容器。除你自定义的 header/size/color/background 外，其余与 Quill 文档示例一致（formula 等需额外模块，未列入）
       var toolbarOptions = [
         ['bold', 'italic', 'underline', 'strike'],
@@ -166,14 +194,31 @@
         [{ align: [] }],
         [{ color: COLOR_WHITELIST }, { background: BACKGROUND_WHITELIST }],
         [{ font: [] }],
+        ['insertTable'],
         ['link', 'image', 'video'],
         ['clean']
-      ]
+      ];
 
       new Quill('#editor', {
         theme: 'snow',
         modules: {
-          toolbar: toolbarOptions,
+          table: false,
+          // 右键菜单依赖 options.operationMenu；传空对象即可（内部会合并默认项），省略则 operationMenu 为 undefined 会报错：Cannot read properties of undefined (reading 'items')
+          'better-table': {
+            operationMenu: {}
+          },
+          keyboard: {
+            bindings: quillBetterTable.keyboardBindings
+          },
+          toolbar: {
+            container: toolbarOptions,
+            handlers: {
+              insertTable: function () {
+                var bt = this.quill.getModule('better-table');
+                if (bt) bt.insertTable(3, 3);
+              }
+            }
+          },
           // 示例：自己上传到服务器，拿到 https URL
           // uploader: {
           //   mimetypes: ['image/png', 'image/jpeg', 'image/gif', 'image/webp'],
@@ -196,7 +241,9 @@
           'blockquote', 'code-block',
           'list', 'indent', 'script', 'direction', 'align',
           'color', 'background', 'font',
-          'link', 'image', 'video'
+          'link', 'image', 'video',
+          'table', 'table-row', 'table-body', 'table-container', 'table-view',
+          'table-col', 'table-col-group', 'table-cell-line'
         ]
       });
     })();
