@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quill Toolbar：手写 HTML container + handlers（等同 toolInJs）</title>
+  <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 24px;
+      background: #f5f5f5;
+    }
+    h1.page-title {
+      color: #333;
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 0 0 16px;
+    }
+    #editor {
+      background: #fff;
+      border-radius: 0 0 8px 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      min-height: 320px;
+    }
+    .ql-toolbar.ql-snow {
+      border-radius: 8px 8px 0 0;
+      border-color: #ccc;
+    }
+    .ql-container.ql-snow {
+      border-radius: 0 0 8px 8px;
+      border-color: #ccc;
+      font-size: 16px;
+    }
+    .ql-editor {
+      min-height: 320px;
+      line-height: 1.6;
+    }
+
+    .ql-snow .ql-picker.ql-header .ql-picker-label::before {
+      content: '标题';
+      font-weight: 600;
+    }
+    .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="false"]::before,
+    .ql-snow .ql-picker.ql-header .ql-picker-label[data-value=""]::before {
+      content: '标题';
+      font-weight: 600;
+    }
+    .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="1"]::before { content: 'H1'; font-weight: 700; }
+    .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="2"]::before { content: 'H2'; font-weight: 700; }
+    .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="3"]::before { content: 'H3'; font-weight: 700; }
+    .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="4"]::before { content: 'H4'; font-weight: 700; }
+    .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="5"]::before { content: 'H5'; font-weight: 700; }
+    .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="6"]::before { content: 'H6'; font-weight: 700; }
+    .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="false"]::before,
+    .ql-snow .ql-picker.ql-header .ql-picker-item[data-value=""]::before {
+      content: '正文';
+    }
+    .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="1"]::before { content: 'H1'; }
+    .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="2"]::before { content: 'H2'; }
+    .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="3"]::before { content: 'H3'; }
+    .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="4"]::before { content: 'H4'; }
+    .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="5"]::before { content: 'H5'; }
+    .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="6"]::before { content: 'H6'; }
+
+    .ql-snow .ql-picker.ql-size .ql-picker-label::before {
+      content: '正文';
+    }
+    .ql-snow .ql-picker.ql-size .ql-picker-label[data-value="false"]::before,
+    .ql-snow .ql-picker.ql-size .ql-picker-label[data-value=""]::before {
+      content: '正文';
+    }
+    .ql-snow .ql-picker.ql-size .ql-picker-item[data-value="false"]::before,
+    .ql-snow .ql-picker.ql-size .ql-picker-item[data-value=""]::before {
+      content: '正文';
+    }
+
+    .ql-toolbar.ql-snow .ql-picker.ql-header .ql-picker-label,
+    .ql-toolbar.ql-snow .ql-picker.ql-size .ql-picker-label {
+      min-width: 4.25em;
+    }
+
+    .ql-snow .ql-picker.ql-size .ql-picker-item[data-value="8px"]::before,
+    .ql-snow .ql-picker.ql-size .ql-picker-label[data-value="8px"]::before { content: '8px'; }
+    .ql-snow .ql-picker.ql-size .ql-picker-item[data-value="10px"]::before,
+    .ql-snow .ql-picker.ql-size .ql-picker-label[data-value="10px"]::before { content: '10px'; }
+    .ql-snow .ql-picker.ql-size .ql-picker-item[data-value="12px"]::before,
+    .ql-snow .ql-picker.ql-size .ql-picker-label[data-value="12px"]::before { content: '12px'; }
+    .ql-snow .ql-picker.ql-size .ql-picker-item[data-value="14px"]::before,
+    .ql-snow .ql-picker.ql-size .ql-picker-label[data-value="14px"]::before { content: '14px'; }
+    .ql-snow .ql-picker.ql-size .ql-picker-item[data-value="16px"]::before,
+    .ql-snow .ql-picker.ql-size .ql-picker-label[data-value="16px"]::before { content: '16px'; }
+    .ql-snow .ql-picker.ql-size .ql-picker-item[data-value="18px"]::before,
+    .ql-snow .ql-picker.ql-size .ql-picker-label[data-value="18px"]::before { content: '18px'; }
+    .ql-snow .ql-picker.ql-size .ql-picker-item[data-value="20px"]::before,
+    .ql-snow .ql-picker.ql-size .ql-picker-label[data-value="20px"]::before { content: '20px'; }
+    .ql-snow .ql-picker.ql-size .ql-picker-item[data-value="24px"]::before,
+    .ql-snow .ql-picker.ql-size .ql-picker-label[data-value="24px"]::before { content: '24px'; }
+    .ql-snow .ql-picker.ql-size .ql-picker-item[data-value="28px"]::before,
+    .ql-snow .ql-picker.ql-size .ql-picker-label[data-value="28px"]::before { content: '28px'; }
+    .ql-snow .ql-picker.ql-size .ql-picker-item[data-value="32px"]::before,
+    .ql-snow .ql-picker.ql-size .ql-picker-label[data-value="32px"]::before { content: '32px'; }
+    .ql-snow .ql-picker.ql-size .ql-picker-item[data-value="36px"]::before,
+    .ql-snow .ql-picker.ql-size .ql-picker-label[data-value="36px"]::before { content: '36px'; }
+    .ql-snow .ql-picker.ql-size .ql-picker-item[data-value="48px"]::before,
+    .ql-snow .ql-picker.ql-size .ql-picker-label[data-value="48px"]::before { content: '48px'; }
+  </style>
+</head>
+<body>
+  <h1 class="page-title">
+    <code>toolbar: { container: document.querySelector('#toolbar') }</code>
+    —— 与 <code>toolInJs.html</code> 等价；需要时可再加 <code>handlers: { … }</code> 只覆盖个别项（保留 Snow 默认合并的 <code>link</code> 等）。
+  </h1>
+
+  <!--
+    官方 Toolbar 只遍历 container 内的 button、select（见 modules/toolbar.js）。
+    ql-font / ql-align 留空 option：BaseTheme 会用默认 FONTS、ALIGNS 填充。
+    ql-header / ql-size / ql-color / ql-background 必须自己写好 option，否则会套主题默认白名单（与 toolInJs 不一致）。
+  -->
+  <div id="toolbar" role="toolbar">
+    <span class="ql-formats">
+      <button type="button" class="ql-bold" aria-label="bold"></button>
+      <button type="button" class="ql-italic"></button>
+      <button type="button" class="ql-underline"></button>
+      <button type="button" class="ql-strike"></button>
+    </span>
+    <span class="ql-formats">
+      <button type="button" class="ql-blockquote"></button>
+      <button type="button" class="ql-code-block"></button>
+    </span>
+    <span class="ql-formats">
+      <select class="ql-header" title="标题">
+        <option selected></option>
+        <option value="1"></option>
+        <option value="2"></option>
+        <option value="3"></option>
+        <option value="4"></option>
+        <option value="5"></option>
+        <option value="6"></option>
+      </select>
+    </span>
+    <span class="ql-formats">
+      <select class="ql-size" title="字号">
+        <option selected></option>
+        <option value="8px"></option>
+        <option value="10px"></option>
+        <option value="12px"></option>
+        <option value="14px"></option>
+        <option value="16px"></option>
+        <option value="18px"></option>
+        <option value="20px"></option>
+        <option value="24px"></option>
+        <option value="28px"></option>
+        <option value="32px"></option>
+        <option value="36px"></option>
+        <option value="48px"></option>
+      </select>
+    </span>
+    <span class="ql-formats">
+      <button type="button" class="ql-list" value="ordered"></button>
+      <button type="button" class="ql-list" value="bullet"></button>
+      <button type="button" class="ql-indent" value="-1"></button>
+      <button type="button" class="ql-indent" value="+1"></button>
+    </span>
+    <span class="ql-formats">
+      <button type="button" class="ql-script" value="sub"></button>
+      <button type="button" class="ql-script" value="super"></button>
+    </span>
+    <span class="ql-formats">
+      <button type="button" class="ql-direction" value="rtl"></button>
+    </span>
+    <span class="ql-formats">
+      <select class="ql-align" title="对齐"></select>
+    </span>
+    <span class="ql-formats">
+      <select class="ql-color" title="文字颜色">
+        <option value="#000000" selected></option>
+        <option value="#333333"></option>
+        <option value="#666666"></option>
+        <option value="#999999"></option>
+        <option value="#cccccc"></option>
+        <option value="#ff0000"></option>
+        <option value="#00ff00"></option>
+        <option value="#0000ff"></option>
+        <option value="#ffff00"></option>
+        <option value="#ff00ff"></option>
+        <option value="#00ffff"></option>
+        <option value="#ffa500"></option>
+      </select>
+      <select class="ql-background" title="背景色">
+        <option value="transparent" selected></option>
+        <option value="#ffff00"></option>
+        <option value="#ffcccc"></option>
+        <option value="#ccffcc"></option>
+        <option value="#ccccff"></option>
+        <option value="#ffffcc"></option>
+        <option value="#ffccff"></option>
+        <option value="#ccffff"></option>
+      </select>
+    </span>
+    <span class="ql-formats">
+      <select class="ql-font" title="字体"></select>
+    </span>
+    <span class="ql-formats">
+      <button type="button" class="ql-link"></button>
+      <button type="button" class="ql-image"></button>
+      <button type="button" class="ql-video"></button>
+    </span>
+    <span class="ql-formats">
+      <button type="button" class="ql-clean"></button>
+    </span>
+  </div>
+
+  <div id="editor">
+    <p>本页工具栏为手写 DOM；逻辑与 <code>toolInJs.html</code> 一致。可在此 <code>#toolbar</code> 内给 <code>ql-direction</code> 等按钮换图标（保留 class / value）。</p>
+    <p><br></p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+  <script>
+    (function () {
+      var SIZE_WHITELIST = ['8px', '10px', '12px', '14px', '16px', '18px', '20px', '24px', '28px', '32px', '36px', '48px'];
+      var COLOR_WHITELIST = [
+        '#000000', '#333333', '#666666', '#999999', '#cccccc',
+        '#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffa500'
+      ];
+      var BACKGROUND_WHITELIST = [
+        'transparent',
+        '#ffff00', '#ffcccc', '#ccffcc', '#ccccff', '#ffffcc', '#ffccff', '#ccffff'
+      ];
+
+      var SizeStyle = Quill.import('attributors/style/size');
+      SizeStyle.whitelist = SIZE_WHITELIST;
+      Quill.register(SizeStyle, true);
+
+      var ColorStyle = Quill.import('attributors/style/color');
+      ColorStyle.whitelist = COLOR_WHITELIST;
+      Quill.register(ColorStyle, true);
+
+      var BackgroundStyle = Quill.import('attributors/style/background');
+      BackgroundStyle.whitelist = BACKGROUND_WHITELIST;
+      Quill.register(BackgroundStyle, true);
+
+      new Quill('#editor', {
+        theme: 'snow',
+        modules: {
+          toolbar: {
+            container: document.querySelector('#toolbar')
+            // 可选：handlers: { image: function () { … } }  // 与 Toolbar.DEFAULTS、Snow 主题默认 handlers 由 Quill 合并，勿整包替换以免丢掉 Snow 的 link tooltip
+          }
+        },
+        formats: [
+          'header', 'size',
+          'bold', 'italic', 'underline', 'strike',
+          'blockquote', 'code-block',
+          'list', 'indent', 'script', 'direction', 'align',
+          'color', 'background', 'font',
+          'link', 'image', 'video'
+        ]
+      });
+    })();
+  </script>
+</body>
+</html>

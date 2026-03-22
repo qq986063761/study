@@ -151,6 +151,8 @@
       BackgroundStyle.whitelist = BACKGROUND_WHITELIST;
       Quill.register(BackgroundStyle, true);
 
+      var Delta = Quill.import('delta');
+
       // 官方 Toolbar：数组即容器。除你自定义的 header/size/color/background 外，其余与 Quill 文档示例一致（formula 等需额外模块，未列入）
       var toolbarOptions = [
         ['bold', 'italic', 'underline', 'strike'],
@@ -171,7 +173,22 @@
       new Quill('#editor', {
         theme: 'snow',
         modules: {
-          toolbar: toolbarOptions
+          toolbar: toolbarOptions,
+          // 示例：自己上传到服务器，拿到 https URL
+          // uploader: {
+          //   mimetypes: ['image/png', 'image/jpeg', 'image/gif', 'image/webp'],
+          //   handler: function (range, files) {
+          //     var quill = this.quill;
+          //     // 示例：此处应把 files 上传到你的接口，再得到 urls；下面用固定 URL 演示非 base64 插入
+          //     var demoUrl = 'https://zxb-online.topscrm.cn/info/69b4eb08e4b042591d94daf1.jpg';
+          //     var delta = new Delta().retain(range.index).delete(range.length);
+          //     for (var i = 0; i < files.length; i++) {
+          //       delta = delta.insert({ image: demoUrl });
+          //     }
+          //     quill.updateContents(delta, Quill.sources.USER);
+          //     quill.setSelection(range.index + files.length, Quill.sources.SILENT);
+          //   }
+          // }
         },
         formats: [
           'header', 'size',
