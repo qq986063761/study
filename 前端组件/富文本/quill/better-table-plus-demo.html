@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>quill-better-table-plus 独立 Demo</title>
+  <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/quill-better-table-plus@0.1.6/dist/quill-better-table-plus.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 24px;
+      background: #f0f4f8;
+    }
+    h1 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin: 0 0 8px;
+    }
+    .hint {
+      font-size: 13px;
+      color: #555;
+      margin: 0 0 16px;
+      line-height: 1.5;
+    }
+    .hint code {
+      font-size: 12px;
+      background: #e8eef4;
+      padding: 1px 6px;
+      border-radius: 4px;
+    }
+    #editor {
+      background: #fff;
+      border-radius: 0 0 8px 8px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+      min-height: 280px;
+    }
+    .ql-toolbar.ql-snow {
+      border-radius: 8px 8px 0 0;
+      border-color: #c5d0dc;
+    }
+    .ql-container.ql-snow {
+      border-radius: 0 0 8px 8px;
+      border-color: #c5d0dc;
+      font-size: 15px;
+    }
+    .ql-editor {
+      min-height: 280px;
+      line-height: 1.55;
+    }
+    /* Snow 图标键为 table，工具栏 class 为 ql-insertTable，补映射后显示网格图标 */
+  </style>
+</head>
+<body>
+  <h1>quill-better-table-plus</h1>
+  <p class="hint">
+    仅演示该插件：点击工具栏「插入表格」插入 3×3；先单击表格激活列工具后，可拖拽列边界调宽；在表格区域<strong>右键</strong>打开操作菜单（需配置 <code>operationMenu: {}</code>，否则原版同样会报 <code>items</code> 相关错误）。
+  </p>
+
+  <div id="editor">
+    <p>在下方空白处点击，再点工具栏表格按钮即可。</p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/quill-better-table-plus@0.1.6/dist/quill-better-table-plus.js"></script>
+  <script>
+    (function () {
+      var Icons = Quill.import('ui/icons');
+      if (Icons && Icons.table && !Icons.insertTable) {
+        Icons.insertTable = Icons.table;
+      }
+
+      Quill.register(
+        { 'modules/better-table-plus': quillBetterTablePlus },
+        true
+      );
+      quillBetterTablePlus.register();
+
+      var toolbarOptions = [
+        ['bold', 'italic', 'underline'],
+        ['insertTable'],
+        ['clean']
+      ];
+
+      new Quill('#editor', {
+        theme: 'snow',
+        modules: {
+          table: false,
+          'better-table-plus': {
+            operationMenu: {}
+          },
+          keyboard: {
+            bindings: quillBetterTablePlus.keyboardBindings
+          },
+          toolbar: {
+            container: toolbarOptions,
+            handlers: {
+              insertTable: function () {
+                var m = this.quill.getModule('better-table-plus');
+                if (m) m.insertTable(3, 3);
+              }
+            }
+          }
+        },
+        formats: [
+          'bold', 'italic', 'underline',
+          'table', 'table-row', 'table-body', 'table-container', 'table-view',
+          'table-col', 'table-col-group', 'table-cell-line'
+        ]
+      });
+    })();
+  </script>
+</body>
+</html>

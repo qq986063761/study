@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>quill-table-better 独立 Demo</title>
+  <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/quill-table-better@1.2.3/dist/quill-table-better.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 24px;
+      background: #eef2f7;
+    }
+    h1 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #14212d;
+      margin: 0 0 8px;
+    }
+    .hint {
+      font-size: 13px;
+      color: #4a5568;
+      margin: 0 0 16px;
+      line-height: 1.55;
+    }
+    .hint code {
+      font-size: 12px;
+      background: #dfe6ef;
+      padding: 1px 6px;
+      border-radius: 4px;
+    }
+    #editor {
+      background: #fff;
+      border-radius: 0 0 8px 8px;
+      box-shadow: 0 2px 14px rgba(20, 33, 45, 0.08);
+      min-height: 300px;
+    }
+    .ql-toolbar.ql-snow {
+      border-radius: 8px 8px 0 0;
+      border-color: #c8d2e0;
+    }
+    .ql-container.ql-snow {
+      border-radius: 0 0 8px 8px;
+      border-color: #c8d2e0;
+      font-size: 15px;
+    }
+    .ql-editor {
+      min-height: 300px;
+      line-height: 1.55;
+    }
+  </style>
+</head>
+<body>
+  <h1>quill-table-better</h1>
+  <p class="hint">
+    独立演示（与 <code>quill-better-table</code> 无关）：工具栏含 <code>table-better</code> 按钮可插入表格；选中单元格后出现操作条（列/行/合并/表格与单元格属性等）；表格右下角可拖拽改变整体大小；支持多选单元格、列表与标题等格式。
+    若用 Delta/HTML 初始化内容，请用 <code>updateContents</code> 代替 <code>setContents</code>，详见
+    <a href="https://www.npmjs.com/package/quill-table-better" target="_blank" rel="noopener noreferrer">npm 说明</a>。
+  </p>
+
+  <div id="editor">
+    <p>点击工具栏表格图标插入表格，或先输入文字再插入。</p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/quill-table-better@1.2.3/dist/quill-table-better.js"></script>
+  <script>
+    (function () {
+      Quill.register(
+        { 'modules/table-better': QuillTableBetter },
+        true
+      );
+
+      var toolbarOptions = [
+        ['bold', 'italic', 'underline', 'strike'],
+        [{ header: [1, 2, 3, false] }],
+        [{ list: 'ordered' }, { list: 'bullet' }],
+        ['table-better'],
+        ['link', 'clean']
+      ];
+
+      new Quill('#editor', {
+        theme: 'snow',
+        modules: {
+          table: false,
+          toolbar: toolbarOptions,
+          'table-better': {
+            language: 'zh_CN',
+            menus: ['column', 'row', 'merge', 'table', 'cell', 'wrap', 'copy', 'delete'],
+            toolbarTable: true
+          },
+          keyboard: {
+            bindings: QuillTableBetter.keyboardBindings
+          }
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
