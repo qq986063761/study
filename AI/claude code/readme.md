@@ -1,8 +1,12 @@
 # mac 安装
 
 ## 用Homebrew安装 
+- 没 homebrew 就先装 homebrew：/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 - brew install --cask claude-code
-- 或者 node18 以上 npm install -g @anthropic-ai/claude-code 安装 
+
+## 用 node 安装，node 要 18 以上版
+- 可以用 fnm 或 nvm 装 node18 以上版本，再切
+- npm install -g @anthropic-ai/claude-code 
 
 ## 永久设置 apikey（这里是ai中转平台的方案 https://www.helpaio.com/transit）
 - 用zsh终端
