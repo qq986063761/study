@@ -1,6 +1,7 @@
 # 资源
 - [ai中转平台](https://www.helpaio.com/transit)
 - [cc-switch](https://github.com/farion1231/cc-switch/blob/main/README_ZH.md)
+- [antfu/skillls](https://github.com/antfu/skills)
 
 # ai 编程历史
 - vscode + ai插件
