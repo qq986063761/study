@@ -6,6 +6,7 @@
 - windows powershell安装：iwr -useb https://openclaw.ai/install.ps1 | iex
 - windows cmd安装：curl -fsSL https://openclaw.ai/install.cmd -o install.cmd && install.cmd && del install.cmd
 - mac安装：curl -fsSL https://openclaw.ai/install.sh | bash
+- npm安装：npm i -g openclaw
 
 # 安装完检查版本
 - openclaw --version
