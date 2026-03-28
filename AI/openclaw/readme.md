@@ -7,21 +7,7 @@
 - windows cmd安装：curl -fsSL https://openclaw.ai/install.cmd -o install.cmd && install.cmd && del install.cmd
 - mac安装：curl -fsSL https://openclaw.ai/install.sh | bash
 - npm安装：npm i -g openclaw
-
-# 安装完检查版本
-- openclaw --version
-- openclaw -v
-
-# 卸载 
-- openclaw uninstall --all --yes --non-interactive
-- npm uninstall -g openclaw
-- 移除残留
-```bash
-Remove-Item -Recurse -Force "$env:USERPROFILE\.openclaw"
-Remove-Item -Recurse -Force "$env:USERPROFILE\.clawdbot"
-Remove-Item -Recurse -Force "$env:USERPROFILE\.moltbot"
-```
-- 删除任务计划 schtasks /Delete /F /TN "OpenClaw Gateway"
+- 检查版本：openclaw -v
 
 # 开始配置
 - openclaw onboard --install-daemon
@@ -38,3 +24,14 @@ Remove-Item -Recurse -Force "$env:USERPROFILE\.moltbot"
 # 打开 openclaw 聊天
 - 终端打开 openclaw tui
 - 网页打开 openclaw dashboard
+
+# 卸载 
+- openclaw uninstall --all --yes --non-interactive
+- npm uninstall -g openclaw
+- 移除残留
+```bash
+Remove-Item -Recurse -Force "$env:USERPROFILE\.openclaw"
+Remove-Item -Recurse -Force "$env:USERPROFILE\.clawdbot"
+Remove-Item -Recurse -Force "$env:USERPROFILE\.moltbot"
+```
+- 删除任务计划 schtasks /Delete /F /TN "OpenClaw Gateway"
