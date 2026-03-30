@@ -3,10 +3,9 @@
 - [cc-switch](https://github.com/farion1231/cc-switch/blob/main/README_ZH.md)
 - [antfu/skillls](https://github.com/antfu/skills)
 
-# ai 编程历史
+# ai 编程工具
 - vscode + ai插件
-- cursor 
-- 不要代码区直接命令行claude code、codex（咸鱼买号）
+- cursor、claude code、codex
 - openclaw
 
 # ai 优点
