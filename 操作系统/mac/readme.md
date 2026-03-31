@@ -16,10 +16,11 @@
 export HOMEBREW_BREW_GIT_REMOTE="https://github.com/Homebrew/brew"
 export HOMEBREW_CORE_GIT_REMOTE="https://github.com/Homebrew/homebrew-core"
 export HOMEBREW_INSTALL_FROM_API=1
+source ~/.zshrc
 ```
 
-# 检查 homebrew 源
-- brew doctor
+# 获取 homebrew 源配置
+- brew config
 
 # 卸载 homebrew
 - 官方卸载脚本（推荐）：`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)"`
