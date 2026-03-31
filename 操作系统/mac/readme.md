@@ -8,6 +8,19 @@
   - 国内源安装最后提醒重启终端执行 source /Users/用户名/.zprofile 要注意
 - 更新 brew update
 
+# 查询当前 homebrew 变量
+- env | grep HOMEBREW
+
+# 重置 homebrew 为官方源
+```bash
+export HOMEBREW_BREW_GIT_REMOTE="https://github.com/Homebrew/brew"
+export HOMEBREW_CORE_GIT_REMOTE="https://github.com/Homebrew/homebrew-core"
+export HOMEBREW_INSTALL_FROM_API=1
+```
+
+# 检查 homebrew 源
+- brew doctor
+
 # 卸载 homebrew
 - 官方卸载脚本（推荐）：`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)"`
 - 国内源：/bin/bash -c "$(curl -fsSL https://gitee.com/ineo6/homebrew-install/raw/master/uninstall.sh)"
