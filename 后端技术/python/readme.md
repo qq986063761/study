@@ -186,3 +186,38 @@ uv venv --python 3.11
 uv pip install requests pandas numpy
 python demo1.py
 ```
+
+---
+
+## 六、Python 各版本语法是否一样？
+
+不完全一样，但**大部分基础语法长期保持一致**（变量、函数、类、循环、列表/字典等都通用）。
+
+主要差异通常在“新增语法糖/新特性”，例如：
+
+- `3.10`：`match-case` 模式匹配、类型联合写法 `A | B`
+- `3.11`：`except*`（配合异常组）等新语法
+- `3.14`：语法层面与 `3.11+` 整体差异较小，更多是标准库与性能演进
+
+---
+
+## 七、按版本放置语法小点 Demo
+
+已按版本目录组织语法示例，你可以分别运行：
+
+```bash
+# 3.10 语法示例
+python 3.10/syntax_demo.py
+
+# 3.11 语法示例
+python 3.11/syntax_demo.py
+
+# 3.14 语法示例
+python 3.14/syntax_demo.py
+```
+
+说明：
+
+- `3.10/syntax_demo.py`：`match-case`、`A | B` 类型联合、结构化模式匹配
+- `3.11/syntax_demo.py`：`except*` 与异常组处理
+- `3.14/syntax_demo.py`：演示当前版本常规写法（与 3.11+ 大体一致）
