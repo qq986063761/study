@@ -1,1 +1,2 @@
 - [clamp-js](https://www.npmjs.com/package/clamp-js)
+- [@chenglou/pretext](https://www.npmjs.com/package/@chenglou/pretext)
