@@ -1,3 +1,5 @@
+Python（NumPy/Pandas/Requests）深度学习（PyTorch / TensorFlow）Transformer  LLM Prompt  微调流程（LoRA、QLoRA）RAG（检索增强生成）Agent 基础范式（ReAct、Plan-and-Execute）AI 框架/库（LangChain、LlamaIndex、Semantic Kernel）多智能体框架（LangGraph、AutoGen）MCP Dify 多模态模型
+
 # 资源
 - [ai中转平台](https://www.helpaio.com/transit)
 - [cc-switch](https://github.com/farion1231/cc-switch/blob/main/README_ZH.md)
