@@ -92,7 +92,7 @@
 
 # fnm（跨端 node 版本管理工具）
 - 安装官方 curl -fsSL https://fnm.vercel.app/install | bash
-- homebrew安装：brew install fnm
+- homebrew 安装：brew install fnm
 - 查看帮助：fnm --help
 - 查看版本：fnm --version
 - 列出node版本：fnm ls
