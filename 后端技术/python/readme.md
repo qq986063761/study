@@ -85,17 +85,16 @@ pyenv --version
 pyenv install --list
 
 # 安装版本
-pyenv install 3.11.9
-pyenv install 3.10.14
+pyenv install 3.14.3
 
 # 查看已安装版本
 pyenv versions
 
-# 全局默认版本
-pyenv global 3.11.9
+# 设置全局默认版本
+pyenv global 3.14.3
 
-# 当前项目版本
-pyenv local 3.10.14
+# 设置当前项目版本
+pyenv local 3.14.3
 
 # 查看当前生效版本
 python --version
