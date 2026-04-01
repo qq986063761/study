@@ -143,7 +143,15 @@ uv pip install requests pandas numpy
 
 ---
 
-## 五、Python 命令
+## 五、常用第三方包简介
+
+- NumPy：用于高性能数值计算，提供多维数组（`ndarray`）和常见数学运算能力，是科学计算基础库。
+- Pandas：用于数据处理与分析，提供 `DataFrame`、`Series` 等结构，适合做表格数据清洗、统计和导入导出。
+- Requests：用于发送 HTTP 请求，调用接口更简单，常用于获取网页数据或访问后端 API。
+
+---
+
+## 六、Python 命令
 
 进入你的项目目录后执行：
 
