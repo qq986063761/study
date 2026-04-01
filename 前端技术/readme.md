@@ -1,3 +1,4 @@
+[博客搭建VitePress](https://vitepress.dev/zh/)
 [打包 rollup.js](https://cn.rollupjs.org/)
 [打包 Rslib](https://lib.rsbuild.dev/zh/)
 [分析工具 rollup-plugin-visualizer]()
