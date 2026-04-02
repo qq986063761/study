@@ -1,4 +1,5 @@
-深度学习（PyTorch / TensorFlow）Transformer  LLM Prompt  微调流程（LoRA、QLoRA）RAG（检索增强生成）Agent 基础范式（ReAct、Plan-and-Execute）AI 框架/库（LangChain、LlamaIndex、Semantic Kernel）多智能体框架（LangGraph、AutoGen）MCP Dify 多模态模型
+Transformer  LLM Prompt  微调流程（LoRA、QLoRA）RAG（检索增强生成）Agent 基础范式（ReAct、Plan-and-Execute）AI 框架/库（LangChain、LlamaIndex、Semantic Kernel）多智能体框架（LangGraph、AutoGen）MCP Dify 多模态模型
+群友的分享：https://pan.baidu.com/s/1wXs0qUfT9jJ5etY4RUVMdA?login_type=weixin&_at_=1775101276551#list/path=%2F
 
 # 资源
 - [ai中转平台](https://www.helpaio.com/transit)
