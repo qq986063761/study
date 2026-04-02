@@ -148,6 +148,8 @@ uv pip install requests pandas numpy
 - NumPy：用于高性能数值计算，提供多维数组（`ndarray`）和常见数学运算能力，是科学计算基础库。
 - Pandas：用于数据处理与分析，提供 `DataFrame`、`Series` 等结构，适合做表格数据清洗、统计和导入导出。
 - Requests：用于发送 HTTP 请求，调用接口更简单，常用于获取网页数据或访问后端 API。
+- PyTorch：深度学习框架，以动态计算图为主，接口贴近 Python/NumPy，适合研究与快速实验，生态在学术界与工业界都很活跃。
+- TensorFlow：深度学习框架，提供从训练到部署（含 TensorFlow Serving、TensorFlow Lite 等）的完整链路，静态图与 `tf.function` 等能力便于大规模与生产环境。
 
 ---
 
