@@ -1,4 +1,5 @@
 - [上网 github](https://github.com/Alvin9999/new-pac/wiki)(https://dgithub.xyz/Alvin9999/new-pac/wiki)
+- [clash-verge](https://github.com/clash-verge-rev/clash-verge-rev/releases/download/)
 - [上网 追风岛](https://zfd.369.cyou)(https://gozhuifeng.club/)(https://www.gozhuifeng.club/)
 - [NCloud](https://xn--cloud-cl5i.net/)
 - [ikuuu](https://ikuuu.nl/user)
