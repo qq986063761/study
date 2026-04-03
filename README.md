@@ -19,19 +19,20 @@
 - [买国外虚拟卡](https://yeka.ai/)
 - [爬虫-易采集](https://github.com/NaiboWang/EasySpider)
 - [在线抠图](https://www.remove.bg/zh)(https://www.canva.cn/)
-- cdn平台，jsDelivr、Cloudflare、bootcdn、UNPKG、Netlify
-猪八戒，码市，程序员客栈，开源中国众包
-代码仓库：github、gitee
-学习网站：技术文档的官网、掘金（https://juejin.cn/）、慕课网（https://www.imooc.com/）、拉钩教育（https://kaiwu.lagou.com/）
-- ngrok 直接提供外网访问
+- [学习路线图](https://roadmap.sh/)
+- cdn平台 jsDelivr、Cloudflare、bootcdn、UNPKG、Netlify
+- 外包平台：猪八戒，码市，程序员客栈，开源中国众包
+- 代码仓库：github、gitee
+- 学习网站：技术文档的官网、掘金（https://juejin.cn/）、慕课网（https://www.imooc.com/）、拉钩教育（https://kaiwu.lagou.com/）
+- 外网访问：ngrok
 
-# 学习
-- C语言基础，帮助更好理解程序执行过程中的变量流向
+# 学习路径
+- C语言基础，理解指针，内存，帮助更好理解程序执行过程中的变量流向
 - 基础 html、css、javascript 语法基础，使用基础写出网页内容
 - 以前的流行库：jquery、boostrap、layui 等编写 jquery 下的各种网页内容
 - MVVM库出现后：vue2全家桶(vue2、vue-router vuex)；vue3全家桶（vue3、Pinia、vue-router）；nuxtjs
 - 工程化构建工具：webpack、vite、rollup、微前端、组件库
-- AI编程工具：cursor
+- AI编程工具：cursor、claude code、codex
 
 # 其他 
 - [电影](https://github.com/88ys/website)

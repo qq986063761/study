@@ -1,0 +1,6 @@
+- [csshake](http://elrumordelaluz.github.io/csshake/): 轻量 CSS 抖动动画库，提供多种预设“抖动”效果，适合强调反馈场景。
+- [animate.css](https://daneden.github.io/animate.css/): 经典通用 CSS 动画库，开箱即用，覆盖入场/出场/强调等常见动画。
+- [hover.css](http://ianlunn.github.io/Hover/): 专注悬停交互效果的 CSS 库，适用于按钮、链接、图片等元素的 hover 动效。
+- [tailwindcss](https://tailwindcss.com/): 原子化（Utility-First）CSS 框架，通过组合类名快速构建自定义界面。
+- [tailwindcss 中文](https://www.tailwindcss.cn/): Tailwind CSS 中文文档站（与上面同一框架，仅文档语言不同）。
+- [shadcn](https://ui.shadcn.com/): 基于 Tailwind CSS 的可复制组件方案，提供高质量 UI 组件与样式实践。
