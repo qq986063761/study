@@ -20,11 +20,11 @@
 - [爬虫-易采集](https://github.com/NaiboWang/EasySpider)
 - [在线抠图](https://www.remove.bg/zh)(https://www.canva.cn/)
 - [学习路线图](https://roadmap.sh/)
-- cdn平台，jsDelivr、Cloudflare、bootcdn、UNPKG、Netlify
-猪八戒，码市，程序员客栈，开源中国众包
-代码仓库：github、gitee
-学习网站：技术文档的官网、掘金（https://juejin.cn/）、慕课网（https://www.imooc.com/）、拉钩教育（https://kaiwu.lagou.com/）
-- ngrok 直接提供外网访问
+- cdn平台 jsDelivr、Cloudflare、bootcdn、UNPKG、Netlify
+- 外包平台：猪八戒，码市，程序员客栈，开源中国众包
+- 代码仓库：github、gitee
+- 学习网站：技术文档的官网、掘金（https://juejin.cn/）、慕课网（https://www.imooc.com/）、拉钩教育（https://kaiwu.lagou.com/）
+- 外网访问：ngrok
 
 # 学习路径
 - C语言基础，理解指针，内存，帮助更好理解程序执行过程中的变量流向
