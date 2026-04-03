@@ -1,10 +1,8 @@
-AI 框架/库（LangChain、LlamaIndex、Semantic Kernel）多智能体框架（LangGraph、AutoGen）MCP/Dify 多模态模型
-群友的分享：https://pan.baidu.com/s/1wXs0qUfT9jJ5etY4RUVMdA?login_type=weixin&_at_=1775101276551#list/path=%2F
-
 # 资源
 - [ai中转平台](https://www.helpaio.com/transit)
 - [cc-switch](https://github.com/farion1231/cc-switch/blob/main/README_ZH.md)
 - [antfu/skillls](https://github.com/antfu/skills)
+- [群友分享ai应用学习资料](https://pan.baidu.com/s/1wXs0qUfT9jJ5etY4RUVMdA?login_type=weixin&_at_=1775101276551#list/path=%2F) 百度网盘链接，密码：w97g
 
 # ai 编程工具
 - vscode + ai插件
@@ -112,3 +110,59 @@ AI 框架/库（LangChain、LlamaIndex、Semantic Kernel）多智能体框架（
 **实践要点**：计划宜短步、可验证；执行层仍可内嵌小型 ReAct 处理单步不确定性；与 RAG、MCP、函数调用等组合时，明确**谁负责选工具、谁负责解析 Observation**。
 
 **小结**：ReAct 适合工具多、环境反馈快的交互式任务；Plan-and-Execute 适合步骤清晰或可分解的项目型任务。生产上常见**混合**：粗粒度计划 + 细粒度 ReAct 执行 + RAG/工具兜底。
+
+## AI 应用框架与库（LangChain、LlamaIndex、Semantic Kernel）
+
+**共性**：都在 LLM 之上提供**可复用抽象**（链/图、工具、记忆、检索、输出解析），降低「从 Prompt 到可上线系统」的胶水代码量；选型常看语言生态、与向量库/云厂商的集成深度、团队熟悉度。
+
+**LangChain**：
+- **定位**：偏**通用编排**：`Runnable`/`LCEL`、Agent、工具绑定、多消息对话、与多种向量库和模型 API 的连接器。
+- **要点**：生态大、组件多；版本迭代快，需注意 API 稳定性与文档版本对齐。适合需要灵活拼装链路与 Agent、且希望快速对接多种后端的团队。
+
+**LlamaIndex**：
+- **定位**：从名字可见重心在**数据索引与 RAG**：文档加载、切分、索引（向量/关键词/图等）、查询引擎、路由与后处理，也支持 Agent 与工作流。
+- **要点**：在「把企业文档变成可问答知识」上抽象较完整；若主战场是检索质量、多数据源融合，常优先考虑；与 LangChain 也可组合使用（按层分工）。
+
+**Semantic Kernel（SK）**：
+- **定位**：微软系、**强类型**倾向：Kernel、Plugins（函数即技能）、Planner、Memory；与 .NET / Azure / Copilot 栈结合紧。
+- **要点**：适合已在 C# / 企业微软云环境、希望插件化与编排可测试的团队；概念上与其他框架的「工具 + 规划器」可对照理解。
+
+**小结**：**编排与 Agent 通用能力**看 LangChain；**RAG / 索引 / 问答数据管线**看 LlamaIndex；**微软技术栈与插件化**看 Semantic Kernel。三者都不是「模型本身」，而是**工程层**选型。
+
+## 多智能体框架（LangGraph、AutoGen）
+
+**多智能体（Multi-Agent）**：多个可独立决策或分工的 Agent（或带角色的 LLM 实例）通过消息、共享状态或图结构协作，以分解复杂任务、并行子任务或引入「批评—修订」等模式；核心难点是**状态一致性、终止条件、权限与成本**。
+
+**LangGraph**：
+- **定位**：常与 LangChain 同生态，用**有向图**表达循环、分支、人机中断（human-in-the-loop）、检查点（checkpoint），适合把 ReAct、Plan-and-Execute、多角色协作**显式画成状态机**。
+- **要点**：可控性强、便于调试长流程；需要团队接受「图 + 状态」建模方式。
+
+**AutoGen**：
+- **定位**：微软开源的对话式多 Agent 框架，强调**可编程对话模式**：多角色代理、群聊、工具调用、与自定义 Agent 组合；适合快速试验「研究员 + 编码员 + 评审」这类协作剧本。
+- **要点**：抽象偏对话与角色；与具体业务持久化、观测（tracing）等仍需自行或结合其他工具补齐。
+
+**小结**：LangGraph 偏**结构化流程与可恢复执行**；AutoGen 偏**对话式角色协作**；二者都可实现多智能体，但建模心智模型不同。
+
+## MCP 与 Dify
+
+**MCP（Model Context Protocol）**：
+- **定义**：面向「模型 ↔ 工具/数据源」的**开放协议**（常以 stdio 或 HTTP 等承载），用统一方式描述**工具有哪些、参数模式、如何调用**，让客户端（如 IDE、Agent 运行时）能连接多个 MCP Server，而不用为每个 API 写一套专用适配。
+- **要点**：解决的是**工具集成标准化**；不负责业务工作流编排——编排仍由上层应用或 Agent 框架完成。与函数调用（function calling）的关系：MCP 多在**进程/服务边界**暴露能力，函数调用多在**单次补全请求内**绑定 schema。
+
+**Dify**：
+- **定位**：开源的 **LLM 应用开发平台**（工作流、知识库/RAG、Agent、可观测与运营），偏**低代码/运营**：可视化编排 Prompt、检索、分支与发布。
+- **要点**：适合快速搭对话应用与内部知识助手；深度定制或极复杂控制流时，可能仍需下沉到代码框架（LangChain 等）或自研。
+
+**小结**：MCP 是**协议与集成层**；Dify 是**产品与编排平台层**——层次不同，可并存（例如在 Dify 或自研 Agent 中消费 MCP 暴露的工具）。
+
+## 多模态模型（Multimodal）
+
+**定义**：在预训练或后训练中同时处理**多种模态**（常见为文本 + 图像，也可含音频、视频、文档版面等），学习跨模态对齐，使单次推理能接受多模态输入并生成文本或其他模态输出。
+
+**能力谱系**：
+- **理解**：图像描述、视觉问答、图表/界面理解、文档 OCR + 语义理解等。
+- **生成**：文生图、图生图等常由扩散模型等承担；「单一多模态大模型」有的侧重**理解 + 指代**，生成能力因模型而异。
+
+**与应用架构的关系**：多模态输入需在管线中做**编码**（图像 URL、base64、专用 vision encoder），并占用更多 token/延迟；RAG 可扩展到**图文混合索引**（多向量、多路检索）。Agent 场景下，多模态常用于**屏幕/截图/设计稿**作为 Observation 的一部分。
+
+**注意**：模态越多，评估与安全面越复杂（隐私图像、版权、提示注入跨模态）；生产上需配额、审计与内容策略。
