@@ -103,6 +103,17 @@
 - 临时切换node版本：fnm use 14
 - 全局使用默认版本：fnm default 24
 - 卸载node版本：fnm uninstall 14.21.3
+- windows ide 内的终端执行 npm 报错找不到命令，可以把 fnm 的 node 环境加到终端中
+```bash
+# 检查是否存在 profile 文件，若不存在则创建
+if (!(Test-Path -Path $PROFILE)) { New-Item -ItemType File -Path $PROFILE -Force }
+# 用记事本打开 profile
+notepad $PROFILE
+# 在记事本中添加下面脚本然后关闭后重启终端
+fnm env --use-on-cd | Out-String | Invoke-Expression
+# 如果遇到 PowerShell 无法加载脚本文件则执行命令支持脚本运行
+Set-ExecutionPolicy RemoteSigned 或 Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+```
 
 # nvm（node 版本管理工具）
 ```bash
