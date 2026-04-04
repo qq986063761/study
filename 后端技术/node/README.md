@@ -114,6 +114,7 @@ fnm env --use-on-cd | Out-String | Invoke-Expression
 # 如果遇到 PowerShell 无法加载脚本文件则执行命令支持脚本运行
 Set-ExecutionPolicy RemoteSigned 或 Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 ```
+- ide 项目终端打开自动切换了版本显示 `Using Node v24.14.1`，是 package.json 或者有 node 版本配置文件的版本不明确导致
 
 # nvm（node 版本管理工具）
 ```bash
