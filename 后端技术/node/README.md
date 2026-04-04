@@ -97,9 +97,9 @@
 - 查看版本：fnm --version
 - 列出node版本：fnm ls
 - 列出远程可安装node版本：fnm list-remote
-- 安装node版本：fnm install 14.21.3 fnm install 24.14.0
-- 切换node版本：fnm use 14
-- 全局使用默认版本：fnm default 14 fnm default 24
+- 安装node版本：fnm install 14.21.3 fnm install 24.14.1
+- 临时切换node版本：fnm use 14
+- 全局使用默认版本：fnm default 24
 - 卸载node版本：fnm uninstall 14.21.3
 
 # nvm（node 版本管理工具）
