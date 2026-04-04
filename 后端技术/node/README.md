@@ -98,6 +98,7 @@
 - 列出node版本：fnm ls
 - 列出远程可安装node版本：fnm list-remote
 - 安装node版本：fnm install 14.21.3 fnm install 24.14.1，安装网络问题可关闭vpn再装
+  - 设置国内镜像源（临时有效）$env:FNM_NODE_DIST_MIRROR = "https://npmmirror.com/mirrors/node/"
 - 临时切换node版本：fnm use 14
 - 全局使用默认版本：fnm default 24
 - 卸载node版本：fnm uninstall 14.21.3
@@ -141,7 +142,7 @@ nvm install-latest-npm
 
 # 安装 node 版本报错是镜像源不对
 Version '14.21.3' not found - try `nvm ls-remote` to browse available versions
-# 可以切换镜像源后再尝试
+# mac 切换镜像源后再尝试
 export NVM_NODEJS_ORG_MIRROR=https://nodejs.org/dist
 export NVM_NODEJS_ORG_MIRROR=https://npmmirror.com/mirrors/node/
 
