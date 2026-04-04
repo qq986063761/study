@@ -36,7 +36,7 @@
 - 登记私钥 ssh-add ~/.ssh/id_rsa
 
 # 命令
-- 配用户名：git config --global user.name "WanPeng"
+- 配用户名：git config --global user.name "wanpeng"
 - 配邮箱：git config --global user.email "986063761@qq.com"
 - 配代理：git config --global http.proxy 127.0.0.1:17890
 - 配代理：git config --global https.proxy 127.0.0.1:17890
