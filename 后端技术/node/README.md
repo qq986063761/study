@@ -114,6 +114,15 @@ fnm env --use-on-cd | Out-String | Invoke-Expression
 # 如果遇到 PowerShell 无法加载脚本文件则执行命令支持脚本运行
 Set-ExecutionPolicy RemoteSigned 或 Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 ```
+- macOS / Linux：把 fnm 写进 shell 启动脚本，并启用 **进入目录自动切换**（`--use-on-cd`）
+```bash
+# 默认多为 zsh：编辑 ~/.zshrc，在末尾追加一行（显式指定 shell，行为更稳定）
+eval "$(fnm env --use-on-cd --shell zsh)"
+
+# 若终端是 bash，则改写到 ~/.bash_profile 或 ~/.bashrc，并把上面一行里的 zsh 换成 bash：
+# eval "$(fnm env --use-on-cd --shell bash)"
+```
+保存后执行 `source ~/.zshrc`（或重开终端）。之后在项目根目录放置 `.nvmrc` 或 `.node-version`，`cd` 到该目录会自动切到对应 Node。若希望 **按 `package.json` 的 `engines.node` 解析版本**，可把上面一行改成：`eval "$(fnm env --use-on-cd --resolve-engines --shell zsh)"`（`--resolve-engines` 为实验特性，见 fnm 文档）。
 - ide 项目终端打开自动切换了版本显示 `Using Node v24.14.1`，是 package.json 或者有 node 版本配置文件的版本不明确导致
 
 # nvm（node 版本管理工具）
