@@ -1,3 +1,9 @@
+everything Claude code
+superpowers
+claude howto
+on my claude code
+
+
 # 资源
 - [ai中转平台](https://www.helpaio.com/transit)
 - [cc-switch](https://github.com/farion1231/cc-switch/blob/main/README_ZH.md)
