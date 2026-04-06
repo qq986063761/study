@@ -1,13 +1,12 @@
-everything Claude code
-superpowers
-claude howto
-on my claude code
-
-
 # 资源
 - [ai中转平台](https://www.helpaio.com/transit)
 - [cc-switch](https://github.com/farion1231/cc-switch/blob/main/README_ZH.md)
+- [skills排名](https://skillsplayground.com/)
 - [antfu/skillls](https://github.com/antfu/skills)
+- [everything-claude-code](https://github.com/affaan-m/everything-claude-code/blob/main/README.zh-CN.md)
+- [superpowers](https://github.com/obra/superpowers)
+- [oh-my-claudecode](https://github.com/Yeachan-Heo/oh-my-claudecode/blob/main/README.zh.md)
+- [vue2常用最佳实践](https://learnvue.co/articles/vue-best-practices)
 - [群友分享ai应用学习资料](https://pan.baidu.com/s/1wXs0qUfT9jJ5etY4RUVMdA?login_type=weixin&_at_=1775101276551#list/path=%2F) 百度网盘链接，密码：w97g
 
 # ai 编程工具
