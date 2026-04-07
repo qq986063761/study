@@ -1,1 +1,2 @@
 - [骨架屏 boneyard-js](https://github.com/0xGF/boneyard)
+- [vue-content-loader](https://github.com/egoist/vue-content-loader)
