@@ -48,3 +48,126 @@ source ~/.bash_profile
 - 其他方式安装 claude --version
 
 
+---
+
+# 省 Token 方案
+
+## 核心原理
+
+- 计费公式：总费用 = Input Tokens × 输入单价 + Output Tokens × 输出单价
+- Input 占 70%–90%，是优化重点
+- 最大黑洞：项目文件自动读取（一次交互常占 80% Input）
+
+---
+
+## 方法一：.claudeignore 文件过滤（立省 60%+）
+
+在项目根目录创建 `.claudeignore`，语法同 `.gitignore`：
+
+```
+# 依赖与构建（最大黑洞）
+node_modules/
+dist/
+build/
+.next/
+__pycache__/
+
+# 锁文件/日志
+*.lock
+package-lock.json
+*.log
+
+# 版本控制/IDE
+.git/
+.idea/
+.vscode/
+
+# 资源/缓存
+*.png
+*.jpg
+*.svg
+*.ico
+.cache/
+coverage/
+```
+
+效果：单次交互从 15 万 → 6 万 Token，降 60%
+
+---
+
+## 方法二：/compact 上下文压缩（省 88%）
+
+- 手动压缩：对话到阶段性节点（如完成一个功能）后输入 `/compact`
+- 带指令压缩：`/compact 保留代码修改与文件路径，丢弃分析过程`
+- 自动压缩：`/config` → 开启 `Auto-compact enabled`
+
+效果：25,000 → 3,000 Token，省 88%
+
+---
+
+## 方法三：CLAUDE.md 文档驱动（省 30%+）
+
+项目根目录建 `CLAUDE.md`，一次性告诉 AI 项目结构、技术栈、命令，减少 AI 用 cat/find/grep 探索文件的 Token 消耗。
+
+---
+
+## 方法四：/memory 记忆固化（省 40%+）
+
+```
+/memory 项目用 Next.js 14 + TypeScript，接口规范见 docs/api.md
+/memory list        # 查看
+/memory delete [key] # 删除
+```
+
+效果：不用每次重复粘贴配置，省 40%+ 重复输入
+
+---
+
+## 方法五：Plan Mode 先规划再执行（省 20%+）
+
+- 快捷键：`Shift+Tab`
+- 作用：先让 AI 出执行计划，确认后再执行，避免无效探索和反复重做
+
+---
+
+## 方法六：/model 按任务切换模型（省 30%–80%）
+
+```
+/model haiku    # 简单任务（语法、小函数），单价最低
+/model sonnet   # 复杂任务（架构、多文件）
+/model opus     # 超复杂，仅必要时用
+```
+
+---
+
+## 方法七：精简工具输出（省 90%）
+
+- `/config` 开启「精简工具输出」，去掉 ANSI 颜色、进度条、空行
+- 长输出只保留错误堆栈与失败用例
+
+效果：npm test 类输出 25,000 → 2,500 Token，省 90%
+
+---
+
+## 10 步实战清单
+
+1. 项目根目录建 `.claudeignore`，排除依赖/构建/日志/资源文件
+2. 建 `CLAUDE.md`，写清技术栈、目录、命令
+3. `/config` 开启自动压缩（Auto-compact）
+4. 长对话手动 `/compact`，阶段性清理
+5. `/memory` 存项目配置、规范，不重复输入
+6. 复杂任务用 Plan Mode（`Shift+Tab`），先计划再执行
+7. 按任务切换模型：简单用 Haiku，复杂用 Sonnet
+8. 关闭不必要自动功能（如实时补全、全项目扫描）
+9. 不同功能开新会话，不堆积多任务历史
+10. `/usage` 定期查看 Token 使用，定位消耗黑洞
+
+---
+
+## 关键原则
+
+- **Input 是核心**：优先优化文件读取、上下文、指令长度
+- **宁可多排除**：被排除文件可手动粘贴，比自动扫描划算
+- **及时清理**：长对话、多任务必压缩/清理，避免历史膨胀
+- **模型匹配**：不盲目用高端模型，按任务选档位
+
