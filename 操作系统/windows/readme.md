@@ -1,3 +1,7 @@
+# 应用已卸载，但是在应用列表还有无法二次卸载
+- 注册表 HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall 下删除对应应用
+
+
 # Windows 使用笔记
 
 ## winget 常用资料
