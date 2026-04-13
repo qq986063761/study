@@ -12,7 +12,7 @@
 # ai 编程工具
 - vscode + ai插件
 - cursor、claude code、codex
-- openclaw Hermes Agent
+- openclaw、Hermes Agent
 
 # ai 优点
 - 代码结构，逻辑布局上很强，适合利用它做组件的代码布局，功能实现
