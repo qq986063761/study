@@ -7,6 +7,7 @@
 - 国内源 /bin/zsh -c "$(curl -fsSL https://gitee.com/cunkai/HomebrewCN/raw/master/Homebrew.sh)"
   - 国内源安装最后提醒重启终端执行 source /Users/用户名/.zprofile 要注意
 - 更新 brew update
+- 搜索 brew search 包名
 
 # 查询当前 homebrew 变量
 - env | grep HOMEBREW
