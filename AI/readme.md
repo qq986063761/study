@@ -2,6 +2,7 @@
 - [ai中转平台](https://www.helpaio.com/transit)
 - [cc-switch](https://github.com/farion1231/cc-switch/blob/main/README_ZH.md)
 - [skills排名](https://skillsplayground.com/)
+- [andrej-karpathy-skills](https://github.com/forrestchang/andrej-karpathy-skills)
 - [antfu/skillls](https://github.com/antfu/skills)
 - [everything-claude-code](https://github.com/affaan-m/everything-claude-code/blob/main/README.zh-CN.md)
 - [superpowers](https://github.com/obra/superpowers)
