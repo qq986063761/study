@@ -71,6 +71,7 @@
             font-size: 1rem;
             color: #1f2937;
             box-shadow: 0 1px 3px rgba(0,0,0,0.02), 0 2px 6px rgba(0,0,0,0.02);
+            width: 200%;
         }
         .content-item:nth-child(even) {
             border-left-color: #8b5cf6;
@@ -173,14 +174,14 @@
             OverlayScrollbars(container, {
                 scrollbars: {
                     visibility: 'auto',          // auto: 滚动态/悬停时显示；也可以设为 'visible' 常驻
-                    autoHide: 'scroll',          // 滚动停止后自动隐藏滚动条，离开容器后隐藏
+                    autoHide: 'leave',          // 滚动停止后自动隐藏滚动条，离开容器后隐藏 'never', 'scroll', 'leave' and 'move'
                     autoHideDelay: 200,
                     theme: 'os-theme-dark',      // 暗色滚动条，与白色背景形成对比
                     clickScroll: true,           // 点击轨道直接滚动到该位置
                     dragScroll: true,            // 允许拖动滑块
                 },
                 overflow: {
-                    x: 'hidden',                 // 仅需要垂直滚动条，水平不溢出
+                    x: 'scroll',                 // hidden 仅需要垂直滚动条，水平不溢出
                     y: 'scroll'                  // 垂直方向保留滚动区域
                 },
                 paddingAbsolute: false,           // 不改变内边距计算方式
