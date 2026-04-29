@@ -4,6 +4,7 @@
 - [perfect-scrollbar](https://perfectscrollbar.com/)：轻量、无依赖，提供自定义滚动条及平滑滚动。
 - [simplebar](https://grsmto.github.io/simplebar/)：将原生滚动条替换为自定义样式，支持响应式。
 - [OverlayScrollbars](https://kingsora.github.io/OverlayScrollbars/)：功能丰富的自定义滚动条插件，样式高度可配置。
+- [overlayscrollbars-vue]：vue3 OverlayScrollbars 版
 - [smooth-scrollbar](https://idiotwu.github.io/smooth-scrollbar/)：可定制平滑滚动效果，支持插件扩展。
 
 ## ⚡️ 虚拟滚动（高效渲染长列表）
