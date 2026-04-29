@@ -49,17 +49,29 @@
             margin-bottom: 20px;
             padding-left: 20px;
         }
+
         /* 滚动容器：固定高度，内容超出滚动 */
         .scroll-container {
-            height: 400px;
-            width: 100%;
-            background: #ffffff;
-            border-radius: 24px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-            padding: 20px 18px;
-            /* OverlayScrollbars 将接管滚动行为 */
-            overflow: auto;
+          height: 400px;
+          width: 100%;
+          background: #ffffff;
+          border-radius: 24px;
+          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+          padding: 20px 18px;
+          /* OverlayScrollbars 将接管滚动行为 */
+          overflow: auto;
         }
+        
+        .child-scroll {
+          height: 300px;
+          width: 90%;
+          border-radius: 24px;
+          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+          padding: 20px 18px;
+          /* OverlayScrollbars 将接管滚动行为 */
+          overflow: auto;
+        }
+
         /* 内部内容样式 —— 仅供视觉参考 */
         .content-item {
             padding: 16px 20px;
@@ -134,20 +146,23 @@
             <p>当前使用 os-theme-dark 暗色滚动条，适合浅色背景，也可通过 CSS 变量快速换肤。</p>
         </div>
         <hr>
-        <div class="content-item">
+        <div class="child-scroll" id="childScroll">
+          <div class="content-item">
             <h3>📜 丰富的滚动配置</h3>
             <p>支持点击轨道跳转、拖动滑块、滚动惯性增强，完全适配复杂业务场景。</p>
+          </div>
+          <div class="content-item">
+              <h3>⚡ 性能出色</h3>
+              <p>仅 25KB gzip，无外部依赖，滚动时内存与 CPU 占用极低。</p>
+          </div>
+          <div class="content-item">
+              <h3>📱 移动端友好</h3>
+              <p>触摸滚动流畅，且支持原生越界回弹效果（需配合 -webkit-overflow-scrolling）</p>
+          </div>
         </div>
+        <hr>
         <div class="content-item">
-            <h3>⚡ 性能出色</h3>
-            <p>仅 25KB gzip，无外部依赖，滚动时内存与 CPU 占用极低。</p>
-        </div>
-        <div class="content-item">
-            <h3>📱 移动端友好</h3>
-            <p>触摸滚动流畅，且支持原生越界回弹效果（需配合 -webkit-overflow-scrolling）</p>
-        </div>
-        <div class="content-item">
-            <h3>🚀 第7块内容 — 滚动条可见策略</h3>
+          <h3>🚀 第7块内容 — 滚动条可见策略</h3>
             <p>配置了 autoHide: 'scroll'，滚动时显示滚动条，静止后优雅消失，最大化利用空间。</p>
         </div>
         <div class="content-item">
@@ -168,26 +183,30 @@
     (function() {
         // 确保 DOM 加载完毕
         const container = document.getElementById('myScrollContainer');
+        const childContainer = document.getElementById('childScroll');
         const OverlayScrollbars = OverlayScrollbarsGlobal.OverlayScrollbars
         if (container && typeof OverlayScrollbars !== 'undefined') {
-            // 初始化 OverlayScrollbars 2.15.1 版本
-            OverlayScrollbars(container, {
-                scrollbars: {
-                    visibility: 'auto',          // auto: 滚动态/悬停时显示；也可以设为 'visible' 常驻
-                    autoHide: 'leave',          // 滚动停止后自动隐藏滚动条，离开容器后隐藏 'never', 'scroll', 'leave' and 'move'
-                    autoHideDelay: 200,
-                    theme: 'os-theme-dark',      // 暗色滚动条，与白色背景形成对比
-                    clickScroll: true,           // 点击轨道直接滚动到该位置
-                    dragScroll: true,            // 允许拖动滑块
-                },
-                overflow: {
-                    x: 'scroll',                 // hidden 仅需要垂直滚动条，水平不溢出
-                    y: 'scroll'                  // 垂直方向保留滚动区域
-                },
-                paddingAbsolute: false,           // 不改变内边距计算方式
-            });
+          const config = {
+            scrollbars: {
+              visibility: 'auto',          // auto: 滚动态/悬停时显示；也可以设为 'visible' 常驻
+              autoHide: 'leave',          // 滚动停止后自动隐藏滚动条，离开容器后隐藏 'never', 'scroll', 'leave' and 'move'
+              autoHideDelay: 200,
+              theme: 'os-theme-dark',      // 暗色滚动条，与白色背景形成对比
+              clickScroll: true,           // 点击轨道直接滚动到该位置
+              dragScroll: true,            // 允许拖动滑块
+            },
+            overflow: {
+              x: 'scroll',                 // hidden 仅需要垂直滚动条，水平不溢出
+              y: 'scroll'                  // 垂直方向保留滚动区域
+            },
+            paddingAbsolute: false,           // 不改变内边距计算方式
+          }
+
+          // 初始化 OverlayScrollbars 2.15.1 版本
+          OverlayScrollbars(container, config);
+          OverlayScrollbars(childContainer, config);
         } else {
-            console.warn('OverlayScrollbars 未正确加载或容器不存在');
+          console.warn('OverlayScrollbars 未正确加载或容器不存在');
         }
     })();
 </script>
