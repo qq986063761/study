@@ -1,214 +1,231 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>OverlayScrollbars v2.15.1 · 滚动容器示例</title>
-    <!-- 使用 OverlayScrollbars 2.15.1 核心样式与脚本 (CDN) -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.15.1/styles/overlayscrollbars.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.15.1/browser/overlayscrollbars.browser.es5.min.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            background: linear-gradient(135deg, #e0e7ff 0%, #f9fafb 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: system-ui, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
-            padding: 24px;
-        }
-        /* 演示卡片容器 */
-        .demo-card {
-            max-width: 640px;
-            width: 100%;
-            background: rgba(255,255,255,0.85);
-            backdrop-filter: blur(2px);
-            border-radius: 36px;
-            box-shadow: 0 24px 40px -16px rgba(0,0,0,0.25);
-            padding: 20px 24px 24px 24px;
-            transition: all 0.2s;
-        }
-        .demo-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 18px;
-            padding-left: 14px;
-            color: #0a2b3e;
-            border-left: 6px solid #3b82f6;
-            letter-spacing: -0.3px;
-        }
-        .demo-sub {
-            font-size: 0.85rem;
-            color: #4b5563;
-            margin-top: -8px;
-            margin-bottom: 20px;
-            padding-left: 20px;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>OverlayScrollbars v2.15.1 · 滚动容器示例</title>
+  <!-- 使用 OverlayScrollbars 2.15.1 核心样式与脚本 (CDN) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.15.1/styles/overlayscrollbars.min.css">
+  <script
+    src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.15.1/browser/overlayscrollbars.browser.es5.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        /* 滚动容器：固定高度，内容超出滚动 */
-        .scroll-container {
-          height: 400px;
-          width: 100%;
-          background: #ffffff;
-          border-radius: 24px;
-          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-          padding: 20px 18px;
-          /* OverlayScrollbars 将接管滚动行为 */
-          overflow: auto;
-        }
-        
-        .child-scroll {
-          height: 300px;
-          width: 90%;
-          border-radius: 24px;
-          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-          padding: 20px 18px;
-          /* OverlayScrollbars 将接管滚动行为 */
-          overflow: auto;
-        }
+    body {
+      background: linear-gradient(135deg, #e0e7ff 0%, #f9fafb 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: system-ui, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+      padding: 24px;
+    }
 
-        /* 内部内容样式 —— 仅供视觉参考 */
-        .content-item {
-            padding: 16px 20px;
-            margin-bottom: 16px;
-            background: #fefefe;
-            border-radius: 20px;
-            border-left: 5px solid #3b82f6;
-            transition: all 0.2s ease;
-            font-size: 1rem;
-            color: #1f2937;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.02), 0 2px 6px rgba(0,0,0,0.02);
-            width: 200%;
-        }
-        .content-item:nth-child(even) {
-            border-left-color: #8b5cf6;
-        }
-        .content-item:nth-child(3n) {
-            border-left-color: #10b981;
-        }
-        .content-item:hover {
-            background: #fafcff;
-            transform: translateX(4px);
-            box-shadow: 0 6px 14px rgba(0,0,0,0.05);
-        }
-        .content-item h3 {
-            margin-bottom: 8px;
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-        .content-item p {
-            font-size: 0.9rem;
-            color: #4b5563;
-            line-height: 1.45;
-        }
-        hr {
-            margin: 18px 0;
-            border: none;
-            height: 1px;
-            background: #e5e7eb;
-        }
-        .footer-note {
-            margin-top: 20px;
-            text-align: center;
-            font-size: 0.75rem;
-            color: #5b6e8c;
-            background: #f3f4f6;
-            border-radius: 60px;
-            padding: 8px 12px;
-            width: fit-content;
-            margin-left: auto;
-            margin-right: auto;
-        }
-    </style>
+    /* 演示卡片容器 */
+    .demo-card {
+      max-width: 640px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(2px);
+      border-radius: 36px;
+      box-shadow: 0 24px 40px -16px rgba(0, 0, 0, 0.25);
+      padding: 20px 24px 24px 24px;
+      transition: all 0.2s;
+    }
+
+    .demo-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 18px;
+      padding-left: 14px;
+      color: #0a2b3e;
+      border-left: 6px solid #3b82f6;
+      letter-spacing: -0.3px;
+    }
+
+    .demo-sub {
+      font-size: 0.85rem;
+      color: #4b5563;
+      margin-top: -8px;
+      margin-bottom: 20px;
+      padding-left: 20px;
+    }
+
+    /* 滚动容器：固定高度，内容超出滚动 */
+    .scroll-container {
+      height: 400px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 24px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      padding: 20px 18px;
+      /* OverlayScrollbars 将接管滚动行为 */
+      overflow: auto;
+    }
+
+    .child-scroll {
+      height: 300px;
+      width: 90%;
+      border-radius: 24px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      padding: 20px 18px;
+      /* OverlayScrollbars 将接管滚动行为 */
+      overflow: auto;
+    }
+
+    /* 内部内容样式 —— 仅供视觉参考 */
+    .content-item {
+      padding: 16px 20px;
+      margin-bottom: 16px;
+      background: #fefefe;
+      border-radius: 20px;
+      border-left: 5px solid #3b82f6;
+      transition: all 0.2s ease;
+      font-size: 1rem;
+      color: #1f2937;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02), 0 2px 6px rgba(0, 0, 0, 0.02);
+      width: 200%;
+    }
+
+    .content-item:nth-child(even) {
+      border-left-color: #8b5cf6;
+    }
+
+    .content-item:nth-child(3n) {
+      border-left-color: #10b981;
+    }
+
+    .content-item:hover {
+      background: #fafcff;
+      transform: translateX(4px);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.05);
+    }
+
+    .content-item h3 {
+      margin-bottom: 8px;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    .content-item p {
+      font-size: 0.9rem;
+      color: #4b5563;
+      line-height: 1.45;
+    }
+
+    hr {
+      margin: 18px 0;
+      border: none;
+      height: 1px;
+      background: #e5e7eb;
+    }
+
+    .footer-note {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 0.75rem;
+      color: #5b6e8c;
+      background: #f3f4f6;
+      border-radius: 60px;
+      padding: 8px 12px;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  </style>
 </head>
+
 <body>
-<div class="demo-card">
+  <div class="demo-card">
     <div class="demo-title">✨ OverlayScrollbars</div>
     <div class="demo-sub">版本 2.15.1 · 精致滚动条 | 纯滚动容器演示</div>
-    
+
     <!-- 滚动容器：将被 OverlayScrollbars 接管 -->
     <div class="scroll-container" id="myScrollContainer">
+      <div class="content-item">
+        <h3>🎯 原生级滚动体验</h3>
+        <p>OverlayScrollbars v2.15.1 提供完全可自定义的滚动条，不破坏原有布局，支持鼠标、触摸板和键盘操作。</p>
+      </div>
+      <div class="content-item">
+        <h3>🧊 平滑透明叠加层</h3>
+        <p>滚动条以悬浮形式出现，离开容器后自动淡隐，不影响内容区域宽度，视觉更现代。</p>
+      </div>
+      <div class="content-item">
+        <h3>🎨 主题自适应</h3>
+        <p>当前使用 os-theme-dark 暗色滚动条，适合浅色背景，也可通过 CSS 变量快速换肤。</p>
+      </div>
+      <hr>
+      <div class="child-scroll" id="childScroll">
         <div class="content-item">
-            <h3>🎯 原生级滚动体验</h3>
-            <p>OverlayScrollbars v2.15.1 提供完全可自定义的滚动条，不破坏原有布局，支持鼠标、触摸板和键盘操作。</p>
-        </div>
-        <div class="content-item">
-            <h3>🧊 平滑透明叠加层</h3>
-            <p>滚动条以悬浮形式出现，离开容器后自动淡隐，不影响内容区域宽度，视觉更现代。</p>
-        </div>
-        <div class="content-item">
-            <h3>🎨 主题自适应</h3>
-            <p>当前使用 os-theme-dark 暗色滚动条，适合浅色背景，也可通过 CSS 变量快速换肤。</p>
-        </div>
-        <hr>
-        <div class="child-scroll" id="childScroll">
-          <div class="content-item">
-            <h3>📜 丰富的滚动配置</h3>
-            <p>支持点击轨道跳转、拖动滑块、滚动惯性增强，完全适配复杂业务场景。</p>
-          </div>
-          <div class="content-item">
-              <h3>⚡ 性能出色</h3>
-              <p>仅 25KB gzip，无外部依赖，滚动时内存与 CPU 占用极低。</p>
-          </div>
-          <div class="content-item">
-              <h3>📱 移动端友好</h3>
-              <p>触摸滚动流畅，且支持原生越界回弹效果（需配合 -webkit-overflow-scrolling）</p>
-          </div>
-        </div>
-        <hr>
-        <div class="content-item">
-          <h3>🚀 第7块内容 — 滚动条可见策略</h3>
-            <p>配置了 autoHide: 'scroll'，滚动时显示滚动条，静止后优雅消失，最大化利用空间。</p>
+          <h3>📜 丰富的滚动配置</h3>
+          <p>支持点击轨道跳转、拖动滑块、滚动惯性增强，完全适配复杂业务场景。</p>
         </div>
         <div class="content-item">
-            <h3>🏔️ 最后一块长内容</h3>
-            <p>确保滚动条出现且交互顺滑。试试用鼠标滚轮快速滚动、或拖动右侧滚动条滑块。</p>
+          <h3>⚡ 性能出色</h3>
+          <p>仅 25KB gzip，无外部依赖，滚动时内存与 CPU 占用极低。</p>
         </div>
         <div class="content-item">
-            <h3>🎉 滚动到底部</h3>
-            <p>感谢体验 — 支持自定义样式，满足各类设计需求。</p>
+          <h3>📱 移动端友好</h3>
+          <p>触摸滚动流畅，且支持原生越界回弹效果（需配合 -webkit-overflow-scrolling）</p>
         </div>
+      </div>
+      <hr>
+      <div class="content-item">
+        <h3>🚀 第7块内容 — 滚动条可见策略</h3>
+        <p>配置了 autoHide: 'scroll'，滚动时显示滚动条，静止后优雅消失，最大化利用空间。</p>
+      </div>
+      <div class="content-item">
+        <h3>🏔️ 最后一块长内容</h3>
+        <p>确保滚动条出现且交互顺滑。试试用鼠标滚轮快速滚动、或拖动右侧滚动条滑块。</p>
+      </div>
+      <div class="content-item">
+        <h3>🎉 滚动到底部</h3>
+        <p>感谢体验 — 支持自定义样式，满足各类设计需求。</p>
+      </div>
     </div>
     <div class="footer-note">
-        🖱️ 鼠标悬浮或滚动时显示滚动条 | 拖拽滑块 / 滚轮均可操作
+      🖱️ 鼠标悬浮或滚动时显示滚动条 | 拖拽滑块 / 滚轮均可操作
     </div>
-</div>
+  </div>
 
-<script>
-    (function() {
-        // 确保 DOM 加载完毕
-        const container = document.getElementById('myScrollContainer');
-        const childContainer = document.getElementById('childScroll');
-        const OverlayScrollbars = OverlayScrollbarsGlobal.OverlayScrollbars
-        if (container && typeof OverlayScrollbars !== 'undefined') {
-          const config = {
-            scrollbars: {
-              visibility: 'auto',          // auto: 滚动态/悬停时显示；也可以设为 'visible' 常驻
-              autoHide: 'leave',          // 滚动停止后自动隐藏滚动条，离开容器后隐藏 'never', 'scroll', 'leave' and 'move'
-              autoHideDelay: 200,
-              theme: 'os-theme-dark',      // 暗色滚动条，与白色背景形成对比
-              clickScroll: true,           // 点击轨道直接滚动到该位置
-              dragScroll: true,            // 允许拖动滑块
-            },
-            overflow: {
-              x: 'scroll',                 // hidden 仅需要垂直滚动条，水平不溢出
-              y: 'scroll'                  // 垂直方向保留滚动区域
-            },
-            paddingAbsolute: false,           // 不改变内边距计算方式
-          }
-
-          // 初始化 OverlayScrollbars 2.15.1 版本
-          OverlayScrollbars(container, config);
-          OverlayScrollbars(childContainer, config);
-        } else {
-          console.warn('OverlayScrollbars 未正确加载或容器不存在');
+  <script>
+    (function () {
+      // 确保 DOM 加载完毕
+      const container = document.getElementById('myScrollContainer');
+      const childContainer = document.getElementById('childScroll');
+      const OverlayScrollbars = OverlayScrollbarsGlobal.OverlayScrollbars
+      if (container && typeof OverlayScrollbars !== 'undefined') {
+        const config = {
+          scrollbars: {
+            visibility: 'auto',          // auto: 滚动态/悬停时显示；也可以设为 'visible' 常驻
+            autoHide: 'leave',          // 滚动停止后自动隐藏滚动条，离开容器后隐藏 'never', 'scroll', 'leave' and 'move'
+            autoHideDelay: 200,
+            theme: 'os-theme-dark',      // 暗色滚动条，与白色背景形成对比
+            clickScroll: true,           // 点击轨道直接滚动到该位置
+            dragScroll: true,            // 允许拖动滑块
+          },
+          overflow: {
+            x: 'scroll',                 // hidden 仅需要垂直滚动条，水平不溢出
+            y: 'scroll'                  // 垂直方向保留滚动区域
+          },
+          paddingAbsolute: false,           // 不改变内边距计算方式
         }
+
+        // 初始化 OverlayScrollbars 2.15.1 版本
+        const parentVm = OverlayScrollbars(container, config);
+        const childVm = OverlayScrollbars(childContainer, config);
+
+        // console.log('parentVm', parentVm, childVm.elements().scrollEventElement)
+      } else {
+        console.warn('OverlayScrollbars 未正确加载或容器不存在');
+      }
     })();
-</script>
+  </script>
 </body>
+
 </html>
