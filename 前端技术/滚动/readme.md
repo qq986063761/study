@@ -1,5 +1,8 @@
 # 常用滚动/虚拟滚动库分类
 
+## 悬浮滚动条
+- [handy-scroll]
+
 ## 🎨 自定义滚动条（美化/替换原生滚动条）
 - [perfect-scrollbar](https://perfectscrollbar.com/)：轻量、无依赖，提供自定义滚动条及平滑滚动。
 - [simplebar](https://grsmto.github.io/simplebar/)：将原生滚动条替换为自定义样式，支持响应式。
