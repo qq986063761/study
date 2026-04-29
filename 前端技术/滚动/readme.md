@@ -1,12 +1,14 @@
 ## 常用库（按热度）
 
-- [vue-virtual-scroller]
+- [perfect-scrollbar](https://perfectscrollbar.com/)
+- [simplebar](https://grsmto.github.io/simplebar/)
+- [iScroll](https://github.com/cubiq/iscroll)
 - [OverlayScrollbars](https://kingsora.github.io/OverlayScrollbars/)
 - [smooth-scrollbar](https://idiotwu.github.io/smooth-scrollbar/)
-- [virtual-scroll]
+- [vue-virtual-scroller]
 - [headroom.js](https://wicky.nillia.ms/headroom.js/)
-- [iScroll](https://github.com/cubiq/iscroll)
 - [瀑布流 vue-waterfall](https://github.com/MopTym/vue-waterfall)
+- [virtual-scroll]
 
 ## 理论 / CSS 属性
 
