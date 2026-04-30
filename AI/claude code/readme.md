@@ -171,3 +171,16 @@ coverage/
 - **及时清理**：长对话、多任务必压缩/清理，避免历史膨胀
 - **模型匹配**：不盲目用高端模型，按任务选档位
 
+# 允许ai所有权限
+- 项目下 .claude/settings.local.json 写
+```json
+{
+  "permissions": {
+    "allow": [
+      "Bash(*)",
+      "Read(*)",
+      "Write(*)"
+    ]
+  }
+}
+```
