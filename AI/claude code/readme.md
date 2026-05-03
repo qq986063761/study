@@ -1,6 +1,9 @@
 # mac 安装
 
-## 用Homebrew安装 
+## windows 用 winget 安装
+- winget install Anthropic.ClaudeCode
+
+## mac 用 Homebrew安装 
 - 没 homebrew 就先装 homebrew：/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 - brew install claude-code 或 brew install --cask claude-code
 - curl -fsSL https://claude.ai/install.sh | bash
