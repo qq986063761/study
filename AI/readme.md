@@ -10,6 +10,9 @@
 - [oh-my-claudecode](https://github.com/Yeachan-Heo/oh-my-claudecode/blob/main/README.zh.md)
 - [vue2常用最佳实践](https://learnvue.co/articles/vue-best-practices)
 - [群友分享ai应用学习资料](https://pan.baidu.com/s/1wXs0qUfT9jJ5etY4RUVMdA?login_type=weixin&_at_=1775101276551#list/path=%2F) 百度网盘链接，密码：w97g
+- [撸ai号](https://zzshu.com/)
+- [买 openAI](https://eylink.cn/)
+- [买 chatgpt](http://shop.isving.cn/)
 
 # ai 编程工具
 - vscode + ai插件
