@@ -220,3 +220,39 @@
 **与应用架构的关系**：多模态输入需在管线中做**编码**（图像 URL、base64、专用 vision encoder），并占用更多 token/延迟；RAG 可扩展到**图文混合索引**（多向量、多路检索）。Agent 场景下，多模态常用于**屏幕/截图/设计稿**作为 Observation 的一部分。
 
 **注意**：模态越多，评估与安全面越复杂（隐私图像、版权、提示注入跨模态）；生产上需配额、审计与内容策略。
+
+
+# 记录一个和后端联调 ai 流数据接口请求
+```js
+// 监听 onChunk 回调
+const response = await fetch('xxx/api/ai/stream', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'text/event-stream',
+  },
+  body: JSON.stringify(params)
+})
+
+const reader = response.body.getReader()
+const decoder = new TextDecoder('utf-8')
+
+while (true) {
+  const { done, value } = await reader.read()
+  if (done) break
+  const chunk = decoder.decode(value, { stream: true })
+  // SSE 格式: "data: {...}\n\n"
+  chunk.split('\n').forEach(line => {
+    if (line.startsWith('data:')) {
+      const text = line.slice(5).trim()
+      if (text && text !== '[DONE]') {
+        try {
+          onChunk(JSON.parse(text))
+        } catch (err) {
+          onChunk(text)
+        }
+      }
+    }
+  })
+}
+```
