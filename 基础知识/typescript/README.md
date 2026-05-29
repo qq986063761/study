@@ -48,3 +48,29 @@ type Readonly<T> = {
 type ReadonlyUser = Readonly<{ name: string; age: number }>;
 // ReadonlyUser 是 { readonly name: string; readonly age: number }
 ```
+  - type 更适合工具类型的组合，更方便
+```ts
+type Base = {
+  name: string;
+  age: number;
+  email: string;
+};
+
+// ✅ type 接住 Pick，并直接交叉一个额外属性
+type Preview = Pick<Base, 'name' | 'email'> & { extra: boolean };
+const obj: Preview = { name: 'Alice', email: 'a@b.com', extra: true };
+
+// ❌ interface 不能直接等于工具类型的返回值
+// 下面写法是错的：
+interface Wrong = Pick<Base, 'name' | 'email'>; // ❌ 语法错误
+
+// ✅ interface 只能 extends 继承，但无法直接做交叉联合
+interface Okay extends Pick<Base, 'name' | 'email'> {
+  extra: boolean;
+}
+// 虽然 Okay 能用，但在更复杂的类型里（比如需要交叉多个工具类型，或使用条件类型），
+// type 内联组合要方便得多。
+```
+
+
+# 
