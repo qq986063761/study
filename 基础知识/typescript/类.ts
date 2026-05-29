@@ -61,3 +61,39 @@ class IphoneFactory extends PhoneFactory {
     return `${type} phone`;
   }
 }
+
+// ========== 补充：this 参数类型 ==========
+// 函数/方法的第一个参数可声明 this 类型，约束调用时的上下文
+class Card {
+  suit: string
+  rank: number
+  click(this: Card) {
+    // 必须先 new Card() 实例调用，不能单独解构使用
+    console.log(this.suit)
+  }
+}
+
+// ========== 补充：装饰器 (experimental) ==========
+// 需要 tsconfig 开启 experimentalDecorators: true
+// 类装饰器 —— 接收构造函数，可修改或替换类
+function sealed(constructor: Function) {
+  Object.seal(constructor)
+  Object.seal(constructor.prototype)
+}
+
+// 方法装饰器 —— 可拦截/增强方法
+function log(target: any, key: string, descriptor: PropertyDescriptor) {
+  const original = descriptor.value
+  descriptor.value = function (...args: any[]) {
+    console.log(`调用 ${key}，参数：`, args)
+    return original.apply(this, args)
+  }
+}
+
+@sealed
+class Calculator {
+  @log
+  add(a: number, b: number): number {
+    return a + b
+  }
+}

@@ -55,3 +55,47 @@ const enum Color {
   Green,
   Blue
 }
+
+// ========== 补充：其他核心类型 ==========
+
+// unknown 类型 —— 比 any 安全，使用前必须先收窄类型
+let unknownVal: unknown = 4
+if (typeof unknownVal === "string") {
+  // 这里 unknownVal 被收窄为 string
+  unknownVal.toUpperCase()
+}
+
+// never 穷举检查 —— 用于 switch/default 分支，确保所有情况已覆盖
+type Shape = "circle" | "square"
+function getArea(shape: Shape) {
+  switch (shape) {
+    case "circle": return Math.PI
+    case "square": return 1
+    default:
+      // 如果 Shape 新增了类型但此处未处理，编译期就会报错
+      const _exhaustive: never = shape
+      return _exhaustive
+  }
+}
+
+// 交叉类型 & —— 合并多个类型
+interface Name { name: string }
+interface Age { age: number }
+type Person = Name & Age  // { name: string; age: number }
+
+// 非空断言 ! —— 告诉编译器值一定不为 null/undefined
+function getLength(str: string | null) {
+  // 确信 str 不为 null 时可用 ! 跳过检查
+  return str!.length
+}
+
+// const 断言 as const —— 将值锁定为最深层的字面量只读类型
+const config = { mode: "dark", size: 14 } as const
+// config 类型为 { readonly mode: "dark"; readonly size: 14 }
+
+// Symbol —— 唯一值类型
+const sym1: symbol = Symbol("key")
+const sym2: unique symbol = Symbol("unique")  // unique symbol 只能是 const 声明
+
+// BigInt —— 大整数
+const big: bigint = 9007199254740991n
