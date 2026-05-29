@@ -4,3 +4,4 @@
 - [fabric.js](https://fabricjs.com/)
 - [zrender](https://ecomfe.github.io/zrender-doc/public/)
 - [konvajs](https://konvajs.org/api/Konva.html)
+- [vue data ui](https://vue-data-ui.graphieros.com/)
