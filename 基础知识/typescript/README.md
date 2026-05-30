@@ -93,3 +93,19 @@ logLength([1,2,3]); // ✅
 logLength(123);     // ❌ 类型错误，没有 length
 ```
 
+# extends 能做什么
+- 接口继承：interface B extends A {}
+- 泛型约束：<T extends Record<string, unknown>>，表示 T 必须是 { string: 任何类型 } 这样的结构
+- 条件类型：T extends U ? X : Y。
+
+# keyof 作用是什么
+- 可以取出 interface 中的 key 组成联合类型
+- 可以利用 keyof 约束比如 getProp<T, K extends keyof T>(obj: T, key: K): T[K] 函数中的属性key必须在类型T中
+
+# infer 作用是什么
+- 常用来在条件类型中用作推导
+```ts
+type FirstArg<T> = T extends (first: infer F, ...args: any[]) => any ? F : never;
+type A = FirstArg<(x: number, y: string) => void>; // number
+```
+
