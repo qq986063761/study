@@ -109,3 +109,62 @@ type FirstArg<T> = T extends (first: infer F, ...args: any[]) => any ? F : never
 type A = FirstArg<(x: number, y: string) => void>; // number
 ```
 
+# any、unknown、never 有什么区别
+- any：完全跳出类型检查，可赋值给任何变量，也可被任何值赋值，极易导致运行时错误。应尽量避免，除非临时迁移 JS 代码。
+- unknown：比 any 安全，可接收任何类型，但是想用它必须要用 typeof、instanceof 确认类型后再继续，否则报错
+```ts
+function handle(data: unknown) {
+  // 必须先检查类型
+  if (typeof data === 'string') {
+    console.log(data.toUpperCase()) // 现在安全了
+  }
+}
+```
+- never：表示永远不会出现的类型。一般用在抛异常或死循环的函数返回值
+```ts
+function fail(): never { throw new Error() } // 方法不会正常结束
+type A = string & number // never
+```
+
+# TypeScript 的类型推导机制是怎样的？什么情况下必须显式声明类型？
+- 自动推导：变量初始化、函数默认参数、返回值可被自动推导，减少多余代码。
+```ts
+let name = "小明"  // TS 自己推导出 name 是 string
+let age = 18       // 推导出 age 是 number
+
+function add(a: number, b = 6) { // 函数默认参数
+  return a + b  // TS 知道返回的是 number
+}
+```
+- 必须显式声明的场景：
+  - 函数参数，否则会隐式 any（开启 noImplicitAny 时报错）。
+  - 声明但是没有初始化的变量。
+  - 某些递归或复杂场景无法推导。
+  - 为对象字面量添加额外约束（如后续要添加属性）。
+```ts
+function greet(name) {  // noImplicitAny 开启后会报错：参数会被认为是 any
+  return '你好' + name
+}
+
+let result; // TS 推导为 any，很危险
+
+function deepClone<T>(obj: T): T {
+  // 很复杂的实现，返回类型有时推断不出来，就明确告诉它返回和输入类型一样
+}
+
+// 提前告诉对象内是什么字段类型，让它规范对象属性类型
+const config: { name: string; age?: number } = { name: '默认' }
+```
+
+# 什么是类型守卫，类型谓词
+- 类型守卫：在条件分支中自动缩窄变量的类型，包括：typeof、instanceof、in、== 字面量比较、Array.isArray 等。
+- 自定义类型谓词：parameterName is Type，函数返回布尔值时告诉编译器缩窄结论。
+```ts
+interface Cat { meow: () => void }
+interface Dog { bark: () => void }
+function isCat(animal: Cat | Dog): animal is Cat {
+  return (animal as Cat).meow !== undefined
+}
+// 使用后 if (isCat(animal)) 分支内 animal 自动缩窄为 Cat，ts 不会报错，animal is Cat 告诉 ts 通过就返回就确认是 Cat 了，不然就要手动用 animal as Cat 明确具体类型
+```
+
