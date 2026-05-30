@@ -72,5 +72,24 @@ interface Okay extends Pick<Base, 'name' | 'email'> {
 // type 内联组合要方便得多。
 ```
 
+# 什么是泛型？它解决了什么问题？
+- 不指明具体类型，调用时才指明，能保留具体的类型信息；
+  - 类型安全：可以避免用 any 导致类型丢失；
+  - 代码复用：同一段逻辑可支持多种类型；
 
-# 
+# 怎么限制泛型必须有哪些属性？
+- 泛型中用 extends 继承接口
+```ts
+interface Lengthwise {
+  length: number;
+}
+function logLength<T extends Lengthwise>(arg: T): T {
+  console.log(arg.length);
+  return arg;
+}
+
+logLength("abc");   // ✅
+logLength([1,2,3]); // ✅
+logLength(123);     // ❌ 类型错误，没有 length
+```
+
