@@ -175,6 +175,12 @@ coverage/
 - **模型匹配**：不盲目用高端模型，按任务选档位
 
 # 允许ai所有权限
+- 项目下 .claude/settings.json
+```json
+{
+  "permissionMode": "bypassPermissions" // acceptEdits、default
+}
+```
 - 项目下 .claude/settings.local.json 写
 ```json
 {
@@ -187,3 +193,10 @@ coverage/
   }
 }
 ```
+- mac 全局设置环境
+```bash
+export CLAUDE_CODE_PERMISSION_MODE=bypassPermissions
+source ~/.bashrc
+source ~/.zshrc
+```
+- 终端版全局设置 claude config set permissionMode bypassPermissions
