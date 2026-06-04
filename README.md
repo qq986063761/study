@@ -24,6 +24,9 @@
 - 学习网站：技术文档的官网、掘金（https://juejin.cn/）、慕课网（https://www.imooc.com/）、拉钩教育（https://kaiwu.lagou.com/）
 - 外网访问：ngrok
 
+## clash verge
+- windows 测试合适的 MTU 值命令：ping -f -l 1400 你的VPN服务器IP
+
 # 学习路径
 - C语言基础，理解指针，内存，帮助更好理解程序执行过程中的变量流向
 - 基础 html、css、javascript 语法基础，使用基础写出网页内容
