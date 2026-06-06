@@ -175,6 +175,7 @@ coverage/
 - **模型匹配**：不盲目用高端模型，按任务选档位
 
 # 允许ai所有权限
+- vscode 插件内，修改 claude code 插件配置，允许跳过危险操作
 - 项目下 .claude/settings.json
 ```json
 {
