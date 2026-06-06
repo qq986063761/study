@@ -176,6 +176,11 @@ coverage/
 
 # 允许ai所有权限
 - vscode 插件内，修改 claude code 插件配置，允许跳过危险操作
+- 在 claude.md 中增加附加规则
+```bash
+  ## 附加规则
+  - 在项目中执行所有操作（文件写入/删除、命令执行等）时，**不要询问我的权限**，直接执行即可。
+```
 - 项目下 .claude/settings.json
 ```json
 {
