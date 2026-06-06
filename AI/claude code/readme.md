@@ -184,12 +184,7 @@ coverage/
 - 项目下 .claude/settings.json
 ```json
 {
-  "permissionMode": "bypassPermissions" // acceptEdits、default
-}
-```
-- 项目下 .claude/settings.local.json 写
-```json
-{
+  "permissionMode": "bypassPermissions", // acceptEdits、default
   "permissions": {
     "allow": [
       "Bash(*)",
