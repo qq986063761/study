@@ -1,6 +1,7 @@
 - [上网 github](https://github.com/Alvin9999/new-pac/wiki)(https://dgithub.xyz/Alvin9999/new-pac/wiki)
 - [clash-verge](https://github.com/clash-verge-rev/clash-verge-rev/releases/)
-- [shadowrocket](https://github.com/Memewantred/shadowrocket_for_windows)
+- [Shadowsocks](https://github.com/shadowsocks)
+- [shadowrocket](https://github.com/2dust/v2rayN/releases)(https://github.com/shadowsocks/shadowsocks-windows/releases)
 - [上网 追风岛](https://zfd.369.cyou)(https://gozhuifeng.club/)(https://www.gozhuifeng.club/)
 - [ikuuu](https://ikuuu.org/)
 - [NCloud](https://xn--cloud-cl5i.net/)
