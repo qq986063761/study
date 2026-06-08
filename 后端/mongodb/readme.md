@@ -1,7 +1,7 @@
 # 资源
 
 - [MongoDB 官网](https://www.mongodb.com/)
-- [下载 Community Server](https://www.mongodb.com/try/download/community)（本地学习用社区版即可）
+- [下载 Community Server](https://www.mongodb.com/try/download/community)(https://mongodb.ac.cn/try/download/community)（本地学习用社区版即可）
 - [MongoDB 文档（中文可选）](https://www.mongodb.com/zh-cn/docs/)
 - Shell 客户端：[mongosh](https://www.mongodb.com/docs/mongodb-shell/)（推荐，替代旧版 `mongo`）
 
