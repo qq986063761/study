@@ -2,6 +2,7 @@
 
 - [MongoDB 官网](https://www.mongodb.com/)
 - [下载 Community Server](https://www.mongodb.com/try/download/community)(https://mongodb.ac.cn/try/download/community)（本地学习用社区版即可）
+- [windows快速下载](https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-8.0.13-signed.msi)
 - [MongoDB 文档（中文可选）](https://www.mongodb.com/zh-cn/docs/)
 - Shell 客户端：[mongosh](https://www.mongodb.com/docs/mongodb-shell/)（推荐，替代旧版 `mongo`）
 
