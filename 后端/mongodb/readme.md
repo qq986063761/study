@@ -1,7 +1,8 @@
 # 资源
 
 - [MongoDB 官网](https://www.mongodb.com/)
-- [下载 Community Server](https://www.mongodb.com/try/download/community)（本地学习用社区版即可）
+- [下载 Community Server](https://www.mongodb.com/try/download/community)(https://mongodb.ac.cn/try/download/community)（本地学习用社区版即可）
+- [windows快速下载](https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-8.3.2-signed.msi)
 - [MongoDB 文档（中文可选）](https://www.mongodb.com/zh-cn/docs/)
 - Shell 客户端：[mongosh](https://www.mongodb.com/docs/mongodb-shell/)（推荐，替代旧版 `mongo`）
 
@@ -11,7 +12,9 @@
 - **与关系型差异**：无固定表结构强约束；用 `_id` 唯一标识文档（可自生成 ObjectId）；关联多用嵌入文档或 `$lookup`，不必处处建外键。
 - **常用概念**：database → collection → document；索引加速查询；副本集/分片属进阶运维与扩展话题。
 
-# 安装（Community / Windows）
+# 安装（Community）
+
+## Windows
 
 1. 官网下载 **Windows** 安装包（MSI）或 ZIP；MSI 可按向导勾选 **Install MongoDB as a Service**（装成 Windows 服务）。
 2. 默认数据目录常见为 `C:\Program Files\MongoDB\Server\<版本>\data` 或安装时自定义；配置文件多为 `mongod.cfg`（YAML）。
@@ -19,6 +22,24 @@
 4. 若未装服务，可手动启动（示例，路径按本机调整）：
    - `mongod --dbpath "D:\data\db"`（先建好空目录）
 5. 另装 **mongosh**：可与数据库分开下载，用于连接本机或远程实例。
+
+## macOS
+
+1. **Homebrew 安装（推荐）**：
+   - `brew tap mongodb/brew`
+   - `brew install mongodb-community@8.0`（版本号按实际选择）
+   - 安装后 Homebrew 会自动创建数据目录 `/usr/local/var/mongodb`（Intel）或 `/opt/homebrew/var/mongodb`（Apple Silicon）和配置文件 `/usr/local/etc/mongod.conf`（Intel）或 `/opt/homebrew/etc/mongod.conf`（Apple Silicon）。
+2. **服务管理**（brew services）：
+   - 启动：`brew services start mongodb-community@8.0`
+   - 停止：`brew services stop mongodb-community@8.0`
+   - 重启：`brew services restart mongodb-community@8.0`
+3. **手动启动**（若不用 brew services）：
+   - `mongod --config /usr/local/etc/mongod.conf --fork`（`--fork` 后台运行，需配合 `--logpath` 指定日志路径）
+4. **另装 mongosh**：
+   - `brew install mongosh`
+   - 或从 [mongosh 下载页](https://www.mongodb.com/try/download/shell) 手动下载解压，将 `bin` 加入 PATH。
+5. **手动下载方式**（不用 Homebrew）：
+   - 官网下载 `.tgz` 压缩包 → 解压 → 将 `bin` 目录加入 PATH → 手动创建数据目录并启动 `mongod --dbpath <数据目录>`。
 
 # 命令
 
