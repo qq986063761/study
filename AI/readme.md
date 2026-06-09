@@ -14,7 +14,7 @@
 - [买ai号](https://uufaka.com/shop/V1M7UAYO)(https://zzshu.com/)
 - [买openAI](https://eylink.cn/)
 - [买chatgpt](http://shop.isving.cn/)
-- [yuzapi](https://yuzapi.fun/login)(https://pay.ldxp.cn/shop/O6E79ERA)
+- [yuzapi](https://image.yuzapi.fun/)(https://yuzapi.fun/login)(https://pay.ldxp.cn/shop/O6E79ERA)
 
 # ai 编程工具
 - vscode + ai插件
