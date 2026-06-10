@@ -1,6 +1,6 @@
 # 资源
 - [ai中转平台](https://www.helpaio.com/transit)
-- [micu ai 中转](https://www.micuapi.ai/)
+- [micu ai 中转](https://www.micuapi.ai/)(不翻墙 https://api-slb.micuapi.ai)
 - [cc-switch](https://github.com/farion1231/cc-switch/blob/main/README_ZH.md)
 - [skills排名](https://skillsplayground.com/)
 - [andrej-karpathy-skills](https://github.com/forrestchang/andrej-karpathy-skills)
