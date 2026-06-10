@@ -4,13 +4,160 @@
 - [下载 Community Server](https://www.mongodb.com/try/download/community)(https://mongodb.ac.cn/try/download/community)（本地学习用社区版即可）
 - [windows快速下载](https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-8.3.2-signed.msi)
 - [MongoDB 文档（中文可选）](https://www.mongodb.com/zh-cn/docs/)
-- Shell 客户端：[mongosh](https://www.mongodb.com/docs/mongodb-shell/)（推荐，替代旧版 `mongo`）
+- Shell 客户端：[mongosh](https://www.mongodb.com/try/download/shell)(https://mongodb.ac.cn/try/download/shell)（推荐，替代旧版 `mongo`）
 
-# 理论（速览）
+# 理论
 
-- **文档数据库**：数据以 BSON（类 JSON 二进制）文档为单位存储，集合（collection）≈ 表，文档 ≈ 行，字段可嵌套、数组，模式灵活。
-- **与关系型差异**：无固定表结构强约束；用 `_id` 唯一标识文档（可自生成 ObjectId）；关联多用嵌入文档或 `$lookup`，不必处处建外键。
-- **常用概念**：database → collection → document；索引加速查询；副本集/分片属进阶运维与扩展话题。
+## 核心层级：Database → Collection → Document
+
+MongoDB 的数据组织分为三层：
+
+```
+MongoDB 层级                    MySQL / 关系型数据库
+──────────────────────────────────────────────────
+Database（数据库）          ≈   Database（数据库）
+  └── Collection（集合）    ≈   Table（表）
+        └── Document（文档） ≈   Row（行）
+              └── Field（字段/键值对） ≈ Column（列）
+```
+
+> **一句话记忆**：库 ≈ 库，集合 ≈ 表，文档 ≈ 行，字段 ≈ 列。区别在于 MongoDB 文档可以嵌套子文档和数组，不像关系型行的字段是扁平的。
+
+### 1. Database（数据库）
+
+- 一个 MongoDB 实例可承载多个数据库，每个数据库拥有独立的权限、集合、索引，彼此隔离。
+- 命名规则：不能含 `/ \ . " * < > : | ? $` 空格和空字符；长度 ≤ 64 字节；推荐全小写英文。
+- 保留库：
+  - `admin`：存放用户、角色、分片集群管理等管理信息（`show dbs` 可能不显示，但有数据时会显示）。
+  - `local`：存储副本集元数据、oplog（操作日志），**不会被复制**到其他节点。
+  - `config`：分片集群的元数据（分片信息、chunk 分布等）。
+- 创建与切换：`use 新库名` 只是切换上下文，要等首次写入数据（建集合或插入文档）后才真正创建。
+- 删除：`db.dropDatabase()` 删除当前库及其中所有数据，不可恢复。
+
+### 2. Collection（集合）
+
+- 集合是一组文档的容器，**类比关系型数据库的表**。
+- 同一个集合中的文档**不需要拥有相同的字段结构**——这正是 MongoDB 模式灵活的核心。
+- 命名规则：不能以 `system.` 开头（系统保留），不能含 `$` 和空字符，通常用蛇形命名 `user_orders`。
+- 隐式创建：直接 `db.集合名.insertOne({...})` 即可在写入时自动创建集合，无需预先定义。
+- 显式创建：`db.createCollection("集合名", { ...选项 })` 可预设选项（如固定集合 capped、文档验证规则 validator 等）。
+- 删除：`db.集合名.drop()` 删除集合及其所有文档和索引。
+- 固定集合（Capped Collection）：固定大小、插入顺序的集合，达到上限后自动覆盖最旧文档，常用于日志队列。
+
+### 3. Document（文档）
+
+- 文档是 MongoDB 中**最基本的数据库单位**，**类比关系型数据库的行**。
+- 内部存储格式为 **BSON**（Binary JSON），是一种二进制序列化格式。
+- 文档由一组**键值对（Field : Value）**组成，键是字符串，值可以是各种类型（见下文）。
+- 文档最大 16MB（BSON 限制）；如需更大，使用 GridFS 将大文件拆分成多个块存储。
+- 文档的顶层结构是一个 BSON 对象 `{ }`。
+- 示例：
+  ```js
+  {
+    _id: ObjectId("647a1b2c3d4e5f6a7b8c9d0e"),
+    name: "张三",
+    age: 28,
+    email: "zhangsan@example.com",
+    tags: ["vip", "new_user"],
+    address: {
+      city: "北京",
+      street: "长安街 100 号"
+    }
+  }
+  ```
+
+#### BSON 支持的数据类型
+
+| 类型 | 说明 | 示例 |
+|------|------|------|
+| `Double` | 64 位浮点数（默认数字类型） | `age: 28` |
+| `String` | UTF-8 字符串 | `name: "张三"` |
+| `Object` | 嵌套文档（子文档） | `address: { city: "北京" }` |
+| `Array` | 数组 | `tags: ["vip", "new"]` |
+| `Binary data` | 二进制数据 | 文件内容、图片等 |
+| `ObjectId` | 12 字节唯一标识 | `ObjectId("...")` |
+| `Boolean` | 布尔值 | `isActive: true` |
+| `Date` | UTC 日期时间（毫秒精度） | `createdAt: new Date()` 或 `ISODate("2025-01-01")` |
+| `Null` | 空值 | `middleName: null` |
+| `Int32` | 32 位整数 | `NumberInt(100)` |
+| `Int64` / `Long` | 64 位整数 | `NumberLong("9007199254740992")` |
+| `Decimal128` | 128 位高精度小数 | `NumberDecimal("9.99")`，适用于金额 |
+| `Timestamp` | 内部时间戳（64 位） | 多用于 oplog |
+| `RegExp` | 正则表达式 | `pattern: /^abc/i` |
+| `MinKey` / `MaxKey` | 内部比较用极值 | 比任何值都小 / 大 |
+
+> **注意**：JavaScript 的数字默认是 Double（64 位浮点数）。对金额等需要精确计算的场景，用 `NumberDecimal()`；对需要精确整数的场景，用 `NumberInt()` 或 `NumberLong()`。
+
+### 4. 嵌套文档与数组（灵活模式的核心）
+
+MongoDB 的文档可以嵌套子文档和数组，支持一对多、多对多关系的**嵌入（Embedding）**建模，避免像关系型数据库那样处处 JOIN。
+
+```js
+// 用户文档嵌入多个收货地址（一对多）
+{
+  _id: ObjectId("..."),
+  name: "张三",
+  addresses: [
+    { type: "home", city: "北京", detail: "朝阳区某小区" },
+    { type: "work", city: "上海", detail: "浦东新区某大厦" }
+  ]
+}
+```
+
+| 关系建模方式 | 说明 | 适用场景 |
+|-------------|------|----------|
+| **嵌入**（Embedding） | 将关联数据直接嵌套在文档中 | 数据紧密绑定、一次查询就需要全部返回（如用户 + 收货地址） |
+| **引用**（Referencing） | 只存关联文档的 `_id`，需要时通过 `$lookup`（类似 JOIN）或多次查询获取 | 数据独立、频繁单独修改、或关联数据量巨大 |
+
+### 5. `_id` 与 ObjectId
+
+- 每个文档**必须**有一个 `_id` 字段，它是集合中**文档的唯一标识**（主键）。
+- 不显式提供 `_id` 时，MongoDB 驱动程序会自动生成一个 **ObjectId**。
+- **ObjectId** 是一个 12 字节的 BSON 类型：
+  - 4 字节：时间戳（秒级，Unix epoch）
+  - 5 字节：随机值（包括机器标识 + 进程标识）
+  - 3 字节：自增计数器
+- 由于时间戳在最前，ObjectId 天然**按生成时间大致有序**，这对索引和排序友好。
+- 也可以自定义 `_id`：`db.coll.insertOne({ _id: "my-custom-id", name: "a" })`，类型不限（字符串、数字、甚至子文档），但必须唯一。
+- `ObjectId("...")` 可调用 `.getTimestamp()` 获取生成时间。
+
+### 6. 模式灵活性（Schemaless）
+
+- MongoDB 不强制要求集合中所有文档拥有相同的字段结构。这和传统关系型数据库的**先定义表结构再写数据**完全不同。
+- 这意味着：
+  - ✅ 可以随时向新文档添加新字段，旧文档不受影响。
+  - ✅ 开发初期快速迭代，字段随需求变化灵活调整。
+  - ⚠️ 但在应用层仍需做好数据校验（MongoDB 支持 JSON Schema 验证：`validator`），避免「垃圾进垃圾出」。
+- 3.6+ 版本支持 **JSON Schema** 约束，可在应用层之外再加一层数据库层的字段校验。
+
+### 7. 与关系型数据库术语对照
+
+| MySQL / PostgreSQL | MongoDB | 说明 |
+|-------------------|---------|------|
+| Database | Database | 数据库 |
+| Table | Collection | 集合（表） |
+| Row | Document | 文档（行） |
+| Column | Field | 字段（列） |
+| Primary Key | `_id` | 主键，自动生成的唯一标识 |
+| JOIN | `$lookup` | 关联查询（聚合管道） |
+| Index | Index | 索引 |
+| Transaction | Transaction | 事务（4.0+ 支持多文档 ACID） |
+| View | View | 视图 |
+
+### 8. 索引（概述）
+
+- 索引加速查询，避免全集合扫描（COLLSCAN）。
+- 默认 `_id` 字段上已有唯一索引。
+- 单字段索引：`db.coll.createIndex({ 字段: 1 })`（`1` 升序，`-1` 降序）。
+- 复合索引：`db.coll.createIndex({ a: 1, b: -1 })` —— 字段顺序影响查询覆盖能力（ESR 规则：Equality → Sort → Range）。
+- 默认索引类型为 B-tree（适用于大多数场景）；还支持地理空间（2dsphere）、文本（text）、哈希（hashed）等特殊索引。
+- 进阶：查看执行计划用 `explain("executionStats")`，分析慢查询。
+
+### 9. 副本集与分片（进阶概念）
+
+- **副本集**（Replica Set）：多节点保存相同数据副本，主节点（Primary）负责写入，从节点（Secondary）异步同步并可用于只读查询。自动故障转移。生产环境最低配置为 3 节点（或 2 节点 + 仲裁节点 arbiter）。
+- **分片**（Sharding）：将数据水平拆分到多个分片服务器上，每个分片只存一部分数据（通过 shard key 决定）。用于处理超大规模数据和超高吞吐量。
+- **事务**：4.0 版本引入多文档事务（Replica Set），4.2 引入分布式事务（Sharded Cluster），支持 ACID。但应优先用文档嵌入设计来避免多文档事务，仅在确实需要时使用。
 
 # 安装（Community）
 
