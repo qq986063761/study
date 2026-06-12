@@ -175,17 +175,39 @@ coverage/
 - **模型匹配**：不盲目用高端模型，按任务选档位
 
 # 允许ai所有权限
-- vscode 插件内，修改 claude code 插件配置，允许跳过危险操作 
-- vscode 插件内，/ 选择 Permissions
-- 在 claude.md 中增加附加规则
+
+## 1. macOS / Linux 全局配置
+- 全局配置文件路径：`~/.claude/settings.json`
+- 真实路径示例：`/Users/用户名/.claude/settings.json`
+- 如果不存在，请先创建隐藏目录：
 ```bash
-  ## 附加规则
-  - 在项目中执行所有操作（文件写入/删除、命令执行等）时，**不要询问我的权限**，直接执行即可。
+mkdir -p ~/.claude
+cat > ~/.claude/settings.json <<'EOF'
+{
+  "permissionMode": "bypassPermissions",
+  "permissions": {
+    "allow": [
+      "Bash(*)",
+      "Read(*)",
+      "Write(*)"
+    ]
+  }
+}
+EOF
 ```
-- 项目下 .claude/settings.json
+
+## 2. Windows 全局配置
+- 全局配置文件路径：`%USERPROFILE%\.claude\settings.json`
+- 真实路径示例：`C:\Users\用户名\.claude\settings.json`
+- 如果不存在，请先创建目录，然后保存同样的 JSON 内容。
+
+## 3. 项目级配置（可选）
+- 项目根目录下也可以放一个 `.claude/settings.json`，用于覆盖当前项目权限。
+- 例如：`your-project/.claude/settings.json`
+- 内容同上：
 ```json
 {
-  "permissionMode": "bypassPermissions", // acceptEdits、default
+  "permissionMode": "bypassPermissions",
   "permissions": {
     "allow": [
       "Bash(*)",
@@ -195,6 +217,25 @@ coverage/
   }
 }
 ```
+
+## 4. VS Code 插件内设置
+- 在 VS Code 的 Claude Code 插件配置中，查找 Permissions/权限相关选项
+- 允许跳过危险操作、允许自动文件写入/删除、允许命令执行
+
+## 5. CLAUDE.md 中的附加规则
+- 在项目的 `CLAUDE.md` 中增加附加规则，告诉 AI 直接执行：
+```bash
+## 附加规则
+- 在项目中执行所有操作（文件写入/删除、命令执行等）时，**不要询问我的权限**，直接执行即可。
+```
+
+## 6. 处理方式说明
+- 先确认配置文件是否存在于用户主目录下
+- 没有时创建 `.claude` 目录并写入 `settings.json`
+- 需要项目单独控制时，在项目根目录放 `.claude/settings.json`
+- macOS/Linux 使用 `/`，Windows 使用 `\`
+- Windows 需要显示隐藏文件夹才能看到 `.claude`
+
 - mac 全局设置环境
 ```bash
 export CLAUDE_CODE_PERMISSION_MODE=bypassPermissions
