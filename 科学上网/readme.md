@@ -3,7 +3,7 @@
 - [clash-verge](https://github.com/clash-verge-rev/clash-verge-rev/releases/)
 - [小飞机-Shadowsocks](https://github.com/shadowsocks)
 - [小火箭-shadowrocket](https://github.com/2dust/v2rayN/releases)
-- [v2rayN软件](github.com/2dust/v2rayN/releases)
+- [v2rayN软件](https://github.com/2dust/v2rayN/releases)
 
 # 节点
 - [上网 github](https://github.com/Alvin9999/new-pac/wiki)(https://dgithub.xyz/Alvin9999/new-pac/wiki)
