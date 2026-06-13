@@ -5,5 +5,6 @@
 - [小火箭-shadowrocket](https://github.com/2dust/v2rayN/releases)
 - [狗狗加速](https://user.665353.xyz/)
 - [上网 追风岛](https://zfd.369.cyou)(https://gozhuifeng.club/)(https://www.gozhuifeng.club/)
+- [追风岛上的买号推广](https://shop.bishojono1.com/)
 - [ikuuu](https://ikuuu.org/)
 - [NCloud](https://xn--cloud-cl5i.net/)
