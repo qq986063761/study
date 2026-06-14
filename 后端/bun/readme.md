@@ -61,3 +61,7 @@
 - `bun patch <pkg>` — 为依赖打补丁（patch-package 替代方案）
 - `bun why <pkg>` — 查看某个包为什么被安装（依赖路径分析）
 - `bun which <cmd>` — 查找命令的路径
+
+
+# vscode 插件
+- Bun Scripts：bun脚本执行快捷视图
