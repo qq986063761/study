@@ -27,6 +27,8 @@
 - `bun pm cache` — 查看包缓存信息
 - `bun pm cache rm` — 清除包缓存
 - `bun publish` — 发布包到 npm 仓库
+- `bun config get registry` — 查看当前镜像源
+- `bun config set registry <url>` — 设置新的镜像源
 
 ## 运行与开发
 - `bun run <script>` — 运行 package.json 中的脚本（`bun run` 可省略，直接用 `bun <script>`）
