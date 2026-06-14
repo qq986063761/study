@@ -1,3 +1,6 @@
+# 安装
+- node安装：npm install pm2 -g
+
 # 命令
 - 启动进程：pm2 start 进程名 --watch
 - 查看当前进程列表： pm2 ls
