@@ -1,6 +1,5 @@
 # 资源
 - [官网](https://nginx.org/en/download.html)
-- [最全中文配置](https://mp.weixin.qq.com/s/wazMIWkrBLeAUSM9ZYaYBg)
 - [慕课网https本地证书生成命令github](https://gist.github.com/Jokcy/5e73fd6b2a9b21c142ba2b1995150808)；
 - 本地证书生成：openssl req -x509 -newkey rsa:2048 -nodes -sha256 -keyout localhost-privkey.pem -out localhost-cert.pem；
 
