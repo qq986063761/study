@@ -5,3 +5,4 @@
 - [viewer.js](https://fengyuanchen.github.io/viewerjs/)
 - [pdf.js](https://mozilla.github.io/pdf.js/examples/)
 - [file-viewer](https://www.npmjs.com/package/file-viewer)
+- [Open File Viewer](https://open-file-viewer-workspace.void.app/Github)(https://github.com/xushanpei/open-file-viewer)(https://www.npmjs.com/package/@open-file-viewer/core)
