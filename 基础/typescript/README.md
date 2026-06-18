@@ -168,3 +168,83 @@ function isCat(animal: Cat | Dog): animal is Cat {
 // 使用后 if (isCat(animal)) 分支内 animal 自动缩窄为 Cat，ts 不会报错，animal is Cat 告诉 ts 通过就返回就确认是 Cat 了，不然就要手动用 animal as Cat 明确具体类型
 ```
 
+# 常用 Utility Types 有哪些？
+- `Partial<T>`：把所有属性变成可选。
+- `Required<T>`：把所有属性变成必选。
+- `Readonly<T>`：把所有属性变成只读。
+- `Record<Keys, Type>`：构造一个属性名为 Keys，值为 Type 的对象类型。
+- `Pick<T, K>`：选择 T 的部分属性。
+- `Omit<T, K>`：从 T 中排除部分属性。
+- `Exclude<T, U>`：从联合类型 T 中排除可以赋值给 U 的成员。
+- `Extract<T, U>`：从联合类型 T 中提取可以赋值给 U 的成员。
+- `NonNullable<T>`：剔除 null 和 undefined。
+- `ReturnType<T>`：获取函数类型的返回值类型。
+- `Parameters<T>`：获取函数类型的参数类型元组。
+- `Awaited<T>`：获取 Promise 解包后的类型。
+
+# 如何做 API 类型约束？
+- 使用接口或类型定义请求参数与返回结果，避免接口改动后前端代码报错。
+```ts
+interface User {
+  id: number;
+  name: string;
+}
+interface ApiResponse<T> {
+  code: number;
+  data: T;
+}
+
+function fetchJson<T>(url: string): Promise<ApiResponse<T>> {
+  return fetch(url).then(res => res.json());
+}
+
+async function getUser(id: number) {
+  const res = await fetchJson<User>(`/api/user/${id}`);
+  return res.data;
+}
+```
+- `keyof` 和 `extends` 可用于实现通用表单/选项类型约束。
+
+# 怎样实现前后端类型共享？
+- 常见方案：`shared` 包、`npm workspace`、`monorepo`、`git submodule`，把接口类型抽取到公共库中。
+- 通过 `type` / `interface` 共享 DTO，前端直接复用后端接口声明，减少接口文档不一致问题。
+- 生成方案：OpenAPI / Swagger 生成 TypeScript 类型、`zod` schema 生成类型、`ts-morph` 或 `quicktype`。
+- 编译产物：在前端项目中把共享类型目录加入 `tsconfig.json` 的 `include` 或 `paths`。
+
+# TypeScript 的自动推导是怎样的？
+- TS 可以从变量初始化、函数返回值、泛型参数、上下文类型推导出具体类型，减少显式书写。
+- `as const` 可以让字面量保持更窄的类型，常用于动作类型、状态值等。
+- `satisfies` 可以在保持具体类型的同时验证对象满足某个类型约束。
+```ts
+const action = {
+  type: 'increment',
+  payload: 1,
+} as const;
+
+const config = {
+  timeout: 5000,
+  mode: 'production',
+} satisfies Record<string, number | string>;
+```
+- `infer` + 条件类型常用于实现自动推导工具类型，例如从函数类型提取参数或返回值。
+
+# 怎样使用 schema 校验（zod）？
+- `zod` 是一个 TypeScript 优先的运行时模式验证库，既做运行时校验，也能生成类型。
+- 推荐做法：把 `zod` schema 作为接口声明的来源，避免类型和校验逻辑分离。
+```ts
+import { z } from 'zod';
+
+const UserSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  email: z.string().email(),
+});
+
+type User = z.infer<typeof UserSchema>;
+
+function parseUser(data: unknown) {
+  return UserSchema.parse(data);
+}
+```
+- `zod` 可用于前端表单校验、后端请求/响应验证、Shared schema 生成通用类型。
+

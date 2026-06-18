@@ -22,6 +22,18 @@ source ~/.zshrc
 
 # 获取 homebrew 源配置
 - brew config
+- 查看当前 Homebrew 源地址并判断是否为清华源：
+  ```bash
+  brew config | grep -E 'HOMEBREW_(BREW|CORE)_GIT_REMOTE|Homebrew/brew|Homebrew/homebrew-core'
+  ```
+- 如果你想直接判断清华源 / 官方源：
+  ```bash
+  brew config | grep -E 'HOMEBREW_BREW_GIT_REMOTE|HOMEBREW_CORE_GIT_REMOTE' | sed -E 's#(https://github.com/Homebrew|https://mirrors.tuna.tsinghua.edu.cn/Homebrew)#\1#'
+  ```
+  # 或更直观的脚本：
+  ```bash
+  brew config | awk '/HOMEBREW_BREW_GIT_REMOTE|HOMEBREW_CORE_GIT_REMOTE/ {print $0}'
+  ```
 
 # 卸载 homebrew
 - 官方卸载脚本（推荐）：`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)"`
