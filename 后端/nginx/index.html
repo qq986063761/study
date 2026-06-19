@@ -12,19 +12,19 @@
   <h1>欢迎来到nginx</h1>
 
   <script>
-    var req = new XMLHttpRequest();
-    // http://193.112.86.221:3000/
-    // http://localhost:3000/
-    req.open('post', 'http://localhost:3000/', true);
-    req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
-    req.send(null);
+    // var req = new XMLHttpRequest();
+    // // http://193.112.86.221:3000/
+    // // http://localhost:3000/
+    // req.open('post', 'http://localhost:3000/', true);
+    // req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
+    // req.send(null);
 
-    req.onreadystatechange = function () {
-      console.log(this);
-      if (this.status === 200) {
-        document.body.innerText = this.responseText;
-      }
-    };
+    // req.onreadystatechange = function () {
+    //   console.log(this);
+    //   if (this.status === 200) {
+    //     document.body.innerText = this.responseText;
+    //   }
+    // };
   </script>
 </body>
 
