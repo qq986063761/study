@@ -1,7 +1,15 @@
-# 资源
+# ai号
+- [买ai号](https://uufaka.com/shop/V1M7UAYO)(https://zzshu.com/)
+- [买openAI](https://eylink.cn/)
+- [买chatgpt](http://shop.isving.cn/)
+
+# 中转
 - [ai中转平台](https://www.helpaio.com/transit)
 - [micu ai 中转](https://www.micuapi.ai/)(不翻墙 https://api-slb.micuapi.ai)
+- [yuzapi](https://image.yuzapi.fun/)(https://yuzapi.fun/login)(https://pay.ldxp.cn/shop/O6E79ERA)
 - [cc-switch](https://github.com/farion1231/cc-switch/blob/main/README_ZH.md)
+
+# skills
 - [skills排名](https://skillsplayground.com/)
 - [andrej-karpathy-skills](https://github.com/forrestchang/andrej-karpathy-skills)
 - [antfu/skillls](https://github.com/antfu/skills)
@@ -10,11 +18,9 @@
 - [mattpocock/skills](https://github.com/mattpocock/skills)
 - [oh-my-claudecode](https://github.com/Yeachan-Heo/oh-my-claudecode/blob/main/README.zh.md)
 - [vue2常用最佳实践](https://learnvue.co/articles/vue-best-practices)
+
+# 其他资料
 - [群友分享ai应用学习资料](https://pan.baidu.com/s/1wXs0qUfT9jJ5etY4RUVMdA?login_type=weixin&_at_=1775101276551#list/path=%2F) 百度网盘链接，密码：w97g
-- [买ai号](https://uufaka.com/shop/V1M7UAYO)(https://zzshu.com/)
-- [买openAI](https://eylink.cn/)
-- [买chatgpt](http://shop.isving.cn/)
-- [yuzapi](https://image.yuzapi.fun/)(https://yuzapi.fun/login)(https://pay.ldxp.cn/shop/O6E79ERA)
 
 # ai 编程工具
 - vscode + ai插件
