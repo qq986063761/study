@@ -1,5 +1,5 @@
 # ai号
-- [买ai号](https://uufaka.com/shop/V1M7UAYO)(https://zzshu.com/)
+- [买ai号](https://zzshu.com/)(https://uufaka.com/shop/V1M7UAYO)
 - [买openAI](https://eylink.cn/)
 - [买chatgpt](http://shop.isving.cn/)
 
