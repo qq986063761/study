@@ -1,3 +1,6 @@
+# 其他
+- [国外虚拟卡](https://yeka.ai/)
+
 # 软件
 - [国内访问下载软件](https://dl.p6p.net/)
 - [clash-verge](https://github.com/clash-verge-rev/clash-verge-rev/releases/)

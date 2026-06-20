@@ -9,7 +9,6 @@
 - [在线画流程图 processon](https://www.processon.com/)
 - [css 兼容性](https://caniuse.com/)
 - [码上掘金，写代码片段](https://code.juejin.cn/)
-- [买国外虚拟卡](https://yeka.ai/)
 - [爬虫-易采集](https://github.com/NaiboWang/EasySpider)
 - [在线抠图](https://www.remove.bg/zh)(https://www.canva.cn/)
 - [学习路线图](https://roadmap.sh/)
