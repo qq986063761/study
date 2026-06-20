@@ -80,6 +80,7 @@
 
 - `docker run [选项] 镜像 [命令]`：创建并启动容器  
   - 常用：`-d` 后台；`-p 宿主机端口:容器端口` 端口映射；`--name 名字`；`-v 宿主机路径:容器路径` 挂载卷；`--rm` 退出后自动删除
+  - 运行容器 docker run -it ubuntu bash
 - `docker ps`：运行中的容器；`-a` 含已退出
 - `docker start 容器` / `docker stop 容器` / `docker restart 容器`
 - `docker logs 容器`：查看日志；`-f` 跟随输出
