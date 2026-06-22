@@ -18,14 +18,44 @@
 
 ## macOS / Windows（学习、日常开发最常见）
 
+### Windows 用户（先做这一步）
+
+1. 先安装并启用 WSL 2：在 **PowerShell** 或 **CMD** 中执行 `wsl --install`。
+2. 如果系统提示重启，重启后再继续。
+3. 重新打开终端后，执行 `wsl --status`，确认 WSL 已正常安装并运行。
+4. 再安装 **Docker Desktop**：[下载页面](https://www.docker.com/products/docker-desktop/)。
+5. 打开 Docker Desktop，按提示完成初始化；菜单栏图标就绪即表示引擎在运行。
+6. 终端执行 `docker version`，应能看到 **Client** 与 **Server** 信息（Server 不可用多半是 Desktop 未启动）。
+
+### macOS 用户
+
 1. 安装 **Docker Desktop**：[下载页面](https://www.docker.com/products/docker-desktop/)。
-2. 安装后打开应用，按提示完成初始化；菜单栏图标就绪即表示引擎在运行。
+2. 打开 Docker Desktop，按提示完成初始化；菜单栏图标就绪即表示引擎在运行。
 3. 终端执行 `docker version`，应能看到 **Client** 与 **Server** 信息（Server 不可用多半是 Desktop 未启动）。
 
-## Linux（服务器或原生 Linux 桌面）
+## Linux（服务器）
 
-- 按发行版使用官方文档安装 **Docker Engine**（包名常见为 `docker-ce`），不要用已废弃的 `docker.io` 旧包名混用（以当前官方文档为准）。
-- 将用户加入 `docker` 组可避免每次 `sudo docker`（按文档操作，注意安全边界）。
+- 在 Linux 服务器上，通常直接安装 **Docker Engine**，而不是 Docker Desktop。
+- 建议按发行版官方文档走官方仓库安装，例如 Ubuntu/Debian、CentOS/RHEL、Fedora 等。
+- 常见安装命令示例：
+
+  ```bash
+  # Ubuntu / Debian
+  sudo apt-get update
+  sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+  # CentOS / RHEL / Fedora
+  sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+  ```
+
+- 安装完成后启动服务并验证：
+
+  ```bash
+  sudo systemctl enable --now docker
+  sudo docker version
+  ```
+
+- 如果需要，可以把当前用户加入 `docker` 组，避免每次都加 `sudo`。
 
 ## 安装后自检
 
@@ -50,6 +80,7 @@
 
 - `docker run [选项] 镜像 [命令]`：创建并启动容器  
   - 常用：`-d` 后台；`-p 宿主机端口:容器端口` 端口映射；`--name 名字`；`-v 宿主机路径:容器路径` 挂载卷；`--rm` 退出后自动删除
+  - 运行容器 docker run -it ubuntu bash
 - `docker ps`：运行中的容器；`-a` 含已退出
 - `docker start 容器` / `docker stop 容器` / `docker restart 容器`
 - `docker logs 容器`：查看日志；`-f` 跟随输出

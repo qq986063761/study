@@ -1,7 +1,15 @@
-# 资源
+# ai号
+- [买ai号](https://zzshu.com/)(https://uufaka.com/shop/V1M7UAYO)
+- [买openAI](https://eylink.cn/)
+- [买chatgpt](http://shop.isving.cn/)
+
+# 中转
 - [ai中转平台](https://www.helpaio.com/transit)
 - [micu ai 中转](https://www.micuapi.ai/)(不翻墙 https://api-slb.micuapi.ai)
+- [yuzapi](https://image.yuzapi.fun/)(https://yuzapi.fun/login)(https://pay.ldxp.cn/shop/O6E79ERA)
 - [cc-switch](https://github.com/farion1231/cc-switch/blob/main/README_ZH.md)
+
+# skills
 - [skills排名](https://skillsplayground.com/)
 - [andrej-karpathy-skills](https://github.com/forrestchang/andrej-karpathy-skills)
 - [antfu/skillls](https://github.com/antfu/skills)
@@ -10,11 +18,9 @@
 - [mattpocock/skills](https://github.com/mattpocock/skills)
 - [oh-my-claudecode](https://github.com/Yeachan-Heo/oh-my-claudecode/blob/main/README.zh.md)
 - [vue2常用最佳实践](https://learnvue.co/articles/vue-best-practices)
+
+# 其他资料
 - [群友分享ai应用学习资料](https://pan.baidu.com/s/1wXs0qUfT9jJ5etY4RUVMdA?login_type=weixin&_at_=1775101276551#list/path=%2F) 百度网盘链接，密码：w97g
-- [买ai号](https://uufaka.com/shop/V1M7UAYO)(https://zzshu.com/)
-- [买openAI](https://eylink.cn/)
-- [买chatgpt](http://shop.isving.cn/)
-- [yuzapi](https://image.yuzapi.fun/)(https://yuzapi.fun/login)(https://pay.ldxp.cn/shop/O6E79ERA)
 
 # ai 编程工具
 - vscode + ai插件
@@ -27,6 +33,105 @@
 - 输入后端给我的接口文档
 - 截图设计发的图给ai
 - claude code、cursor、codex 发送
+
+# AI 应用开发的真实顺序（先学什么、做什么）
+
+很多人会把这几个概念混在一起，其实它们的工作位置不同：
+
+## 一句话理解
+- **LangChain App**：把 AI 变成能接系统、能调工具的应用
+- **ReAct App**：让 AI 能边想边做、自动调用工具
+- **Plan-and-Execute App**：让 AI 先规划，再按步骤执行复杂任务
+- **PyTorch App**：不是应用层，而是训练/微调模型的底层能力
+
+## 真实岗位里的学习顺序
+
+### 1. 先学 LLM + Prompt + API 调用
+这是基础。你先要知道：
+- 模型怎么调用
+- 如何写 prompt
+- 如何拿到输出
+- 如何处理流式结果
+
+> 这是所有 AI 应用的底座。
+
+### 2. 再学 LangChain（或类似框架）
+这是最接近“真实 AI 应用开发”的第一层。
+
+**作用**：
+- 连接数据库、文档、接口
+- 组织 prompt
+- 做工具调用与链路编排
+
+**工作中常见场景**：
+- 企业知识库问答
+- 内部客服机器人
+- 表单处理、数据分析助手
+
+### 3. 再学 ReAct Agent
+当你要让 AI 不只是“回答”，而是“能动手做事”时，就进到 Agent。
+
+**作用**：
+- 先思考
+- 再决定调用哪个工具
+- 看结果后继续行动
+
+**工作中常见场景**：
+- 自动查资料
+- 自动跑脚本
+- 自动分析数据
+- 写代码 / debug / 跑测试的开发助手
+
+### 4. 再学 Plan-and-Execute
+当任务比较复杂、要拆成多步时，就用这个模式。
+
+**作用**：
+- 先列计划
+- 再一步一步执行
+- 有必要时重做计划
+
+**工作中常见场景**：
+- 自动生成报告
+- 做市场分析
+- 自动整理研究材料
+- 复杂的工作流系统
+
+### 5. 最后再看 PyTorch
+PyTorch 不属于“应用层”，而是“模型层”。
+
+**作用**：
+- 训练模型
+- 微调模型
+- 做自定义算法能力
+
+**工作中常见场景**：
+- 自研模型
+- 特定行业微调
+- 风控、推荐、视觉等模型开发
+
+## 四个技术的关系
+
+| 技术 | 主要定位 | 你可以理解成 | 典型用途 |
+|------|----------|--------------|----------|
+| LangChain App | 应用编排层 | 连接系统的“胶水” | 知识库、客服、工具调用 |
+| ReAct App | Agent 决策层 | 会边想边做的助手 | 自动分析、自动执行任务 |
+| Plan-and-Execute App | 复杂任务流程层 | 先规划再执行的工作流 | 自动汇报、复杂研究任务 |
+| PyTorch App | 模型训练层 | AI 大脑的底层能力 | 微调、训练、模型开发 |
+
+## 在真实工作里怎么组合
+
+一个实际产品通常不是只用一个：
+
+- **Plan-and-Execute**：先拆任务
+- **ReAct**：决定怎么调用工具
+- **LangChain**：接入数据库、文档、API
+- **PyTorch**：如果需要自研模型，再用它训练/微调
+
+## 你可以这样记
+- **LangChain**：让 AI 能接系统
+- **ReAct**：让 AI 能做判断
+- **Plan-and-Execute**：让 AI 能做复杂流程
+- **PyTorch**：让 AI 能真正训练出能力
 
 # command、rules、skills
 

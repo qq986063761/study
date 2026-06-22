@@ -62,6 +62,63 @@
 # scope hoisting
 - 将所有模块代码按引用顺序，多次引用的相同模块会放在同一个函数作用域中，然后合理重命名变量避免变量冲突；这样可以减少函数声明代码和内存开销
 
+# Code Splitting（代码拆分）
+- 入口拆分：多个 `entry` 会生成多个入口 bundle，适合多页面应用。
+- 动态导入拆分：`import('./detail')` 会生成异步 chunk，适合路由、弹窗、图表、富文本等非首屏模块。
+- 公共依赖拆分：`optimization.splitChunks` 可把第三方库、公共业务模块抽成独立 chunk，提高缓存命中。
+- 运行时代码拆分：`optimization.runtimeChunk` 把 webpack runtime 单独抽出，减少业务 chunk hash 变化。
+
+```js
+module.exports = {
+  optimization: {
+    runtimeChunk: 'single',
+    splitChunks: {
+      chunks: 'all',
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendor',
+          priority: 10
+        }
+      }
+    }
+  }
+}
+```
+
+# 懒加载
+- 懒加载本质是动态 `import()`，Webpack 会把被导入模块编译成单独 chunk。
+- 常见在前端路由里使用：进入某个路由时才下载对应页面代码。
+- 可以用魔法注释指定 chunk 名称：
+```js
+const UserPage = () => import(/* webpackChunkName: "user" */ './UserPage')
+```
+- 懒加载适合降低首屏体积，但过度拆分会造成请求过多，需要结合性能数据判断。
+
+# Source Map
+- Source Map 用来把压缩后的线上代码映射回源码，方便定位报错行列。
+- 开发环境常用 `eval-cheap-module-source-map`，构建快、定位够用。
+- 生产环境可用 `source-map` 或 `hidden-source-map`；后者生成 map 但不暴露引用，适合上传到错误监控平台后删除。
+- 不建议把包含源码的 `.map` 文件直接公开到生产静态目录，可能泄露业务代码。
+
+# 环境变量管理
+- `mode` 会影响 `process.env.NODE_ENV`，常见值是 `development`、`production`。
+- `DefinePlugin` 可以在编译期把变量替换成字面量，注意它不是运行时读取环境变量。
+- 跨平台设置命令行环境变量可用 `cross-env`：
+```json
+{
+  "scripts": {
+    "build:test": "cross-env APP_ENV=test webpack --mode production"
+  }
+}
+```
+- 多环境配置常见做法：`.env.development`、`.env.production` 配合 `dotenv` / `dotenv-webpack`，再区分接口地址、publicPath、埋点开关。
+
+# Loader 和 Plugin 区别
+- Loader 面向单个或一类模块做转换，例如把 TS、CSS、图片转换成 Webpack 能识别的模块。
+- Plugin 基于 Webpack 生命周期扩展能力，例如生成 html、清理 dist、抽离 CSS、定义环境变量、分析产物。
+- 面试表达：Loader 是“文件转换器”，Plugin 是“构建流程扩展器”。
+
 # api
 - 检索文件 require.context
 

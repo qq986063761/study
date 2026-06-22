@@ -17,6 +17,21 @@
 - 冻结 lockfile（CI 常用）：`pnpm install --frozen-lockfile`
 - 离线优先：`pnpm install --offline`
 
+## package.json 依赖类型
+
+- `dependencies`：运行时依赖，代码上线后仍然需要，例如 `vue`、`axios`、`express`。
+- `devDependencies`：开发和构建时依赖，线上运行不直接需要，例如 `vite`、`webpack`、`typescript`、`eslint`。
+- `peerDependencies`：声明“我需要宿主项目提供这个包”，常见于组件库、插件库，例如 Vue 组件库声明 `vue` 为 peer dependency，避免重复安装多个 Vue。
+- `optionalDependencies`：可选依赖，安装失败不一定阻塞项目，常见于跨平台能力增强。
+- 面试点：业务项目主要区分运行时和开发时；类库项目要重点关注 `peerDependencies`，否则容易把框架重复打进产物。
+
+## lockfile
+
+- pnpm 的锁文件是 `pnpm-lock.yaml`，记录依赖的精确版本、完整依赖树和解析地址。
+- lockfile 能保证多人协作、CI/CD、线上构建安装到一致的依赖版本。
+- CI 中建议使用 `pnpm install --frozen-lockfile`，如果 `package.json` 和 lockfile 不一致就直接失败，避免隐式更新依赖。
+- 不建议随意删除 lockfile；只有依赖树异常、迁移包管理器、或明确要重新解析依赖时才考虑重建。
+
 ## 增删依赖
 
 - 安装依赖：`pnpm add <包名>`（开发依赖：`pnpm add -D <包名>`，全局：`pnpm add -g <包名>`）
@@ -50,6 +65,24 @@
 - 根目录执行所有子包脚本：`pnpm -r run <脚本名>`
 - 只对某个包执行：`pnpm --filter <包名或路径> <命令>`（简写 `-F`）
 - 给 workspace 中某包加依赖：`pnpm add <包名> --filter <子包名>`
+- workspace 内部包互相依赖可以使用 `workspace:*`，保证链接到本仓库内的包，而不是从 npm 下载同名包。
+
+```yaml
+# pnpm-workspace.yaml
+packages:
+  - 'apps/*'
+  - 'packages/*'
+```
+
+```json
+{
+  "dependencies": {
+    "@repo/utils": "workspace:*"
+  }
+}
+```
+
+- 面试点：pnpm workspace 解决的是“多包依赖安装和本地链接”，Turborepo / Nx 解决的是“多包任务编排、缓存和受影响范围计算”。
 
 ## 链接与发布
 

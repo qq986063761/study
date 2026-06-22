@@ -219,8 +219,8 @@ EOF
 ```
 
 ## 4. VS Code 插件内设置
+- vscode 插件设置：Claude Code: Initial Permission Mode
 - 在 VS Code 的 Claude Code 插件配置中，查找 Permissions/权限相关选项
-- 允许跳过危险操作、允许自动文件写入/删除、允许命令执行
 
 ## 5. CLAUDE.md 中的附加规则
 - 在项目的 `CLAUDE.md` 中增加附加规则，告诉 AI 直接执行：

@@ -36,59 +36,6 @@ nginx 采用 Master/Worker 进程模型：
 - 非阻塞 I/O
 - 通过模块化设计实现功能扩展
 
-# 配置示例
-
-以下是一个常见的 `http` 配置示例，包含缓存、gzip、HTTP->HTTPS 重定向、HTTPS、跨域和反向代理：
-
-```nginx
-http {
-    # 配置缓存区域
-    proxy_cache_path cache levels=1:2 keys_zone=my_cache:10m;
-
-    # gzip 压缩
-    gzip on;
-    gzip_types text/plain application/x-javascript application/javascript text/css application/xml text/javascript application/x-httpd-php image/jpeg image/gif image/png;
-
-    # 默认 HTTP 服务，重定向到 HTTPS
-    server {
-        listen 80 default_server;
-        listen [::]:80 default_server;
-        server_name localhost;
-        return 302 https://$host$request_uri;
-    }
-
-    server {
-        listen 443 ssl http2;
-        server_name localhost;
-        http2_push_preload on;
-
-        # 添加响应头
-        add_header Access-Control-Allow-Origin *;
-
-        # HTTPS 证书
-        ssl_certificate_key ./localhost-privkey.pem;
-        ssl_certificate ./localhost-cert.pem;
-
-        location / {
-            # 跨域预检请求处理
-            if ($request_method = 'OPTIONS') {
-                add_header Access-Control-Allow-Origin *;
-                add_header Access-Control-Allow-Methods "GET,POST,PUT,DELETE,OPTIONS";
-                add_header Access-Control-Allow-Headers "Authorization,Content-Type";
-                return 204;
-            }
-
-            proxy_cache my_cache;
-            proxy_pass http://127.0.0.1:8888;
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-        }
-    }
-}
-```
-
 # 安装指南
 
 ## macOS 安装
@@ -145,18 +92,6 @@ sudo /usr/local/nginx/sbin/nginx -s stop
 默认配置文件：
 - `C:\nginx\conf\nginx.conf`
 
-停止 nginx：
-
-```powershell
-nginx -s stop
-```
-
-重新加载配置：
-
-```powershell
-nginx -s reload
-```
-
 ### 2. WSL 安装（可选）
 
 如果你使用 Windows 子系统 Linux（WSL），可以在 WSL 内安装 nginx：
@@ -167,17 +102,60 @@ sudo apt install nginx
 sudo service nginx start
 ```
 
-## 常见检查命令
+## 常见命令
+
+### 1. 查看版本和帮助
 
 ```bash
-nginx -v
-nginx -V
-nginx -t
+nginx -v      # 仅显示版本号
+nginx -V      # 显示版本号 + 编译参数
+nginx -h      # 显示帮助信息
 ```
 
-- `nginx -v`：显示版本号。
-- `nginx -V`：显示编译参数。
-- `nginx -t`：测试配置语法。
+### 2. 测试配置和打印配置
+
+```bash
+nginx -t                  # 测试配置文件是否正确
+nginx -T                  # 测试配置并输出完整配置内容
+nginx -t -c /path/to/nginx.conf
+```
+
+### 3. 启动和停止
+
+```bash
+nginx                     # 使用默认配置启动
+nginx -c /path/to/nginx.conf   # 指定配置文件启动
+nginx -p /path/to/nginx-root   # 指定工作目录（prefix）
+nginx -s stop             # 快速停止
+nginx -s quit             # 优雅退出
+nginx -s reload           # 重新加载配置
+nginx -s reopen           # 重新打开日志文件
+```
+
+示例（Windows）：
+
+```powershell
+cd D:\Program Files\nginx-1.30.3
+nginx.exe -c conf\nginx.conf
+nginx.exe -s reload
+```
+
+### 4. 运行时参数
+
+```bash
+nginx -g "daemon off;"    # 前台运行（适合容器或调试）
+nginx -g "error_log /tmp/error.log;"
+```
+
+### 6. 命令说明
+
+- `-c`：指定配置文件路径。
+- `-p`：指定 nginx 的前缀目录（工作目录）。
+- `-g`：设置全局指令。
+- `-s`：向主进程发送信号，如 `stop`、`quit`、`reload`、`reopen`。
+- `-t`：只验证配置，不启动服务。
+- `-T`：验证配置并打印最终配置内容。
+- `-V`：查看编译配置，便于定位模块支持情况。
 
 # 参考
 
