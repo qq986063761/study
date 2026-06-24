@@ -6,3 +6,4 @@
 - [DataGrip]
 - [TablePlus]
 - [DbGate]
+- [SQLark]
