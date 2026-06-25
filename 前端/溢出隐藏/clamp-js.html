@@ -12,15 +12,15 @@
   </style>
 </head>
 <body>
-  <div id="content"></div>
+  <div class="item" id="content"></div>
 
-  <div id="content1">内容不多内容不多</div>
+  <div class="item" id="content1">内容不多内容不多</div>
 
-  <div id="content2"></div>
+  <div class="item" id="content2"></div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/clamp-js/0.7.0/clamp.min.js" integrity="sha512-Zf7q41OZ49XVIFrkbCVLkBEklVxQv4sVdMGnCwL9bfuCfA862QmAJSU61yrcrMwze7Ij7oUXpQVoUXmftBfk0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script>
-    var text = '很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容'
+    var text = '很多内容很多内容很多内容很多内容很多内<span style="color: red;">很多内容很多内容很多内容很</span>多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容<span style="color: red;">很多内容很多内容很多内容很</span>多内容很多内容很多内容很多内容很多内容很多内容很多内容很多内容'
     content.innerHTML = text
     
     content2.innerHTML = text + '<button>更多</button>'
