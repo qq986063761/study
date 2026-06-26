@@ -1,7 +1,7 @@
 # 编码规范
 [Airbnb] js 规范
 [Stylelint Standard] css 属性规范
-[BEM] css命名规范
+[BEM] css class 命名规范
 
 # 其他
 [博客搭建VitePress](https://vitepress.dev/zh/)
