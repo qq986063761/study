@@ -73,34 +73,249 @@ interface Preview2 extends Pick<Base, 'name' | 'email'> {
 > - 联合类型、工具类型、复杂类型组合优先用 `type`。
 
 # 什么是泛型？它解决了什么问题？
-- 不指明具体类型，调用时才指明，能保留具体的类型信息；
-  - 类型安全：可以避免用 any 导致类型丢失；
-  - 代码复用：同一段逻辑可支持多种类型；
+
+> 泛型可以理解成**类型的占位符**，定义时不用指定具体类型，等调用时再确定具体是什么类型。
+
+### 为什么要用泛型？
+
+* **保留类型信息**
+
+  * 避免使用 `any` 导致类型丢失。
+  * 传入什么类型，返回就是什么类型，TypeScript 能一直推导出正确的类型。
+
+* **类型安全**
+
+  * 编译阶段就能发现类型错误，减少运行时异常。
+
+* **代码复用**
+
+  * 一套逻辑支持多种类型，不需要为 `string`、`number` 等重复写相同代码。
+
+---
 
 # 怎么限制泛型必须有哪些属性？
-- 泛型中用 extends 继承接口
+
+> 泛型默认可以接收任意类型，如果希望它必须具备某些属性，可以使用 **`extends`** 进行约束。
+
 ```ts
 interface Lengthwise {
   length: number;
 }
+
 function logLength<T extends Lengthwise>(arg: T): T {
   console.log(arg.length);
   return arg;
 }
 
-logLength("abc");   // ✅
-logLength([1,2,3]); // ✅
-logLength(123);     // ❌ 类型错误，没有 length
+logLength("abc");       // ✅ string 有 length
+logLength([1, 2, 3]);   // ✅ Array 有 length
+logLength({ length: 1 });// ✅ 对象有 length
+logLength(123);         // ❌ number 没有 length
 ```
 
-# extends 能做什么
-- 接口继承：interface B extends A {}
-- 泛型约束：<T extends Record<string, unknown>>，表示 T 必须是 { string: 任何类型 } 这样的结构
-- 条件类型：T extends U ? X : Y。
+### 白话理解
 
-# keyof 作用是什么
-- 可以取出 interface 中的 key 组成联合类型
-- 可以利用 keyof 约束比如 getProp<T, K extends keyof T>(obj: T, key: K): T[K] 函数中的属性key必须在类型T中
+`extends` 就像给泛型设置了一个**门槛**：
+
+* 不加 `extends`：什么类型都能传。
+* 加了 `extends`：可以是任意类型，但**至少要满足指定的条件**。
+
+例如：
+
+```ts
+T extends Lengthwise
+```
+
+表示：
+
+> **T 不限制具体类型，但必须拥有 `length` 属性。**
+
+# extends 能做什么？
+
+> `extends` 可以理解成 **"加限制"** 或 **"设置条件"**，表示某个类型必须满足指定要求。
+
+### 它解决了什么问题？
+
+默认情况下，TypeScript 不会限制类型。
+
+如果希望：
+
+* 必须继承某个接口；
+* 泛型必须具有某些属性；
+* 根据类型不同返回不同结果；
+
+都可以使用 `extends`。
+
+---
+
+## ① 接口继承
+
+用于**复用已有接口**，避免重复定义相同属性。
+
+```ts
+interface Person {
+  name: string;
+}
+
+interface Student extends Person {
+  age: number;
+}
+```
+
+表示：
+
+> Student 拥有 Person 的所有属性，并可以扩展自己的属性。
+
+---
+
+## ② 泛型约束（最常用）
+
+用于**限制泛型必须满足某些条件**。
+
+```ts
+function fn<T extends Record<string, unknown>>(obj: T) {}
+```
+
+表示：
+
+> T 可以是任意对象，但不能是 number、string 等基本类型。
+
+再比如：
+
+```ts
+interface Lengthwise {
+  length: number;
+}
+
+function log<T extends Lengthwise>(arg: T) {}
+```
+
+表示：
+
+> T 可以是任意类型，但必须有 `length` 属性。
+
+---
+
+## ③ 条件类型
+
+根据类型不同，返回不同的结果。
+
+```ts
+type Result<T> = T extends string ? number : boolean;
+```
+
+表示：
+
+* T 是 string，返回 number。
+* 否则返回 boolean。
+
+可以理解成：
+
+> TypeScript 中的三元表达式。
+
+```ts
+条件 ? A : B
+```
+
+---
+
+### 白话理解
+
+`extends` 可以理解成：
+
+> **"可以，但要满足条件。"**
+
+例如：
+
+* 接口：可以继承，但必须拥有父接口的属性。
+* 泛型：可以传任何类型，但必须符合要求。
+* 条件类型：根据是否满足条件，决定最终类型。
+
+一句话总结：
+
+> **extends 的核心作用就是给类型加限制、加条件。**
+
+---
+
+# keyof 作用是什么？
+
+> `keyof` 可以理解成 **"取对象所有属性名"**。
+
+### 它解决了什么问题？
+
+如果直接写字符串作为属性名，很容易写错：
+
+```ts
+obj["naem"] // 拼写错误
+```
+
+TypeScript 无法提前发现。
+
+使用 `keyof` 后，可以让属性名**只能从对象已有的 key 中选择**，提高类型安全。
+
+---
+
+## ① 获取所有 key
+
+```ts
+interface User {
+  name: string;
+  age: number;
+}
+
+type Keys = keyof User;
+```
+
+得到：
+
+```ts
+type Keys = "name" | "age";
+```
+
+也就是：
+
+> 把接口中的所有属性名组成一个联合类型。
+
+---
+
+## ② 配合泛型约束（最常考）
+
+```ts
+function getProp<T, K extends keyof T>(obj: T, key: K) {
+  return obj[key];
+}
+```
+
+表示：
+
+> `key` 必须是对象 `T` 中真实存在的属性。
+
+例如：
+
+```ts
+const user = {
+  name: "Tom",
+  age: 18,
+};
+
+getProp(user, "name"); // ✅
+getProp(user, "age");  // ✅
+getProp(user, "sex");  // ❌ 不存在
+```
+
+---
+
+### 白话理解
+
+`keyof` 就像：
+
+> **把对象的所有钥匙（属性名）都取出来。**
+
+以后只能从这些钥匙里选择，而不能随便写。
+
+一句话总结：
+
+> **keyof 的核心作用就是获取对象所有属性名，并约束属性访问只能使用合法的 key，提高类型安全。**
 
 # infer 作用是什么
 - 常用来在条件类型中用作推导
