@@ -12,43 +12,44 @@
 - 避免低级错误
 
 # interface 和 type 的区别
-- 相同：都能描述对象类型，支持继承、泛型
+
+- 相同：都可以定义对象类型，都支持继承和泛型。
 - 不同：
-  - interface 支持合并，type 不支持合并会报错
-```ts
-  // ✅ interface 同名自动合并
-  interface User {
-    name: string;
-  }
-  interface User {
-    age: number;
-  }
-  // 最终 User 变成了 { name: string; age: number }
-  const u: User = { name: 'Tom', age: 18 };
+  - **interface 支持声明合并，type 不支持。**
+    > 可以理解为：interface 可以多次补充定义，type 一个名字只能定义一次。
 
-  // ❌ type 同名会报错：标识符“Product”重复
-  type Product = { title: string };
-  type Product = { price: number }; // ❌ 错误！
+```ts
+interface User {
+  name: string;
+}
+interface User {
+  age: number;
+}
+// => { name: string; age: number }
+
+type Product = { title: string };
+type Product = { price: number }; // ❌ 重复定义，报错
 ```
-  - type 能表达联合类型、元组、映射类型，interface 不能
+
+  - **type 能表示更多类型，interface 主要用于描述对象。**
+    > interface 只能定义对象结构；type 还可以表示联合类型、元组、映射类型等。
+
 ```ts
-// 1. 联合类型 —— interface 做不到
+// 联合类型
 type Status = 'loading' | 'success' | 'error';
-let s: Status = 'loading';
 
-// 2. 元组 —— interface 做不到
+// 元组
 type Point = [number, number];
-const p: Point = [10, 20];
 
-// 3. 映射类型 —— interface 做不到
-// 把一个类型的所有属性变成只读
+// 映射类型
 type Readonly<T> = {
   readonly [P in keyof T]: T[P];
 };
-type ReadonlyUser = Readonly<{ name: string; age: number }>;
-// ReadonlyUser 是 { readonly name: string; readonly age: number }
 ```
-  - type 更适合工具类型的组合，更方便
+
+  - **type 更适合组合已有类型。**
+    > 使用 Pick、Omit、Partial 等工具类型时，type 写法更简单、更常见。
+
 ```ts
 type Base = {
   name: string;
@@ -56,21 +57,20 @@ type Base = {
   email: string;
 };
 
-// ✅ type 接住 Pick，并直接交叉一个额外属性
-type Preview = Pick<Base, 'name' | 'email'> & { extra: boolean };
-const obj: Preview = { name: 'Alice', email: 'a@b.com', extra: true };
+type Preview =
+  Pick<Base, 'name' | 'email'> & {
+    extra: boolean;
+  };
 
-// ❌ interface 不能直接等于工具类型的返回值
-// 下面写法是错的：
-interface Wrong = Pick<Base, 'name' | 'email'>; // ❌ 语法错误
-
-// ✅ interface 只能 extends 继承，但无法直接做交叉联合
-interface Okay extends Pick<Base, 'name' | 'email'> {
+interface Preview2 extends Pick<Base, 'name' | 'email'> {
   extra: boolean;
 }
-// 虽然 Okay 能用，但在更复杂的类型里（比如需要交叉多个工具类型，或使用条件类型），
-// type 内联组合要方便得多。
 ```
+
+> **实际开发建议：**
+>
+> - 普通对象优先用 `interface`。
+> - 联合类型、工具类型、复杂类型组合优先用 `type`。
 
 # 什么是泛型？它解决了什么问题？
 - 不指明具体类型，调用时才指明，能保留具体的类型信息；

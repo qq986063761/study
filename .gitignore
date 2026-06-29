@@ -24,6 +24,7 @@ yarn-error.log*
 .cache/
 .turbo/
 .parcel-cache/
+.vitepress/cache/
 
 # 操作系统与编辑器
 .DS_Store
