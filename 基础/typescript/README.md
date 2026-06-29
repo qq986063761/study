@@ -46,7 +46,6 @@ type Readonly<T> = {
   readonly [P in keyof T]: T[P];
 };
 ```
-
   - **type 更适合组合已有类型。**
     > 使用 Pick、Omit、Partial 等工具类型时，type 写法更简单、更常见。
 
@@ -71,6 +70,230 @@ interface Preview2 extends Pick<Base, 'name' | 'email'> {
 >
 > - 普通对象优先用 `interface`。
 > - 联合类型、工具类型、复杂类型组合优先用 `type`。
+
+
+# 联合类型（`|`）和交叉类型（`&`）
+
+## 联合类型（`|`）
+
+> 联合类型表示**一个值可以是多种类型中的任意一种**。
+
+### 它解决了什么问题？
+
+实际开发中，一个变量并不一定只有一种类型。
+
+例如：
+
+* 接口返回的数据可能成功，也可能失败。
+* 输入框的值可能是 `string`，也可能是 `number`。
+* 函数参数可以接收多种类型。
+
+这时候就不用使用 `any`，而是使用联合类型。
+
+```ts
+let value: string | number;
+
+value = "Tom";
+value = 18;
+```
+
+### 白话理解
+
+可以理解成：
+
+> **满足其中任意一种类型即可。**
+
+例如：
+
+```ts
+string | number
+```
+
+表示：
+
+> **要么是 `string`，要么是 `number`。**
+
+使用时通常需要配合类型守卫判断：
+
+```ts
+function print(value: string | number) {
+  if (typeof value === "string") {
+    console.log(value.toUpperCase());
+  } else {
+    console.log(value.toFixed(2));
+  }
+}
+```
+
+---
+
+## 交叉类型（`&`）
+
+> 交叉类型表示**把多个类型合并成一个类型**。
+
+### 它解决了什么问题？
+
+有时候希望一个对象同时拥有多个类型的属性。
+
+例如：
+
+```ts
+interface Person {
+  name: string;
+}
+
+interface Worker {
+  salary: number;
+}
+
+type Employee = Person & Worker;
+```
+
+得到：
+
+```ts
+type Employee = {
+  name: string;
+  salary: number;
+}
+```
+
+这样：
+
+```ts
+const emp: Employee = {
+  name: "Tom",
+  salary: 10000,
+};
+```
+
+### 白话理解
+
+可以理解成：
+
+> **必须同时满足所有类型。**
+
+例如：
+
+```ts
+Person & Worker
+```
+
+表示：
+
+> **既是 `Person`，也是 `Worker`。**
+
+---
+
+### 一句话总结
+
+* **`|`（联合类型）**：满足其中一种类型即可。
+* **`&`（交叉类型）**：必须同时满足所有类型。
+
+---
+
+# 什么是类型断言（`as`）？
+
+> 类型断言可以理解成 **"告诉 TypeScript：这个值是什么类型，我比你更清楚。"**
+
+### 它解决了什么问题？
+
+有时候 TypeScript 无法准确推导变量的类型，但开发者已经知道它的真实类型。
+
+这时可以使用 `as` 明确告诉 TypeScript。
+
+例如：
+
+```ts
+const el = document.querySelector("#app");
+```
+
+TS 推导：
+
+```ts
+Element | null
+```
+
+但实际上：
+
+我们知道它一定是：
+
+```ts
+HTMLDivElement
+```
+
+可以写：
+
+```ts
+const div = el as HTMLDivElement;
+```
+
+这样：
+
+```ts
+div.innerHTML = "Hello";
+```
+
+就不会报类型错误。
+
+---
+
+### 什么时候会用到？
+
+常见场景：
+
+* DOM 元素获取
+* 类型守卫无法推导时
+* 第三方库类型不准确
+* 开发者比 TypeScript 更清楚变量类型
+
+例如：
+
+```ts
+const input = document.querySelector("#username") as HTMLInputElement;
+input.value = "Tom";
+```
+
+---
+
+### 白话理解
+
+可以理解成：
+
+> **TypeScript 不确定它是什么类型，而你确定，所以主动告诉它。**
+
+需要注意：
+
+> **`as` 只影响 TypeScript 的类型检查，不会修改运行时的数据。**
+
+例如：
+
+```ts
+const num = "123" as unknown as number;
+```
+
+运行时：
+
+```ts
+console.log(num);
+```
+
+输出仍然是：
+
+```txt
+123
+```
+
+它不会真的变成数字。
+
+---
+
+### 一句话总结
+
+> **`as` 的作用是手动指定变量的类型，让 TypeScript 按照指定的类型进行检查，但不会改变变量真正的数据类型。**
+
+> 什么时候不用 as：**能让 TypeScript 自动推导时，就不要使用 `as`；只有当 TypeScript 无法正确推导，而开发者明确知道实际类型时，再使用 `as`。过度使用 `as` 会绕过类型检查，降低 TypeScript 的类型安全。**
+
 
 # 什么是泛型？它解决了什么问题？
 
@@ -317,93 +540,598 @@ getProp(user, "sex");  // ❌ 不存在
 
 > **keyof 的核心作用就是获取对象所有属性名，并约束属性访问只能使用合法的 key，提高类型安全。**
 
-# infer 作用是什么
-- 常用来在条件类型中用作推导
+# infer 作用是什么？
+
+> `infer` 可以理解成 **"自动提取类型"**，通常配合条件类型使用。
+
+### 它解决了什么问题？
+
+有时候我们知道一个类型的结构，但不知道里面具体的类型。
+
+例如：
+
+* 想获取函数第一个参数类型；
+* 想获取 Promise 包裹的数据类型；
+* 想获取数组元素类型。
+
+这时可以使用 `infer` 自动推导，而不用手动写死类型。
+
 ```ts
-type FirstArg<T> = T extends (first: infer F, ...args: any[]) => any ? F : never;
-type A = FirstArg<(x: number, y: string) => void>; // number
+type FirstArg<T> =
+  T extends (first: infer F, ...args: any[]) => any
+    ? F
+    : never;
+
+type A = FirstArg<(x: number, y: string) => void>;
+// number
 ```
 
-# any、unknown、never 有什么区别
-- any：完全跳出类型检查，可赋值给任何变量，也可被任何值赋值，极易导致运行时错误。应尽量避免，除非临时迁移 JS 代码。
-- unknown：比 any 安全，可接收任何类型，但是想用它必须要用 typeof、instanceof 确认类型后再继续，否则报错
+### 白话理解
+
+`infer` 就像：
+
+> **"帮我把里面的类型拿出来。"**
+
+例如：
+
+```ts
+Promise<string>
+```
+
+使用 `infer` 可以自动拿到：
+
+```ts
+string
+```
+
+一句话总结：
+
+> **infer 的作用就是从已有类型中自动提取需要的类型。**
+
+---
+
+# 常用 Utility Types（工具类型）
+
+> Utility Types 是 TypeScript 内置的一些工具类型，用来**快速修改已有类型**，避免重复定义相同的类型。
+
+## ⭐⭐⭐⭐⭐ 必会
+
+### `Partial<T>`
+
+> **把所有属性变成可选。**
+
+**解决什么问题？**
+
+更新数据时，通常只需要修改部分字段，不需要把整个对象都传一遍。
+
+常用于：
+
+* 编辑表单
+* 更新接口（Update）
+
+```ts
+interface User {
+  name: string;
+  age: number;
+}
+
+type UpdateUser = Partial<User>;
+// { name?: string; age?: number }
+```
+
+---
+
+### `Pick<T, K>`
+
+> **从已有类型中挑选指定属性。**
+
+**解决什么问题？**
+
+避免重新定义一个只包含部分字段的新类型。
+
+常用于：
+
+* 列表页
+* 简化接口返回数据
+
+```ts
+type UserInfo = Pick<User, "name">;
+// { name: string }
+```
+
+---
+
+### `Omit<T, K>`
+
+> **从已有类型中排除指定属性。**
+
+**解决什么问题？**
+
+已有类型基本都需要，只是不想要其中几个字段。
+
+常用于：
+
+* 去掉 `id`
+* 去掉密码等敏感字段
+
+```ts
+type CreateUser = Omit<User, "id">;
+```
+
+---
+
+### `Record<K, T>`
+
+> **快速创建一个对象类型。**
+
+**解决什么问题？**
+
+不用一个个写对象属性，统一指定 key 和 value 的类型。
+
+常用于：
+
+* 字典对象
+* 配置项
+* 接口缓存
+
+```ts
+type UserMap = Record<string, User>;
+```
+
+等价于：
+
+```ts
+{
+  [key: string]: User;
+}
+```
+
+---
+
+### `Readonly<T>`
+
+> **把所有属性变成只读。**
+
+**解决什么问题？**
+
+防止对象被意外修改。
+
+常用于：
+
+* 配置对象
+* 常量数据
+
+```ts
+const config: Readonly<User> = {
+  name: "Tom",
+  age: 18,
+};
+
+// ❌ 无法修改
+config.name = "Jack";
+```
+
+---
+
+## ⭐⭐⭐⭐ 经常问
+
+### `ReturnType<T>`
+
+> **获取函数返回值类型。**
+
+**解决什么问题？**
+
+避免函数返回类型修改后，还要同步修改其它地方的类型。
+
+```ts
+function getUser() {
+  return {
+    name: "Tom",
+    age: 18,
+  };
+}
+
+type User = ReturnType<typeof getUser>;
+```
+
+---
+
+### `Parameters<T>`
+
+> **获取函数参数类型（返回元组）。**
+
+**解决什么问题？**
+
+需要复用函数参数类型时，不用重复定义。
+
+```ts
+function login(name: string, age: number) {}
+
+type Params = Parameters<typeof login>;
+// [string, number]
+```
+
+---
+
+## ⭐⭐⭐ 知道即可
+
+### `Exclude<T, U>`
+
+> **从联合类型中排除指定类型。**
+
+```ts
+type A = Exclude<string | number | boolean, number>;
+// string | boolean
+```
+
+---
+
+### `Extract<T, U>`
+
+> **从联合类型中提取指定类型。**
+
+```ts
+type A = Extract<string | number | boolean, number>;
+// number
+```
+
+---
+
+### `NonNullable<T>`
+
+> **去掉 `null` 和 `undefined`。**
+
+```ts
+type A = NonNullable<string | null | undefined>;
+// string
+```
+
+---
+
+### `Awaited<T>`
+
+> **获取 Promise 最终返回的数据类型。**
+
+```ts
+type A = Awaited<Promise<string>>;
+// string
+```
+
+---
+
+### `Required<T>`
+
+> **把所有可选属性变成必选。**
+
+```ts
+interface User {
+  name?: string;
+  age?: number;
+}
+
+type A = Required<User>;
+// { name: string; age: number }
+```
+
+---
+
+## 面试高频
+
+如果面试官问：
+
+> **项目里最常用哪些 Utility Types？**
+
+可以回答：
+
+> **`Partial`、`Pick`、`Omit`、`Record`、`Readonly` 用得最多；`ReturnType` 和 `Parameters` 在封装公共方法、工具函数时也比较常用。其他像 `Exclude`、`Extract`、`NonNullable`、`Awaited`、`Required` 更多是在工具类型或框架源码中见得比较多。**
+
+
+# any、unknown、never 有什么区别？
+
+## any
+
+> **放弃类型检查。**
+
+### 它解决了什么问题？
+
+适合临时兼容旧 JavaScript 代码，或者类型暂时无法确定。
+
+缺点：
+
+* 可以赋值给任何类型。
+* 可以调用任何方法。
+* TypeScript 不再帮你检查类型，容易导致运行时错误。
+
+```ts
+let data: any = "hello";
+
+data.toFixed(); // 编译不报错，运行时报错
+```
+
+一句话总结：
+
+> **能不用 `any` 就尽量不用。**
+
+---
+
+## unknown
+
+> **可以接收任何类型，但使用前必须先判断类型。**
+
+### 它解决了什么问题？
+
+既希望接收任意数据，又希望保证类型安全。
+
 ```ts
 function handle(data: unknown) {
-  // 必须先检查类型
-  if (typeof data === 'string') {
-    console.log(data.toUpperCase()) // 现在安全了
+  if (typeof data === "string") {
+    console.log(data.toUpperCase());
   }
 }
 ```
-- never：表示永远不会出现的类型。一般用在抛异常或死循环的函数返回值
+
+### 白话理解
+
+可以理解成：
+
+> **"我不知道它是什么类型，你先检查，再使用。"**
+
+一句话总结：
+
+> **unknown 比 any 更安全。**
+
+---
+
+## never
+
+> **表示永远不会出现的类型。**
+
+### 它解决了什么问题？
+
+用于表示：
+
+* 不会正常返回的函数；
+* 不可能出现的类型。
+
+例如：
+
 ```ts
-function fail(): never { throw new Error() } // 方法不会正常结束
-type A = string & number // never
+function fail(): never {
+  throw new Error();
+}
 ```
+
+因为：
+
+函数永远不会执行到结束。
+
+再例如：
+
+```ts
+type A = string & number;
+// never
+```
+
+因为：
+
+一个值不可能同时是 `string` 和 `number`。
+
+一句话总结：
+
+> **never 表示"不存在"或"永远不会发生"。**
+
+---
 
 # TypeScript 的类型推导机制是怎样的？什么情况下必须显式声明类型？
-- 自动推导：变量初始化、函数默认参数、返回值可被自动推导，减少多余代码。
-```ts
-let name = "小明"  // TS 自己推导出 name 是 string
-let age = 18       // 推导出 age 是 number
 
-function add(a: number, b = 6) { // 函数默认参数
-  return a + b  // TS 知道返回的是 number
+> TypeScript 最大的特点就是**很多类型不用自己写，它会自动推导出来。**
+
+### 自动推导
+
+例如：
+
+```ts
+let name = "小明";
+// 推导为 string
+
+let age = 18;
+// 推导为 number
+
+function add(a: number, b = 6) {
+  return a + b;
+}
+// 返回值自动推导为 number
+```
+
+### 它解决了什么问题？
+
+减少重复写类型，提高开发效率。
+
+例如：
+
+不用写：
+
+```ts
+let age: number = 18;
+```
+
+直接：
+
+```ts
+let age = 18;
+```
+
+TypeScript 自己就知道是 `number`。
+
+---
+
+## 什么情况下必须自己声明类型？
+
+### ① 函数参数
+
+TS 无法知道别人会传什么类型。
+
+```ts
+function greet(name: string) {
+  return "你好 " + name;
 }
 ```
-- 必须显式声明的场景：
-  - 函数参数，否则会隐式 any（开启 noImplicitAny 时报错）。
-  - 声明但是没有初始化的变量。
-  - 某些递归或复杂场景无法推导。
-  - 为对象字面量添加额外约束（如后续要添加属性）。
+
+否则开启 `noImplicitAny` 后会报错。
+
+---
+
+### ② 变量没有初始化
+
 ```ts
-function greet(name) {  // noImplicitAny 开启后会报错：参数会被认为是 any
-  return '你好' + name
-}
+let result: number;
+```
 
-let result; // TS 推导为 any，很危险
+因为：
 
+```ts
+let result;
+```
+
+TS 不知道它是什么类型。
+
+---
+
+### ③ 返回类型比较复杂
+
+例如：
+
+泛型、递归、复杂工具函数。
+
+```ts
 function deepClone<T>(obj: T): T {
-  // 很复杂的实现，返回类型有时推断不出来，就明确告诉它返回和输入类型一样
+  // ...
 }
-
-// 提前告诉对象内是什么字段类型，让它规范对象属性类型
-const config: { name: string; age?: number } = { name: '默认' }
 ```
 
-# 什么是类型守卫，类型谓词
-- 类型守卫：在条件分支中自动缩窄变量的类型，包括：typeof、instanceof、in、== 字面量比较、Array.isArray 等。
-- 自定义类型谓词：parameterName is Type，函数返回布尔值时告诉编译器缩窄结论。
+明确返回类型，可读性更好，也避免推导错误。
+
+---
+
+### ④ 希望对象遵循固定结构
+
 ```ts
-interface Cat { meow: () => void }
-interface Dog { bark: () => void }
-function isCat(animal: Cat | Dog): animal is Cat {
-  return (animal as Cat).meow !== undefined
-}
-// 使用后 if (isCat(animal)) 分支内 animal 自动缩窄为 Cat，ts 不会报错，animal is Cat 告诉 ts 通过就返回就确认是 Cat 了，不然就要手动用 animal as Cat 明确具体类型
+const config: {
+  name: string;
+  age?: number;
+} = {
+  name: "默认",
+};
 ```
 
-# 常用 Utility Types 有哪些？
-- `Partial<T>`：把所有属性变成可选。
-- `Required<T>`：把所有属性变成必选。
-- `Readonly<T>`：把所有属性变成只读。
-- `Record<Keys, Type>`：构造一个属性名为 Keys，值为 Type 的对象类型。
-- `Pick<T, K>`：选择 T 的部分属性。
-- `Omit<T, K>`：从 T 中排除部分属性。
-- `Exclude<T, U>`：从联合类型 T 中排除可以赋值给 U 的成员。
-- `Extract<T, U>`：从联合类型 T 中提取可以赋值给 U 的成员。
-- `NonNullable<T>`：剔除 null 和 undefined。
-- `ReturnType<T>`：获取函数类型的返回值类型。
-- `Parameters<T>`：获取函数类型的参数类型元组。
-- `Awaited<T>`：获取 Promise 解包后的类型。
+表示：
+
+> 这个对象以后只能按照这个结构使用。
+
+---
+
+### 一句话总结
+
+> **TypeScript 能推导的就让它推导，推导不了或希望限制更严格时，再手动声明类型。**
+
+
+# 什么是类型守卫、类型谓词？
+
+## 类型守卫（Type Guard）
+
+> 类型守卫可以理解成 **"帮助 TypeScript 判断变量真实类型"**。
+
+### 它解决了什么问题？
+
+当一个变量可能有多种类型时：
+
+```ts
+Cat | Dog
+```
+
+TypeScript 不知道它到底是哪一种，所以不能直接访问对应的方法。
+
+类型守卫就是告诉 TS：
+
+> **经过判断后，这个变量现在可以确定是什么类型。**
+
+常见的类型守卫：
+
+* `typeof`
+* `instanceof`
+* `in`
+* `===` 字面量比较
+* `Array.isArray()`
+
+---
+
+## 自定义类型谓词
+
+> 当内置类型守卫不够用时，可以自己定义判断逻辑。
+
+```ts
+interface Cat {
+  meow: () => void;
+}
+
+interface Dog {
+  bark: () => void;
+}
+
+function isCat(animal: Cat | Dog): animal is Cat {
+  return (animal as Cat).meow !== undefined;
+}
+```
+
+使用：
+
+```ts
+if (isCat(animal)) {
+  animal.meow(); // ✅ TS 知道这里一定是 Cat
+} else {
+  animal.bark(); // ✅ TS 知道这里一定是 Dog
+}
+```
+
+### 白话理解
+
+```ts
+animal is Cat
+```
+
+可以理解成：
+
+> **如果这个函数返回 `true`，就告诉 TypeScript：`animal` 现在就是 `Cat`。**
+
+这样以后进入 `if` 分支时，就不用再写：
+
+```ts
+animal as Cat
+```
+
+一句话总结：
+
+> **类型守卫负责判断类型，类型谓词负责把判断结果告诉 TypeScript，让它自动缩窄类型。**
+
 
 # 如何做 API 类型约束？
-- 使用接口或类型定义请求参数与返回结果，避免接口改动后前端代码报错。
-```ts
+
+> API 类型约束就是**给接口的请求参数和返回数据定义类型**，避免接口变更导致前端代码出错。
+
+### 它解决了什么问题？
+
+如果接口返回的数据结构发生变化：
+
+* 编译阶段就能发现问题。
+* 编辑器有代码提示。
+* 减少因为字段名写错导致的运行时错误。
+
+```ts id="4lpjlwm"
 interface User {
   id: number;
   name: string;
 }
+
 interface ApiResponse<T> {
   code: number;
   data: T;
@@ -418,36 +1146,589 @@ async function getUser(id: number) {
   return res.data;
 }
 ```
-- `keyof` 和 `extends` 可用于实现通用表单/选项类型约束。
+
+### 白话理解
+
+可以理解成：
+
+> **提前告诉 TypeScript：这个接口会返回什么数据。**
+
+以后：
+
+```ts id="az4hjlwm"
+res.data.name
+```
+
+会有类型提示。
+
+如果接口删除了：
+
+```ts id="y12kjlm"
+name
+```
+
+编译阶段就会报错。
+
+---
+
+### 常见做法
+
+* 使用 `interface` 或 `type` 定义请求参数和返回值。
+* 使用泛型封装统一请求方法。
+* 配合 `keyof`、`extends` 实现通用表单、筛选条件等类型约束。
+
+---
 
 # 怎样实现前后端类型共享？
-- 常见方案：`shared` 包、`npm workspace`、`monorepo`、`git submodule`，把接口类型抽取到公共库中。
-- 通过 `type` / `interface` 共享 DTO，前端直接复用后端接口声明，减少接口文档不一致问题。
-- 生成方案：OpenAPI / Swagger 生成 TypeScript 类型、`zod` schema 生成类型、`ts-morph` 或 `quicktype`。
-- 编译产物：在前端项目中把共享类型目录加入 `tsconfig.json` 的 `include` 或 `paths`。
+
+> 前后端类型共享就是**前后端共用一份类型定义**，避免接口文档和代码不一致。
+
+### 它解决了什么问题？
+
+以前：
+
+后端改了接口字段。
+
+前端：
+
+```ts id="b91kjlm"
+user.userName
+```
+
+后端：
+
+```json id="c82kjlm"
+{
+  "name": "Tom"
+}
+```
+
+运行才发现报错。
+
+如果共享类型：
+
+前后端都引用同一份类型，修改后编译阶段就能发现问题。
+
+---
+
+### 常见方案
+
+* **Monorepo / npm workspace**（目前最常见）
+
+  * 前后端共用一个 `shared` 类型包。
+
+* **OpenAPI（Swagger）生成 TypeScript 类型**
+
+  * 根据接口文档自动生成类型，避免手写。
+
+* **共享 DTO（interface / type）**
+
+  * 前后端共同维护接口类型。
+
+---
+
+### 一句话总结
+
+> **核心思想就是：类型只维护一份，前后端共同使用。**
+
+---
 
 # TypeScript 的自动推导是怎样的？
-- TS 可以从变量初始化、函数返回值、泛型参数、上下文类型推导出具体类型，减少显式书写。
-- `as const` 可以让字面量保持更窄的类型，常用于动作类型、状态值等。
-- `satisfies` 可以在保持具体类型的同时验证对象满足某个类型约束。
-```ts
-const action = {
-  type: 'increment',
-  payload: 1,
-} as const;
 
+> TypeScript 会根据上下文自动推导变量、函数、泛型等类型，大多数情况下不用手动声明。
+
+### 自动推导
+
+例如：
+
+```ts id="k55kjlm"
+let name = "Tom";
+// string
+
+let age = 18;
+// number
+```
+
+函数返回值：
+
+```ts id="d77kjlm"
+function add(a: number, b: number) {
+  return a + b;
+}
+// 返回值自动推导为 number
+```
+
+泛型：
+
+```ts id="e44kjlm"
+function identity<T>(value: T): T {
+  return value;
+}
+```
+
+调用：
+
+```ts id="h99kjlm"
+identity("hello");
+// T 自动推导为 string
+```
+
+---
+
+## `as const`
+
+> **让字面量保持最精确的类型。**
+
+### 它解决了什么问题？
+
+默认：
+
+```ts id="j21kjlm"
+const action = {
+  type: "increment",
+};
+```
+
+得到：
+
+```ts id="m73kjlm"
+type: string
+```
+
+使用：
+
+```ts id="n62kjlm"
+const action = {
+  type: "increment",
+} as const;
+```
+
+得到：
+
+```ts id="q18kjlm"
+type: "increment"
+```
+
+常用于：
+
+* Redux Action
+* 状态管理
+* 常量配置
+
+---
+
+## `satisfies`
+
+> **验证对象是否满足某个类型，但不会丢失自身推导出的具体类型。**
+
+### 它解决了什么问题？
+
+既想检查对象是否符合要求，又希望保留对象最精确的类型。
+
+```ts id="u37kjlm"
 const config = {
   timeout: 5000,
-  mode: 'production',
+  mode: "production",
 } satisfies Record<string, number | string>;
 ```
-- `infer` + 条件类型常用于实现自动推导工具类型，例如从函数类型提取参数或返回值。
 
-# 怎样使用 schema 校验（zod）？
-- `zod` 是一个 TypeScript 优先的运行时模式验证库，既做运行时校验，也能生成类型。
-- 推荐做法：把 `zod` schema 作为接口声明的来源，避免类型和校验逻辑分离。
+这样：
+
+* 会检查对象是否符合 `Record`。
+* `timeout` 仍然保持 `5000`，不会变成普通的 `number`。
+
+---
+
+### 一句话总结
+
+* **自动推导**：能推导就不用手写类型。
+* **`as const`**：让类型保持最精确。
+* **`satisfies`**：既校验类型，又保留对象自身的推导结果。
+
+
+# 什么是 `.d.ts` 声明文件？
+
+> `.d.ts`（Declaration File）是 **TypeScript 的声明文件**，里面**只写类型声明，不写具体实现代码**。
+
+### 它解决了什么问题？
+
+TypeScript 在编译时需要知道：
+
+* 一个函数有哪些参数？
+* 返回什么类型？
+* 一个对象有哪些属性？
+* 一个模块导出了什么？
+
+如果没有类型信息，TS 就无法进行类型检查和代码提示。
+
+`.d.ts` 就是用来提供这些类型信息的。
+
+---
+
+## 白话理解
+
+可以理解成：
+
+> **".d.ts 就是一份说明书，只告诉 TypeScript 代码长什么样，不负责真正实现代码。"**
+
+例如：
+
+有一个 JS 文件：
+
+```js
+// utils.js
+
+export function add(a, b) {
+  return a + b;
+}
+```
+
+JavaScript 没有类型。
+
+可以写一个：
+
 ```ts
-import { z } from 'zod';
+// utils.d.ts
+
+export function add(a: number, b: number): number;
+```
+
+这样：
+
+```ts
+import { add } from "./utils";
+
+add(1, 2);      // ✅
+add("1", "2");  // ❌ TS 报错
+```
+
+真正执行的还是：
+
+```js
+utils.js
+```
+
+`.d.ts` 只是告诉 TypeScript：
+
+> **这个函数应该怎么使用。**
+
+---
+
+## 项目中什么时候会用到？
+
+### ① 给 JavaScript 项目补充类型（最常见）
+
+例如：
+
+项目里有：
+
+```txt
+utils.js
+```
+
+为了让 TS 有类型提示，可以新增：
+
+```txt
+utils.d.ts
+```
+
+描述里面导出的函数、变量、类型。
+
+---
+
+### ② 第三方库提供类型
+
+例如：
+
+```ts
+import axios from "axios";
+```
+
+为什么输入：
+
+```ts
+axios.get()
+```
+
+编辑器会提示参数？
+
+因为：
+
+```txt
+axios
+```
+
+安装时就自带了：
+
+```txt
+index.d.ts
+```
+
+TypeScript 会自动读取。
+
+很多库：
+
+* axios
+* lodash
+* react
+* vue
+
+都会提供 `.d.ts`。
+
+---
+
+### ③ 自己声明模块
+
+例如：
+
+项目引用了：
+
+```ts
+import logo from "./logo.png";
+```
+
+TS 会报错：
+
+```txt
+Cannot find module './logo.png'
+```
+
+因为：
+
+TS 不认识图片。
+
+可以新增：
+
+```ts
+declare module "*.png";
+```
+
+之后：
+
+```ts
+import logo from "./logo.png";
+```
+
+就不会报错了。
+
+---
+
+## `.d.ts` 文件一般放哪里？
+
+没有强制要求。
+
+项目里常见放法：
+
+```txt
+src/
+ ├── types/
+ │    ├── global.d.ts
+ │    ├── api.d.ts
+ │    └── env.d.ts
+```
+
+或者：
+
+```txt
+types/
+ ├── index.d.ts
+```
+
+只要：
+
+```json
+tsconfig.json
+```
+
+能够扫描到即可。
+
+例如：
+
+```json
+{
+  "include": [
+    "src",
+    "types"
+  ]
+}
+```
+
+---
+
+## `.d.ts` 会不会打包？
+
+不会。
+
+`.d.ts` **只参与 TypeScript 编译检查。**
+
+最终打包：
+
+```txt
+dist/
+```
+
+里面不会出现：
+
+```txt
+*.d.ts
+```
+
+---
+
+## 一句话总结
+
+> **`.d.ts` 是 TypeScript 的类型声明文件，只提供类型信息，不提供实现代码，主要用于给 JavaScript、第三方库或全局变量补充类型，让 TypeScript 能进行类型检查和代码提示。**
+
+
+# Schema 校验（Zod）
+
+## 什么是 Zod？
+
+**Zod 是一个 TypeScript 优先的运行时 Schema 校验库。**
+
+它既可以**校验数据是否合法**，又可以**根据 Schema 自动生成 TypeScript 类型**。
+
+一句话理解：
+
+> **用一份 Schema，同时完成数据校验和类型定义。**
+
+---
+
+# 为什么需要 Zod？
+
+很多人以为 TypeScript 能保证接口返回的数据一定正确，其实不是。
+
+例如：
+
+```ts
+interface User {
+  id: number;
+  name: string;
+}
+```
+
+如果后端实际返回：
+
+```json
+{
+  "id": "123",
+  "name": "Tom"
+}
+```
+
+TypeScript **不会在程序运行时检查**这个数据。
+
+因为 **TS 只负责编译阶段的类型检查**，接口返回的数据属于运行时数据，仍然可能出现：
+
+* 类型错误
+* 字段缺失
+* 字段为空
+* 数据格式不正确
+
+这些都会导致程序运行时报错。
+
+---
+
+# Zod 解决了什么问题？
+
+Zod 会在**运行时**检查数据是否符合我们定义的 Schema。
+
+例如：
+
+```ts
+import { z } from "zod";
+
+const UserSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+});
+```
+
+收到接口数据后：
+
+```ts
+UserSchema.parse(data);
+```
+
+如果数据正确：
+
+```json
+{
+  "id": 1,
+  "name": "Tom"
+}
+```
+
+校验通过。
+
+如果返回：
+
+```json
+{
+  "id": "1",
+  "name": "Tom"
+}
+```
+
+立即抛出错误：
+
+```
+Expected number
+Received string
+```
+
+这样错误数据不会继续流入程序，提高了系统的健壮性。
+
+---
+
+# 为什么推荐使用 Zod？
+
+以前通常需要维护两份代码：
+
+第一份定义 TypeScript 类型：
+
+```ts
+interface User {
+  id: number;
+  name: string;
+}
+```
+
+第二份自己写校验逻辑：
+
+```ts
+function validate(data) {
+  ...
+}
+```
+
+类型和校验容易不一致，维护成本高。
+
+而 Zod 只需要维护一份 Schema：
+
+```ts
+const UserSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+});
+```
+
+再通过：
+
+```ts
+type User = z.infer<typeof UserSchema>;
+```
+
+自动生成 TypeScript 类型。
+
+因此推荐把 **Schema 作为唯一的数据来源（Single Source of Truth）**，避免类型和校验逻辑分离。
+
+---
+
+# 基本使用
+
+```ts
+import { z } from "zod";
 
 const UserSchema = z.object({
   id: z.number(),
@@ -461,5 +1742,63 @@ function parseUser(data: unknown) {
   return UserSchema.parse(data);
 }
 ```
-- `zod` 可用于前端表单校验、后端请求/响应验证、Shared schema 生成通用类型。
 
+其中：
+
+* `z.object()`：定义对象结构
+* `parse()`：校验数据，不符合规则会抛出异常
+* `z.infer`：根据 Schema 自动生成 TypeScript 类型
+
+---
+
+# 常见使用场景
+
+### 1. 前端接口数据校验
+
+接口返回的数据先经过 Zod 校验，再交给页面使用，避免后端返回异常数据导致页面崩溃。
+
+```ts
+const user = UserSchema.parse(res.data);
+```
+
+---
+
+### 2. 表单校验
+
+```ts
+const LoginSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(6),
+});
+```
+
+提交表单前验证输入是否合法。
+
+---
+
+### 3. 后端请求参数校验
+
+```ts
+LoginSchema.parse(req.body);
+```
+
+请求参数不合法时直接返回错误，避免非法数据进入业务逻辑。
+
+---
+
+### 4. 前后端共享 Schema
+
+同一份 Schema 可以同时用于：
+
+* 前端类型
+* 前端校验
+* 后端校验
+* 自动生成 TypeScript 类型
+
+避免前后端数据结构不一致。
+
+---
+
+# 面试回答
+
+> Zod 是一个 TypeScript 优先的运行时 Schema 校验库。它主要解决了 TypeScript 无法校验运行时数据的问题，例如接口返回的数据可能类型错误、字段缺失或格式不正确。通常我们会先定义一份 Schema，再通过 `parse()` 对数据进行运行时校验，同时使用 `z.infer` 自动生成 TypeScript 类型，实现类型定义和数据校验统一维护。Zod 常用于接口数据校验、表单校验以及前后端共享数据模型。

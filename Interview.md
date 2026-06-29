@@ -60,6 +60,8 @@
 ## 基础
 
 * interface（接口） 和 type 区别
+* 联合类型 & 交叉类型
+* 类型断言 as
 * 泛型
 * extends（继承）
 * keyof（提取key）
