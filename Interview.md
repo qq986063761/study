@@ -89,8 +89,7 @@
 
 * Proxy 响应式原理
 * ref / reactive
-* computed
-* watch / watchEffect
+* computed / watch / watchEffect
 
 ## Composition API
 
