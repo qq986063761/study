@@ -11,12 +11,12 @@
 # 节点
 
 ## 国内
-- [狗狗加速](https://user.665353.xyz/)
+- [狗狗加速](https://bitbucket.org/doggygo/url)(https://user.665353.xyz/)
 - [追风岛](https://zfd.369.cyou)(https://gozhuifeng.club/)(https://www.gozhuifeng.club/)
 - [追风岛上的买号推广](https://shop.bishojono1.com/)
 
 ## 国外
-- [ikuuu](https://ikuuu.org/)
+- [ikuuu](https://ikuuu.org/)(https://ikuuu.li/)(https://ikuuu.club/)(https://ikuuu.cc/)
 - [NCloud](https://xn--cloud-cl5i.net/)
 
 # V2Ray客户端
