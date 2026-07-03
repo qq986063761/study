@@ -4,6 +4,10 @@
 
 基于内容寻址存储与硬链接，磁盘占用小、安装快，与 npm 脚本和 `package.json` 基本兼容。
 
+## pnpm 的好处与解决的问题
+
+pnpm 通过内容寻址存储和硬链接技术，解决了传统包管理器在磁盘占用和依赖重复安装上的问题。它可以让同一依赖在多个项目中共享安装，减少磁盘浪费，同时保持安装速度快、依赖关系可复现，适合大型 monorepo 和多项目开发场景。
+
 ## 安装与版本
 
 - windows 安装：`Invoke-WebRequest https://get.pnpm.io/install.ps1 -UseBasicParsing | Invoke-Expression`
