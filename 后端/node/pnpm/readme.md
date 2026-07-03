@@ -6,6 +6,8 @@
 
 ## 安装与版本
 
+- windows 安装：`Invoke-WebRequest https://get.pnpm.io/install.ps1 -UseBasicParsing | Invoke-Expression`
+- 苹果安装：`brew install pnpm`
 - 启用 Corepack（Node 16.13+）：`corepack enable`，再 `corepack prepare pnpm@latest --activate`
 - 或独立安装：见官网 [安装](https://pnpm.io/zh/installation)
 - 查看版本：`pnpm -v`
