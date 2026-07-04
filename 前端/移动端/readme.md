@@ -1,2 +1,3 @@
 - [postcss-px-to-viewport]
+- [postcss-pxtorem]
 - [amfe-flexible]
