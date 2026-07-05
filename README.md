@@ -1,3 +1,4 @@
+- [学习路线图](https://roadmap.sh/)
 - [svg编辑器](http://editor.method.ac/)
 - [图片压缩](https://tinypng.com/)(https://tinify.cn/)(https://squoosh.app/)(https://jpeg-optimizer.com/)
 - [svg图片压缩](https://jakearchibald.github.io/svgomg/?utm_source=next.36kr.com)
@@ -11,7 +12,7 @@
 - [码上掘金，写代码片段](https://code.juejin.cn/)
 - [爬虫-易采集](https://github.com/NaiboWang/EasySpider)
 - [在线抠图](https://www.remove.bg/zh)(https://www.canva.cn/)
-- [学习路线图](https://roadmap.sh/)
+- [记笔记](https://www.notion.com/zh-cn/)(https://www.yuque.com/)(https://shimo.im/)(https://www.yinxiang.com/?tab=gaga#yinxing)(https://note.youdao.com/)
 - cdn平台 jsDelivr、Cloudflare、bootcdn、UNPKG、Netlify
 - 外包平台：猪八戒，码市，程序员客栈，开源中国众包
 - 代码仓库：github、gitee
