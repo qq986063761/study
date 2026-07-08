@@ -7,6 +7,7 @@
 - [ai中转平台](https://www.helpaio.com/transit)
 - [micu ai 中转](https://www.micuapi.ai/)(不翻墙 https://api-slb.micuapi.ai)
 - [yuzapi](https://yuzapi.fun/login)
+- [凯恩](https://kaienapi.com/console/dashboard)
 - [abaiapi](https://abaiapi.xyz/)
 - [opencode](https://opencode.ai/)
 - [cc-switch](https://github.com/farion1231/cc-switch/blob/main/README_ZH.md)
