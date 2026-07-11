@@ -1,15 +1,22 @@
 ## 前端做原生应用（移动端 + 桌面端，按热度）
 
-- [Electron（桌面）](https://www.electronjs.org/)
-- [React Native](https://reactnative.dev/)
+### 原生
+
 - [Flutter](https://flutter.dev/)
+- [React Native](https://reactnative.dev/)
+- [Native SDK](https://native-sdk.dev/)
+- [NativeScript](https://nativescript.org/)
+- [vue-native](https://vue-native.io/)
+
+### 基于 Webview / 混合
+
+- [Electron（桌面）](https://www.electronjs.org/)
 - [Tauri（桌面）](https://tauri.app/)
 - [Ionic + Capacitor](https://capacitorjs.com/)
-- [NativeScript](https://nativescript.org/)
-- [Framework7](https://framework7.io/)
 - [Quasar（Capacitor/Cordova 模式）](https://quasar.dev/)
+- [uniapp](https://uniapp.dcloud.net.cn/)
+- [Framework7](https://framework7.io/)
 - [Neutralinojs（桌面）](https://neutralino.js.org/)
-- [vue-native](https://vue-native.io/)
 - [perryts](https://www.perryts.com/zh-Hans/)
 
 ## 备注
