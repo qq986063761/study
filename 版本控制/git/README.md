@@ -51,7 +51,9 @@
 - 查询远程仓库列表 git remote -v
 - 查询当前远程仓库的情况 git remote show origin
 - 增加一个远程仓库别名 git remote add github https://github.com/qq986063761/study.git
-- 指定别名推送 git push https://github.com/qq986063761/study.git master --force
+- 指定别名推送 
+  - 本地 master 推送到远端 main 分支：git push https://github.com/qq986063761/frontend.git master:main --force
+  - 本地 master 推到远端 master 分支：git push https://github.com/qq986063761/study.git master --force
 - 增加一个push时需要同步的其他远程仓库 git remote set-url --add --push origin https://gitee.com/wanpeng666/study.git
 - 删除一个push时需要同步的其他远程仓库 git remote set-url --delete --push origin https://github.com/qq986063761/native-apps.git
 - 删除远程仓库别名：git remote remove github
