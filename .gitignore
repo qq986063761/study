@@ -28,9 +28,18 @@ yarn-error.log*
 
 # 操作系统与编辑器
 .DS_Store
+**/.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
 Thumbs.db
 .idea/
 .vscode/
+*.swp
+*.swo
+*~
 
 # 测试与覆盖率
 coverage/
