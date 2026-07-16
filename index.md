@@ -1,5 +1,6 @@
 ---
 # https://vitepress.dev/reference/default-theme-home-page
+# 博客域名：https://qq986063761.github.io/study/
 layout: home
 
 hero:
