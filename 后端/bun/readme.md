@@ -13,7 +13,7 @@
 
 ## 包管理
 - `bun install` / `bun i` — 安装 package.json 中的所有依赖
-- `bun add <pkg>` — 添加生产依赖（等价于 npm install <pkg>）
+- `bun add <pkg>` — 添加生产依赖（等价于 `npm install <pkg>`）
 - `bun add -d <pkg>` / `bun add --dev <pkg>` — 添加开发依赖
 - `bun add -g <pkg>` — 全局安装包
 - `bun add --optional <pkg>` — 添加可选依赖
