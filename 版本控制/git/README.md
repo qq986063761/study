@@ -81,10 +81,9 @@ git log feature/20241230-okr6.13..feature/20250211-okr6.14 --author="wanpeng" --
 
 
 # 分支规范
-- 开发分支：develop/child
-- 功能开发：feature/child
-- bug 修复：bugfix/child
-- 版本发布：release/child
+- 开发分支：dev/xxxxxx
+- bug修复：bugfix/xxxxxx
+- 版本发布：uat/xxxxxx
 - 产品分支：master
 
 # sourcetree 
