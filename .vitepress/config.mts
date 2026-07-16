@@ -163,8 +163,8 @@ export default defineConfig({
   description: '前端学习笔记',
   // 学习笔记中常有未完成的相对链接，构建时忽略死链
   ignoreDeadLinks: true,
-  // 部署到 GitHub/Gitee Pages 项目站时取消注释并改成仓库名
-  // base: '/study/',
+  // GitHub Pages 项目站：https://qq986063761.github.io/study/
+  base: '/study/',
 
   vite: {
     plugins: [htmlDemosPlugin()],
