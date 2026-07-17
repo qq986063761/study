@@ -36,7 +36,6 @@ yarn-error.log*
 .Trashes
 Thumbs.db
 .idea/
-.vscode/
 *.swp
 *.swo
 *~
