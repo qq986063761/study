@@ -39,6 +39,26 @@ npm install
 npm run dev
 ```
 
+## 脚本说明
+
+以下脚本可以通过 `npm run <脚本名>` 或 `bun run <脚本名>` 执行。
+
+| 脚本             | 功能                                                                               |
+| ---------------- | ---------------------------------------------------------------------------------- |
+| `format`         | 使用 Prettier 格式化项目文件。                                                     |
+| `lint`           | 使用 ESLint 检查代码，并通过缓存加快后续检查。                                     |
+| `typecheck:node` | 使用 `tsconfig.node.json` 检查主进程、preload 和构建配置的 TypeScript 类型。       |
+| `typecheck:web`  | 使用 `tsconfig.web.json` 检查渲染进程和 Vue 组件的 TypeScript 类型。               |
+| `typecheck`      | 依次执行 Node 端和 Web 端的类型检查。                                              |
+| `start`          | 构建应用并以预览模式启动 Electron，用于检查生产构建结果。                          |
+| `dev`            | 启动 Electron 开发环境和渲染进程热更新服务。                                       |
+| `build`          | 先执行完整类型检查，再构建主进程、preload 和渲染进程代码。                         |
+| `postinstall`    | 安装 Electron 二进制文件，并安装或重建 Electron 原生依赖；安装项目依赖后自动执行。 |
+| `build:unpack`   | 构建应用，并生成当前系统可直接运行的未打包应用目录。                               |
+| `build:win`      | 构建应用，并生成 Windows 安装包。                                                  |
+| `build:mac`      | 构建应用，并生成 macOS 安装包。                                                    |
+| `build:linux`    | 构建应用，并生成 Linux 安装包。                                                    |
+
 ## 检查与构建
 
 ```bash
