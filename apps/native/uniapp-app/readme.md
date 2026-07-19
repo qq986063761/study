@@ -9,6 +9,36 @@
 - App 原生安装包需要 HBuilderX
 - 小程序预览与上传需要对应平台开发者工具
 
+## 目录结构
+
+~~~text
+src/
+├── api/
+│   ├── request.js              # uni.request 统一请求、状态码与错误处理
+│   └── modules/todo.js         # 按业务域拆分的接口模块
+├── router/
+│   ├── index.js                # navigateTo、reLaunch、返回兜底等导航方法
+│   └── routes.js               # 集中维护页面路径常量
+├── store/
+│   ├── index.js                # Pinia 实例工厂
+│   └── modules/app.js          # 应用状态、派生值、操作与持久化
+├── views/
+│   ├── home/index.vue          # 工作台首页
+│   ├── api/index.vue           # 业务 API 请求演示
+│   ├── store/index.vue         # Pinia 状态演示
+│   ├── router/index.vue        # 路由参数与页面栈演示
+│   ├── router-package/         # 路由分包页面
+│   └── native-api/index.vue    # uni 原生 API 工作台
+├── App.vue                     # 应用生命周期与全局样式
+├── main.js                     # Vue 与 Pinia 初始化
+├── manifest.json               # 各平台应用配置
+└── pages.json                  # 页面注册、分包和预加载规则
+~~~
+
+uni-app 不使用 Vue Router，页面仍以 `pages.json` 为唯一注册入口；`router/` 只集中维护路径和封装 `uni.navigateTo`、`uni.navigateBack`、`uni.reLaunch` 等导航 API。
+
+业务 API 默认请求 `https://jsonplaceholder.typicode.com`，可通过 `VITE_API_BASE_URL` 替换服务地址。小程序正式发布前，需要在对应平台后台配置合法 request 域名。
+
 ## 安装与启动
 
 ```bash
@@ -78,6 +108,7 @@ npm run build:custom -- mp-weixin
 
 ## 功能
 
-- uni API：Toast、Modal、Loading、Storage 与系统信息
-- Pinia 全局状态及本地持久化
-- 主包页面、分包父子页面和多种导航方式
+- 统一业务请求层、HTTP 状态处理和模块化 API
+- Pinia 全局状态、getters、actions 及本地持久化
+- 集中式路由路径、查询参数、页面栈和分包导航
+- uni API：设备与网络、Toast、Modal、Action Sheet、Loading、Storage、剪贴板、振动和图片选择

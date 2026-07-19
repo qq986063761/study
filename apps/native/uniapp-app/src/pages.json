@@ -1,60 +1,60 @@
 {
 	"pages": [
 		{
-			"path": "pages/index/index",
+			"path": "views/home/index",
 			"style": {
-				"navigationBarTitleText": "Demo 首页"
+				"navigationBarTitleText": "企业工作台"
 			}
 		},
 		{
-			"path": "pages/api-demo/index",
+			"path": "views/api/index",
 			"style": {
-				"navigationBarTitleText": "uni API 演示"
+				"navigationBarTitleText": "业务接口层"
 			}
 		},
 		{
-			"path": "pages/store-demo/index",
+			"path": "views/store/index",
 			"style": {
-				"navigationBarTitleText": "Pinia 状态"
+				"navigationBarTitleText": "全局状态"
+			}
+		},
+		{
+			"path": "views/router/index",
+			"style": {
+				"navigationBarTitleText": "路由导航"
+			}
+		},
+		{
+			"path": "views/native-api/index",
+			"style": {
+				"navigationBarTitleText": "uni 原生 API"
 			}
 		}
 	],
 	"subPackages": [
 		{
-			"root": "pages/nested",
-			"name": "nested",
+			"root": "views/router-package",
+			"name": "router-detail",
 			"pages": [
 				{
-					"path": "parent",
+					"path": "detail",
 					"style": {
-						"navigationBarTitleText": "父子路由 · 父页"
-					}
-				},
-				{
-					"path": "child-a",
-					"style": {
-						"navigationBarTitleText": "子页 A"
-					}
-				},
-				{
-					"path": "child-b",
-					"style": {
-						"navigationBarTitleText": "子页 B"
+						"navigationBarTitleText": "分包路由详情"
 					}
 				}
 			]
 		}
 	],
 	"preloadRule": {
-		"pages/index/index": {
+		"views/home/index": {
 			"network": "all",
-			"packages": ["nested"]
+			"packages": ["router-detail"]
 		}
 	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app demo",
-		"navigationBarBackgroundColor": "#f5f6f8",
-		"backgroundColor": "#f5f6f8"
+		"navigationBarTitleText": "企业工作台",
+		"navigationBarBackgroundColor": "#f7f8fa",
+		"backgroundColor": "#f7f8fa"
 	}
 }
