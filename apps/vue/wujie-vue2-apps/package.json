@@ -1,0 +1,39 @@
+{
+  "name": "wujie-micro-frontend-demo",
+  "version": "1.0.0",
+  "description": "基于 Vue2 + wujie 的微前端架构演示项目",
+  "scripts": {
+    "install:all": "npm i && npm run install:main && npm run install:child1 && npm run install:child2",
+    "install:main": "cd main && npm install",
+    "install:child1": "cd child1 && npm install",
+    "install:child2": "cd child2 && npm install",
+    "start:all": "concurrently \"npm run start:main\" \"npm run start:child1\" \"npm run start:child2\"",
+    "start:main": "cd main && npm run serve",
+    "start:child1": "cd child1 && npm run serve",
+    "start:child2": "cd child2 && npm run serve",
+    "build:all": "npm run build:main && npm run build:child1 && npm run build:child2",
+    "build:main": "cd main && npm run build",
+    "build:child1": "cd child1 && npm run build",
+    "build:child2": "cd child2 && npm run build",
+    "clean": "rimraf main/dist child1/dist child2/dist",
+    "dev": "npm run start:all"
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0",
+    "rimraf": "^3.0.2"
+  },
+  "keywords": [
+    "vue2",
+    "wujie",
+    "micro-frontend",
+    "微前端",
+    "vuex",
+    "vue-router"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Tencent/wujie.git"
+  }
+}

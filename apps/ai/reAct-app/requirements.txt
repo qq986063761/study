@@ -1,0 +1,3 @@
+# 核心 demo 仅使用 Python 标准库。
+# 若要通过环境变量 OPENAI_API_KEY 调用真实模型，可取消下行注释并安装：
+# openai>=1.40.0

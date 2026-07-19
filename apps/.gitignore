@@ -1,0 +1,88 @@
+# Build and Release Folders
+bin-debug/
+bin-release/
+[Oo]bj/
+[Bb]in/
+
+# Other files and folders
+.settings/
+
+# Executables
+*.swf
+*.air
+*.ipa
+*.apk
+
+# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
+# should NOT be excluded as they contain compiler settings and other important
+# information for Eclipse / Flash Builder.
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor / IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Dependency directories
+node_modules/
+.pnpm-store/
+pnpm-debug.log*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs
+/dist/
+/coverage/
+/.tmp/
+/.cache/
+/out/
+native/electron-apps/electron-app/out/
+.eslintcache
+*.tsbuildinfo
+*.map
+
+# Keep source-code reference projects tracked even when they contain build/dist artifacts.
+!vue/vue2-source-code/**/dist/
+!vue/vue2-source-code/**/dist/**
+!vue/vue2-source-code/**/build/
+!vue/vue2-source-code/**/build/**
+!vue/vue3-source-code/**/dist/
+!vue/vue3-source-code/**/dist/**
+!vue/vue3-source-code/**/build/
+!vue/vue3-source-code/**/build/**
+
+# Keep project source/config folders such as build/ tracked unless they are explicitly generated.
+# Do not ignore all build directories globally because many projects store real config files there.
+
+# Framework specific build caches
+.next/
+.nuxt/
+.output/
+.vite/
+
+# Environment files
+# Keep shared development defaults tracked when they are safe to share.
+# Ignore only local/private overrides and environment-specific secrets.
+.env.local
+.env.*.local
+.env.development
+.env.production
+.env.test
+!.env
+!.env.example
+
+# Logs
+logs/
+*.log
+
+# Python cache (for apps/ai)
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/

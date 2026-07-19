@@ -1,0 +1,12 @@
+// 仅主应用宿主页的全局重置，在 main.js 中引入；子应用挂载在同一 document 时会共用
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}

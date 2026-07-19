@@ -1,0 +1,41 @@
+{
+  "name": "demo",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": "^14.21.3",
+    "npm": ">= 3.0.0"
+  },
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "test:unit": "vue-cli-service test:unit",
+    "installi": "npm install"
+  },
+  "dependencies": {
+    "@chenglou/pretext": "0.0.3",
+    "ag-grid-vue": "^31.3.4",
+    "boneyard-js": "^1.6.4",
+    "core-js": "^3.8.3",
+    "element-ui": "^2.15.13",
+    "lodash": "^4.17.21",
+    "vue": "^2.6.14",
+    "vue-property-decorator": "^8.5.1",
+    "vue-router": "^3.5.1",
+    "vuex": "^3.6.2"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-router": "~5.0.0",
+    "@vue/cli-plugin-unit-jest": "~5.0.0",
+    "@vue/cli-plugin-vuex": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "@vue/test-utils": "^1.1.3",
+    "@vue/vue2-jest": "^27.0.0-alpha.2",
+    "babel-jest": "^27.0.6",
+    "jest": "^27.0.5",
+    "sass": "^1.32.7",
+    "sass-loader": "^12.0.0",
+    "vue-template-compiler": "^2.6.14"
+  }
+}

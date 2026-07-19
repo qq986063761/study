@@ -1,0 +1,6 @@
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+
+# Optional for TASK_BACKEND=celery or Docker Compose mode:
+celery==5.4.0
+redis==5.2.1

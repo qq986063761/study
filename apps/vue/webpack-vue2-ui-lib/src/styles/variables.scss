@@ -1,0 +1,45 @@
+// UI 组件库 - 全局 SCSS 变量
+
+// 主题色
+$primary-color: #409eff;
+$success-color: #67c23a;
+$warning-color: #e6a23c;
+$danger-color: #f56c6c;
+$info-color: #909399;
+
+// 文字色
+$text-primary: #303133;
+$text-regular: #606266;
+$text-secondary: #909399;
+$text-placeholder: #c0c4cc;
+
+// 边框色
+$border-color-base: #dcdfe6;
+$border-color-light: #e4e7ed;
+$border-color-lighter: #ebeef5;
+
+// 背景色
+$bg-color: #ffffff;
+$bg-color-light: #f5f7fa;
+
+// 字体
+$font-size-extra-small: 12px;
+$font-size-small: 13px;
+$font-size-base: 14px;
+$font-size-medium: 16px;
+$font-size-large: 18px;
+
+// 圆角
+$border-radius-base: 4px;
+$border-radius-small: 2px;
+$border-radius-round: 20px;
+
+// 间距
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+
+// 过渡
+$transition-duration: 0.3s;

@@ -1,0 +1,60 @@
+{
+	"pages": [
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "Demo 首页"
+			}
+		},
+		{
+			"path": "pages/api-demo/index",
+			"style": {
+				"navigationBarTitleText": "uni API 演示"
+			}
+		},
+		{
+			"path": "pages/store-demo/index",
+			"style": {
+				"navigationBarTitleText": "Pinia 状态"
+			}
+		}
+	],
+	"subPackages": [
+		{
+			"root": "pages/nested",
+			"name": "nested",
+			"pages": [
+				{
+					"path": "parent",
+					"style": {
+						"navigationBarTitleText": "父子路由 · 父页"
+					}
+				},
+				{
+					"path": "child-a",
+					"style": {
+						"navigationBarTitleText": "子页 A"
+					}
+				},
+				{
+					"path": "child-b",
+					"style": {
+						"navigationBarTitleText": "子页 B"
+					}
+				}
+			]
+		}
+	],
+	"preloadRule": {
+		"pages/index/index": {
+			"network": "all",
+			"packages": ["nested"]
+		}
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app demo",
+		"navigationBarBackgroundColor": "#f5f6f8",
+		"backgroundColor": "#f5f6f8"
+	}
+}

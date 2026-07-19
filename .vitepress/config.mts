@@ -11,6 +11,7 @@ import { defineConfig } from 'vitepress'
 import type { Plugin } from 'vite'
 
 const projectRoot = process.cwd()
+const docsRoot = join(projectRoot, 'docs')
 
 /** 笔记目录：其中的 .html / .js / .css 等作为 demo 静态资源提供 */
 const DEMO_ROOTS = [
@@ -108,7 +109,7 @@ function htmlDemosPlugin(): Plugin {
         const rel = urlPath.replace(/^\//, '')
         if (!isDemoRel(rel)) return next()
 
-        const filePath = join(projectRoot, rel)
+        const filePath = join(docsRoot, rel)
         if (!existsSync(filePath) || !statSync(filePath).isFile()) {
           return next()
         }
@@ -142,7 +143,7 @@ function htmlDemosPlugin(): Plugin {
           }
           const ext = extname(p).toLowerCase()
           if (!STATIC_EXT.has(ext)) continue
-          const rel = relative(projectRoot, p).replace(/\\/g, '/')
+          const rel = relative(docsRoot, p).replace(/\\/g, '/')
           if (!isDemoRel(rel)) continue
           const dest = join(outDir, rel)
           mkdirSync(dirname(dest), { recursive: true })
@@ -150,7 +151,7 @@ function htmlDemosPlugin(): Plugin {
         }
       }
       for (const d of DEMO_ROOTS) {
-        const p = join(projectRoot, d)
+        const p = join(docsRoot, d)
         if (existsSync(p)) walk(p)
       }
     },
@@ -159,6 +160,7 @@ function htmlDemosPlugin(): Plugin {
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+  srcDir: './docs',
   title: 'Study',
   description: '前端学习笔记',
   // 学习笔记中常有未完成的相对链接，构建时忽略死链

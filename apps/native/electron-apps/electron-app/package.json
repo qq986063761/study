@@ -1,0 +1,33 @@
+{
+  "name": "electron-native-demo",
+  "version": "1.0.0",
+  "description": "Enterprise-structured Electron desktop capability demo",
+  "main": "src/main/main.js",
+  "scripts": {
+    "start": "electron-forge start",
+    "check": "node --check src/main/main.js && node --check src/main/application-menu.js && node --check src/main/ipc-handlers.js && node --check src/preload/preload.js && node --check src/renderer/main.js && node --check src/renderer/api/desktop-api.js && node --check src/renderer/store/desktop-store.js && node --check src/renderer/views/dashboard-view.js && node --check forge.config.js",
+    "test": "npm run check",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
+  },
+  "author": "Wan Peng",
+  "license": "ISC",
+  "engines": {
+    "node": ">=22.12.0",
+    "npm": ">=10.0.0"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^7.11.2",
+    "@electron-forge/maker-deb": "^7.11.2",
+    "@electron-forge/maker-rpm": "^7.11.2",
+    "@electron-forge/maker-squirrel": "^7.11.2",
+    "@electron-forge/maker-zip": "^7.11.2",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.11.2",
+    "@electron-forge/plugin-fuses": "^7.11.2",
+    "@electron/fuses": "^1.8.0",
+    "electron": "^43.1.1"
+  },
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.1"
+  }
+}

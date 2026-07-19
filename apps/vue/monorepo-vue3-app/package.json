@@ -1,0 +1,37 @@
+{
+  "name": "monorepo-vue3-app",
+  "private": true,
+  "packageManager": "pnpm@11.9.0",
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  },
+  "scripts": {
+    "dev": "pnpm dev:web",
+    "dev:admin": "pnpm --filter admin dev",
+    "dev:web": "pnpm --filter web dev",
+    "dev:h5": "pnpm --filter h5 dev",
+    "build": "pnpm run build:packages && pnpm run build:apps",
+    "build:apps": "pnpm run build:shared && pnpm -r --filter \"./apps/*\" build",
+    "build:packages": "pnpm -r --filter \"./packages/*\" type-check",
+    "build:shared": "node scripts/build-shared.mjs",
+    "build:admin": "pnpm run build:shared && pnpm --filter admin build",
+    "build:web": "pnpm run build:shared && pnpm --filter web build",
+    "build:h5": "pnpm run build:shared && pnpm --filter h5 build",
+    "preview:admin": "pnpm --filter admin preview",
+    "preview:web": "pnpm --filter web preview",
+    "preview:h5": "pnpm --filter h5 preview",
+    "type-check": "pnpm -r type-check",
+    "type-check:apps": "pnpm -r --filter \"./apps/*\" type-check",
+    "type-check:packages": "pnpm -r --filter \"./packages/*\" type-check",
+    "type-check:admin": "pnpm --filter admin type-check",
+    "type-check:web": "pnpm --filter web type-check",
+    "type-check:h5": "pnpm --filter h5 type-check",
+    "list:apps": "pnpm -r --filter \"./apps/*\" list --depth 0",
+    "list:packages": "pnpm -r --filter \"./packages/*\" list --depth 0",
+    "pnpm:install": "pnpm install"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "catalog:",
+    "vite": "catalog:"
+  }
+}

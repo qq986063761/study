@@ -1,0 +1,64 @@
+{
+  "name": "webpack-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack-dev-server --config ./build/webpack.dev.js",
+    "build": "webpack --config ./build/webpack.pro.js",
+    "build:dll": "webpack --config ./build/webpack.dll.js",
+    "build:speed": "webpack --config ./build/webpack.pro.speed.js",
+    "build:analysis": "webpack --config ./build/webpack.pro.analysis.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qq986063761/webpack-app.git"
+  },
+  "author": "wan peng",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/qq986063761/webpack-app/issues"
+  },
+  "homepage": "https://github.com/qq986063761/webpack-app#readme",
+  "devDependencies": {
+    "@babel/core": "^7.13.14",
+    "@babel/eslint-parser": "^7.13.14",
+    "@babel/preset-env": "^7.13.12",
+    "autoprefixer": "^10.2.5",
+    "babel-loader": "^8.2.2",
+    "clean-webpack-plugin": "^3.0.0",
+    "css-loader": "^5.2.0",
+    "cssnano": "^4.1.11",
+    "eslint": "^7.24.0",
+    "eslint-loader": "^4.0.2",
+    "friendly-errors-webpack-plugin": "^1.7.0",
+    "glob": "^7.1.6",
+    "html-webpack-plugin": "^4.5.2",
+    "mini-css-extract-plugin": "^2.6.1",
+    "optimize-css-assets-webpack-plugin": "^5.0.4",
+    "postcss-loader": "^4.2.0",
+    "purgecss-webpack-plugin": "^4.0.3",
+    "raw-loader": "^4.0.2",
+    "sass": "^1.56.1",
+    "sass-loader": "^13.2.0",
+    "speed-measure-webpack-plugin": "^1.5.0",
+    "style-loader": "^2.0.0",
+    "url-loader": "^4.1.1",
+    "vue-loader": "^15.10.0",
+    "vue-style-loader": "^4.1.3",
+    "vue-template-compiler": "^2.6.12",
+    "webpack": "^5.75.0",
+    "webpack-bundle-analyzer": "^4.4.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.11.1",
+    "webpack-merge": "^5.7.3"
+  },
+  "dependencies": {
+    "vue": "^2.6.12"
+  },
+  "browserslist": [
+    "last 2 version",
+    ">1%",
+    "ios 7"
+  ]
+}

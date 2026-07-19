@@ -1,0 +1,6 @@
+// 溢出隐藏混合
+@mixin ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

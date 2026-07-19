@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="./dist/my-ui.css">
+</head>
+<body>
+  <div id="app">
+    {{ message }}
+    <p>
+      <my-button>按钮</my-button>
+    </p>
+    <p>
+      <my-table></my-table>
+    </p>
+  </div>
+
+  <script src="https://unpkg.com/vue@2.7.16/dist/vue.js"></script>
+  <script src="./dist/my-ui.umd.js"></script>
+  <script>
+    // 测试 my-ui 是否安装成功
+    console.log('MyUi', MyUi)
+    Vue.use(MyUi.default) // 全局注册
+    // Vue.component('my-button', MyUi.Button) // 按需注册单个组件
+
+    new Vue({
+      el: '#app',
+      data: {
+        message: 'Hello, Vue!'
+      }
+    })
+  </script>
+</body>
+</html>

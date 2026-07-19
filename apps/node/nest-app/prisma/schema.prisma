@@ -1,0 +1,22 @@
+generator client {
+  provider               = "prisma-client"
+  output                 = "../src/generated/prisma"
+  moduleFormat           = "cjs"
+  generatedFileExtension = "cts"
+  importFileExtension    = "cjs"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String   @db.VarChar(255)
+  email     String   @db.VarChar(255)
+  age       Int
+  status    Int      @db.TinyInt
+  createdAt DateTime @default(now()) @map("created_at") @db.DateTime(0)
+
+  @@map("users")
+}

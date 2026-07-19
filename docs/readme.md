@@ -1,0 +1,49 @@
+- [学习路线图](https://roadmap.sh/)
+- [svg编辑器](http://editor.method.ac/)
+- [图片压缩](https://tinypng.com/)(https://tinify.cn/)(https://squoosh.app/)(https://jpeg-optimizer.com/)
+- [svg图片压缩](https://jakearchibald.github.io/svgomg/?utm_source=next.36kr.com)
+- [免费图床](https://imgchr.com/)
+- [开源项目评级系统](https://github.com/sl1673495/notes/issues/93)
+- [腾讯图标库 codesign](https://codesign.qq.com/app/icon)
+- [字节图标库 IconPark](https://iconpark.oceanengine.com/home)
+- [静态站点部署 netlify](https://www.netlify.com/)
+- [在线画流程图 processon](https://www.processon.com/)
+- [css 兼容性](https://caniuse.com/)
+- [码上掘金，写代码片段](https://code.juejin.cn/)
+- [爬虫-易采集](https://github.com/NaiboWang/EasySpider)
+- [在线抠图](https://www.remove.bg/zh)(https://www.canva.cn/)
+- [记笔记](https://www.notion.com/zh-cn/)(https://www.yuque.com/)(https://shimo.im/)(https://www.wiz.cn/zh-cn)(https://www.yinxiang.com/?tab=gaga#yinxing)(https://note.youdao.com/)
+- cdn平台 jsDelivr、Cloudflare、bootcdn、UNPKG、Netlify
+- 外包平台：猪八戒，码市，程序员客栈，开源中国众包
+- 代码仓库：github、gitee
+- 学习网站：技术文档的官网、掘金（https://juejin.cn/）、慕课网（https://www.imooc.com/）、拉钩教育（https://kaiwu.lagou.com/）
+- 外网访问：ngrok
+
+## clash verge
+- windows 测试合适的 MTU 值命令：ping -f -l 1400 你的VPN服务器IP
+
+# 学习路径
+- C语言基础，理解指针，内存，帮助更好理解程序执行过程中的变量流向
+- 基础 html、css、javascript 语法基础，使用基础写出网页内容
+- 以前的流行库：jquery、boostrap、layui 等编写 jquery 下的各种网页内容
+- MVVM库出现后：vue2全家桶(vue2、vue-router vuex)；vue3全家桶（vue3、Pinia、vue-router）；nuxtjs
+- 工程化构建工具：webpack、vite、rollup、微前端、组件库
+- AI编程工具：cursor、claude code、codex
+
+# 其他 
+- [电影](https://github.com/88ys/website)
+- 止咳：复方岩白菜素片
+- 清火：黄莲上清片
+- 抗过敏：扑尔敏（瓶）
+- 抵抗力：维生素c片
+- 解表散热、疏肝和胃：小柴胡颗粒（白云山）
+- 胃药：威地美铝碳酸镁片（达喜）
+- 外部消炎：金霉素眼膏
+- 细菌感染：四环素软膏
+- 真菌皮炎：无极膏
+- 过敏皮炎：氟轻松软膏
+- 皮肤角化：尿素软膏
+- 咽喉、肺：华素片、急支糖浆、川贝枇杷膏、草珊瑚含片、草珊瑚含片、养阴清肺口服液
+- 咽喉、肺、增强抵抗力：胖大海、罗汉果、甘草、陈皮、百合、山楂、桔梗、梨子、橙子、红糖、花椒
+- 抗病毒：四季抗病毒合剂、抗病毒口服液
+- 退烧：布洛芬、双氯芬酸钠缓释片

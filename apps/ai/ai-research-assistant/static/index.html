@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI Research Assistant</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f6f7f9;
+        --panel: #ffffff;
+        --text: #202124;
+        --muted: #69707a;
+        --line: #d9dee7;
+        --accent: #176b87;
+        --accent-dark: #0f5166;
+        --ok: #1b7f4f;
+        --warn: #a56300;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei",
+          sans-serif;
+        background: var(--bg);
+        color: var(--text);
+      }
+
+      .shell {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 24px 0 40px;
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 18px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 24px;
+        font-weight: 700;
+      }
+
+      .status-pill {
+        min-width: 112px;
+        border: 1px solid var(--line);
+        background: var(--panel);
+        border-radius: 999px;
+        padding: 7px 12px;
+        text-align: center;
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      main {
+        display: grid;
+        grid-template-columns: 360px 1fr;
+        gap: 16px;
+      }
+
+      section {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 16px;
+      }
+
+      h2 {
+        margin: 0 0 12px;
+        font-size: 16px;
+      }
+
+      label {
+        display: block;
+        margin: 12px 0 6px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        padding: 10px 11px;
+        font: inherit;
+        background: #fff;
+        color: var(--text);
+      }
+
+      textarea {
+        min-height: 112px;
+        resize: vertical;
+      }
+
+      button {
+        width: 100%;
+        margin-top: 14px;
+        border: 0;
+        border-radius: 6px;
+        padding: 11px 14px;
+        background: var(--accent);
+        color: #fff;
+        font: inherit;
+        font-weight: 650;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: var(--accent-dark);
+      }
+
+      button:disabled {
+        cursor: wait;
+        opacity: 0.65;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .box {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 12px;
+        min-height: 92px;
+        background: #fbfcfd;
+      }
+
+      .box strong {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 13px;
+      }
+
+      .box p,
+      .box ul {
+        margin: 0;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.55;
+      }
+
+      pre {
+        min-height: 210px;
+        margin: 12px 0 0;
+        overflow: auto;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 12px;
+        background: #101418;
+        color: #e7edf3;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+
+      .link {
+        display: inline-block;
+        margin-top: 12px;
+        color: var(--accent);
+        font-weight: 650;
+        text-decoration: none;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      @media (max-width: 840px) {
+        header {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        main,
+        .grid {
+          grid-template-columns: 1fr;
+        }
+
+        .status-pill {
+          text-align: left;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <header>
+        <h1>AI Research Assistant</h1>
+        <div id="serviceStatus" class="status-pill">checking service</div>
+      </header>
+
+      <main>
+        <section>
+          <h2>提交研究任务</h2>
+          <label for="company">公司</label>
+          <input id="company" value="Apple" />
+
+          <label for="task">任务</label>
+          <textarea id="task">分析苹果公司最近财报并给投资建议</textarea>
+
+          <button id="submitBtn">开始分析</button>
+        </section>
+
+        <section>
+          <h2>执行结果</h2>
+          <div class="grid">
+            <div class="box">
+              <strong>Planner</strong>
+              <ul id="planList">
+                <li>等待任务提交</li>
+              </ul>
+            </div>
+            <div class="box">
+              <strong>Background Job</strong>
+              <p id="jobState">idle</p>
+            </div>
+            <div class="box">
+              <strong>Tool Findings</strong>
+              <p id="findings">暂无结果</p>
+            </div>
+            <div class="box">
+              <strong>Model Hint</strong>
+              <p id="modelHint">暂无结果</p>
+            </div>
+          </div>
+
+          <a id="reportLink" class="link hidden" target="_blank" rel="noreferrer">
+            打开 Markdown 报告
+          </a>
+          <pre id="rawLog">Ready.</pre>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      const submitBtn = document.querySelector("#submitBtn");
+      const serviceStatus = document.querySelector("#serviceStatus");
+      const jobState = document.querySelector("#jobState");
+      const rawLog = document.querySelector("#rawLog");
+      const planList = document.querySelector("#planList");
+      const findings = document.querySelector("#findings");
+      const modelHint = document.querySelector("#modelHint");
+      const reportLink = document.querySelector("#reportLink");
+      const apiBase =
+        window.location.protocol === "file:" ? "http://localhost:8000" : "";
+
+      async function checkHealth() {
+        try {
+          const response = await fetch(`${apiBase}/health`);
+          const data = await response.json();
+          serviceStatus.textContent =
+            data.status === "ok"
+              ? `service online (${data.task_backend})`
+              : "service warning";
+        } catch {
+          serviceStatus.textContent = "service offline";
+        }
+      }
+
+      function setPlan(plan) {
+        planList.innerHTML = "";
+        for (const item of plan) {
+          const li = document.createElement("li");
+          li.textContent = item;
+          planList.appendChild(li);
+        }
+      }
+
+      async function pollTask(taskId) {
+        const response = await fetch(`${apiBase}/api/tasks/${taskId}`);
+        const data = await response.json();
+        jobState.textContent = data.state;
+        rawLog.textContent = JSON.stringify(data, null, 2);
+
+        if (!data.ready) {
+          setTimeout(() => pollTask(taskId), 900);
+          return;
+        }
+
+        submitBtn.disabled = false;
+        submitBtn.textContent = "开始分析";
+
+        if (data.state !== "SUCCESS") {
+          findings.textContent = data.error || "任务失败";
+          return;
+        }
+
+        setPlan(data.result.plan);
+        findings.textContent = data.result.findings.financials;
+        modelHint.textContent = data.result.findings.model_hint;
+        reportLink.href = `${apiBase}${data.result.report_url}`;
+        reportLink.classList.remove("hidden");
+      }
+
+      submitBtn.addEventListener("click", async () => {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "提交中";
+        reportLink.classList.add("hidden");
+        setPlan(["任务已提交，等待 Planner 输出"]);
+        findings.textContent = "等待工具层返回结果";
+        modelHint.textContent = "等待模型层返回提示";
+
+        const payload = {
+          company: document.querySelector("#company").value.trim() || "Apple",
+          task: document.querySelector("#task").value.trim(),
+        };
+
+        try {
+          const response = await fetch(`${apiBase}/api/research`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+          const data = await response.json();
+          jobState.textContent = `submitted: ${data.task_id}`;
+          rawLog.textContent = JSON.stringify(data, null, 2);
+          submitBtn.textContent = "后台分析中";
+          pollTask(data.task_id);
+        } catch (error) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "开始分析";
+          jobState.textContent = "submit failed";
+          rawLog.textContent = String(error);
+        }
+      });
+
+      checkHealth();
+    </script>
+  </body>
+</html>

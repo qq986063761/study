@@ -1,0 +1,10 @@
+@import './variables.scss';
+
+// 全局 reset 样式（仅供 dev 预览使用，不打包进组件库）
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}

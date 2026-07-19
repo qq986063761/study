@@ -1,0 +1,24 @@
+@import './base.css';
+
+#app {
+  min-height: 100vh;
+  font-weight: normal;
+}
+
+a,
+.green {
+  text-decoration: none;
+  color: inherit;
+  transition: 0.4s;
+}
+
+body {
+  background: #f4f7fb;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}

@@ -1,0 +1,38 @@
+{
+  "name": "qiankun-vue3-demo",
+  "version": "1.0.0",
+  "description": "Vue3 + qiankun micro frontend demo",
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">= 3.0.0"
+  },
+  "scripts": {
+    "install:all": "npm i && npm run install:main && npm run install:app1 && npm run install:app2",
+    "install:main": "cd main && npm install",
+    "install:app1": "cd app1 && npm install",
+    "install:app2": "cd app2 && npm install",
+    "start:all": "concurrently \"npm run start:main\" \"npm run start:app1\" \"npm run start:app2\"",
+    "start:main": "cd main && npm run dev",
+    "start:app1": "cd app1 && npm run dev",
+    "start:app2": "cd app2 && npm run dev",
+    "build:all": "npm run build:main && npm run build:app1 && npm run build:app2",
+    "build:main": "cd main && npm run build",
+    "build:app1": "cd app1 && npm run build",
+    "build:app2": "cd app2 && npm run build",
+    "clean": "rimraf main/dist app1/dist app2/dist",
+    "dev": "npm run start:all"
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0",
+    "rimraf": "^3.0.2"
+  },
+  "keywords": [
+    "vue3",
+    "qiankun",
+    "micro-frontend",
+    "pinia",
+    "vue-router"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
+}
