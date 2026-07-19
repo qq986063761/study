@@ -1,0 +1,38 @@
+:root {
+  color: #172026;
+  background: #f4f7f8;
+  font-family: Inter, 'Segoe UI', 'Microsoft YaHei', Arial, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  letter-spacing: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+button,
+textarea,
+input {
+  font: inherit;
+  letter-spacing: 0;
+}
+
+button {
+  color: inherit;
+}
+
+button:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #128497;
+  outline-offset: 2px;
+}
