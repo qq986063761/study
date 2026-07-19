@@ -56,5 +56,40 @@
 		"navigationBarTitleText": "企业工作台",
 		"navigationBarBackgroundColor": "#f7f8fa",
 		"backgroundColor": "#f7f8fa"
+	},
+	"condition": {
+		"current": 0,
+		"list": [
+			{
+				"name": "企业工作台",
+				"path": "views/home/index",
+				"query": ""
+			},
+			{
+				"name": "业务 API 演示",
+				"path": "views/api/index",
+				"query": ""
+			},
+			{
+				"name": "Pinia 状态演示",
+				"path": "views/store/index",
+				"query": ""
+			},
+			{
+				"name": "路由导航演示",
+				"path": "views/router/index",
+				"query": ""
+			},
+			{
+				"name": "uni 原生 API 演示",
+				"path": "views/native-api/index",
+				"query": ""
+			},
+			{
+				"name": "分包路由参数演示",
+				"path": "views/router-package/detail",
+				"query": "source=condition&traceId=DEMO-001"
+			}
+		]
 	}
 }
