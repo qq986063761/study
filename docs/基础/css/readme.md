@@ -1,4 +1,7 @@
-# 资源
+# CSS
+
+## 资源
+
 - 《CSS权威指南》;
 - 《精通CSS高级Web标准解决方案》;
 - 《CSS SECRETS》;
@@ -8,13 +11,16 @@
 - [css兼容属性网站](https://www.caniuse.com/)
 - [radius demo](https://9elements.github.io/fancy-border-radius/)
 
-# css
+## css
+
 - 级联（层叠）样式表（Cascading Style Sheets），使显示和内容分离;
 
-# 常用CSS布局
+## 常用CSS布局
+
 - 一列布局、两列布局、三列布局、混合布局;
 
-# css3 新功能
+## css3 新功能
+
 - 边框、背景（圆角、边框图、阴影、渐变）
 - 颜色（透明度、rgba、hsl等）
 - 文本（阴影等）
@@ -24,11 +30,13 @@
 - 单位（vw、vh等）
 - css变量
 
-# 流
+## 流
+
 - 概念：css定位布局机制
 - 标准流：从左到右、从上到下布局元素
 
-# 盒模型
+## 盒模型
+
 - w3c 标准盒子：宽高范围（content）--> padding --> border --> margin
 - IE 盒子：宽高范围（content --> padding --> border）--> margin
 - 可通过 box-sizing 属性配置盒模型
@@ -40,25 +48,29 @@
   - auto：自动填充剩余空间，默认 0
   - 负值：margin 负值是有效果的，通常用于分栏布局
 
-# 块级元素和内联元素
+## 块级元素和内联元素
+
 - 块级元素：一个水平流上，只能单独显示一个元素，多个块级元素则换行显示；块级元素负责结构；
 - 内联元素：无法设置宽高，内联元素负责内容；
 - display 属性可改变元素的内联或块级特性，让内联元素可以拥有块级元素的特点
 
-# 优先级
+## 优先级
+
 - 通常：后加载 CSS 样式，优先于先加载的 CSS 样式
 - 特指度（ICE：id、class、element）
   - !important > id选择器（100） > 类、属性、伪类选择器（10） > 标签、关系、伪元素选择器（1）> *通配符（0）
 - 作用域：style 属性内联样式 > style 标签外嵌样式 > link 标签外链样式
 
-# float 浮动
+## float 浮动
+
 - 脱离标准流，停留在元素旁，可设置宽高，不会撑开父元素高
 - 清除浮动
   - 子元素设置 display: block; clear: both
   - BFC，父元素设置 overflow: hidden
   - 父元素设置 float
 
-# position
+## position
+
 - static：标准流定位，从左向右、从上向下流式定位，默认此定位模式
 - relative：相对定位，相对于自己默认定位状态下的相对定位
 - absolute：绝对定位，脱离标准流，相对于除 static 之外的第一个定位祖先元素定位
@@ -75,17 +87,20 @@
 - fixed：相对 window 固定定位
 - sticky：粘性定位，正常情况下按正常流，超出第一个定位祖先元素外时，按指定位置（top、left、right、bottom）定位
 
-# 元素隐藏
+## 元素隐藏
+
 - opacity: 0，透明度隐藏，不改变布局，会触发事件
 - visibility: hidden，不可见，不改变布局，不会触发事件
 - display: none，类似删掉元素，改变布局
 - z-index: -1，元素 z 轴层级在背面
 
-# line-height 和 vertical-align
+## line-height 和 vertical-align
+
 - line-height：百分比相对自身 font
 - vertical-align：相对 line-height
 
-# css 上下文
+## css 上下文
+
 - BFC 块级格式化上下文 Block Formatting Context
   - 性质
     - 内部盒子垂直放置，相邻盒子 margin 重叠；不与外部元素 marign 重叠
@@ -115,7 +130,8 @@
   - flex-shrink：收缩规则默认：1，父容器溢出空间按子元素的 shrink 比例来分别压缩对应比率的 size，如果容器没有溢出则无效
   - flex-base：初始 size
 
-# 重绘和重排
+## 重绘和重排
+
 - 重绘：导致浏览器同步计算样式
 - 重排：导致浏览器同步计算样式和布局
   - 盒子被重新计算
@@ -173,7 +189,7 @@
     - flex + justify-content + align-items
     - 父 flex，子 margin: auto
 
-# @import 和 link 的区别
+## @import 和 link 的区别
+
 - @import 只能加载css，而且是页面加载完之后再加载
 - link 功能多，支持很多 rel，可以被 js 动态引入，兼容性比 @import 好
-

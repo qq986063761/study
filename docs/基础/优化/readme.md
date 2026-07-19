@@ -1,4 +1,7 @@
-# 资源
+# 优化
+
+## 资源
+
 - [掘金1](https://juejin.im/post/5b0b7d74518825158e173a0c)
 - [掘金2](https://juejin.im/post/5de87444518825124c50cd36)
 - [fundebug 性能监控](https://www.fundebug.com/)
@@ -7,7 +10,8 @@
 - [谷歌性能分析](https://accounts.google.com/signin/v2/identifier?service=analytics&passive=1209600&continue=https%3A%2F%2Fanalytics.google.com%2Fanalytics%2Fweb%2F%23&followup=https%3A%2F%2Fanalytics.google.com%2Fanalytics%2Fweb%2F&flowName=GlifWebSignIn&flowEntry=ServiceLogin)
 - [谷歌性能检查](pagespeed.web.dev/)
 
-# html
+## html
+
 - 省略协议：`<link href="//x.x.x/x.css">`，节省体积
 - dns 预解析
 ```html
@@ -19,21 +23,25 @@
 - 预加载：`<link rel="prefetch" href="other-page.js" as="script">`，先加载 body 中的资源，后预加载其他页面的资源
 - 预渲染页面：`<link rel="prerender" href="//example.com">`，先加载下一个页面缓存
 
-# 本地缓存
+## 本地缓存
+
 - Cookie：体积小（4kb），会随 http 发给服务器，影响效率
 - Web Storage：遵循同源策略，存储量大（5-10M）
   - Local Storage：永久存储
   - Session Storage：会话存储（页面关闭数据被删除）
 - IndexedDB：非关系数据库，存储量大（不小于250M） [localforage](https://localforage.docschina.org/#api-config)
 
-# 字体图标
+## 字体图标
+
 - [阿里字体图标](http://www.iconfont.cn/);
 
-# CDN（Content Delivery Network：内容分发网络）
+## CDN（Content Delivery Network：内容分发网络）
+
 - CDN 获取距离客户端最近的资源
 - 减少本地包大小
 
-# 优化图片
+## 优化图片
+
 - 图片类型：
   - JPEG/JPG：有损压缩、体积小、加载快、不支持透明；
   - PNG-8（支持 2 的 8 次方种颜色）/PNG-24：无损压缩、质量高、体积大、支持透明
@@ -46,7 +54,8 @@
   - 多图合并到一张图 [雪碧图生成器](https://www.toptal.com/developers/css/sprite-generator)
   - [WebP转换](https://www.upyun.com/webp)
 
-# webpack 优化打包速度
+## webpack 优化打包速度
+
 - 高版本 webpack
 - 高版本 node.js
 - 配置下列属性
@@ -60,18 +69,21 @@
 - DllPlugin、AutoDllPlugin：抽离不变动静态资源，避免重复打包
 - cache-loader：缓存开销大的 loader，下次打包减少打包时间；babel-loader 本身自带这个功能
 
-# webpack 减少打包体积（webpack自带配置已经包含了压缩部分）
+## webpack 减少打包体积（webpack自带配置已经包含了压缩部分）
+
 - 减少 main.js 中引入资源大小，避免 app.js 太大
 - css-split-webpack-plugin：拆分 css
 - compression-webpack-plugin：gzip 压缩，一般不需要前端做
 - webpack3.x 以下使用 extract-text-webpack-plugin：内部配置 allChunks 默认是true，会把所有样式放到 app.css 中，设置为 false 可分割模块 css
 
-# 懒加载
+## 懒加载
+
 - 路由懒加载（例如 vue-router 的懒加载）
 - 组件懒加载（例如 vue 的异步组件）
 - cdn懒加载（动态加载 cdn 资源）
 
-# 代码
+## 代码
+
 - 避免内存泄露（销毁不用事件，变量不用赋值 null）
 - 避免一次性加载大数据量内容（分页、数据懒加载）
 - 避免 JSON.stringify 和 JSON.parse 的参数层级深
@@ -79,7 +91,8 @@
 - 懒加载库（lazy-load）优化多图显示
 - 减少不必要 ajax 请求
 
-# 浏览器渲染
+## 浏览器渲染
+
 - css 引擎查找规则：从右到左匹配，避免复杂选择器
   - 不用通配符 *
   - 可继承属性不用重复定义在子选择器中
@@ -98,7 +111,8 @@
     - 多次 style 属性改变，换成一次 class 的修改
     - 必须多次修改 style 操作，可先 display：none，设置完所有样式后，再设置 display：block 显示减少中间损耗
 
-# 单页面（spa）应用首屏优化
+## 单页面（spa）应用首屏优化
+
 - 减小入口文件积
 - 静态资源本地缓存
 - UI库按需加载
@@ -107,7 +121,8 @@
 - GZip压缩
 - SSR服务端渲染
 
-# 性能监控
+## 性能监控
+
 - 两个角度：
   - 时间：常见耗时，如页面加载耗时、渲染耗时、网络耗时、脚本执行耗时等。
   - 空间：资源占用，包括 CPU 占用、内存占用、本地缓存占用等。
@@ -127,13 +142,15 @@
 - 利用 performance 变量获取页面加载性能信息
   - 调用 api：`performance.getEntriesByType('navigation')`获取具体的时间区间信息，[相关网站](https://developer.mozilla.org/zh-CN/docs/Web/API/Performance)
 
-# 页面埋点
+## 页面埋点
+
 - 来源类型：PV（页面浏览量）/ UV（通过互联网访问网页的人）；停留时长；流量来源；用户交互；
 - 实现类型：
   - 手写埋点：程序员手写代码；
   - 无埋点：统计事件定时上报，然后做筛选；
 
-# 异常监控
+## 异常监控
+
 - 需要异常的原因
   - 增强用户体验
   - 远程定位问题
@@ -151,10 +168,10 @@
   - 崩溃、卡顿
     - 利用 window 的 load 和 beforeunload
 
+## 实战案例
 
-# 实战案例 
+### 首屏加载优化，开发过程
 
-## 首屏加载优化，开发过程
 - 检查资源请求大小，检查分析图表中各模块内的大小，得出需要拆分的包 vendor.js app.js ...；
 - 三方包改成 cdn 延迟加载减少包体积，没 cdn 的包，把 require 封装到异步组件内，用 if 控制组件出现时机
 - 项目内路由改造成懒加载，全局插件、组件改造成异步组件

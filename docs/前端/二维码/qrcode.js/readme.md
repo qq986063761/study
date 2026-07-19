@@ -1,1 +1,3 @@
-[qrcodejs](https://github.com/davidshimjs/qrcodejs)
+# QRCode.js
+
+- [qrcodejs](https://github.com/davidshimjs/qrcodejs)

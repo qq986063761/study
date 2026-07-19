@@ -1,17 +1,22 @@
-# 资源
+# TypeScript
+
+## 资源
+
 - [文档](https://www.tslang.cn/docs/home.html);
 
-# 编译
+## 编译
+
 - 安装编译器：npm install -g typescript;
 - 编译代码：tsc demo.ts;
 - 安装直接编译运行的包：npm install -g ts-node
 - 直接运行 ts 文件：ts-node demo.ts
 
-# 好处
+## 好处
+
 - 类型检查：编码时就能快速检测、抛出类型错误
 - 避免低级错误
 
-# interface 和 type 的区别
+## interface 和 type 的区别
 
 - 相同：都可以定义对象类型，都支持继承和泛型。
 - 不同：
@@ -71,14 +76,13 @@ interface Preview2 extends Pick<Base, 'name' | 'email'> {
 > - 普通对象优先用 `interface`。
 > - 联合类型、工具类型、复杂类型组合优先用 `type`。
 
+## 联合类型（`|`）和交叉类型（`&`）
 
-# 联合类型（`|`）和交叉类型（`&`）
-
-## 联合类型（`|`）
+### 联合类型（`|`）
 
 > 联合类型表示**一个值可以是多种类型中的任意一种**。
 
-### 它解决了什么问题？
+#### 它解决了什么问题？
 
 实际开发中，一个变量并不一定只有一种类型。
 
@@ -97,7 +101,7 @@ value = "Tom";
 value = 18;
 ```
 
-### 白话理解
+#### 白话理解
 
 可以理解成：
 
@@ -127,11 +131,11 @@ function print(value: string | number) {
 
 ---
 
-## 交叉类型（`&`）
+### 交叉类型（`&`）
 
 > 交叉类型表示**把多个类型合并成一个类型**。
 
-### 它解决了什么问题？
+#### 它解决了什么问题？
 
 有时候希望一个对象同时拥有多个类型的属性。
 
@@ -167,7 +171,7 @@ const emp: Employee = {
 };
 ```
 
-### 白话理解
+#### 白话理解
 
 可以理解成：
 
@@ -185,14 +189,14 @@ Person & Worker
 
 ---
 
-### 一句话总结
+#### 一句话总结
 
 * **`|`（联合类型）**：满足其中一种类型即可。
 * **`&`（交叉类型）**：必须同时满足所有类型。
 
 ---
 
-# 什么是类型断言（`as`）？
+## 什么是类型断言（`as`）？
 
 > 类型断言可以理解成 **"告诉 TypeScript：这个值是什么类型，我比你更清楚。"**
 
@@ -238,7 +242,7 @@ div.innerHTML = "Hello";
 
 ---
 
-### 什么时候会用到？
+#### 什么时候会用到？
 
 常见场景：
 
@@ -256,7 +260,7 @@ input.value = "Tom";
 
 ---
 
-### 白话理解
+#### 白话理解
 
 可以理解成：
 
@@ -288,14 +292,13 @@ console.log(num);
 
 ---
 
-### 一句话总结
+#### 一句话总结
 
 > **`as` 的作用是手动指定变量的类型，让 TypeScript 按照指定的类型进行检查，但不会改变变量真正的数据类型。**
 
 > 什么时候不用 as：**能让 TypeScript 自动推导时，就不要使用 `as`；只有当 TypeScript 无法正确推导，而开发者明确知道实际类型时，再使用 `as`。过度使用 `as` 会绕过类型检查，降低 TypeScript 的类型安全。**
 
-
-# 什么是泛型？它解决了什么问题？
+## 什么是泛型？它解决了什么问题？
 
 > 泛型可以理解成**类型的占位符**，定义时不用指定具体类型，等调用时再确定具体是什么类型。
 
@@ -316,7 +319,7 @@ console.log(num);
 
 ---
 
-# 怎么限制泛型必须有哪些属性？
+## 怎么限制泛型必须有哪些属性？
 
 > 泛型默认可以接收任意类型，如果希望它必须具备某些属性，可以使用 **`extends`** 进行约束。
 
@@ -353,7 +356,7 @@ T extends Lengthwise
 
 > **T 不限制具体类型，但必须拥有 `length` 属性。**
 
-# extends 能做什么？
+## extends 能做什么？
 
 > `extends` 可以理解成 **"加限制"** 或 **"设置条件"**，表示某个类型必须满足指定要求。
 
@@ -371,7 +374,7 @@ T extends Lengthwise
 
 ---
 
-## ① 接口继承
+### ① 接口继承
 
 用于**复用已有接口**，避免重复定义相同属性。
 
@@ -391,7 +394,7 @@ interface Student extends Person {
 
 ---
 
-## ② 泛型约束（最常用）
+### ② 泛型约束（最常用）
 
 用于**限制泛型必须满足某些条件**。
 
@@ -419,7 +422,7 @@ function log<T extends Lengthwise>(arg: T) {}
 
 ---
 
-## ③ 条件类型
+### ③ 条件类型
 
 根据类型不同，返回不同的结果。
 
@@ -442,7 +445,7 @@ type Result<T> = T extends string ? number : boolean;
 
 ---
 
-### 白话理解
+#### 白话理解
 
 `extends` 可以理解成：
 
@@ -460,7 +463,7 @@ type Result<T> = T extends string ? number : boolean;
 
 ---
 
-# keyof 作用是什么？
+## keyof 作用是什么？
 
 > `keyof` 可以理解成 **"取对象所有属性名"**。
 
@@ -478,7 +481,7 @@ TypeScript 无法提前发现。
 
 ---
 
-## ① 获取所有 key
+### ① 获取所有 key
 
 ```ts
 interface User {
@@ -501,7 +504,7 @@ type Keys = "name" | "age";
 
 ---
 
-## ② 配合泛型约束（最常考）
+### ② 配合泛型约束（最常考）
 
 ```ts
 function getProp<T, K extends keyof T>(obj: T, key: K) {
@@ -528,7 +531,7 @@ getProp(user, "sex");  // ❌ 不存在
 
 ---
 
-### 白话理解
+#### 白话理解
 
 `keyof` 就像：
 
@@ -540,7 +543,7 @@ getProp(user, "sex");  // ❌ 不存在
 
 > **keyof 的核心作用就是获取对象所有属性名，并约束属性访问只能使用合法的 key，提高类型安全。**
 
-# infer 作用是什么？
+## infer 作用是什么？
 
 > `infer` 可以理解成 **"自动提取类型"**，通常配合条件类型使用。
 
@@ -566,7 +569,7 @@ type A = FirstArg<(x: number, y: string) => void>;
 // number
 ```
 
-### 白话理解
+#### 白话理解
 
 `infer` 就像：
 
@@ -590,13 +593,13 @@ string
 
 ---
 
-# 常用 Utility Types（工具类型）
+## 常用 Utility Types（工具类型）
 
 > Utility Types 是 TypeScript 内置的一些工具类型，用来**快速修改已有类型**，避免重复定义相同的类型。
 
-## ⭐⭐⭐⭐⭐ 必会
+### ⭐⭐⭐⭐⭐ 必会
 
-### `Partial<T>`
+#### `Partial<T>`
 
 > **把所有属性变成可选。**
 
@@ -621,7 +624,7 @@ type UpdateUser = Partial<User>;
 
 ---
 
-### `Pick<T, K>`
+#### `Pick<T, K>`
 
 > **从已有类型中挑选指定属性。**
 
@@ -641,7 +644,7 @@ type UserInfo = Pick<User, "name">;
 
 ---
 
-### `Omit<T, K>`
+#### `Omit<T, K>`
 
 > **从已有类型中排除指定属性。**
 
@@ -660,7 +663,7 @@ type CreateUser = Omit<User, "id">;
 
 ---
 
-### `Record<K, T>`
+#### `Record<K, T>`
 
 > **快速创建一个对象类型。**
 
@@ -688,7 +691,7 @@ type UserMap = Record<string, User>;
 
 ---
 
-### `Readonly<T>`
+#### `Readonly<T>`
 
 > **把所有属性变成只读。**
 
@@ -713,9 +716,9 @@ config.name = "Jack";
 
 ---
 
-## ⭐⭐⭐⭐ 经常问
+### ⭐⭐⭐⭐ 经常问
 
-### `ReturnType<T>`
+#### `ReturnType<T>`
 
 > **获取函数返回值类型。**
 
@@ -736,7 +739,7 @@ type User = ReturnType<typeof getUser>;
 
 ---
 
-### `Parameters<T>`
+#### `Parameters<T>`
 
 > **获取函数参数类型（返回元组）。**
 
@@ -753,9 +756,9 @@ type Params = Parameters<typeof login>;
 
 ---
 
-## ⭐⭐⭐ 知道即可
+### ⭐⭐⭐ 知道即可
 
-### `Exclude<T, U>`
+#### `Exclude<T, U>`
 
 > **从联合类型中排除指定类型。**
 
@@ -766,7 +769,7 @@ type A = Exclude<string | number | boolean, number>;
 
 ---
 
-### `Extract<T, U>`
+#### `Extract<T, U>`
 
 > **从联合类型中提取指定类型。**
 
@@ -777,7 +780,7 @@ type A = Extract<string | number | boolean, number>;
 
 ---
 
-### `NonNullable<T>`
+#### `NonNullable<T>`
 
 > **去掉 `null` 和 `undefined`。**
 
@@ -788,7 +791,7 @@ type A = NonNullable<string | null | undefined>;
 
 ---
 
-### `Awaited<T>`
+#### `Awaited<T>`
 
 > **获取 Promise 最终返回的数据类型。**
 
@@ -799,7 +802,7 @@ type A = Awaited<Promise<string>>;
 
 ---
 
-### `Required<T>`
+#### `Required<T>`
 
 > **把所有可选属性变成必选。**
 
@@ -815,7 +818,7 @@ type A = Required<User>;
 
 ---
 
-## 面试高频
+### 面试高频
 
 如果面试官问：
 
@@ -825,14 +828,13 @@ type A = Required<User>;
 
 > **`Partial`、`Pick`、`Omit`、`Record`、`Readonly` 用得最多；`ReturnType` 和 `Parameters` 在封装公共方法、工具函数时也比较常用。其他像 `Exclude`、`Extract`、`NonNullable`、`Awaited`、`Required` 更多是在工具类型或框架源码中见得比较多。**
 
+## any、unknown、never 有什么区别？
 
-# any、unknown、never 有什么区别？
-
-## any
+### any
 
 > **放弃类型检查。**
 
-### 它解决了什么问题？
+#### 它解决了什么问题？
 
 适合临时兼容旧 JavaScript 代码，或者类型暂时无法确定。
 
@@ -854,11 +856,11 @@ data.toFixed(); // 编译不报错，运行时报错
 
 ---
 
-## unknown
+### unknown
 
 > **可以接收任何类型，但使用前必须先判断类型。**
 
-### 它解决了什么问题？
+#### 它解决了什么问题？
 
 既希望接收任意数据，又希望保证类型安全。
 
@@ -870,7 +872,7 @@ function handle(data: unknown) {
 }
 ```
 
-### 白话理解
+#### 白话理解
 
 可以理解成：
 
@@ -882,11 +884,11 @@ function handle(data: unknown) {
 
 ---
 
-## never
+### never
 
 > **表示永远不会出现的类型。**
 
-### 它解决了什么问题？
+#### 它解决了什么问题？
 
 用于表示：
 
@@ -922,7 +924,7 @@ type A = string & number;
 
 ---
 
-# TypeScript 的类型推导机制是怎样的？什么情况下必须显式声明类型？
+## TypeScript 的类型推导机制是怎样的？什么情况下必须显式声明类型？
 
 > TypeScript 最大的特点就是**很多类型不用自己写，它会自动推导出来。**
 
@@ -943,7 +945,7 @@ function add(a: number, b = 6) {
 // 返回值自动推导为 number
 ```
 
-### 它解决了什么问题？
+#### 它解决了什么问题？
 
 减少重复写类型，提高开发效率。
 
@@ -965,9 +967,9 @@ TypeScript 自己就知道是 `number`。
 
 ---
 
-## 什么情况下必须自己声明类型？
+### 什么情况下必须自己声明类型？
 
-### ① 函数参数
+#### ① 函数参数
 
 TS 无法知道别人会传什么类型。
 
@@ -981,7 +983,7 @@ function greet(name: string) {
 
 ---
 
-### ② 变量没有初始化
+#### ② 变量没有初始化
 
 ```ts
 let result: number;
@@ -997,7 +999,7 @@ TS 不知道它是什么类型。
 
 ---
 
-### ③ 返回类型比较复杂
+#### ③ 返回类型比较复杂
 
 例如：
 
@@ -1013,7 +1015,7 @@ function deepClone<T>(obj: T): T {
 
 ---
 
-### ④ 希望对象遵循固定结构
+#### ④ 希望对象遵循固定结构
 
 ```ts
 const config: {
@@ -1030,18 +1032,17 @@ const config: {
 
 ---
 
-### 一句话总结
+#### 一句话总结
 
 > **TypeScript 能推导的就让它推导，推导不了或希望限制更严格时，再手动声明类型。**
 
+## 什么是类型守卫、类型谓词？
 
-# 什么是类型守卫、类型谓词？
-
-## 类型守卫（Type Guard）
+### 类型守卫（Type Guard）
 
 > 类型守卫可以理解成 **"帮助 TypeScript 判断变量真实类型"**。
 
-### 它解决了什么问题？
+#### 它解决了什么问题？
 
 当一个变量可能有多种类型时：
 
@@ -1065,7 +1066,7 @@ TypeScript 不知道它到底是哪一种，所以不能直接访问对应的方
 
 ---
 
-## 自定义类型谓词
+### 自定义类型谓词
 
 > 当内置类型守卫不够用时，可以自己定义判断逻辑。
 
@@ -1093,7 +1094,7 @@ if (isCat(animal)) {
 }
 ```
 
-### 白话理解
+#### 白话理解
 
 ```ts
 animal is Cat
@@ -1113,8 +1114,7 @@ animal as Cat
 
 > **类型守卫负责判断类型，类型谓词负责把判断结果告诉 TypeScript，让它自动缩窄类型。**
 
-
-# 如何做 API 类型约束？
+## 如何做 API 类型约束？
 
 > API 类型约束就是**给接口的请求参数和返回数据定义类型**，避免接口变更导致前端代码出错。
 
@@ -1147,7 +1147,7 @@ async function getUser(id: number) {
 }
 ```
 
-### 白话理解
+#### 白话理解
 
 可以理解成：
 
@@ -1171,7 +1171,7 @@ name
 
 ---
 
-### 常见做法
+#### 常见做法
 
 * 使用 `interface` 或 `type` 定义请求参数和返回值。
 * 使用泛型封装统一请求方法。
@@ -1179,7 +1179,7 @@ name
 
 ---
 
-# 怎样实现前后端类型共享？
+## 怎样实现前后端类型共享？
 
 > 前后端类型共享就是**前后端共用一份类型定义**，避免接口文档和代码不一致。
 
@@ -1211,7 +1211,7 @@ user.userName
 
 ---
 
-### 常见方案
+#### 常见方案
 
 * **Monorepo / npm workspace**（目前最常见）
 
@@ -1227,13 +1227,13 @@ user.userName
 
 ---
 
-### 一句话总结
+#### 一句话总结
 
 > **核心思想就是：类型只维护一份，前后端共同使用。**
 
 ---
 
-# TypeScript 的自动推导是怎样的？
+## TypeScript 的自动推导是怎样的？
 
 > TypeScript 会根据上下文自动推导变量、函数、泛型等类型，大多数情况下不用手动声明。
 
@@ -1275,11 +1275,11 @@ identity("hello");
 
 ---
 
-## `as const`
+### `as const`
 
 > **让字面量保持最精确的类型。**
 
-### 它解决了什么问题？
+#### 它解决了什么问题？
 
 默认：
 
@@ -1317,11 +1317,11 @@ type: "increment"
 
 ---
 
-## `satisfies`
+### `satisfies`
 
 > **验证对象是否满足某个类型，但不会丢失自身推导出的具体类型。**
 
-### 它解决了什么问题？
+#### 它解决了什么问题？
 
 既想检查对象是否符合要求，又希望保留对象最精确的类型。
 
@@ -1339,14 +1339,13 @@ const config = {
 
 ---
 
-### 一句话总结
+#### 一句话总结
 
 * **自动推导**：能推导就不用手写类型。
 * **`as const`**：让类型保持最精确。
 * **`satisfies`**：既校验类型，又保留对象自身的推导结果。
 
-
-# 什么是 `.d.ts` 声明文件？
+## 什么是 `.d.ts` 声明文件？
 
 > `.d.ts`（Declaration File）是 **TypeScript 的声明文件**，里面**只写类型声明，不写具体实现代码**。
 
@@ -1365,7 +1364,7 @@ TypeScript 在编译时需要知道：
 
 ---
 
-## 白话理解
+### 白话理解
 
 可以理解成：
 
@@ -1414,9 +1413,9 @@ utils.js
 
 ---
 
-## 项目中什么时候会用到？
+### 项目中什么时候会用到？
 
-### ① 给 JavaScript 项目补充类型（最常见）
+#### ① 给 JavaScript 项目补充类型（最常见）
 
 例如：
 
@@ -1436,7 +1435,7 @@ utils.d.ts
 
 ---
 
-### ② 第三方库提供类型
+#### ② 第三方库提供类型
 
 例如：
 
@@ -1477,7 +1476,7 @@ TypeScript 会自动读取。
 
 ---
 
-### ③ 自己声明模块
+#### ③ 自己声明模块
 
 例如：
 
@@ -1513,7 +1512,7 @@ import logo from "./logo.png";
 
 ---
 
-## `.d.ts` 文件一般放哪里？
+### `.d.ts` 文件一般放哪里？
 
 没有强制要求。
 
@@ -1555,7 +1554,7 @@ tsconfig.json
 
 ---
 
-## `.d.ts` 会不会打包？
+### `.d.ts` 会不会打包？
 
 不会。
 
@@ -1575,14 +1574,13 @@ dist/
 
 ---
 
-## 一句话总结
+### 一句话总结
 
 > **`.d.ts` 是 TypeScript 的类型声明文件，只提供类型信息，不提供实现代码，主要用于给 JavaScript、第三方库或全局变量补充类型，让 TypeScript 能进行类型检查和代码提示。**
 
+## Schema 校验（Zod）
 
-# Schema 校验（Zod）
-
-## 什么是 Zod？
+### 什么是 Zod？
 
 **Zod 是一个 TypeScript 优先的运行时 Schema 校验库。**
 
@@ -1594,7 +1592,7 @@ dist/
 
 ---
 
-# 为什么需要 Zod？
+## 为什么需要 Zod？
 
 很多人以为 TypeScript 能保证接口返回的数据一定正确，其实不是。
 
@@ -1629,7 +1627,7 @@ TypeScript **不会在程序运行时检查**这个数据。
 
 ---
 
-# Zod 解决了什么问题？
+## Zod 解决了什么问题？
 
 Zod 会在**运行时**检查数据是否符合我们定义的 Schema。
 
@@ -1681,7 +1679,7 @@ Received string
 
 ---
 
-# 为什么推荐使用 Zod？
+## 为什么推荐使用 Zod？
 
 以前通常需要维护两份代码：
 
@@ -1725,7 +1723,7 @@ type User = z.infer<typeof UserSchema>;
 
 ---
 
-# 基本使用
+## 基本使用
 
 ```ts
 import { z } from "zod";
@@ -1751,7 +1749,7 @@ function parseUser(data: unknown) {
 
 ---
 
-# 常见使用场景
+## 常见使用场景
 
 ### 1. 前端接口数据校验
 
@@ -1763,7 +1761,7 @@ const user = UserSchema.parse(res.data);
 
 ---
 
-### 2. 表单校验
+#### 2. 表单校验
 
 ```ts
 const LoginSchema = z.object({
@@ -1776,7 +1774,7 @@ const LoginSchema = z.object({
 
 ---
 
-### 3. 后端请求参数校验
+#### 3. 后端请求参数校验
 
 ```ts
 LoginSchema.parse(req.body);
@@ -1786,7 +1784,7 @@ LoginSchema.parse(req.body);
 
 ---
 
-### 4. 前后端共享 Schema
+#### 4. 前后端共享 Schema
 
 同一份 Schema 可以同时用于：
 
@@ -1799,6 +1797,6 @@ LoginSchema.parse(req.body);
 
 ---
 
-# 面试回答
+## 面试回答
 
 > Zod 是一个 TypeScript 优先的运行时 Schema 校验库。它主要解决了 TypeScript 无法校验运行时数据的问题，例如接口返回的数据可能类型错误、字段缺失或格式不正确。通常我们会先定义一份 Schema，再通过 `parse()` 对数据进行运行时校验，同时使用 `z.infer` 自动生成 TypeScript 类型，实现类型定义和数据校验统一维护。Zod 常用于接口数据校验、表单校验以及前后端共享数据模型。

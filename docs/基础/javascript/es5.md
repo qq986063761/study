@@ -1,6 +1,9 @@
-# 内置对象
+# ES5
 
-# Global
+## 内置对象
+
+## Global
+
 ```js
   // 正无穷，不是数值，不存在
   Infinity;
@@ -40,7 +43,8 @@
   Error
 ```
 
-# Number
+## Number
+
 ```js
   // 最大值
   Number.MAX_VALUE
@@ -70,7 +74,8 @@
   (66).toFixed(2)
 ```
 
-# String
+## String
+
 ```js
   // 获取对应索引位置的字符
   '1234567890'.charAt(2)
@@ -130,7 +135,8 @@
   'sfasfasfasfsfdsafsf'.toUpperCase()
 ```
 
-# Array
+## Array
+
 ```js
   // 连接数组，返回新数组，返回新的数组引用，内部引用类型不会被深拷贝
   [1, 2, 3].concat([6, 7], [8, 9])
@@ -206,7 +212,8 @@
   [1, 2, 3, 4].toLocaleString()
 ```
 
-# Date
+## Date
+
 ```js
   var now = new Date();
 
@@ -267,7 +274,8 @@
   now.setMilliseconds(9);
 ```
 
-# Function
+## Function
+
 ```js
   // 定义函数
   function fuc(a, b) {
@@ -288,7 +296,8 @@
   var bindFuc = fuc.bind(obj, 2, 5)
 ```
 
-# Error
+## Error
+
 ```js
   // 捕获异常
   try {
@@ -298,7 +307,8 @@
   }
 ```
 
-# RegExp
+## RegExp
+
 ```js
   // 定义正则，g：全局搜索；i：区分大小写
   var reg = new RegExp(/[a-z]+/g);
@@ -310,7 +320,8 @@
   reg.test('aa3&abc')
 ```
 
-# Math
+## Math
+
 ```js
   // 圆周率
   Math.PI
@@ -349,7 +360,8 @@
   Math.sqrt(4)
 ```
 
-# Ajax
+## Ajax
+
 ```js
   /*
     AJax概念:
@@ -398,7 +410,8 @@
   }
 ```
 
-# dom元素操作
+## dom元素操作
+
 ```js
 /*--------------- dom节点 -----------------*/
 // 通过id名获取dom

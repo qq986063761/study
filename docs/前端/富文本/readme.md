@@ -1,6 +1,6 @@
 # 富文本
 
-[Markdown 中文网](https://www.markdown.cn/docs/tutorial-basics/basic-syntax)
+- [Markdown 中文网](https://www.markdown.cn/docs/tutorial-basics/basic-syntax)
 
 ## 需求备忘
 

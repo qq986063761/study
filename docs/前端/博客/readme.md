@@ -1,1 +1,3 @@
-[VitePress](https://vitepress.dev/zh/)
+# 博客
+
+- [VitePress](https://vitepress.dev/zh/)

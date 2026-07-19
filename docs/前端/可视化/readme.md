@@ -5,21 +5,21 @@
 ## 分类
 
 - 图表/可视化库
-	- [ECharts](https://echarts.apache.org/zh/index.html)：适合统计图、地图与仪表盘，声明式配置、生态丰富，基于 `zrender`。
+  - [ECharts](https://echarts.apache.org/zh/index.html)：适合统计图、地图与仪表盘，声明式配置、生态丰富，基于 `zrender`。
 - Vue 可视化组件/面板
-	- [vue data ui](https://vue-data-ui.graphieros.com/)：基于 Vue 的数据展示组件集合，适合快速搭建仪表盘与管理后台面板。
+  - [vue data ui](https://vue-data-ui.graphieros.com/)：基于 Vue 的数据展示组件集合，适合快速搭建仪表盘与管理后台面板。
 - 甘特/时间线
-	- [frappe Gantt](https://frappe.io/gantt)：专注甘特图与任务排期，轻量易嵌入，适合项目排期展示。
+  - [frappe Gantt](https://frappe.io/gantt)：专注甘特图与任务排期，轻量易嵌入，适合项目排期展示。
 - 脑图/结构化图
-	- [Mind-elixir](https://docs.mind-elixir.com/zh-Hans/)：思维导图编辑与交互，适合知识梳理、树状结构编辑。
+  - [Mind-elixir](https://docs.mind-elixir.com/zh-Hans/)：思维导图编辑与交互，适合知识梳理、树状结构编辑。
 - Canvas 编辑与场景构建
-	- [fabric.js](https://fabricjs.com/)：面向对象的 Canvas 编辑库，适合可拖拽、可编辑的图形编辑器与绘图工具。
+  - [fabric.js](https://fabricjs.com/)：面向对象的 Canvas 编辑库，适合可拖拽、可编辑的图形编辑器与绘图工具。
 - 高性能 Canvas/图层管理
-	- [Konva](https://konvajs.org/api/Konva.html)：提供图层管理与事件，适合复杂交互、动画与高性能 2D 场景。
+  - [Konva](https://konvajs.org/api/Konva.html)：提供图层管理与事件，适合复杂交互、动画与高性能 2D 场景。
 - 2D 渲染引擎（底层）
-	- [zrender](https://ecomfe.github.io/zrender-doc/public/)：轻量 2D 绘制引擎，ECharts 的渲染底层，适合自建图形渲染层。
+  - [zrender](https://ecomfe.github.io/zrender-doc/public/)：轻量 2D 绘制引擎，ECharts 的渲染底层，适合自建图形渲染层。
 - WebGL 高性能渲染
-	- [PixiJS](https://pixijs.com/)：基于 WebGL 的 2D 渲染引擎，适合大量精灵、复杂动画或拟游戏化的可视化场景。
+  - [PixiJS](https://pixijs.com/)：基于 WebGL 的 2D 渲染引擎，适合大量精灵、复杂动画或拟游戏化的可视化场景。
 
 ## 快速选型建议
 

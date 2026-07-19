@@ -1,2 +1,5 @@
-# 资源
+# hotkeys
+
+## 资源
+
 - [官网](https://wangchujiang.com/hotkeys-js/)

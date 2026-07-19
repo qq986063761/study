@@ -1,3 +1,5 @@
-# 资源
+# PhotoSwipe
+
+## 资源
 
 - [官网](https://photoswipe.com/)

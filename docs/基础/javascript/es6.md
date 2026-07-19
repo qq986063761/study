@@ -1,7 +1,11 @@
-# 资源
+# ES6
+
+## 资源
+
 - [es6](http://es6.ruanyifeng.com/)
 
-# 变量声明
+## 变量声明
+
 ```js
   // 具有作用域的变量声明
   let value = null 
@@ -11,7 +15,8 @@
   // es6 的变量声明包含 var、function、let、const、import、class
 ```
 
-# String
+## String
+
 ```js
   // 字符串可以用 for of 遍历
 
@@ -43,7 +48,8 @@
   'a,a,a,a,a'.matchAll('a')
 ```
 
-# Number
+## Number
+
 ```js
   // 二进制和八进制表示
   Number(0b11101111)
@@ -73,7 +79,8 @@
   2 ** 2
 ```
 
-# Function
+## Function
+
 ```js
   // rest 展开参数替代
   // 函数支持默认参数
@@ -88,7 +95,8 @@
   try {} catch {}
 ```
 
-# Array
+## Array
+
 ```js
   // 判断是否是数组
   Array.isArray([])
@@ -135,7 +143,8 @@
   [2, 3, 4].flatMap(x => [x, x * 2])
 ```
 
-# Object
+## Object
+
 ```js
   // 属性简写，属性名支持表达式，扩展运算，方法简写
   let obj = {
@@ -173,7 +182,8 @@
   ])
 ```
 
-# Symbol
+## Symbol
+
 ```js
   // 能保持唯一的对象
   var s = Symbol("name")
@@ -186,7 +196,8 @@
   Symbol.keyFor(s)
 ```
 
-# Set 和 Map
+## Set 和 Map
+
 ```js
   // 特性：成员不会出现重复
   // 参数：（用于初始化的数组）
@@ -227,7 +238,8 @@
   // WeakMap 其他方法和 Map 一样，但是只接受 object 作为 key
 ```
 
-# Proxy
+## Proxy
+
 ```js
   // 代理对象，用于拦截对象行为
   var obj = new Proxy({}, {
@@ -243,7 +255,8 @@
   });
 ```
 
-# Reflect（用于存放和语言内部相关的方法）
+## Reflect（用于存放和语言内部相关的方法）
+
 ```js
   // 定义对象属性描述配置
   Reflect.defineProperty({}, 'name', {
@@ -269,7 +282,8 @@
   Reflect.ownKeys({a: 1})
 ```
 
-# Promise
+## Promise
+
 ```js
   // 一种异步编程解决方案
   var p = new Promise((resolve, reject) => {
@@ -300,7 +314,8 @@
   Promise.reject('error')
 ```
 
-# Generator 函数
+## Generator 函数
+
 ```js
   // 定义 Generator 函数，返回一个迭代对象
   function* FnGenerator() {
@@ -316,7 +331,8 @@
   hw.next() // { value: undefined, done: true }
 ```
 
-# 异步函数
+## 异步函数
+
 ```js
   // 更优雅的异步操作
   async function getData() {
@@ -325,7 +341,8 @@
   }
 ```
 
-# Class
+## Class
+
 ```js
   // 类：替代 es5 构造函数创建实例的方案，一类模板
   class Animal {
@@ -366,7 +383,8 @@
   }
 ```
 
-# Module 模块化
+## Module 模块化
+
 ```js
   // 向外定义接口（接口可以是任何对象）
   export function fn() {} 

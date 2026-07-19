@@ -1,3 +1,6 @@
-# 资源
+# screenfull.js
+
+## 资源
+
 - [github](https://github.com/sindresorhus/screenfull.js/)
 - [npm](https://www.npmjs.com/package/screenfull)

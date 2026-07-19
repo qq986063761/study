@@ -1,14 +1,18 @@
-[astro](https://astro.build/)
-[中文文档](https://docs.astro.build/zh-cn/)
+# Astro
+
+- [astro](https://astro.build/)
+- [中文文档](https://docs.astro.build/zh-cn/)
 
 Astro 是一个面向静态网站和内容型站点的前端框架，它的核心优势是“默认生成静态页面、按需加载交互式组件”，从而获得更快的首屏性能和更小的客户端脚本。
 
 适合场景：
+
 - 博客、文档站、营销页面、产品官网、知识库等以内容展示为主的网站。
 - 希望用多种前端框架（Vue/React/Svelte/Preact 等）混合开发的项目。
 - 希望减少浏览器端 JavaScript 负载、提高 SEO 和页面加载速度的项目。
 
 它解决的问题：
+
 - 传统 SPA 首屏慢、SEO 差、客户端 JS 体积大的问题。
 - 内容站点需要大量静态渲染，同时又希望保留少量交互组件的需求。
 - 多框架共存与按需水合（partial hydration）带来的开发复杂度。

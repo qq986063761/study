@@ -1,5 +1,7 @@
-[numeral](http://numeraljs.com/)
-[掘金 el-input 支持千分位](https://juejin.cn/post/7042497719142711303)
+# numeral
+
+- [numeral](http://numeraljs.com/)
+- [掘金 el-input 支持千分位](https://juejin.cn/post/7042497719142711303)
 
 ```js
 // 设置光标所在位置
