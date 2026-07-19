@@ -40,7 +40,7 @@ export default defineConfig(({ command }) => ({
         './routes': './src/exports/routes.ts',
         './i18n': './src/exports/i18n.ts',
         './components': './src/exports/components.ts',
-        './global-components': './src/exports/global-components.ts',
+        './plugins': './src/exports/plugins.ts',
       },
       shared: {
         vue: { singleton: true },

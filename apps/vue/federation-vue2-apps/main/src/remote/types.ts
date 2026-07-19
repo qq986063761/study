@@ -88,7 +88,7 @@ export type RemoteExposedModule =
   | './ajax'
   | './i18n'
   | './components'
-  | './global-components'
+  | './plugins'
 
 export interface RemoteModule {
   name: string

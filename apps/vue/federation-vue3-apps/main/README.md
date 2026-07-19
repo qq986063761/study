@@ -18,7 +18,7 @@ federation({
     './ajax': './src/exports/ajax.ts',
     './i18n': './src/exports/i18n.ts',
     './components': './src/exports/components.ts',
-    './global-components': './src/exports/global-components.ts',
+    './plugins': './src/exports/plugins.ts',
   },
 })
 ```
@@ -28,7 +28,7 @@ federation({
 - `./ajax`：导出 ajax 工厂，接口只写相对路径
 - `./i18n`：导出裸语言 messages（不要自带 app1/app2 前缀，main 合并时会补命名空间）
 - `./components`：导出局部组件异步加载器
-- `./global-components`：导出弹窗类组件对象，供 `@main/runtime` 的 `ui` 方法式调用
+- `./plugins`：导出弹窗类组件对象，供 `@main/runtime` 的 `ui` 方法式调用
 
 ## 2. 调用方式（@main/runtime）
 
@@ -126,11 +126,11 @@ const { t, locale } = useI18n()
 ## 5. 检查清单
 
 - 子应用 `name` 要和 main 的 remote 名一致
-- 必须暴露 `./routes`、`./store`、`./ajax`、`./i18n`、`./components`、`./global-components`
+- 必须暴露 `./routes`、`./store`、`./ajax`、`./i18n`、`./components`、`./plugins`
 - routes 不写主应用挂载前缀
 - ajax 只写相对接口路径
 - i18n 只导出裸 messages，不要自带 app 名前缀
 - `./components` 只放局部组件加载器
-- `./global-components` 只放弹窗类组件对象，key 要稳定，例如 `modal`
+- `./plugins` 只放弹窗类组件对象，key 要稳定，例如 `modal`
 - `vue`、`vue-router`、`pinia`、`element-plus`、`vue-i18n` 保持 shared singleton
 - `@main/runtime`：main 提供、app1/app2 `import: false`

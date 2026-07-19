@@ -3,7 +3,7 @@ import type { ComponentOptions, VueConstructor } from 'vue'
 import router from '../router'
 import store from '../store'
 import MainModal from '../components/modal.vue'
-import { loadRemoteGlobalComponents } from './modules'
+import { loadRemotePlugins } from './modules'
 import type {
   RemoteGlobalAsyncComponentOptions,
   RemoteGlobalComponentExport,
@@ -47,7 +47,7 @@ export async function invokeGlobalComponent(
   const components = await ensureRemoteGlobalComponents(appName)
   const exported = components[componentName]
   if (!exported) {
-    throw new Error(`[main] 子应用 ${appName} 的 global-components 未导出 ${componentName}`)
+    throw new Error(`[main] 子应用 ${appName} 的 plugins 未导出 ${componentName}`)
   }
 
   return invokeGlobalComponentMethod(appName, componentName, exported, methodName, ...args)
@@ -60,7 +60,7 @@ function invokeLocalGlobalComponent(
 ): Promise<unknown> {
   const exported = localGlobalComponents[componentName]
   if (!exported) {
-    return Promise.reject(new Error(`[main] 本地 global-components 未注册 ${componentName}`))
+    return Promise.reject(new Error(`[main] 本地 plugins 未注册 ${componentName}`))
   }
 
   return invokeGlobalComponentMethod('main', componentName, exported, methodName, ...args)
@@ -73,10 +73,10 @@ async function ensureRemoteGlobalComponents(appName: string): Promise<RemoteGlob
   const existingLoader = loadingRemoteGlobalComponents.get(appName)
   if (existingLoader) return existingLoader
 
-  const loader = loadRemoteGlobalComponents(appName)
+  const loader = loadRemotePlugins(appName)
     .then((components) => {
       remoteGlobalComponentMap[appName] = components
-      console.log(`[main] 子应用 ${appName} global-components 已加载:`, components)
+      console.log(`[main] 子应用 ${appName} plugins 已加载:`, components)
       return components
     })
     .finally(() => {
@@ -160,7 +160,7 @@ async function resolveGlobalComponent(
   exported: RemoteGlobalComponentExport
 ): Promise<import('vue').Component> {
   if (!exported) {
-    throw new Error(`[main] 子应用 ${appName} 的 global-components 未导出 ${componentName}`)
+    throw new Error(`[main] 子应用 ${appName} 的 plugins 未导出 ${componentName}`)
   }
 
   if (isRemoteGlobalComponentLoader(exported)) {
@@ -198,7 +198,7 @@ function unwrapGlobalComponent(
     if (maybeModule.default) return maybeModule.default
   }
 
-  throw new Error(`[main] 子应用 ${appName} 的 global-components 导出 ${componentName} 不是可用组件`)
+  throw new Error(`[main] 子应用 ${appName} 的 plugins 导出 ${componentName} 不是可用组件`)
 }
 
 function isRemoteGlobalAsyncComponentOptions(value: unknown): value is RemoteGlobalAsyncComponentOptions {

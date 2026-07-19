@@ -42,16 +42,16 @@ export async function loadRemoteComponents(name: string): Promise<RemoteComponen
 }
 
 /**
- * 加载子应用通过 './global-components' 暴露的弹窗类组件模块
+ * 加载子应用通过 './plugins' 暴露的弹窗类组件模块
  * 同步拉取 './ajax'，让弹窗实例内部可以通过 @main/runtime 请求对应子应用接口。
  */
-export async function loadRemoteGlobalComponents(name: string): Promise<RemoteGlobalComponentsExports> {
-  const [globalComponentsModule] = await Promise.all([
-    loadRemoteDefault<RemoteGlobalComponentsExports>(name, './global-components'),
+export async function loadRemotePlugins(name: string): Promise<RemoteGlobalComponentsExports> {
+  const [pluginsModule] = await Promise.all([
+    loadRemoteDefault<RemoteGlobalComponentsExports>(name, './plugins'),
     loadSubAppAjax(name)
   ])
 
-  return globalComponentsModule
+  return pluginsModule
 }
 
 function registerRemoteAjax(name: string, ajax: SubAppAjaxFactory): void {

@@ -20,11 +20,11 @@ interface RemoteModule {
     ajax: () => Promise<unknown>
     i18n: () => Promise<unknown>
     components: () => Promise<unknown>
-    globalComponents: () => Promise<unknown>
+    plugins: () => Promise<unknown>
   }
 }
 
-type RemoteExportKey = 'routes' | 'store' | 'ajax' | 'i18n' | 'components' | 'globalComponents'
+type RemoteExportKey = 'routes' | 'store' | 'ajax' | 'i18n' | 'components' | 'plugins'
 
 const REMOTE_MODULES: RemoteModule[] = [
   {
@@ -35,7 +35,7 @@ const REMOTE_MODULES: RemoteModule[] = [
       ajax: () => import('app1/ajax'),
       i18n: () => import('app1/i18n'),
       components: () => import('app1/components'),
-      globalComponents: () => import('app1/global-components'),
+      plugins: () => import('app1/plugins'),
     },
   },
   {
@@ -46,7 +46,7 @@ const REMOTE_MODULES: RemoteModule[] = [
       ajax: () => import('app2/ajax'),
       i18n: () => import('app2/i18n'),
       components: () => import('app2/components'),
-      globalComponents: () => import('app2/global-components'),
+      plugins: () => import('app2/plugins'),
     },
   },
 ]
@@ -209,7 +209,7 @@ export async function loadRemoteComponents(name: string): Promise<RemoteComponen
   return components
 }
 
-export async function loadRemoteGlobalComponents(
+export async function loadRemotePlugins(
   name: string,
 ): Promise<RemoteGlobalComponentsExports> {
   const remote = remoteModuleMap[name]
@@ -217,16 +217,16 @@ export async function loadRemoteGlobalComponents(
     throw new Error(`[main] missing sub app config: ${name}`)
   }
 
-  const [globalComponents] = await Promise.all([
+  const [plugins] = await Promise.all([
     remote.loaders
-      .globalComponents()
+      .plugins()
       .then((module) =>
-        normalizeRemoteExport<RemoteGlobalComponentsExports>(module, 'globalComponents'),
+        normalizeRemoteExport<RemoteGlobalComponentsExports>(module, 'plugins'),
       ),
     loadSubAppAjax(name),
   ])
 
-  return globalComponents
+  return plugins
 }
 
 export async function loadSubApp(name: string): Promise<void> {

@@ -51,7 +51,7 @@ export async function invokeGlobalComponent(
   const components = await ensureRemoteGlobalComponents(appName)
   const exported = components[componentName]
   if (!exported) {
-    throw new Error(`[main] 子应用 ${appName} 的 global-components 未导出 ${componentName}`)
+    throw new Error(`[main] 子应用 ${appName} 的 plugins 未导出 ${componentName}`)
   }
 
   return invokeGlobalComponentMethod(appName, componentName, exported, methodName, ...args)
@@ -64,7 +64,7 @@ function invokeLocalGlobalComponent(
 ): Promise<unknown> {
   const exported = localGlobalComponents[componentName]
   if (!exported) {
-    return Promise.reject(new Error(`[main] 本地 global-components 未注册 ${componentName}`))
+    return Promise.reject(new Error(`[main] 本地 plugins 未注册 ${componentName}`))
   }
 
   return invokeGlobalComponentMethod('main', componentName, exported, methodName, ...args)
@@ -79,10 +79,10 @@ async function ensureRemoteGlobalComponents(appName: string): Promise<RemoteGlob
 
   // 动态 import，避免 runtime → global-components → sub-app-loader → router → HomeView → runtime 的静态循环
   const loader = import('./sub-app-loader')
-    .then(({ loadRemoteGlobalComponents }) => loadRemoteGlobalComponents(appName))
+    .then(({ loadRemotePlugins }) => loadRemotePlugins(appName))
     .then((components) => {
       remoteGlobalComponentMap[appName] = components
-      console.log(`[main] 子应用 ${appName} global-components 已加载:`, components)
+      console.log(`[main] 子应用 ${appName} plugins 已加载:`, components)
       return components
     })
     .finally(() => {
@@ -168,7 +168,7 @@ async function resolveGlobalComponent(
   exported: RemoteGlobalComponentExport,
 ): Promise<Component> {
   if (!exported) {
-    throw new Error(`[main] 子应用 ${appName} 的 global-components 未导出 ${componentName}`)
+    throw new Error(`[main] 子应用 ${appName} 的 plugins 未导出 ${componentName}`)
   }
 
   if (isRemoteGlobalComponentLoader(exported)) {
@@ -193,7 +193,7 @@ function unwrapGlobalComponent(
     if (maybeModule.default) return maybeModule.default
   }
 
-  throw new Error(`[main] 子应用 ${appName} 的 global-components 导出 ${componentName} 不是可用组件`)
+  throw new Error(`[main] 子应用 ${appName} 的 plugins 导出 ${componentName} 不是可用组件`)
 }
 
 function isRemoteGlobalComponentLoader(

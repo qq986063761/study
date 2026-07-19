@@ -38,10 +38,10 @@ declare module 'app1/components' {
   export default components
 }
 
-// app1 全局弹窗类组件模块类型
-declare module 'app1/global-components' {
-  const globalComponents: import('./types').RemoteGlobalComponentsExports
-  export default globalComponents
+// app1 plugins 模块类型
+declare module 'app1/plugins' {
+  const plugins: import('./types').RemoteGlobalComponentsExports
+  export default plugins
 }
 
 // app2 业务路由模块类型
@@ -74,8 +74,8 @@ declare module 'app2/components' {
   export default components
 }
 
-// app2 全局弹窗类组件模块类型
-declare module 'app2/global-components' {
-  const globalComponents: import('./types').RemoteGlobalComponentsExports
-  export default globalComponents
+// app2 plugins 模块类型
+declare module 'app2/plugins' {
+  const plugins: import('./types').RemoteGlobalComponentsExports
+  export default plugins
 }

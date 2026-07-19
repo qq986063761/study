@@ -23,9 +23,9 @@ declare module 'app1/components' {
   export default components
 }
 
-declare module 'app1/global-components' {
-  const globalComponents: import('@/types/remotes').RemoteGlobalComponentsExports
-  export default globalComponents
+declare module 'app1/plugins' {
+  const plugins: import('@/types/remotes').RemoteGlobalComponentsExports
+  export default plugins
 }
 
 declare module 'app2/routes' {
@@ -53,7 +53,7 @@ declare module 'app2/components' {
   export default components
 }
 
-declare module 'app2/global-components' {
-  const globalComponents: import('@/types/remotes').RemoteGlobalComponentsExports
-  export default globalComponents
+declare module 'app2/plugins' {
+  const plugins: import('@/types/remotes').RemoteGlobalComponentsExports
+  export default plugins
 }

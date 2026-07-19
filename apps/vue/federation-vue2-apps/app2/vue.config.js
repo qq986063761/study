@@ -26,7 +26,7 @@ module.exports = defineConfig({
           './ajax': './src/exports/ajax.ts',
           './i18n': './src/exports/i18n.ts',
           './components': './src/exports/components.ts',
-          './global-components': './src/exports/global-components.ts'
+          './plugins': './src/exports/plugins.ts'
         },
         shared: {
           '@main/runtime': {

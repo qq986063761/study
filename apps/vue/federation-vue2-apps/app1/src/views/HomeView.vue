@@ -104,7 +104,7 @@ export default class HomeView extends Vue {
   async showApp2GlobalModal(): Promise<void> {
     this.globalModalLoading = true
     try {
-      // 由 main runtime 提供：首次调用会懒加载 app2 的 './global-components' 并创建 modal 单例。
+      // 由 main runtime 提供：首次调用会懒加载 app2 的 './plugins' 并创建 modal 单例。
       await ui.app2('modal', 'show', {
         title: 'app2 全局弹窗',
         content: '这是从 app1 页面调用 app2 暴露的 modal.show。',
